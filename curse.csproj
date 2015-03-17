@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B0A170EB-EEC0-436F-B396-F88F80B739F5}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>curse</RootNamespace>
+    <AssemblyName>curse</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="css\curse.css" />
+    <Content Include="curse.html" />
+    <Content Include="images\demon.png" />
+    <Content Include="images\dragon.png" />
+    <Content Include="images\goblin1.jpg" />
+    <Content Include="images\goblin2.png" />
+    <Content Include="images\ogre.png" />
+    <Content Include="images\orc.png" />
+    <Content Include="images\runty.png" />
+    <Content Include="images\serpent.png" />
+    <Content Include="images\skeleton1.jpg" />
+    <Content Include="images\skeleton2.jpg" />
+    <Content Include="images\skeleton3.jpg" />
+    <Content Include="images\troll.png" />
+    <Content Include="images\warlock.png" />
+    <Content Include="js\app.js" />
+    <Content Include="js\factories\combat\CombatAction.js" />
+    <Content Include="js\controllers\combatController.js" />
+    <Content Include="js\controllers\curseController.js" />
+    <Content Include="js\controllers\dungeonController.js" />
+    <Content Include="js\controllers\lootController.js" />
+    <Content Include="js\controllers\rollupController.js" />
+    <Content Include="js\factories\creatures\BodyPart.js" />
+    <Content Include="js\factories\creatures\BodyShape.js" />
+    <Content Include="js\factories\items\Item.js" />
+    <Content Include="js\factories\creatures\Sex.js" />
+    <Content Include="js\factories\creatures\Monster.js" />
+    <Content Include="js\factories\creatures\Player.js" />
+    <Content Include="js\factories\maps\Direction.js" />
+    <Content Include="js\factories\maps\Exit.js" />
+    <Content Include="js\factories\maps\Room.js" />
+    <Content Include="js\routes.js" />
+    <Content Include="js\services\diceService.js" />
+    <Content Include="js\services\gameService.js" />
+    <Content Include="js\services\mapService.js" />
+    <Content Include="js\services\monsterService.js" />
+    <Content Include="js\services\playerService.js" />
+    <Content Include="js\services\treasureService.js" />
+    <Content Include="js\ui-router\angular-ui-router.js" />
+    <Content Include="partials\combat.html" />
+    <Content Include="partials\dungeon.html" />
+    <Content Include="partials\loot.html" />
+    <Content Include="partials\rollup.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="http.bat" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,83 @@
+<div ng-controller="dungeonController">
+
+	<div class="window window-player" style="float: left;">
+
+		<div class="name">{{ player.getName() }}</div>
+		<div class="attributes">
+			<div><span class="attr-label">Strength:</span> <span class="attr-value">{{ player.str }}</span></div>
+			<div><span class="attr-label">Intelligence:</span> <span class="attr-value">{{ player.int }}</span></div>
+			<div><span class="attr-label">Dexterity:</span> <span class="attr-value">{{ player.dex }}</span></div>
+			<div><span class="attr-label">Health:</span>
+					<span ng-show="player.health > 0 && player.health == player.maxHealth" class="attr-value">{{ player.health }}</span>
+					<span ng-show="player.health > 0 && player.health < player.maxHealth" class="attr-value">{{ player.health }} / {{ player.maxHealth }}</span>
+					<span ng-show="player.health <= 0" class="attr-value dead">DEAD</span>
+			</div>
+		</div>
+
+		<div class="window window-pack" style="margin-top: 10px;">
+			<div><span class="attr-label">Gold:</span><span class="attr-value gold">{{ player.countGold() }} gold</span></div>
+			<div style="margin-top: 10px; text-decoration: underline">Inventory</div>
+			<div>
+				<ul>
+					<li ng-repeat="item in player.pack" ng-click="player.useItem(item)" ng-hide="item.isGold()">
+                        <span class="item">{{ item.getName(null) }}</span><span ng-show="item.isEquipped"> (*)</span>
+                    </li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<div style="float: left; margin-left: 20px;">
+		<div ui-view></div>
+	</div>
+	
+	<div style="clear: both;">&nbsp;</div>
+
+    <div class="window window-dead dead" style="margin-top: 15px;" ng-show="playerService.allDead()">
+        You are dead.
+    </div>
+
+    <div ng-hide="playerService.allDead()">
+
+	    <div class="window window-map" style="margin-top: 15px;">
+		
+		    <div>You are standing {{ mapService.currentRoom.prep }} {{ mapService.currentRoom.name }}.</div>
+		    <div ng-show="mapService.currentRoom.hasVisibleExits() && isAtPeace()">
+			    <ul>
+				    <li ng-repeat="exit in mapService.currentRoom.exits" ng-hide="exit.isSecret()">There is <span ng-class="{ 'exit': isAtPeace() }" ng-click="takeExit(exit)">{{ exit.desc }}</span> {{ exit.getDirection() }}.</li>
+			    </ul>
+		    </div>
+		    <div ng-hide="mapService.currentRoom.hasVisibleExits()">There is no way out.</div>
+		
+            <div ng-show="isAtPeace() && (mapService.currentRoom.hasAnythingToSee())">
+                You see:
+                <ul>
+                    <li ng-repeat="monster in mapService.currentRoom.monsters" ng-hide="monster.isAlive()">
+                        <span class="lootable" ng-click="monster.isLooted = !monster.isLooted" ng-class="{ 'looted': monster.isLooted }">A dead {{ monster.getName(null) }}</span>
+                        <ul ng-show="monster.isLooted && monster.hasAnything()">
+                            <li class="item" ng-repeat="item in monster.pack" ng-click="transfer(item, monster, player)">{{ item.getName(false) }}</li>
+                        </ul>
+                    </li>
+                    <li class="item" ng-repeat="item in mapService.currentRoom.items" ng-click="pickUp(item)">{{ item.getName(false) }}</li>
+                </ul>
+            </div>
+
+	    </div>
+
+<!--
+	    <div style="margin-top: 10px;" ng-show="isAtPeace()">
+		    <button type="button" ng-click="searchTheRoom()">Search the room</button>
+	    </div>
+-->
+	
+    </div>
+
+	<div style="margin-top: 10px;" class="window window-actions" ng-show="gameService.actions.length > 0">
+		<ul>
+			<li ng-repeat="action in gameService.actions track by $index">{{ action | capFirst }}</li>
+		</ul>
+	</div>
+
+
+	
+</div>

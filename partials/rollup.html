@@ -1,0 +1,47 @@
+<div ng-controller="rollupController">
+
+	<div class="window window-player">
+	
+		<form name="characterForm" novalidate>
+			<table cellpadding="3" cellspacing="0" border="0">
+				<tbody>
+					<tr>
+						<td>Name:</td>
+						<td ng-class="{ 'required': submitted && !characterForm.name.$valid }">
+							<input type="text" name="name" ng-model="player.name" style="width: 150px; vertical-align: bottom;" required/>
+						</td>
+					</tr>
+					<tr>
+						<td>Sex:</td>
+						<td>
+                            <label><input type="radio" name="sex" ng-model="player.sex" value="1" /> Female</label>
+                            <label><input type="radio" name="sex" ng-model="player.sex" value="2" /> Male</label>
+						</td>
+					</tr>
+					<tr>
+						<td>Strength:</td>
+						<td style="padding-left: 10px;">{{ player.str }}</td>
+					</tr>
+					<tr>
+						<td>Intelligence:</td>
+						<td style="padding-left: 10px;">{{ player.int }}</td>
+					</tr>
+					<tr>
+						<td>Dexterity:</td>
+						<td style="padding-left: 10px;">{{ player.dex }}</td>
+					</tr>
+					<tr>
+						<td>Health:</td>
+						<td style="padding-left: 10px;">{{ player.health }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	
+		<div style="margin-top: 10px;">
+			<button type="button" ng-click="rollCharacter(player)">Roll stats</button>
+			<button type="button" ng-click="enterDungeon(characterForm.$valid)">Enter dungeon</button></a>
+		</div>
+	</div>
+	
+</div>

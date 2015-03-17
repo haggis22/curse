@@ -1,65 +1,60 @@
+body
+{
+}
+
 .window
 {
 	border: 1px solid #000;
 	padding: 10px;
 }
 
-#window-player
+.window-player
 {
-	background-color: #ccf;
+	background-color: lightblue;
+	display: inline-block;
+/*	
 	width: 200px;
-	height: 100px;
-	position: absolute;
-	top: 10px;
-	left: 10px;
+	height: 100px; 
+*/
 }
 
-#window-pack
+.window-pack
 {
 	background-color: saddlebrown;
 	color: #fff;
 	width: 300px;
 	min-height: 100px;
 	max-height: 300px;
-	position: absolute;
-	top: 10px;
-	left: 490px;
 	overflow-y: scroll;
 }
 
 
-#window-monster
+.window-monster
 {
 	background-color: #900;
 	color: #fff;
-	width: 200px;
-	height: 100px;
-	position: absolute;
-	top: 10px;
-	left: 250px;
-}
-
-#window-buttons
-{
-/*	background-color: #eee; */
 	width: 300px;
-	height: 50px;
-	position: absolute;
-	top: 160px;
-	left: 10px;
+	min-height: 90px;
+}
+
+.window-map
+{
+	background-color: #eeb;
+	width: 400px;
 
 }
 
-#window-actions
+.window-dead
+{
+    width: 300px;
+}
+
+.window-actions
 {
 	background-color: #eee;
-	width: 440px;
-	min-height: 100px;
-	max-height: 200px;
-	position: absolute;
-	top: 200px;
-	left: 10px;
-
+	width: 600px;
+	min-height: 50px;
+	max-height: 250px;
 }
 
 .name
@@ -74,7 +69,7 @@
 	color: #080000;
 }
 
-#window-player div.attributes, #window-monster div.attributes
+.window-player div.attributes, .window-monster div.attributes
 {
 	margin-top: 15px;
 }
@@ -100,4 +95,22 @@ div.image
 {
 	border-style: outset;
 }
+
+
+.required
+{
+	background-color: #f00;
+}
+
+.exit:hover, .item:hover, .lootable:hover
+{
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.looted
+{
+    color: #666;
+}
+
 
