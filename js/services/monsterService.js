@@ -26,7 +26,7 @@
                 new Monster({ species: 'ghoul', isUndead: true, str: 11, int: 2, dex: 9, health: 9, frequency: 3, treasure: ['A'], images: []}),
                 new Monster({ species: 'giant', str: 17, int: 4, dex: 10, health: 18, frequency: 3, treasure: ['A','B'], images: []}),
                 new Monster({ species: 'golem', str: 17, int: 0, dex: 12, health: 18, frequency: 3, treasure: ['B'], images: []}),
-                new Monster({ species: 'harpy', bodyShape: BodyShape.prototype.WINGED_HUMANOID, str: 7, int: 8, dex: 14, health: 8, frequency: 4444, treasure: ['A','A'], images: ['harpy.png']}),
+                new Monster({ species: 'harpy', bodyShape: BodyShape.prototype.WINGED_HUMANOID, str: 7, int: 8, dex: 14, health: 8, frequency: 4, treasure: ['A','A'], images: ['harpy.png']}),
                 new Monster({ species: 'griffin', bodyShape: BodyShape.prototype.WINGED_QUADRUPED, str: 15, int: 3, dex: 12, health: 15, frequency: 3, treasure: ['A','B','C'], images: []}),
                 new Monster({ species: 'hobgoblin', str: 8, int: 5, dex: 11, health: 8, frequency: 12, treasure: ['A'], images: []}),
                 new Monster({ species: 'kobold', str: 4, int: 5, dex: 11, health: 4, frequency: 16, treasure: ['A'], images: []}),
