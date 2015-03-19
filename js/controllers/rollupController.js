@@ -15,6 +15,8 @@
 
             $scope.Sex = Sex;
 
+            $scope.availableSpecies = [ 'dwarf', 'elf', 'hobbit', 'human' ];
+
 			$scope.rollStat = function()
 			{
 				return diceService.rollDie(3,8) + diceService.rollDie(3,8) + diceService.rollDie(3,8);

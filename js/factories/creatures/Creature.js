@@ -80,6 +80,9 @@
                         return null;
                     }
 
+                    // make sure it's not equipped any more
+                    item.isEquipped = false;
+
                     this.pack = remainingItems;
                     return item;
                 },

@@ -12,6 +12,12 @@
 						</td>
 					</tr>
 					<tr>
+						<td>Species:</td>
+						<td>
+                            <select ng-options="species | capFirst for species in availableSpecies" ng-model="player.species"></select>
+                        </td>
+					</tr>
+					<tr>
 						<td>Sex:</td>
 						<td>
                             <label><input type="radio" name="sex" ng-model="player.sex" value="1" /> Female</label>

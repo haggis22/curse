@@ -1,42 +1,5 @@
 <div ng-controller="dungeonController">
 
-	<div class="window window-player" style="float: left;">
-
-		<div class="name">{{ player.getName() }}</div>
-		<div class="attributes">
-			<div><span class="attr-label">Strength:</span> <span class="attr-value">{{ player.str }}</span></div>
-			<div><span class="attr-label">Intelligence:</span> <span class="attr-value">{{ player.int }}</span></div>
-			<div><span class="attr-label">Dexterity:</span> <span class="attr-value">{{ player.dex }}</span></div>
-			<div><span class="attr-label">Health:</span>
-					<span ng-show="player.health > 0 && player.health == player.maxHealth" class="attr-value">{{ player.health }}</span>
-					<span ng-show="player.health > 0 && player.health < player.maxHealth" class="attr-value">{{ player.health }} / {{ player.maxHealth }}</span>
-					<span ng-show="player.health <= 0" class="attr-value dead">DEAD</span>
-			</div>
-		</div>
-
-		<div class="window window-pack" style="margin-top: 10px;">
-			<div><span class="attr-label">Gold:</span><span class="attr-value gold">{{ player.countGold() }} gold</span></div>
-			<div style="margin-top: 10px; text-decoration: underline">Inventory</div>
-			<div>
-				<ul>
-					<li ng-repeat="item in player.pack" ng-click="player.useItem(item)" ng-hide="item.isGold()">
-                        <span class="item">{{ item.getName(null) }}</span><span ng-show="item.isEquipped"> (*)</span>
-                    </li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	
-	<div style="float: left; margin-left: 20px;">
-		<div ui-view></div>
-	</div>
-	
-	<div style="clear: both;">&nbsp;</div>
-
-    <div class="window window-dead dead" style="margin-top: 15px;" ng-show="playerService.allDead()">
-        You are dead.
-    </div>
-
     <div ng-hide="playerService.allDead()">
 
 	    <div class="window window-map" style="margin-top: 15px;">
@@ -70,6 +33,46 @@
 	    </div>
 -->
 	
+    </div>
+	
+    <div style="margin-top: 15px;">
+        <div class="window window-player" style="float: left;">
+
+		    <div class="name">{{ player.getName() }}</div>
+            <div class="species">{{ player.species | capFirst }}</div>
+		    <div class="attributes">
+			    <div><span class="attr-label">Strength:</span> <span class="attr-value">{{ player.str }}</span></div>
+			    <div><span class="attr-label">Intelligence:</span> <span class="attr-value">{{ player.int }}</span></div>
+			    <div><span class="attr-label">Dexterity:</span> <span class="attr-value">{{ player.dex }}</span></div>
+			    <div><span class="attr-label">Health:</span>
+					    <span ng-show="player.health > 0 && player.health == player.maxHealth" class="attr-value">{{ player.health }}</span>
+					    <span ng-show="player.health > 0 && player.health < player.maxHealth" class="attr-value">{{ player.health }} / {{ player.maxHealth }}</span>
+					    <span ng-show="player.health <= 0" class="attr-value dead">DEAD</span>
+			    </div>
+		    </div>
+
+		    <div class="window window-pack" style="margin-top: 10px;">
+			    <div><span class="attr-label">Gold:</span><span class="attr-value gold">{{ player.countGold() }} gold</span></div>
+			    <div style="margin-top: 10px; text-decoration: underline">Inventory</div>
+			    <div>
+				    <ul>
+					    <li ng-repeat="item in player.pack" ng-click="player.useItem(item)" ng-hide="item.isGold()">
+                            <span class="item">{{ item.getName(null) }}</span><span ng-show="item.isEquipped"> (*)</span>
+                        </li>
+				    </ul>
+			    </div>
+		    </div>
+	    </div>
+	
+	    <div style="float: left; margin-left: 20px;">
+		    <div ui-view></div>
+	    </div>
+	
+	    <div style="clear: both;">&nbsp;</div>
+    </div>
+
+    <div class="window window-dead dead" style="margin-top: 15px;" ng-show="playerService.allDead()">
+        You are dead.
     </div>
 
 	<div style="margin-top: 10px;" class="window window-actions" ng-show="gameService.actions.length > 0">

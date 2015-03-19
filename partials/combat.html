@@ -12,7 +12,7 @@
 				</div>
 			</div>
 			<div style="clear: both;">&nbsp;</div>
-            <div style="margin-top: 10px;">
+            <div style="margin-top: 10px;" ng-show="monster.hasAnything()">
                 Carrying
                 <ul>
                     <li ng-repeat="item in monster.pack">{{ item.getName(false) }}<span ng-show="item.isEquipped"> (*)</span></li>

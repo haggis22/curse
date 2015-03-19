@@ -85,7 +85,7 @@
                         case Item.prototype.ARMOUR:
                         case Item.prototype.SHIELD:
                         case Item.prototype.NECK:
-                            return creature.isShape([BodyShape.prototype.HUMANOID]);
+                            return creature.isShape([BodyShape.prototype.HUMANOID, BodyShape.prototype.WINGED_HUMANOID]);
 
                         case Item.prototype.POTION:
                             return false;
