@@ -45,4 +45,6 @@ Temporary Items
 # Visual Studio-generated files
 *.csproj.user
 *.suo
+bin
+obj
 
