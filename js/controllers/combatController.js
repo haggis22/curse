@@ -178,7 +178,7 @@
 					
 					if (target.health == 0)
 					{
-						actions.push(attacker.getName(true) + ' killed ' + target.getName(true) + '!');
+						actions.push(attacker.getName(true) + (target.isUndead ? ' destroyed ' : ' killed ') + target.getName(true) + '!');
 					}
 					
 				}

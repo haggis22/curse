@@ -2,18 +2,24 @@
 
 (function(app) {
 
-	app.factory('Monster', ['Creature',
+	app.factory('Monster', ['Creature', 'Sex',
 
-		function(Creature) {
+		function(Creature, Sex) {
 
 
-			function Monster(name, species, bodyShape, article, sex, str, int, dex, health, frequency, treasure, images) {
+			function Monster(monster) {
 
-                Creature.call(this, name, species, bodyShape, sex, str, int, dex, health);
-                this.article = article;
-                this.frequency = frequency;
-                this.treasure = treasure;
-                this.images = images;
+                if (monster.sex == null)
+                {
+                    monster.sex = Sex.prototype.NEUTER;
+                }
+
+                Creature.call(this, monster);
+
+                this.article = monster.article == null ? 'a' : monster.article;
+                this.frequency = monster.frequency;
+                this.treasure = monster.treasure == null ? [] : monster.treasure;
+                this.images = monster.images;
 
 			};
 			

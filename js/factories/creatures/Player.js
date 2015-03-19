@@ -8,7 +8,8 @@
 
 			function Player() {
 
-                Creature.call(this, '');
+                // start a player with a blank name and all defaults
+                Creature.call(this, { name: '' });
 			
 			};
 			

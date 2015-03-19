@@ -7,16 +7,17 @@
 
 			this.monsters = [
 
-                new Monster(null, 'goblin', BodyShape.prototype.HUMANOID, 'a', Sex.prototype.NEUTER, 5, 4, 10, 5, 15, ['A','A','B','B'], ['goblin1.jpg', 'goblin2.png']),
-                new Monster(null, 'orc', BodyShape.prototype.HUMANOID, 'an', Sex.prototype.NEUTER, 8, 5, 11, 10, 12, ['A','A','B','B'], ['orc.png']),
-                new Monster(null, 'troll', BodyShape.prototype.HUMANOID, 'a', Sex.prototype.NEUTER, 13, 4, 8, 15, 9, ['A','B'], ['troll.png']),
-                new Monster(null, 'ogre', BodyShape.prototype.HUMANOID, 'an', Sex.prototype.NEUTER, 14, 3, 7, 17, 7, ['B'], ['ogre.png']),
-                new Monster(null, 'skeleton', BodyShape.prototype.HUMANOID, 'a', Sex.prototype.NEUTER, 7, 0, 9, 6, 14, ['E'], ['skeleton1.jpg', 'skeleton2.jpg', 'skeleton3.jpg']),
-                new Monster(null, 'warlock', BodyShape.prototype.HUMANOID, 'a', Sex.prototype.MALE, 18, 18, 12, 18, 3, ['C'], ['warlock.png']),
-                new Monster(null, 'scorchfire dragon', BodyShape.prototype.DRAGON, 'a', Sex.prototype.NEUTER, 18, 16, 14, 22, 1, ['A','D'], ['dragon.png']),
-                new Monster(null, 'serpent', BodyShape.prototype.SNAKE, 'a', Sex.prototype.NEUTER, 10, 0, 8, 12, 8, [], ['serpent.png']),
-                new Monster(null, 'demon', BodyShape.prototype.HUMANOID, 'a', Sex.prototype.NEUTER, 20, 22, 15, 24, 0.5, ['C'], ['demon.png']),
-                new Monster(null, 'runty goblin', BodyShape.prototype.HUMANOID, 'a', Sex.prototype.NEUTER, 2, 2, 6, 4, 6, [], ['runty.png'])
+                // name, species, bodyShape, article, sex, str, int, dex, health, isUndead, frequency, treasure, images
+                new Monster({ species: 'goblin', str: 5, int: 4, dex: 10, health: 5, frequency: 15, treasure: ['A'], images: ['goblin1.jpg', 'goblin2.png']}),
+                new Monster({ species: 'orc', article: 'an', str: 8, int: 5, dex: 11, health: 10, frequency: 15, treasure: ['A'], images: ['orc.png']}),
+                new Monster({ species: 'troll', str: 13, int: 4, dex: 8, health: 15, frequency: 9, treasure: ['A','B'], images: ['troll.png']}),
+                new Monster({ species: 'ogre', article: 'an', str: 14, int: 3, dex: 7, health: 17, frequency: 7, treasure: ['B'], images: ['ogre.png']}),
+                new Monster({ species: 'skeleton', isUndead: true, str: 7, int: 0, dex: 9, health: 6, frequency: 14, treasure: ['E'], images: ['skeleton1.jpg', 'skeleton2.jpg', 'skeleton3.jpg']}),
+                new Monster({ species: 'warlock', str: 10, int: 18, dex: 12, health: 18, frequency: 3, treasure: ['C'], images: ['warlock.png']}),
+                new Monster({ species: 'scorchfire dragon', bodyShape: BodyShape.prototype.DRAGON, str: 18, int: 16, dex: 14, health: 22, frequency: 1, treasure: ['A','D'], images: ['dragon.png']}),
+                new Monster({ species: 'giant serpent', bodyShape: BodyShape.prototype.SNAKE, str: 10, int: 0, dex: 8, health: 12, frequency: 8, images: ['serpent.png']}),
+                new Monster({ species: 'demon', str: 20, int: 22, dex: 15, health: 24, frequency: 0.5, treasure: ['A','C'], images: ['demon.png']}),
+                new Monster({ species: 'runty goblin', str: 2, int: 2, dex: 6, health: 4, frequency: 6, images: ['runty.png']})
 
 			];
 

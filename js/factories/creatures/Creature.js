@@ -6,16 +6,17 @@
 
 		function(Sex, BodyShape) {
 
-			function Creature(name, species, bodyShape, sex, str, int, dex, health) {
+			function Creature(creature) {
                 
-                this.name = name;
-                this.species = species == null ? 'human' : species;
-                this.bodyShape = bodyShape == null ? BodyShape.prototype.HUMANOID : bodyShape;
-                this.sex = sex == null ? Sex.prototype.MALE : sex;
-                this.str = str == null ? 0 : str;
-                this.int = int == null ? 0 : int;
-                this.dex = dex == null ? 0 : dex;
-                this.health = health == null ? 0 : health;
+                this.name = creature.name;
+                this.species = creature.species == null ? 'human' : creature.species;
+                this.bodyShape = creature.bodyShape == null ? BodyShape.prototype.HUMANOID : creature.bodyShape;
+                this.sex = creature.sex == null ? Sex.prototype.MALE : creature.sex;
+                this.str = creature.str == null ? 0 : creature.str;
+                this.int = creature.int == null ? 0 : creature.int;
+                this.dex = creature.dex == null ? 0 : creature.dex;
+                this.health = creature.health == null ? 0 : creature.health;
+                this.isUndead = creature.isUndead == null ? false : creature.isUndead;
                 this.maxHealth = this.health;
 				this.pack = [];
                 this.isLooted = false;
