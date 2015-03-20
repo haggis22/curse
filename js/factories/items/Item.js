@@ -6,16 +6,16 @@
 
 		function (BodyShape) {
 
-            function Item(type, name, article, damage, use, amount, frequency, protects) {
+            function Item(item) {
 
-                this.type = type;
-                this.name = name;
-                this.article = article;
-                this.damage = damage;
-                this.use = use;
-                this.amount = amount;
-                this.frequency = frequency;
-                this.protects = protects;
+                this.type = item.type;
+                this.name = item.name;
+                this.article = item.article == null ? 'a' : item.article;
+                this.damage = item.damage;
+                this.use = item.use;
+                this.amount = item.amount == null ? 1 : item.amount;
+                this.frequency = item.frequency == null ? 1 : item.frequency;
+                this.protects = item.protects;
                 this.isEquipped = false;
 	
             };

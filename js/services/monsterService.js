@@ -31,7 +31,7 @@
                 new Monster({ species: 'hobgoblin', str: 8, int: 5, dex: 11, health: 8, frequency: 12, treasure: ['A'], images: []}),
                 new Monster({ species: 'kobold', str: 4, int: 5, dex: 11, health: 4, frequency: 16, treasure: ['A'], images: []}),
                 new Monster({ species: 'lich', isUndead: true, str: 13, int: 17, dex: 12, health: 18, frequency: 2, treasure: ['C','D'], images: []}),
-                new Monster({ species: 'lizard man', str: 8, int: 5, dex: 11, health: 9, frequency: 15, treasure: ['A','B'], images: []}),
+                new Monster({ species: 'lizard man', str: 8, int: 5, dex: 11, health: 9, frequency: 15, treasure: ['A','B'], images: ['lizard_man.png']}),
                 new Monster({ species: 'werewolf', str: 14, int: 7, dex: 14, health: 14, frequency: 6, treasure: ['A','B'], images: []}),
                 new Monster({ species: 'manticore', bodyShape: BodyShape.prototype.WINGED_QUADRUPED, str: 15, int: 6, dex: 13, health: 15, frequency: 5, treasure: ['A','B'], images: []}),
                 new Monster({ species: 'minotaur', str: 16, int: 4, dex: 13, health: 14, frequency: 5, treasure: ['A','B'], images: []}),

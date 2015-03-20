@@ -10,8 +10,8 @@
             $scope.player.name = 'Zogarth';
             
             // give him some basics to start out
-			$scope.player.addItem(new Item(Item.prototype.WEAPON, 'dirk', 'a ', 2));
-            $scope.player.addItem(new Item(Item.prototype.POTION, 'healing potion', 'a ', 5, Item.prototype.USE_HEAL, 1));
+			$scope.player.addItem(new Item({ type: Item.prototype.WEAPON, name: 'dirk', damage: 2 }));
+            $scope.player.addItem(new Item({ type: Item.prototype.POTION, name: 'healing potion', damage: 3, use: Item.prototype.USE_HEAL }));
 
             $scope.Sex = Sex;
 

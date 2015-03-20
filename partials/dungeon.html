@@ -7,7 +7,7 @@
 		    <div>You are standing {{ mapService.currentRoom.prep }} {{ mapService.currentRoom.name }}.</div>
 		    <div ng-show="mapService.currentRoom.hasVisibleExits() && isAtPeace()">
 			    <ul>
-				    <li ng-repeat="exit in mapService.currentRoom.exits" ng-hide="exit.isSecret()">There is <span ng-class="{ 'exit': isAtPeace() }" ng-click="takeExit(exit)">{{ exit.desc }}</span> {{ exit.getDirection() }}.</li>
+				    <li ng-repeat="exit in mapService.currentRoom.exits" ng-hide="exit.isSecret()">There is <span ng-class="{ 'exit': isAtPeace() }" ng-click="takeExit(exit)">{{ exit.desc }} {{ exit.getDirection() }}</span>.</li>
 			    </ul>
 		    </div>
 		    <div ng-hide="mapService.currentRoom.hasVisibleExits()">There is no way out.</div>

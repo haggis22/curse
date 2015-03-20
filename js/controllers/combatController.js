@@ -96,6 +96,8 @@
 
 			$scope.selectTarget = function() {
 				
+                gameService.clearActions();
+
 				// clear out anything he might already have decided to do this round
 				$scope.clearPlayerAction($scope.player);
 				
