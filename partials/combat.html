@@ -27,7 +27,7 @@
 	</div>
     <div style="margin-top: 10px;">
 		<button type="button" ng-click="retreat()">Run Away!</button>
-		<button type="button" ng-click="fightRound()">Fight Round</button>
+		<button ng-show="playerService.numLivingPlayers() > 1" type="button" ng-click="fightRound()">Fight Round</button>
     </div>	
 
 	<div>

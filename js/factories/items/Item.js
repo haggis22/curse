@@ -119,6 +119,14 @@
 							
 					}  // end switch
 
+                    this.amount--;
+                    if (this.amount == 0)
+                    {
+                        this.name = "empty flask";
+                        this.article = "an";
+                        this.use = null
+                    }
+
                 }
 
 		    };  // prototype

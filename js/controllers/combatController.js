@@ -106,6 +106,11 @@
 					$scope.combatActions.push(new CombatAction(CombatAction.prototype.PHYSICAL_ATTACK, $scope.player, $scope.mapService.currentRoom.monsters[0]));
 				}
 				
+                if (playerService.numLivingPlayers() == 1)
+                {
+                    $scope.fightRound();
+                }
+
 			};
 
 

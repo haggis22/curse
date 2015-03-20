@@ -25,11 +25,26 @@
                 return true;
             };
 
+            this.numLivingPlayers = function()
+            {
+                var count = 0;
+                for (var p=0; p < this.players.length; p++)
+                {
+                    if (this.players[p].isAlive())
+                    {
+                        count++;
+                    }
+                }
+
+                return count;
+            }
+
+
             this.allDead = function()
             {
                 for (var p=0; p < this.players.length; p++)
                 {
-                    if (this.players[p].health > 0)
+                    if (this.players[p].isAlive())
                     {
                         return false;
                     }
