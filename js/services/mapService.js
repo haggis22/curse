@@ -11,7 +11,12 @@
 				{ name: 'library', prep: 'in a', frequency: 1 },
 				{ name: 'guardroom', prep: 'in a', frequency: 2 },
 				{ name: 'bedroom', prep: 'in a', frequency: 2 },
-				{ name: 'cave', prep: 'in a', frequency: 2 }
+				{ name: 'cave', prep: 'in a', frequency: 2 },
+                { name: 'chapel', prep: 'in a', frequency: 1 },
+                { name: 'stone chamber', prep: 'in a', frequency: 1 },
+                { name: 'hall', prep: 'in a', frequency: 2 },
+                { name: 'room with several tapestries hanging from the walls', prep: 'in a' , frequency: 0.5},
+                { name: 'dining room', prep: 'in a' , frequency: 2}
 			];
 			
 			this.map = 
@@ -80,10 +85,9 @@
 					room.exits.push(new Exit(this.randomExitDescription(), Direction.prototype.randomDirection(), null, false));
 				}
 				
-				if (Math.random() < 1.5)
-				{
-					room.monsters.push(monsterService.randomMonster());
-				}
+                var monsterTemplate = monsterService.randomMonster();
+
+                room.monsters = monsterTemplate.spawn();
 				
 				return room;
 				

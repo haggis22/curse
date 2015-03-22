@@ -2,8 +2,8 @@
 
 (function(app) {
 
-	app.controller('combatController', ['$scope', '$state', 'gameService', 'playerService', 'mapService', 'diceService', 'Sex', 'CombatAction',
-		function($scope, $state, gameService, playerService, mapService, diceService, Sex, CombatAction) {
+	app.controller('combatController', ['$scope', '$state', 'gameService', 'playerService', 'mapService', 'diceService', 'Sex', 'CombatAction', 'Attack',
+		function($scope, $state, gameService, playerService, mapService, diceService, Sex, CombatAction, Attack) {
 			
 			$scope.playerService = playerService;
 			$scope.gameService = gameService;
@@ -14,10 +14,20 @@
 				$state.go('rollup');
 			}
 			
+            $scope.mode = 'action';
+
 			$scope.combatActions = [];
+
+            $scope.readyRound = function() {
+
+                $scope.mode = 'action';
+                $scope.combatActions.length = 0;
+
+            };
+
 			
 			$scope.fightRound = function() {
-				
+
 				// declare action for each monster
 				for (var m=0; m < $scope.mapService.currentRoom.monsters.length; m++)
 				{
@@ -64,19 +74,6 @@
 
 			};
 			
-            $scope.hasMonstersLeft = function()
-            {
-                for (var m=0; m < $scope.mapService.currentRoom.monsters.length; m++)
-                { 
-                    if ($scope.mapSerice.currentRoom.monsters[m].health > 0)
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            };
-
 
 			$scope.clearPlayerAction = function(player) {
 			
@@ -94,7 +91,7 @@
 			};
 			
 
-			$scope.selectTarget = function() {
+			$scope.chooseAction = function() {
 				
                 gameService.clearActions();
 
@@ -105,13 +102,24 @@
 				{
 					$scope.combatActions.push(new CombatAction(CombatAction.prototype.PHYSICAL_ATTACK, $scope.player, $scope.mapService.currentRoom.monsters[0]));
 				}
-				
-                if (playerService.numLivingPlayers() == 1)
+                else
                 {
-                    $scope.fightRound();
+                    $scope.mode = 'target';
+                }
+				
+			};
+
+            $scope.selectTarget = function(target) {
+
+                if ($scope.mode != 'target')
+                {
+                    return;
                 }
 
-			};
+				$scope.combatActions.push(new CombatAction(CombatAction.prototype.PHYSICAL_ATTACK, $scope.player, target));
+                $scope.mode = 'action';
+
+            }
 
 
 			$scope.retreat = function() {
@@ -146,29 +154,30 @@
 				var roll = diceService.rollDie(1,20);
 				if (roll < attacker.dex)
 				{
-					var weapon = attacker.checkWeapon !== undefined ? attacker.checkWeapon() : null;
-					
-                    // TODO: monsters without fists
-                    if (weapon == null)
-					{
-						weapon = 
-						{
-							name: 'fist',
-							damage: 0
-						};
-					}
-			
-					var damage = Math.floor(Math.random() * attacker.str / 5) + 1;
-					if (weapon.damage != null)
-					{
-						damage += weapon.damage;
-					}
+                    var myAttack = new Attack({ type: Attack.prototype.WEAPON, damage: Math.floor(Math.random() * attacker.str / 5) + 1, weapon: 'fist' });
+
+                    if ((attacker.attacks != null) && (attacker.attacks.length > 0))
+                    {
+                        myAttack = attacker.attacks[0];
+                    }
+                    else
+                    {
+    					var weapon = typeof attacker.checkWeapon === 'function' ? attacker.checkWeapon() : null;
+                        if (weapon != null)
+                        {
+                            myAttack.weapon = weapon.name;
+                            if (weapon.damage != null)
+                            {
+                                myAttack.damage += weapon.damage;
+                            }
+                        }
+                    }
 
                     var bodyPart = diceService.randomElement(target.bodyShape.parts);
 
-                    damage = Math.round(damage * bodyPart.damageFactor);
+                    var damage = Math.round(myAttack.damage * bodyPart.damageFactor);
 
-					actions.push(attacker.getName(true) + ' hit ' + target.getName(true) + ' in the ' + bodyPart.name + ' with ' + attacker.getPossessive() + ' ' + weapon.name  + ' for ' + damage + ' damage!');
+                    actions.push(myAttack.getDescription(attacker, target, bodyPart, damage));
 					
 					var armour = target.checkArmour !== undefined ? target.checkArmour(bodyPart.name) : null;
 

@@ -108,10 +108,17 @@ div.image
 	background-color: #f00;
 }
 
-.exit:hover, .item:hover, .lootable:hover
+.exit:hover, .item:hover, .lootable:hover, .attackable:hover
 {
 	text-decoration: underline;
 	cursor: pointer;
+}
+
+.attackable
+{
+    border: 1px solid #000;
+    background-color: #fff;
+    color: #000;
 }
 
 .looted

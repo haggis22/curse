@@ -37,6 +37,18 @@
                     return false;
                 },
 
+                numMonsters: function() {
+                    
+                    var count = 0;
+                    for (var m = 0; m<this.monsters.length; m++){
+                        if (this.monsters[m].isAlive() ){
+                            count = count+1; 
+                        }
+                    } 
+
+                    return count;
+                },
+
                 hasDeadMonsters: function () {
 
                     for (var m = 0; m < this.monsters.length; m++) {
