@@ -57,6 +57,7 @@
     <Content Include="js\controllers\curseController.js" />
     <Content Include="js\controllers\dungeonController.js" />
     <Content Include="js\controllers\rollupController.js" />
+    <Content Include="js\factories\combat\Attack.js" />
     <Content Include="js\factories\creatures\BodyPart.js" />
     <Content Include="js\factories\creatures\BodyShape.js" />
     <Content Include="js\factories\creatures\Creature.js" />
@@ -67,6 +68,8 @@
     <Content Include="js\factories\maps\Direction.js" />
     <Content Include="js\factories\maps\Exit.js" />
     <Content Include="js\factories\maps\Room.js" />
+    <Content Include="js\factories\skills\SkillType.js" />
+    <Content Include="js\factories\skills\Skill.js" />
     <Content Include="js\filters\capFirst.js" />
     <Content Include="js\routes.js" />
     <Content Include="js\services\diceService.js" />
@@ -86,6 +89,7 @@
     <None Include=".gitignore" />
     <None Include="http.bat" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

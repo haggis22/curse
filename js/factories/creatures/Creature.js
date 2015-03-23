@@ -18,6 +18,9 @@
                 this.health = creature.health == null ? 0 : creature.health;
                 this.isUndead = creature.isUndead == null ? false : creature.isUndead;
                 this.maxHealth = this.health;
+
+                this.skills = creature.skills == null ? [] : creature.skills;
+
 				this.pack = [];
                 this.isLooted = false;
 

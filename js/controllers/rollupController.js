@@ -2,8 +2,8 @@
 
 (function(app) {
 
-	app.controller('rollupController', ['$scope', '$state', 'playerService', 'diceService', 'Sex', 'Item',
-		function($scope, $state, playerService, diceService, Sex, Item) {
+	app.controller('rollupController', ['$scope', '$state', 'playerService', 'diceService', 'Sex', 'Item', 'SkillType', 'Skill',
+		function($scope, $state, playerService, diceService, Sex, Item, SkillType, Skill) {
 			
             $scope.player = playerService.newPlayer();
 
@@ -28,6 +28,13 @@
                 player.int = $scope.rollStat();
 				player.dex = $scope.rollStat();
 				player.health = player.maxHealth = $scope.rollStat();
+                
+                // clear his skills
+                player.skills.length = 0;
+
+                player.skills.push(new Skill(SkillType.prototype.ID_MELEE, diceService.rollDie(7, 12) + diceService.rollDie(8, 13)));
+                player.skills.push(new Skill(SkillType.prototype.ID_SWORD, diceService.rollDie(2, 5) + diceService.rollDie(3, 5)));
+
 			}
 			
 			$scope.enterDungeon = function(isValid) {

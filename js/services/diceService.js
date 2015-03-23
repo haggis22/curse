@@ -8,6 +8,11 @@
 			this.rollDie = function(min, max) {
 				return Math.floor(Math.random() * (max-min)) + min;
 			};
+
+			this.averageDie = function(min, max) {
+                var firstMin = (max - min) / 2
+				return Math.floor(Math.random() * (max-min)) + min;
+			};
 			
 			this.randomElement = function(array) {
 

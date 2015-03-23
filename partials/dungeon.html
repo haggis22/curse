@@ -49,6 +49,13 @@
 					    <span ng-show="player.health > 0 && player.health < player.maxHealth" class="attr-value">{{ player.health }} / {{ player.maxHealth }}</span>
 					    <span ng-show="player.health <= 0" class="attr-value dead">DEAD</span>
 			    </div>
+                <div ng-show="player.skills.length > 0" style="margin-top: 15px;">
+                    <div class="header">Skills</div>
+					<div ng-repeat="skill in player.skills">
+                        <span class="attr-label">{{ skill.getName() | capFirst }}:</span>
+                        <span class="attr-value">{{ skill.getLevel() | number: 0 }}</span>
+                    </div>
+                </div>
 		    </div>
 
 		    <div class="window window-pack" style="margin-top: 10px;">

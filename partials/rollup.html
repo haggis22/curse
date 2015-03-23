@@ -40,6 +40,14 @@
 						<td>Health:</td>
 						<td style="padding-left: 10px;">{{ player.health }}</td>
 					</tr>
+                    <tr ng-show="player.skills.length > 0">
+                        <td colspan="2" style="text-align: bottom; height: 50px;">Skills</td>
+                    </tr>
+					<tr ng-repeat="skill in player.skills">
+						<td>{{ skill.getName() | capFirst }}:</td>
+						<td style="padding-left: 10px;">{{ skill.getLevel() | number:0 }}</td>
+					</tr>
+
 				</tbody>
 			</table>
 		</form>

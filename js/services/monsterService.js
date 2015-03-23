@@ -2,13 +2,13 @@
 
 (function(app) {
 
-	app.service('monsterService', ['Monster', 'Sex', 'BodyShape', 'diceService', 'treasureService', 'Attack',
-		function(Monster, Sex, BodyShape, diceService, treasureService, Attack) {
+	app.service('monsterService', ['Monster', 'Sex', 'BodyShape', 'diceService', 'treasureService', 'Attack', 'SkillType', 'Skill',
+		function(Monster, Sex, BodyShape, diceService, treasureService, Attack, SkillType, Skill) {
 
 			this.monsters = [
 
                 // name, species, bodyShape, article, sex, str, int, dex, health, isUndead, frequency, treasure, images
-                new Monster({ species: 'goblin', str: 5, int: 4, dex: 10, health: 5, frequency: 15, numAppearing: { max: 4 }, treasure: ['A'], images: ['goblin1.jpg', 'goblin2.png']}),
+                new Monster({ species: 'goblin', str: 5, int: 4, dex: 10, health: 5, skills: [ new Skill(SkillType.prototype.ID_MELEE, diceService.rollDie(7, 12) + diceService.rollDie(8, 13)) frequency: 15, numAppearing: { max: 4 }, treasure: ['A'], images: ['goblin1.jpg', 'goblin2.png']}),
                 new Monster({ species: 'orc', article: 'an', str: 8, int: 5, dex: 11, health: 10, frequency: 15, numAppearing: { max: 3 }, treasure: ['A'], images: ['orc.png']}),
                 new Monster({ species: 'troll', str: 13, int: 4, dex: 8, health: 15, frequency: 9, numAppearing: { max: 2 }, treasure: ['A','B'], images: ['troll.png']}),
                 new Monster({ species: 'ogre', article: 'an', str: 14, int: 3, dex: 7, health: 17, frequency: 7, treasure: ['B'], images: ['ogre.png']}),
