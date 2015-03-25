@@ -12,7 +12,7 @@
 
                     <div ng-show="monster.skills.length > 0" style="margin-top: 15px;">
                         <div class="header">Skills</div>
-					    <div ng-repeat="skill in player.skills">
+					    <div ng-repeat="skill in monster.skills">
                             <span class="attr-label">{{ skill.getName() | capFirst }}:</span>
                             <span class="attr-value">{{ skill.getLevel() | number: 0 }}</span>
                         </div>
