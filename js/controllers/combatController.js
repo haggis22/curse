@@ -98,7 +98,7 @@
 				// clear out anything he might already have decided to do this round
 				$scope.clearPlayerAction($scope.player);
 				
-				if ($scope.mapService.currentRoom.monsters.length == 1)
+				if ($scope.mapService.currentRoom.numMonsters() == 1)
 				{
 					$scope.combatActions.push(new CombatAction(CombatAction.prototype.PHYSICAL_ATTACK, $scope.player, $scope.mapService.currentRoom.monsters[0]));
 				}
