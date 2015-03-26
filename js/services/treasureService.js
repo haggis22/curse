@@ -12,7 +12,7 @@
 			{
 				'A' : [
                         new Item({ type: Item.prototype.GOLD, name: 'gold', article: '', amount: { min: 5, max: 20 } }),
-                        new Item({ type: Item.prototype.ARMOUR, name: 'magic codpiece', damage: 8, protects: BodyPart.prototype.GROIN }),
+                        new Item({ type: Item.prototype.ARMOUR, name: 'magic codpiece', damage: 5, protects: BodyPart.prototype.GROIN }),
                         new Item({ type: Item.prototype.ARMOUR, name: 'steel underwear', article: '', damage: 3, protects: BodyPart.prototype.BUTT }),
                         new Item({ type: Item.prototype.WEAPON, name: 'club', damage: 2 }),
                         new Item({ type: Item.prototype.WEAPON, name: 'short sword', damage: 3 })
