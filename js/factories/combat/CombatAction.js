@@ -6,11 +6,11 @@
 
 		function () {
 
-            // actor and target are both of type Creature
-            function CombatAction(actionType, actor, target) {
+            // attacker and target are both of type Creature
+            function CombatAction(actionType, attacker, target) {
 
 	            this.actionType = actionType;
-	            this.actor = actor;
+	            this.attacker = attacker;
 	            this.target = target;
 
             };
@@ -21,7 +21,7 @@
 
                 isStillRequired: function()
                 {
-	                return (this.actor.isAlive()) && (this.target.isAlive());
+	                return (this.attacker.isAlive()) && (this.target.isAlive());
                 },
 
                 getDescription: function()
@@ -29,7 +29,7 @@
                     switch (this.actionType)
 	                {
 		                case this.PHYSICAL_ATTACK:
-			                return this.actor.getName(true) + ' will attack ' + this.target.getName(true);
+			                return this.attacker.getName(true) + ' will attack ' + this.target.getName(true);
 		
 	                }  // actionType switch		
 	
@@ -37,7 +37,7 @@
 
                 isPlayerAction: function (player) {
 
-                    return this.actor == player;
+                    return this.attacker == player;
 
                 }
 

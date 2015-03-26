@@ -35,7 +35,14 @@
 					$scope.combatActions.push(new CombatAction(CombatAction.prototype.PHYSICAL_ATTACK, monster, $scope.player));
 				}
 
-                // TODO: mix up the order that things can happen (i.e., let monsters sometimes attack first)
+                for (var a=0; a < $scope.combatActions.length; a++)
+                {
+                    var action = $scope.combatActions[a];
+                    action.speed = diceService.averageDie(0, action.attacker.dex);
+                }
+
+                // sort in DESCENDING order, so higher dex rolls go first
+                $scope.combatActions.sort(function(a,b) { return b.speed - a.speed });
 
 				$scope.gameService.clearActions();
 
@@ -47,7 +54,7 @@
 						switch (action.actionType)
 						{
 							case CombatAction.prototype.PHYSICAL_ATTACK:
-								$scope.attack(action.actor, action.target);
+								$scope.attack(action.attacker, action.target);
 								break;
 								
 						}  // actionType switch

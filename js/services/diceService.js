@@ -10,8 +10,8 @@
 			};
 
 			this.averageDie = function(min, max) {
-                var firstMin = (max - min) / 2
-				return Math.floor(Math.random() * (max-min)) + min;
+                var firstHalf = (max - min) / 2;
+                return this.rollDie(min, min+firstHalf) + this.rollDie(0, max - min - firstHalf);
 			};
 			
 			this.randomElement = function(array) {
@@ -30,7 +30,7 @@
 					
 				}
 				
-				var index =(Math.random() * total);
+				var index = (Math.random() * total);
 				total=0;
 				for (var a=0; a < array.length; a++)
 				{
