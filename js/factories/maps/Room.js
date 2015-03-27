@@ -37,16 +37,20 @@
                     return false;
                 },
 
-                numMonsters: function() {
-                    
-                    var count = 0;
-                    for (var m = 0; m<this.monsters.length; m++){
+                liveMonsters: function() {
+
+                    var list = [];
+                    for (var m = 0; m < this.monsters.length; m++){
                         if (this.monsters[m].isAlive() ){
-                            count = count+1; 
+                            list.push(this.monsters[m]);
                         }
                     } 
 
-                    return count;
+                    return list;
+                },
+
+                numMonsters: function() {
+                    return liveMonsters.length;
                 },
 
                 hasDeadMonsters: function () {
