@@ -1,34 +1,47 @@
 <div ng-controller="combatController">
 
 	<div>
-		<div ng-repeat="monster in mapService.currentRoom.monsters" ng-show="monster.isAlive()" ng-class="{ 'attackable' : mode == 'target' }" class="window window-monster" ng-click="selectTarget(monster)" style="margin-bottom: 10px;">
-			<div ng-show="monster.image" class="image" style="float: left; height: 80px; margin-right: 20px;"><img ng-src="images/{{ monster.image }}" style="width: 80px; height: 80px;" /></div>
-			<div style="float: left;">
-				<div class="name">{{ monster.getName(false) | capFirst }}</div>
-				<div class="attributes">
-					<div><span class="attr-label">Strength:</span><span class="attr-value">{{ monster.str }}</span></div>
-					<div><span class="attr-label">Dexterity:</span><span class="attr-value">{{ monster.dex }}</span></div>
-					<div><span class="attr-label">Health:</span><span class="attr-value">{{ monster.isAlive() ? monster.health : 'DEAD' }}</span></div>
+        <div style="float: left;">
+            
+            <div class="window window-monster" ng-click="selectTarget(currentMonster)">
+			    <div ng-show="currentMonster.image" class="image" style="float: left; height: 80px; margin-right: 20px;"><img ng-src="images/{{ currentMonster.image }}" style="width: 80px; height: 80px;" /></div>
+			    <div style="float: left;">
+				    <div class="name">{{ currentMonster.getName(false) | capFirst }}</div>
+				    <div class="attributes">
+					    <div><span class="attr-label">Strength:</span><span class="attr-value">{{ currentMonster.str }}</span></div>
+					    <div><span class="attr-label">Dexterity:</span><span class="attr-value">{{ currentMonster.dex }}</span></div>
+					    <div><span class="attr-label">Health:</span><span class="attr-value">{{ currentMonster.isAlive() ? currentMonster.health : 'DEAD' }}</span></div>
 
-                    <div ng-show="monster.skills.length > 0" style="margin-top: 15px;">
-                        <div class="header">Skills</div>
-					    <div ng-repeat="skill in monster.skills">
-                            <span class="attr-label">{{ skill.getName() | capFirst }}:</span>
-                            <span class="attr-value">{{ skill.getLevel() | number: 0 }}</span>
+                        <div ng-show="currentMonster.skills.length > 0" style="margin-top: 15px;">
+                            <div class="header">Skills</div>
+					        <div ng-repeat="skill in currentMonster.skills">
+                                <span class="attr-label">{{ skill.getName() | capFirst }}:</span>
+                                <span class="attr-value">{{ skill.getLevel() | number: 0 }}</span>
+                            </div>
                         </div>
-                    </div>
 
-				</div>
-			</div>
-			<div style="clear: both;">&nbsp;</div>
-            <div style="margin-top: 10px;" ng-show="monster.hasAnything()">
-                Carrying
-                <ul>
-                    <li ng-repeat="item in monster.pack">{{ item.getName(false) }}<span ng-show="item.isEquipped"> (*)</span></li>
-                </ul>
+				    </div>
+			    </div>
+			    <div style="clear: both;">&nbsp;</div>
+                <div style="margin-top: 10px;" ng-show="currentMonster.hasAnything()">
+                    Carrying
+                    <ul>
+                        <li ng-repeat="item in currentMonster.pack">{{ item.getName(false) }}<span ng-show="item.isEquipped"> (*)</span></li>
+                    </ul>
+                </div>
             </div>
-		</div>
-	</div>
+
+        </div>
+        <div style="float: left;">
+
+            <div ng-repeat="monster in room.liveMonsters()" ng-click="viewMonster(monster)" class="monster-tag" ng-class="{ 'monster-tag-active' : monster == currentMonster }">
+                {{ monster.getName(null) | capFirst }}
+            </div>
+
+        </div>
+        <div style="clear: both;">&nbsp;</div>
+
+    </div>
 
 	<div>
 		<button type="button" ng-click="chooseAction()">Attack</button>

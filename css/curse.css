@@ -131,4 +131,22 @@ div.image
     color: #666;
 }
 
+.monster-tag-active
+{
+    font-weight: bold;
+    background-color: #900 !important;
+    color: #fff !important;
+    border-left: 1px solid transparent !important;
+}
+
+.monster-tag
+{
+    background-color: #eee;
+    border: 1px solid #000;
+    text-align: left; 
+    margin: 1px 0px 1px 0px;
+    padding: 0px 15px 0px 5px;
+    cursor: pointer;
+}
+
 

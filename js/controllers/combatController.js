@@ -7,31 +7,57 @@
 			
 			$scope.playerService = playerService;
 			$scope.gameService = gameService;
-			$scope.mapService = mapService;
+            $scope.room = mapService.currentRoom;
 			
             if (!playerService.hasPlayers())
 			{
 				$state.go('rollup');
 			}
-			
+
             $scope.mode = 'action';
 
 			$scope.combatActions = [];
 
+            $scope.viewMonster = function(monster)
+            {
+                $scope.currentMonster = monster;
+            }
+
             $scope.readyRound = function() {
+
+                if (!$scope.room.hasMonsters())
+                {
+                    // all monsters have been killed
+                    $state.go('dungeon');
+                }
+
+                if ($scope.playerService.allDead())
+                {
+                    // all player characters have been killed
+                    $state.go('dungeon');
+                }
 
                 $scope.mode = 'action';
                 $scope.combatActions.length = 0;
 
+                // if we're not showing a monster, it has died, then pick the first live monster
+                if (($scope.currentMonster == null) || (!$scope.currentMonster.isAlive()))
+                {
+                    $scope.viewMonster($scope.room.liveMonsters()[0]);
+                }
+
             };
+
+
+            $scope.readyRound();
 
 			
 			$scope.fightRound = function() {
 
 				// declare action for each monster
-				for (var m=0; m < $scope.mapService.currentRoom.monsters.length; m++)
+				for (var m=0; m < $scope.room.monsters.length; m++)
 				{
-					var monster = $scope.mapService.currentRoom.monsters[m];
+					var monster = $scope.room.monsters[m];
 					$scope.combatActions.push(new CombatAction(CombatAction.prototype.PHYSICAL_ATTACK, monster, $scope.player));
 				}
 
@@ -63,21 +89,7 @@
 
 				}
 				
-                if (!$scope.mapService.currentRoom.hasMonsters())
-                {
-                    // all monsters have been killed
-                    $state.go('dungeon');
-                }
-
-                if ($scope.playerService.allDead())
-                {
-                    // all player characters have been killed
-                    $state.go('dungeon');
-                }
-
-				// clear the actions for the next round
-				$scope.combatActions.length = 0;
-                
+                $scope.readyRound();                
 
 			};
 			
@@ -106,7 +118,7 @@
 				$scope.clearPlayerAction($scope.player);
 				
                 // returns an array of live monsters
-                var liveMonsters = $scope.mapService.currentRoom.liveMonsters();
+                var liveMonsters = $scope.room.liveMonsters();
 
 				if (liveMonsters.length == 1)
 				{
@@ -142,11 +154,11 @@
 
                 // if we returned from fightRound then the players are still alive - get them out
                 // through a random door
-                var exit = $scope.mapService.currentRoom.randomExit();
+                var exit = $scope.room.randomExit();
 
-				$scope.mapService.takeExit(exit);
+				mapService.takeExit(exit);
 					
-				if ($scope.mapService.currentRoom.hasMonsters())
+				if ($scope.room.hasMonsters())
 				{
 					$state.go('dungeon.combat');
 				}
