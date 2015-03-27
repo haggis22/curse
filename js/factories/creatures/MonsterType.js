@@ -55,9 +55,22 @@
                 var monsters = [];
                 var numAppearing = diceService.rollDie(this.numAppearing.min, this.numAppearing.max);
 
+                var stats = ['str','int','dex','health'];
+
+
                 for (var m=0; m < numAppearing; m++)
                 {
-                    var monster = new Monster($.extend(true, {}, this));
+                    var monsterInstance = $.extend(true, {}, this);
+
+                    for (var s=0; s < stats.length; s++)
+                    {
+                        if (typeof this[stats[s]] === 'object')
+                        {
+                            monsterInstance[stats[s]] = diceService.rollDie(this[stats[s]].min, this[stats[s]].max);
+                        }
+                    }
+
+                    var monster = new Monster(monsterInstance);
 
                     if (this.images != null)
 				    {
