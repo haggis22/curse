@@ -1,10 +1,10 @@
 <div ng-controller="combatController">
 
 	<div>
-		<div ng-repeat="monster in mapService.currentRoom.monsters" ng-show="monster.isAlive()" class="window window-monster" style="margin-bottom: 10px;">
+		<div ng-repeat="monster in mapService.currentRoom.monsters" ng-show="monster.isAlive()" ng-class="{ 'attackable' : mode == 'target' }" class="window window-monster" ng-click="selectTarget(monster)" style="margin-bottom: 10px;">
 			<div ng-show="monster.image" class="image" style="float: left; height: 80px; margin-right: 20px;"><img ng-src="images/{{ monster.image }}" style="width: 80px; height: 80px;" /></div>
 			<div style="float: left;">
-				<div class="name" ng-class="{ 'attackable' : mode == 'target' }" ng-click="selectTarget(monster)">{{ monster.getName(false) | capFirst }}</div>
+				<div class="name">{{ monster.getName(false) | capFirst }}</div>
 				<div class="attributes">
 					<div><span class="attr-label">Strength:</span><span class="attr-value">{{ monster.str }}</span></div>
 					<div><span class="attr-label">Dexterity:</span><span class="attr-value">{{ monster.dex }}</span></div>
