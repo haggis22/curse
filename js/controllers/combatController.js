@@ -12,6 +12,7 @@
             if (!playerService.hasPlayers())
 			{
 				$state.go('rollup');
+                return;
 			}
 
             $scope.mode = 'action';
@@ -189,8 +190,8 @@
             $scope.attack = function(attacker, target)
             {
 				var actions = gameService.actions;
-				
-                var toHit = 50 + attacker.dex - target.dex + attacker.getSkillLevel(SkillType.ID_MELEE) - target.getSkillLevel(SkillType.ID_MELEE);
+
+                var toHit = 50 + attacker.dex - target.dex + attacker.getSkillLevel(SkillType.prototype.ID_MELEE) - target.getSkillLevel(SkillType.prototype.ID_MELEE);
 				var roll = diceService.rollDie(1, 100);
                 console.log('attacker: ' + attacker.getName(null) + ', target: ' + target.getName(null) + ', toHit: ' + toHit + ', roll: ' + roll);
 				if (roll <= toHit)

@@ -13,6 +13,7 @@
             if (!playerService.hasPlayers())
 			{
 				$state.go('rollup');
+                return;
 			}
 
 			$scope.searchTheRoom = function() {
