@@ -30,10 +30,10 @@
 				player.health = player.maxHealth = $scope.rollStat();
                 
                 // clear his skills
-                player.skills.length = 0;
+                player.clearSkills();
 
-                player.skills.push(new Skill(SkillType.prototype.ID_MELEE, diceService.rollDie(7, 12) + diceService.rollDie(8, 13)));
-                player.skills.push(new Skill(SkillType.prototype.ID_SWORD, diceService.rollDie(2, 5) + diceService.rollDie(3, 5)));
+                player.adjustSkill(SkillType.prototype.ID_MELEE, diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
+                player.adjustSkill(SkillType.prototype.ID_SWORD, diceService.rollDie(2, 5) + diceService.rollDie(3, 5));
 
 			}
 			

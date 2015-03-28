@@ -2,8 +2,8 @@
 
 (function(app) {
 
-	app.controller('combatController', ['$scope', '$state', 'gameService', 'playerService', 'mapService', 'diceService', 'Sex', 'CombatAction', 'Attack',
-		function($scope, $state, gameService, playerService, mapService, diceService, Sex, CombatAction, Attack) {
+	app.controller('combatController', ['$scope', '$state', 'gameService', 'playerService', 'mapService', 'diceService', 'Sex', 'CombatAction', 'Attack', 'SkillType',
+		function($scope, $state, gameService, playerService, mapService, diceService, Sex, CombatAction, Attack, SkillType) {
 			
 			$scope.playerService = playerService;
 			$scope.gameService = gameService;
@@ -61,10 +61,27 @@
 					$scope.combatActions.push(new CombatAction(CombatAction.prototype.PHYSICAL_ATTACK, monster, $scope.player));
 				}
 
+                // determine the order of attack, based on the character's dexterity, adjusted by any skills relevant to 
+                // the attack
                 for (var a=0; a < $scope.combatActions.length; a++)
                 {
                     var action = $scope.combatActions[a];
-                    action.speed = diceService.averageDie(0, action.attacker.dex);
+
+                    var msg = "Attack Speed, attacker: " + action.attacker.getName(null) + ", dex: " + action.attacker.dex;
+
+                    var attackerSpeed = action.attacker.dex;
+                    
+                    var relevantSkills = action.getRelevantSkills();
+                    for (var s=0; s < relevantSkills.length; s++)
+                    {
+                        var skillType = SkillType.prototype.getSkillType(relevantSkills[s]);
+                        msg += ", " + skillType.getName() + ": " + action.attacker.getSkillLevel(relevantSkills[s]);
+                        attackerSpeed += action.attacker.getSkillLevel(relevantSkills[s]);
+                    }
+
+                    action.speed = diceService.averageDie(0, attackerSpeed);
+                    msg += ", TOTAL: " + attackerSpeed + ", Roll: " + action.speed;
+                    console.info(msg);
                 }
 
                 // sort in DESCENDING order, so higher dex rolls go first
@@ -173,8 +190,10 @@
             {
 				var actions = gameService.actions;
 				
-				var roll = diceService.rollDie(1,20);
-				if (roll < attacker.dex)
+                var toHit = 50 + attacker.dex - target.dex + attacker.getSkillLevel(SkillType.ID_MELEE) - target.getSkillLevel(SkillType.ID_MELEE);
+				var roll = diceService.rollDie(1, 100);
+                console.log('attacker: ' + attacker.getName(null) + ', target: ' + target.getName(null) + ', toHit: ' + toHit + ', roll: ' + roll);
+				if (roll <= toHit)
 				{
                     var myAttack = new Attack({ type: Attack.prototype.WEAPON, damage: Math.floor(Math.random() * attacker.str / 5) + 1, weapon: 'fist' });
 

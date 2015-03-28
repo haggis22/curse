@@ -2,9 +2,9 @@
 
 (function(app) {
 
-	app.factory('Creature', ['Sex', 'BodyShape', 
+	app.factory('Creature', ['Sex', 'BodyShape', 'Skill',
 
-		function(Sex, BodyShape) {
+		function(Sex, BodyShape, Skill) {
 
 			function Creature(creature) {
                 
@@ -19,7 +19,7 @@
                 this.isUndead = creature.isUndead == null ? false : creature.isUndead;
                 this.maxHealth = this.health;
 
-                this.skills = creature.skills == null ? [] : creature.skills;
+                this.skills = creature.skills == null ? {} : creature.skills;
 
 				this.pack = [];
                 this.isLooted = false;
@@ -203,7 +203,64 @@
                     cure = Math.min(cure, this.maxHealth - this.health);
 					this.health += cure;
                     return cure;
-                }
+                },
+
+                clearSkills: function()
+                {
+                    for (var skill in this.skills)
+                    {
+                        if (this.skills.hasOwnProperty(skill))
+                        {
+                            delete this.skills[skill];
+                        }
+                    }
+                },
+
+                hasSkills: function()
+                {
+                    for (var skill in this.skills)
+                    {
+                        if (this.skills.hasOwnProperty(skill))
+                        {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                },
+
+                getSkill: function(skillType)
+                {
+                    if (this.skills.hasOwnProperty(skillType))
+                    {
+                        return this.skills[skillType];
+                    }
+
+                    return null;
+                },
+
+                getSkillLevel: function(skillType)
+                {
+                    var skill = this.getSkill(skillType);
+                    if (skill == null)
+                    {
+                        return 0;
+                    }
+
+                    return skill.getLevel();
+                },
+
+                adjustSkill: function(skillType, amount)
+                {
+                    var skill = this.getSkill(skillType);
+                    if (skill == null)
+                    {
+                        skill = new Skill(skillType, 0);
+                        this.skills[skillType] = skill;
+                    }
+
+                    skill.level += amount;
+                }                
 
 
 			};  // prototype

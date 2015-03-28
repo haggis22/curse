@@ -2,9 +2,9 @@
 
 (function (app) {
 
-    app.factory('CombatAction', 
+    app.factory('CombatAction', ['SkillType', 
 
-		function () {
+		function (SkillType) {
 
             // attacker and target are both of type Creature
             function CombatAction(actionType, attacker, target) {
@@ -39,6 +39,22 @@
 
                     return this.attacker == player;
 
+                },
+
+                getActionType: function() {
+                    return this.actionType;
+                },
+
+                getRelevantSkills: function() {
+                    
+                    switch (this.getActionType())
+                    {
+                        case this.PHYSICAL_ATTACK:
+                            return [ SkillType.prototype.ID_MELEE ];
+
+                    }
+
+                    return [];
                 }
 
 		    };  // prototype
@@ -47,7 +63,7 @@
 
 		}
 
-	);
+	]);
 
 })(angular.module('CurseApp'));
 

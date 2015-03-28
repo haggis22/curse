@@ -12,7 +12,7 @@
 					    <div><span class="attr-label">Dexterity:</span><span class="attr-value">{{ currentMonster.dex }}</span></div>
 					    <div><span class="attr-label">Health:</span><span class="attr-value">{{ currentMonster.isAlive() ? currentMonster.health : 'DEAD' }}</span></div>
 
-                        <div ng-show="currentMonster.skills.length > 0" style="margin-top: 15px;">
+                        <div ng-show="currentMonster.hasSkills()" style="margin-top: 15px;">
                             <div class="header">Skills</div>
 					        <div ng-repeat="skill in currentMonster.skills">
                                 <span class="attr-label">{{ skill.getName() | capFirst }}:</span>
