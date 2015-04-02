@@ -83,18 +83,25 @@
                         monster.adjustSkill(this.skillSet[s].type, diceService.averageDie(this.skillSet[s].min, this.skillSet[s].max));
                     }
 
-                    // set up the monster's items - he may get to use some of them in combat
-                    for (var t=0; t < this.treasure.length; t++)
+                    if (this.treasure == null)
                     {
-                        var item = treasureService.randomTreasure(this.treasure[t]);
-                        monster.addItem(item);
-                    
-                        //TODO? Allow the monster to pick the best item
-                        if (item.isEquippableBy(monster))
+                        alert('Monster ' + this.name + ' has a NULL treasure!');
+                    }
+                    else
+                    {
+                        // set up the monster's items - he may get to use some of them in combat
+                        for (var t=0; t < this.treasure.length; t++)
                         {
-                            monster.useItem(item);
-                        }
+                            var item = treasureService.randomTreasure(this.treasure[t]);
+                            monster.addItem(item);
+                    
+                            //TODO? Allow the monster to pick the best item
+                            if (item.isEquippableBy(monster))
+                            {
+                                monster.useItem(item);
+                            }
 
+                        }
                     }
 
                     monsters.push(monster);

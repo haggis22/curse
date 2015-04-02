@@ -55,7 +55,7 @@
 			
 			$scope.fightRound = function() {
 
-				// declare action for each monster
+                // declare action for each monster
 				for (var m=0; m < $scope.room.monsters.length; m++)
 				{
 					var monster = $scope.room.monsters[m];
