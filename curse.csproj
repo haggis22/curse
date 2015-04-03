@@ -58,6 +58,7 @@
     <Content Include="js\controllers\dungeonController.js" />
     <Content Include="js\controllers\rollupController.js" />
     <Content Include="js\factories\combat\Attack.js" />
+    <Content Include="js\factories\combat\AttackType.js" />
     <Content Include="js\factories\creatures\BodyPart.js" />
     <Content Include="js\factories\creatures\BodyShape.js" />
     <Content Include="js\factories\creatures\MonsterType.js" />
