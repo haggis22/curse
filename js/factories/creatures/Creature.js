@@ -20,6 +20,7 @@
                 this.maxHealth = this.health;
 
                 this.skills = creature.skills == null ? {} : creature.skills;
+                this.attacks = creature.attacks;
 
 				this.pack = [];
                 this.isLooted = false;
@@ -260,7 +261,12 @@
                     }
 
                     skill.level += amount;
-                }                
+                },
+
+                hasSpecialAttacks: function()
+                {
+                    return ((this.attacks != null) && (this.attacks.length > 0));
+                }
 
 
 			};  // prototype

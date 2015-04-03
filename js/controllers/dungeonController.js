@@ -48,7 +48,7 @@
 				
 				if ($scope.isAtPeace())
 				{
-                    $scope.gameService.clearActions();
+                    $scope.gameService.clearPlays();
 				
 					$scope.mapService.takeExit(exit);
 					

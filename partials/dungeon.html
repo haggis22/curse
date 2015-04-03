@@ -82,9 +82,9 @@
         You are dead.
     </div>
 
-	<div style="margin-top: 10px;" class="window window-actions" ng-show="gameService.actions.length > 0">
+	<div style="margin-top: 10px;" class="window window-actions" ng-show="gameService.hasPlays()">
 		<ul>
-			<li ng-repeat="action in gameService.actions track by $index">{{ action | capFirst }}</li>
+			<li ng-repeat="play in gameService.getPlays() track by $index">{{ play | capFirst }}</li>
 		</ul>
 	</div>
 

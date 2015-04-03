@@ -5,13 +5,28 @@
 	app.service('gameService', [
 		function() {
 
-			this.actions = [];
+			this.plays = [];
 
-			this.clearActions = function()
+			this.clearPlays = function()
 			{
-				this.actions.length = 0;
-			}
+				this.plays.length = 0;
+			};
+
+            this.hasPlays = function() 
+            {
+                return this.plays.length > 0;
+            };
 			
+            this.getPlays = function()
+            {
+                return this.plays;
+            };
+
+            this.addPlay = function(text)
+            {
+                this.plays.push(text);
+            };
+
 		}
 
 	]);

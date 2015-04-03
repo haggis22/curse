@@ -52,7 +52,7 @@
     <Content Include="images\troll.png" />
     <Content Include="images\warlock.png" />
     <Content Include="js\app.js" />
-    <Content Include="js\factories\combat\CombatAction.js" />
+    <Content Include="js\factories\combat\Action.js" />
     <Content Include="js\controllers\combatController.js" />
     <Content Include="js\controllers\curseController.js" />
     <Content Include="js\controllers\dungeonController.js" />

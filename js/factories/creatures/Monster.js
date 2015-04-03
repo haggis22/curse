@@ -2,17 +2,18 @@
 
 (function(app) {
 
-	app.factory('Monster', ['Creature', 
+	app.factory('Monster', ['Creature',  'Sex',
 
-		function(Creature) {
+		function(Creature, Sex) {
 
 		    function Monster(monster) {
 
                 Creature.call(this, monster);
 
                 this.article = monster.article;
-                this.attacks = monster.attacks;
                 this.image = monster.image;
+                this.sex = monster.sex == null ? Sex.prototype.NEUTER : monster.sex;
+
 
 			};
 			
