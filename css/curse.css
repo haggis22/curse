@@ -119,6 +119,19 @@ div.image
 	cursor: pointer;
 }
 
+.droppable
+{
+    font-size: 0.6em;
+    padding: 2px
+}
+
+.droppable:hover
+{
+    background-color: #fff;
+    color: #f00;
+    cursor: pointer;
+}
+
 .attackable
 {
     border: 1px solid #000;
@@ -129,6 +142,13 @@ div.image
 .looted
 {
     color: #666;
+    font-style: italic;
+}
+
+.equipped
+{
+    font-style: italic;
+    font-weight: bold;
 }
 
 .monster-tag-active

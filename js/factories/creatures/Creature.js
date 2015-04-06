@@ -25,6 +25,9 @@
 				this.pack = [];
                 this.isLooted = false;
 
+                this.useWeapons = creature.useWeapons == null ? true : creature.useWeapons;
+                this.useArmour = creature.useArmour == null ? true : creature.useArmour;
+
 			};
 			
 			Creature.prototype = {
@@ -66,7 +69,7 @@
 					
 				},
 
-                removeItem: function(item)
+                dropItem: function(item)
                 {
                     var remainingItems = [];
 

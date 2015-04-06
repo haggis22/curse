@@ -85,6 +85,10 @@
                 hasAnythingToSee: function() {
 
                     return ((this.items.length > 0) || (this.hasDeadMonsters()));
+                },
+
+                addItem: function(item) {
+                    this.items.push(item);
                 }
 
 

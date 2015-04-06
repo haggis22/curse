@@ -63,8 +63,9 @@
 			    <div style="margin-top: 10px; text-decoration: underline">Inventory</div>
 			    <div>
 				    <ul>
-					    <li ng-repeat="item in player.pack" ng-click="player.useItem(item)" ng-hide="item.isGold()">
-                            <span class="item">{{ item.getName(null) }}</span><span ng-show="item.isEquipped"> (*)</span>
+					    <li ng-repeat="item in player.pack" ng-hide="item.isGold()">
+                            <span class="item" ng-click="player.useItem(item)" ng-class="{ 'equipped' : item.isEquipped }">{{ item.getName(null) }}</span>
+                            <span class="droppable" ng-click="dropItem(player, item)">[X]</span>
                         </li>
 				    </ul>
 			    </div>

@@ -79,9 +79,19 @@
 
             };
 
+            $scope.dropItem = function(player, item) {
+
+                var droppedItem = player.dropItem(item);
+                if (droppedItem != null)
+                {
+                    mapService.currentRoom.addItem(droppedItem);
+                }
+
+            };
+
             $scope.transfer = function(item, giver, taker) {
 
-                if (giver.removeItem(item) != null)
+                if (giver.dropItem(item) != null)
                 {
                     taker.addItem(item);
                 }

@@ -82,8 +82,12 @@
                             return false;
 
                         case Item.prototype.WEAPON:
+                            return creature.isShape([BodyShape.prototype.HUMANOID, BodyShape.prototype.WINGED_HUMANOID]) && creature.useWeapons;
+
                         case Item.prototype.ARMOUR:
                         case Item.prototype.SHIELD:
+                            return creature.isShape([BodyShape.prototype.HUMANOID, BodyShape.prototype.WINGED_HUMANOID]) && creature.useArmour;
+
                         case Item.prototype.NECK:
                             return creature.isShape([BodyShape.prototype.HUMANOID, BodyShape.prototype.WINGED_HUMANOID]);
 
