@@ -2,8 +2,8 @@
 
 (function(app) {
 
-	app.controller('combatController', ['$scope', '$state', 'gameService', 'playerService', 'mapService', 'diceService', 'Sex', 'Action', 'AttackType', 'Attack',
-		function($scope, $state, gameService, playerService, mapService, diceService, Sex, Action, AttackType, Attack) {
+	app.controller('combatController', ['$scope', '$state', 'gameService', 'playerService', 'mapService', 'diceService', 'Sex', 'Action', 'AttackType', 'Attack', 'Item',
+		function($scope, $state, gameService, playerService, mapService, diceService, Sex, Action, AttackType, Attack, Item) {
 			
 			$scope.playerService = playerService;
 			$scope.gameService = gameService;
@@ -118,15 +118,14 @@
             $scope.addAttack = function(attacker, target)
             {
                 var weapon = attacker.checkWeapon();
-                var weaponName = weapon == null ? 'fist' : weapon.getName();
-
-                var damage = diceService.rollDie(1, Math.max(1, (attacker.str / 5)));
-                if (weapon != null)
+                if (weapon == null)
                 {
-                    damage += weapon.damage;
+                    weapon = new Item({ name: 'fist', article: 'a', damage: 0 });
                 }
+                        
+                var damage = diceService.rollDie(1, Math.max(1, (attacker.str / 5))) + weapon.damage;
 
-                var attack = new Attack({ actor: attacker, type: AttackType.prototype.WEAPON, target: target, damage: damage, weapon: weaponName });
+                var attack = new Attack({ actor: attacker, type: AttackType.prototype.WEAPON, target: target, damage: damage, weapon: weapon });
                 $scope.combatActions.push(attack);
 
             };
@@ -134,8 +133,9 @@
             $scope.addMonsterAttack = function(monster, target, attack)
             {
                 var damage = diceService.rollDie(attack.damage.min, attack.damage.max);
+                var weapon = new Item({ name: attack.weaponName, damage: 0, article: 'a' });
 
-                var attack = new Attack({ actor: monster, type: attack.type, target: target, damage: damage, weapon: attack.weaponName });
+                var attack = new Attack({ actor: monster, type: attack.type, target: target, damage: damage, weapon: weapon });
                 $scope.combatActions.push(attack);
 
             };

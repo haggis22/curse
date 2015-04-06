@@ -87,13 +87,13 @@
                             {
                                 description += this.actor.getPossessive() + ' ';
                             }
-                            description += this.weapon  + ' for ' + damage + ' damage!';
+                            description += this.weapon.getName()  + ' for ' + damage + ' damage!';
                             actions.push(description);
                             break;
 		
 		                case AttackType.prototype.BITE: 
 		                case AttackType.prototype.CLAW: 
-                            actions.push(this.actor.getName(true) + ' ' + this.weapon + ' ' + this.target.getName(true) + ' in the ' + bodyPart.name + ' for ' + damage + ' damage!');
+                            actions.push(this.actor.getName(true) + ' ' + this.weapon.getName() + ' ' + this.target.getName(true) + ' in the ' + bodyPart.name + ' for ' + damage + ' damage!');
                             break;
 		
 	                } 
