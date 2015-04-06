@@ -1,0 +1,129 @@
+<div ng-controller="monsterController">
+
+	<table cellpadding="3" cellspacing="0" style="background-color: #eee;">
+        <thead>
+            <tr>
+                <th colspan="2">
+                    Monster Manual
+                    <div><button type="button" ng-click="reset(true)">New Monster</button></div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>species</td>
+                <td><input type="text" ng-model="monster.species" /></td>
+            </tr>
+            <tr>
+                <td>article</td>
+                <td><select ng-model="monster.article" ng-options="article.desc for article in articles"></select></td>
+            </tr>
+            <tr>
+                <td>body</td>
+                <td><select ng-model="monster.bodyShape" ng-options="bodyShape.desc for bodyShape in bodyShapes"></select></td>
+            </tr>
+            <tr>
+                <td>sex</td>
+                <td><select ng-model="monster.sex" ng-options="sex.desc for sex in sexes"></select></td>
+            </tr>
+            <tr>
+                <td>undead?</td>
+                <td><input type="checkbox" ng-model="monster.isUndead" value="true" /></td>
+            </tr>
+            <tr>
+                <td>use weapons?</td>
+                <td><input type="checkbox" ng-model="monster.useWeapons" value="true" /></td>
+            </tr>
+            <tr>
+                <td>use armour?</td>
+                <td><input type="checkbox" ng-model="monster.useArmour" value="true" /></td>
+            </tr>
+            <tr>
+                <td>strength</td>
+                <td><input type="text" ng-model="monster.str.min" style="width: 40px; text-align: center;" /> - <input type="text" ng-model="monster.str.max" style="width: 40px; text-align: center;" /></td>
+            </tr>
+            <tr>
+                <td>intelligence</td>
+                <td><input type="text" ng-model="monster.int.min" style="width: 40px; text-align: center;" /> - <input type="text" ng-model="monster.int.max" style="width: 40px; text-align: center;" /></td>
+            </tr>
+            <tr>
+                <td>dexterity</td>
+                <td><input type="text" ng-model="monster.dex.min" style="width: 40px; text-align: center;" /> - <input type="text" ng-model="monster.dex.max" style="width: 40px; text-align: center;" /></td>
+            </tr>
+            <tr>
+                <td>health</td>
+                <td><input type="text" ng-model="monster.health.min" style="width: 40px; text-align: center;" /> - <input type="text" ng-model="monster.health.max" style="width: 40px; text-align: center;" /></td>
+            </tr>
+            <tr>
+                <td>frequency</td>
+                <td><input type="text" ng-model="monster.frequency" style="width: 40px; text-align: center;" /></td>
+            </tr>
+            <tr>
+                <td># Appearing</td>
+                <td><input type="text" ng-model="monster.numAppearing.min" style="width: 40px; text-align: center;" /> - <input type="text" ng-model="monster.numAppearing.max" style="width: 40px; text-align: center;" /></td>
+            </tr>
+            <tr>
+                <td valign="top">Attacks</td>
+                <td style="white-space: nowrap;">
+                    <button type="button" ng-click="addAttack()" style="cursor: pointer;">[ + ]</button>
+                    <div ng-repeat="attack in monster.attacks" style="margin-top: 10px;">
+                        <span>type: </span><select ng-model="attack.type" ng-options="type.id as type.desc for type in attackTypes"></select>
+                        <span>damage: </span><input type="text" ng-model="attack.damage.min" style="width: 30px; text-align: center;" /> - <input type="text" ng-model="attack.damage.max" style="width: 30px; text-align: center;" />
+                        <span>weapon: </span><input type="text" ng-model="attack.weaponName" />
+                        <span><button type="button" ng-click="removeAttack(attack)" style="cursor: pointer;">[ - ]</button></span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">Skills</td>
+                <td style="white-space: nowrap;">
+                    <button type="button" ng-click="addSkill()" style="cursor: pointer;">[ + ]</button>
+                    <div ng-repeat="skill in monster.skillSet" style="margin-top: 10px;">
+                        <span>type: </span><select ng-model="skill.type" ng-options="skillType.desc for skillType in skillTypes"></select>
+                        <span>skill: </span><input type="text" ng-model="skill.min" style="width: 30px; text-align: center;" /> - <input type="text" ng-model="skill.max" style="width: 30px; text-align: center;" />
+                        <span><button type="button" ng-click="removeSkill(skill)" style="cursor: pointer;">[ - ]</button></span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">Treasure</td>
+                <td style="white-space: nowrap;">
+                    <button type="button" ng-click="addTreasure()" style="cursor: pointer;">[ + ]</button> <span>A=basic, B=weapons/armour, C=magic, D=magic weapons/armour, E=broken weapons/armour</span>
+                    <div ng-repeat="treasure in monster.treasures" style="margin-top: 10px;">
+                        <span>Treasure Type: </span><input type="text" ng-model="treasure.value" style="width: 20px;" />
+                        <span><button type="button" ng-click="removeTreasure(treasure)" style="cursor: pointer;">[ - ]</button></span>
+                        <span ng-show="getTreasureExamples(treasure.value) != null">( {{ getTreasureExamples(treasure.value) }} )</span>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="white-space: nowrap; margin-top: 20px; margin-left: 15px; background-color: #efe; padding: 2px 10px;">new MonsterType({
+        
+        species: "{{ monster.species }}", 
+            <span ng-if="monster.article.id != null">article: '{{ monster.article.id }}', </span>
+            <span ng-if="monster.bodyShape.id">bodyShape: {{ monster.bodyShape.id }}, </span>
+            <span ng-if="monster.sex.id">sex: {{ monster.sex.id }}, </span>
+            <span ng-if="monster.isUndead">isUndead: true,</span>
+            <span ng-if="!monster.useWeapons">useWeapons: false,</span>
+            <span ng-if="!monster.useArmour">useArmour: false,</span>
+            str: { min: {{ monster.str.min }}, max: {{ monster.str.max }} }, 
+            int: { min: {{ monster.int.min }}, max: {{ monster.int.max }} }, 
+            dex: { min: {{ monster.dex.min }}, max: {{ monster.dex.max }} }, 
+            health: { min: {{ monster.health.min }}, max: {{ monster.health.max }} }, 
+            frequency: {{ monster.frequency }},
+            numAppearing: { min: {{ monster.numAppearing.min }}, max: {{ monster.numAppearing.max }} }
+            <span ng-if="monster.skillSet.length > 0">, skillSet: [
+                <span ng-repeat="skill in monster.skillSet"><span ng-if="!$first">, </span>{ type: {{ skill.type.id }}, min: {{ skill.min }}, max: {{ skill.max }} }</span>
+            ]</span>
+            <span ng-if="monster.attacks.length > 0">, attacks: [
+                <span ng-repeat="attack in monster.attacks"><span ng-if="!$first">, </span>new AttackType({ type: {{ attack.type }}, damage: { min: {{ attack.damage.min }}, max: {{ attack.damage.max }} }, weaponName: '{{ attack.weaponName }}' })</span>
+            ]</span>
+            <span ng-if="monster.treasures.length > 0">, treasure: [
+                <span ng-repeat="treasure in monster.treasures"><span ng-if="!$first">, </span>'{{ treasure.value | uppercase }}'</span>
+            ]</span>
+            , images: [] 
+    }),</div>
+
+</div>

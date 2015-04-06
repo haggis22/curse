@@ -44,6 +44,7 @@
                                             new BodyPart(BodyPart.prototype.BUTT, 0.05, 1),
                                             new BodyPart(BodyPart.prototype.LEG, 0.1, 1)
                                         ]),
+                BEHOLDER: new BodyShape([ new BodyPart(BodyPart.prototype.HEAD, 1, 1) ])
 
 
 			};  // prototype

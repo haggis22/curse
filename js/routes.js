@@ -19,7 +19,12 @@
 			.state('dungeon.combat', {
 				url: "/combat",
 				templateUrl: "partials/combat.html"
-			});
+			})
+			.state('monster', {
+				url: "/monster-manual",
+				templateUrl: "partials/monster-manual.html"
+			})
+
 			
 		}
 	

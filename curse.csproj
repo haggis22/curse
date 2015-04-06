@@ -54,7 +54,7 @@
     <Content Include="js\app.js" />
     <Content Include="js\factories\combat\Action.js" />
     <Content Include="js\controllers\combatController.js" />
-    <Content Include="js\controllers\curseController.js" />
+    <Content Include="js\controllers\monsterController.js" />
     <Content Include="js\controllers\dungeonController.js" />
     <Content Include="js\controllers\rollupController.js" />
     <Content Include="js\factories\combat\Attack.js" />
@@ -83,7 +83,7 @@
     <Content Include="js\ui-router\angular-ui-router.js" />
     <Content Include="partials\combat.html" />
     <Content Include="partials\dungeon.html" />
-    <Content Include="partials\loot.html" />
+    <Content Include="partials\monster-manual.html" />
     <Content Include="partials\rollup.html" />
   </ItemGroup>
   <ItemGroup>

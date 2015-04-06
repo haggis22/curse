@@ -43,7 +43,10 @@
                 new MonsterType({ species: 'vampire', isUndead: true, str: 14, int: 15, dex: 15, health: 15, frequency: 6, treasure: ['A','C','D'], images: ['vampire.png']}),
                 new MonsterType({ species: 'zombie', isUndead: true, str: 12, int: 0, dex: 6, health: 12, frequency: 12, numAppearing: { max: 3 }, treasure: ['A'], images: ['zombie.png']}),
                 new MonsterType({ species: 'gorgon', str: 12, int: 6, dex: 12, health: 16, frequency: 2, sex: Sex.prototype.FEMALE, treasure: ['B'], images: ['gorgon.png']}),
-                new MonsterType({ species: 'Medusa', article: '', str: 13, int: 7, dex: 14, health: 18, frequency: 1, sex: Sex.prototype.FEMALE, treasure: ['D'], images: ['Medusa.png']})
+                new MonsterType({ species: 'Medusa', article: '', str: 13, int: 7, dex: 14, health: 18, frequency: 1, sex: Sex.prototype.FEMALE, treasure: ['D'], images: ['Medusa.png']}),
+                new MonsterType({ species: "beholder", bodyShape: BodyShape.prototype.SNAKE, str: { min: 9, max: 11 }, int: { min: 7, max: 10 }, dex: { min: 12, max: 14 }, health: { min: 14, max: 15 }, frequency: 4 , attacks: [ new AttackType({ type: WEAPON, damage: { min: 2, max: 4 }, weaponName: 'eye beams' }) ] , treasure: [ 'A' ] , images: ['beholder.jpg'] }),
+                new MonsterType({ species: "Yuan-ti", str: { min: 10, max: 12 }, int: { min: 6, max: 8 }, dex: { min: 12, max: 15 }, health: { min: 14, max: 16 }, frequency: 5555 , treasure: [ 'A', 'B' ] , images: ['yuan-ti1.jpg', 'yuan-ti2.jpg' ] }),
+                new MonsterType({ species: "zorbo", bodyShape: BodyShape.prototype.QUADRUPED, str: { min: 8, max: 10 }, int: { min: 4, max: 6 }, dex: { min: 8, max: 11 }, health: { min: 8, max: 9 }, frequency: 5 , attacks: [ new AttackType({ type: CLAW, damage: { min: 1, max: 2 }, weaponName: 'claws' }), new AttackType({ type: BITE, damage: { min: 1, max: 3 }, weaponName: 'bites' }) ] , treasure: [ 'E' ] , images: [] })
 			];
 
 			this.randomMonster = function() {
