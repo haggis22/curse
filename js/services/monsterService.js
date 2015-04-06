@@ -14,7 +14,7 @@
                 // name, species, bodyShape, article, sex, str, int, dex, health, isUndead, frequency, treasure, images
                 new MonsterType({ species: 'goblin', str: { min: 4, max: 6 }, int: { min: 3, max: 5 }, dex: { min: 7, max: 11 }, health: { min: 4, max: 6 }, skillSet: [ { type: SkillType.prototype.ID_MELEE, min: 15, max: 25} ], frequency: 15, numAppearing: { min: 2, max: 4 }, treasure: ['A'], images: ['goblin1.jpg', 'goblin2.png']}),
                 new MonsterType({ species: 'orc', article: 'an', str: 8, int: 5, dex: 11, health: 10, frequency: 15, numAppearing: { max: 3 }, treasure: ['A'], images: ['orc.png']}),
-                new MonsterType({ species: 'troll', str: 13, int: 4, dex: 8, health: 15, frequency: 9999, numAppearing: { max: 2 }, useArmour: false, treasure: ['A','B'], images: ['troll.png']}),
+                new MonsterType({ species: 'troll', str: 13, int: 4, dex: 8, health: 15, frequency: 9, numAppearing: { max: 2 }, useArmour: false, treasure: ['A','B'], images: ['troll.png']}),
                 new MonsterType({ species: 'ogre', article: 'an', str: 14, int: 3, dex: 7, health: 17, frequency: 7, treasure: ['B'], images: ['ogre.png']}),
                 new MonsterType({ species: 'skeleton', isUndead: true, str: 7, int: 0, dex: 9, health: 6, frequency: 14, numAppearing: { max: 3 }, treasure: ['E'], images: ['skeleton1.jpg', 'skeleton2.jpg', 'skeleton3.jpg']}),
                 new MonsterType({ species: 'warlock', str: 10, int: 18, dex: 12, health: 18, frequency: 3, sex: Sex.prototype.MALE, treasure: ['C'], images: ['warlock.png']}),
