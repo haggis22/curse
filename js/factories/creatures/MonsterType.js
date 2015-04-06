@@ -41,7 +41,7 @@
                     this.numAppearing.max = 1;
                 }
 
-                this.treasure == this.treasure || [];
+                this.treasure = this.treasure || [];
                 this.skillSet = this.skillSet || [];
                 this.attacks = this.attacks || [];
                 this.images = this.images || [];
@@ -83,25 +83,18 @@
                         monster.adjustSkill(this.skillSet[s].type, diceService.averageDie(this.skillSet[s].min, this.skillSet[s].max));
                     }
 
-                    if (this.treasure == null)
+                    // set up the monster's items - he may get to use some of them in combat
+                    for (var t=0; t < this.treasure.length; t++)
                     {
-                        alert('Monster ' + this.name + ' has a NULL treasure!');
-                    }
-                    else
-                    {
-                        // set up the monster's items - he may get to use some of them in combat
-                        for (var t=0; t < this.treasure.length; t++)
-                        {
-                            var item = treasureService.randomTreasure(this.treasure[t]);
-                            monster.addItem(item);
+                        var item = treasureService.randomTreasure(this.treasure[t]);
+                        monster.addItem(item);
                     
-                            //TODO? Allow the monster to pick the best item
-                            if (item.isEquippableBy(monster))
-                            {
-                                monster.useItem(item);
-                            }
-
+                        //TODO? Allow the monster to pick the best item
+                        if (item.isEquippableBy(monster))
+                        {
+                            monster.useItem(item);
                         }
+
                     }
 
                     monsters.push(monster);

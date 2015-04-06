@@ -15,7 +15,7 @@
 
             $scope.skillTypes = 
             [
-                { id: 'SkillType.prototype.MELEE', desc: 'Melee' }
+                { id: 'SkillType.prototype.ID_MELEE', desc: 'Melee' }
             ];
 
             $scope.bodyShapes = 

@@ -77,10 +77,18 @@
 
                     damage = Math.round(damage * bodyPart.damageFactor);
 
+                    var description = '';
+
                     switch (this.type)
 	                {
 		                case AttackType.prototype.WEAPON:
-                            actions.push(this.actor.getName(true) + ' hit ' + this.target.getName(true) + ' in the ' + bodyPart.name + ' with ' + this.actor.getPossessive() + ' ' + this.weapon  + ' for ' + damage + ' damage!');
+                            description = this.actor.getName(true) + ' hit ' + this.target.getName(true) + ' in the ' + bodyPart.name + ' with ';
+                            if (this.weapon.article != '')
+                            {
+                                description += this.actor.getPossessive() + ' ';
+                            }
+                            description += this.weapon  + ' for ' + damage + ' damage!';
+                            actions.push(description);
                             break;
 		
 		                case AttackType.prototype.BITE: 
