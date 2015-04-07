@@ -44,10 +44,15 @@
 			    <div><span class="attr-label">Strength:</span> <span class="attr-value">{{ player.str }}</span></div>
 			    <div><span class="attr-label">Intelligence:</span> <span class="attr-value">{{ player.int }}</span></div>
 			    <div><span class="attr-label">Dexterity:</span> <span class="attr-value">{{ player.dex }}</span></div>
-			    <div><span class="attr-label">Health:</span>
+			    <div style="margin-top: 10px;"><span class="attr-label">Health:</span>
 					    <span ng-show="player.health > 0 && player.health == player.maxHealth" class="attr-value">{{ player.health }}</span>
 					    <span ng-show="player.health > 0 && player.health < player.maxHealth" class="attr-value">{{ player.health }} / {{ player.maxHealth }}</span>
 					    <span ng-show="player.health <= 0" class="attr-value dead">DEAD</span>
+			    </div>
+			    <div ng-show="player.maxPower > 0">
+                    <span class="attr-label">Magic:</span>
+					<span ng-show="player.power == player.maxPower" class="attr-value">{{ player.power }}</span>
+					<span ng-show="player.power < player.maxPower" class="attr-value">{{ player.power }} / {{ player.maxPower }}</span>
 			    </div>
                 <div ng-show="player.hasSkills()" style="margin-top: 15px;">
                     <div class="header">Skills</div>

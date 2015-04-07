@@ -27,13 +27,19 @@
 				player.str = $scope.rollStat();
                 player.int = $scope.rollStat();
 				player.dex = $scope.rollStat();
-				player.health = player.maxHealth = $scope.rollStat();
-                
+				
+                player.health = player.maxHealth = $scope.rollStat();
+               
                 // clear his skills
                 player.clearSkills();
 
                 player.adjustSkill(SkillType.prototype.ID_MELEE, diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
                 player.adjustSkill(SkillType.prototype.ID_SWORD, diceService.rollDie(2, 5) + diceService.rollDie(3, 5));
+                player.adjustSkill(SkillType.prototype.ID_MAGIC, diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
+                player.adjustSkill(SkillType.prototype.ID_FAITH, diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
+
+                player.power = player.maxPower = player.getSkillLevel(SkillType.prototype.ID_MAGIC);
+
 
 			}
 			

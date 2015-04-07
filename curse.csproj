@@ -67,6 +67,8 @@
     <Content Include="js\factories\creatures\Sex.js" />
     <Content Include="js\factories\creatures\Monster.js" />
     <Content Include="js\factories\creatures\Player.js" />
+    <Content Include="js\factories\combat\Spell.js" />
+    <Content Include="js\factories\magic\SpellType.js" />
     <Content Include="js\factories\maps\Direction.js" />
     <Content Include="js\factories\maps\Exit.js" />
     <Content Include="js\factories\maps\Room.js" />
@@ -74,6 +76,7 @@
     <Content Include="js\factories\skills\Skill.js" />
     <Content Include="js\filters\capFirst.js" />
     <Content Include="js\routes.js" />
+    <Content Include="js\services\spellService.js" />
     <Content Include="js\services\diceService.js" />
     <Content Include="js\services\gameService.js" />
     <Content Include="js\services\mapService.js" />

@@ -43,9 +43,14 @@
 
     </div>
 
-	<div>
+	<div ng-hide="mode == 'spell-chant'">
 		<button type="button" ng-click="chooseAttack()">Attack</button>
-		<button type="button" ng-click="castSpell()">Cast spell</button>
+		<button type="button" ng-click="chooseSpell()">Cast spell</button>
+	</div>
+	<div ng-show="mode == 'spell-chant'">
+        Spell: <input type="text" ng-model="spellName" style="width: 60px;" />
+		<button type="button" ng-click="castSpell()">Cast</button>
+		<button type="button" ng-click="cancelSpell()">Cancel</button>
 	</div>
     <div style="margin-top: 10px;">
 		<button type="button" ng-click="retreat()">Run Away!</button>

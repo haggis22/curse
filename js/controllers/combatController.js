@@ -2,8 +2,8 @@
 
 (function(app) {
 
-	app.controller('combatController', ['$scope', '$state', 'gameService', 'playerService', 'mapService', 'diceService', 'Sex', 'Action', 'AttackType', 'Attack', 'Item',
-		function($scope, $state, gameService, playerService, mapService, diceService, Sex, Action, AttackType, Attack, Item) {
+	app.controller('combatController', ['$scope', '$state', 'gameService', 'playerService', 'mapService', 'diceService', 'Sex', 'Action', 'AttackType', 'Attack', 'Item', 'spellService', 'Spell',
+		function($scope, $state, gameService, playerService, mapService, diceService, Sex, Action, AttackType, Attack, Item, spellService, Spell) {
 			
 			$scope.playerService = playerService;
 			$scope.gameService = gameService;
@@ -140,6 +140,11 @@
 
             };
 
+            $scope.addSpell = function(spell)
+            {
+                $scope.combatActions.push(spell);
+            };
+
 
 			$scope.chooseAttack = function() {
 				
@@ -157,21 +162,62 @@
 				}
                 else
                 {
-                    $scope.mode = 'target';
+                    $scope.mode = 'attack-target';
                 }
 				
 			};
 
-            $scope.selectTarget = function(target) {
+			$scope.chooseSpell = function() {
+				
+                gameService.clearPlays();
 
-                if ($scope.mode != 'target')
+				// clear out anything he might already have decided to do this round
+				$scope.clearPlayerAction($scope.player);
+				
+                $scope.mode = 'spell-chant';
+				
+			};
+
+
+            $scope.castSpell = function() {
+
+                $scope.spellType = spellService.getSpell($scope.spellName);
+                if ($scope.spellType == null)
                 {
+                    $scope.mode = 'action';
                     return;
                 }
 
-                $scope.addAttack($scope.player, target);
+                if ($scope.spellType.requiresTarget())
+                {
+                    $scope.mode = 'spell-target';
+                }
+                else
+                {
+                    $scope.addSpell(new Spell({ caster: $scope.player, spellType: $scope.spellType }));
+                    $scope.mode = 'action';
+                }
 
+            };
+
+            $scope.cancelSpell = function() {
                 $scope.mode = 'action';
+            };
+
+
+            $scope.selectTarget = function(target) {
+
+                if ($scope.mode == 'attack-target')
+                {
+                    $scope.addAttack($scope.player, target);
+                    $scope.mode = 'action';
+                }
+
+                if ($scope.mode == 'spell-target')
+                {
+                    $scope.addSpell(new Spell({ caster: $scope.player, spellType: $scope.spellType, target: target }));
+                    $scope.mode = 'action';
+                }
 
             }
 

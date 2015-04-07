@@ -15,9 +15,14 @@
                 this.str = creature.str == null ? 0 : creature.str;
                 this.int = creature.int == null ? 0 : creature.int;
                 this.dex = creature.dex == null ? 0 : creature.dex;
-                this.health = creature.health == null ? 0 : creature.health;
+
                 this.isUndead = creature.isUndead == null ? false : creature.isUndead;
+
+                this.health = creature.health == null ? 0 : creature.health;
                 this.maxHealth = this.health;
+
+                this.power = creature.power == null ? 0 : creature.power;
+                this.maxPower = this.power;
 
                 this.skills = creature.skills == null ? {} : creature.skills;
                 this.attacks = creature.attacks;
