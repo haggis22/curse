@@ -43,19 +43,28 @@
 
     </div>
 
-	<div ng-hide="mode == 'spell-chant'">
-		<button type="button" ng-click="chooseAttack()">Attack</button>
-		<button type="button" ng-click="chooseSpell()">Cast spell</button>
-	</div>
-	<div ng-show="mode == 'spell-chant'">
-        Spell: <input type="text" ng-model="spellName" style="width: 60px;" />
-		<button type="button" ng-click="castSpell()">Cast</button>
-		<button type="button" ng-click="cancelSpell()">Cancel</button>
-	</div>
-    <div style="margin-top: 10px;">
-		<button type="button" ng-click="retreat()">Run Away!</button>
-		<button type="button" ng-click="fightRound()">Fight Round</button>
-    </div>	
+	<div ng-show="inTargetMode()" style="background-color: #00f; color: #fff;">
+        [ SELECT TARGET ]
+        <div><button type="button" ng-click="cancelTarget()">Cancel</button></div>
+    </div>
+
+    <div ng-hide="inTargetMode()">
+
+        <div ng-hide="mode == 'spell-chant'">
+		    <button type="button" ng-click="chooseAttack()">Attack</button>
+		    <button type="button" ng-click="chooseSpell()">Cast spell</button>
+	    </div>
+	    <div ng-show="mode == 'spell-chant'">
+            Spell: <input type="text" ng-model="spellName" style="width: 120px;" focus-me="mode == 'spell-chant'" enter-action="castSpell()" />
+		    <button type="button" ng-click="castSpell()">Cast</button>
+		    <button type="button" ng-click="cancelSpell()">Cancel</button>
+	    </div>
+        <div style="margin-top: 10px;">
+		    <button type="button" ng-click="retreat()">Run Away!</button>
+		    <button type="button" ng-click="fightRound()">Fight Round</button>
+        </div>	
+    
+    </div>
 
 	<div>
 		<ul>

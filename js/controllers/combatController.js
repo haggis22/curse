@@ -188,22 +188,30 @@
                     return;
                 }
 
-                if ($scope.spellType.requiresTarget())
+                if ($scope.spellType.isTargeted())
                 {
                     $scope.mode = 'spell-target';
                 }
                 else
                 {
-                    $scope.addSpell(new Spell({ caster: $scope.player, spellType: $scope.spellType }));
+                    $scope.addSpell(new Spell({ actor: $scope.player, spellType: $scope.spellType }));
                     $scope.mode = 'action';
                 }
 
+            };
+
+            $scope.cancelTarget = function() {
+                $scope.mode = 'action';
             };
 
             $scope.cancelSpell = function() {
                 $scope.mode = 'action';
             };
 
+            $scope.inTargetMode = function()
+            {
+                return $scope.mode == 'attack-target' || $scope.mode == 'spell-target';
+            }
 
             $scope.selectTarget = function(target) {
 
@@ -215,7 +223,7 @@
 
                 if ($scope.mode == 'spell-target')
                 {
-                    $scope.addSpell(new Spell({ caster: $scope.player, spellType: $scope.spellType, target: target }));
+                    $scope.addSpell(new Spell({ actor: $scope.player, spellType: $scope.spellType, target: target }));
                     $scope.mode = 'action';
                 }
 

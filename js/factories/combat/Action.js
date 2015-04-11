@@ -10,6 +10,8 @@
             function Action(action) {
 
 	            this.actor = action.actor;
+                this.target = action.target;
+
                 this.relevantSkills = [];
                 this.speed = 0;
 
@@ -37,26 +39,6 @@
                 {
                     return this.speed;
                 },
-
-                calculateSpeed: function() {
-
-                    var msg = "Attack Speed, attacker: " + this.actor.getName(null) + ", dex: " + this.actor.dex;
-
-                    var speedChance = this.actor.dex;
-                    
-                    var relevantSkills = this.getRelevantSkills();
-                    for (var s=0; s < relevantSkills.length; s++)
-                    {
-                        var skillType = SkillType.prototype.getSkillType(relevantSkills[s]);
-                        msg += ", " + skillType.getName() + ": " + this.actor.getSkillLevel(relevantSkills[s]);
-                        speedChance += this.actor.getSkillLevel(relevantSkills[s]);
-                    }
-
-                    this.speed = diceService.averageDie(0, speedChance);
-                    msg += ", TOTAL: " + speedChance + ", Roll: " + this.speed;
-                    console.info(msg);
-
-                }
 
 		    };  // prototype
 

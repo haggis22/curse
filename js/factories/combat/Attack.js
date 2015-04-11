@@ -12,7 +12,7 @@
                 Action.call(this, attack);
 
                 this.type = attack.type == null ? Attack.prototype.WEAPON : attack.type;
-                this.target = attack.target;
+
                 if (typeof attack.damage === 'number')
                 {
                     this.damage = { min: attack.damage, max: attack.damage };
@@ -46,6 +46,26 @@
             Attack.prototype.isStillRequired = function()
             {
                 return this.getActor().isAlive() && this.getTarget().isAlive();
+            };
+
+            Attack.prototype.calculateSpeed = function() {
+
+                var msg = "Attack Speed, attacker: " + this.actor.getName(null) + ", dex: " + this.actor.dex;
+
+                var speedChance = this.actor.dex;
+                    
+                var relevantSkills = this.getRelevantSkills();
+                for (var s=0; s < relevantSkills.length; s++)
+                {
+                    var skillType = SkillType.prototype.getSkillType(relevantSkills[s]);
+                    msg += ", " + skillType.getName() + ": " + this.actor.getSkillLevel(relevantSkills[s]);
+                    speedChance += this.actor.getSkillLevel(relevantSkills[s]);
+                }
+
+                this.speed = diceService.averageDie(0, speedChance);
+                msg += ", TOTAL: " + speedChance + ", Roll: " + this.speed;
+                console.info(msg);
+
             };
 
             Attack.prototype.perform = function()

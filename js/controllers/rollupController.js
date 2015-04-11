@@ -2,9 +2,11 @@
 
 (function(app) {
 
-	app.controller('rollupController', ['$scope', '$state', 'playerService', 'diceService', 'Sex', 'Item', 'SkillType', 'Skill',
+	app.controller('rollupController', ['$scope', '$state', 'playerService', 'diceService', 'Sex', 'Item', 'SkillType', 'Skill', 
 		function($scope, $state, playerService, diceService, Sex, Item, SkillType, Skill) {
 			
+            $scope.Math = window.Math;
+
             $scope.player = playerService.newPlayer();
 
             $scope.player.name = 'Zogarth';
@@ -35,6 +37,7 @@
 
                 player.adjustSkill(SkillType.prototype.ID_MELEE, diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
                 player.adjustSkill(SkillType.prototype.ID_SWORD, diceService.rollDie(2, 5) + diceService.rollDie(3, 5));
+                player.adjustSkill(SkillType.prototype.ID_MAGIC, diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
                 player.adjustSkill(SkillType.prototype.ID_MAGIC, diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
                 player.adjustSkill(SkillType.prototype.ID_FAITH, diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
 
