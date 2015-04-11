@@ -8,6 +8,14 @@
 
 			function SpellType(spell) {
 
+                this.type = spell.type;
+                this.name = spell.name;
+                this.targeted = spell.targeted;
+                this.power = spell.power;
+                this.castingTime = spell.castingTime;
+                this.damage = spell.damage;
+
+
                 for (var prop in spell)
                 {
                     if (spell.hasOwnProperty(prop))
@@ -22,13 +30,21 @@
 
 			};
 
-            SpellType.prototype.constructor = SpellType;
-
-            SpellType.prototype.requiresTarget = function()
+            SpellType.prototype = 
             {
-                return this.requireTarget; 
-            };
+                constructor: SpellType,
 
+                TYPE_ATTACK: 1,
+
+                isTargeted: function() {
+                    return this.targeted;
+                },
+
+                getType: function() {
+                    return this.type;
+                }
+
+            };
 
 			return (SpellType);
 

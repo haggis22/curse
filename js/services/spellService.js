@@ -7,8 +7,8 @@
 
             this.spells = 
             {
-                'missile': new SpellType({ name: 'missile', target: true, speed: 20, damage: { min: 0.1, max: 0.3 }, power: 2 }),
-                'fireball': new SpellType({ name: 'fireball', target: true, speed: 10, damage: { min: 0.6, max: 1 }, power: 5 })
+                'missile': new SpellType({ type: SpellType.prototype.TYPE_ATTACK, name: 'missile', targeted: true, damage: { min: 0.2, max: 0.35 }, power: 2, castingTime: 5 }),
+                'fireball': new SpellType({ type: SpellType.prototype.TYPE_ATTACK, name: 'fireball', targeted: true, damage: { min: 0.6, max: 1 }, power: 5 , castingTime: 20 })
 
 			};
 
