@@ -52,6 +52,8 @@
     <Content Include="images\troll.png" />
     <Content Include="images\warlock.png" />
     <Content Include="js\app.js" />
+    <Content Include="js\directives\enter-action.js" />
+    <Content Include="js\directives\focus-me.js" />
     <Content Include="js\factories\combat\Action.js" />
     <Content Include="js\controllers\combatController.js" />
     <Content Include="js\controllers\monsterController.js" />
@@ -74,7 +76,8 @@
     <Content Include="js\factories\maps\Room.js" />
     <Content Include="js\factories\skills\SkillType.js" />
     <Content Include="js\factories\skills\Skill.js" />
-    <Content Include="js\filters\capFirst.js" />
+    <Content Include="js\filters\cap-first.js" />
+    <Content Include="js\filters\floor.js" />
     <Content Include="js\routes.js" />
     <Content Include="js\services\spellService.js" />
     <Content Include="js\services\diceService.js" />
