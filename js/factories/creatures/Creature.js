@@ -93,7 +93,7 @@
                     }
 
                     // make sure it's not equipped any more
-                    item.isEquipped = false;
+                    item.setEquipped(false);
 
                     this.pack = remainingItems;
                     return item;
@@ -104,7 +104,7 @@
 					for (var a=0; a < this.pack.length; a++)
 					{
 						var item = this.pack[a];
-						if ((item.isArmour()) && (item.protects == part) && (item.isEquipped))
+						if ((item.isArmour()) && (item.protects == part) && (item.isEquipped()))
 						{
 							return item;
 						}
@@ -118,7 +118,7 @@
 					for (var a=0; a < this.pack.length; a++)
 					{
 						var item = this.pack[a];
-						if ((item.isWeapon()) && (item.isEquipped))
+						if ((item.isWeapon()) && (item.isEquipped()))
 						{
 							return item;
 						}
@@ -132,12 +132,12 @@
 					if (item.isArmour())
                     {
 						this.removeArmour(item.protects);
-						item.isEquipped = true;
+						item.setEquipped(true);
                     }
                     else if (item.isWeapon())
                     {
-						this.unequip(item.type);
-						item.isEquipped = true;
+						this.unequipAllOfType(item.type);
+						item.setEquipped(true);
                     }
                     else if (item.isPotion())
                     {
@@ -153,26 +153,37 @@
 						var item = this.pack[a];
 						if ((item.isArmour()) && (item.protects == protects))
 						{
-							item.isEquipped = false;
+							item.setEquipped(false);
 						}
 				
 					}  // end for
 					
 				},
 
-				unequip: function(type)
+				unequipAllOfType: function(type)
 				{
 					for (var a=0; a < this.pack.length; a++)
 					{
 						var item = this.pack[a];
 						if (item.type == type)
 						{
-							item.isEquipped = false;
+							item.setEquipped(false);
 						}
 				
 					}  // end for
 					
 				},
+
+                unequipItem: function(item)
+                {
+                    for (var i=0; i < this.pack.length; i++)
+                    {
+                        if (this.pack[i] == item)
+                        {
+                            this.pack[i].setEquipped(false);
+                        }
+                    }
+                },
 
 				quaff: function(potion)
 				{

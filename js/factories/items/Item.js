@@ -16,7 +16,7 @@
                 this.amount = item.amount == null ? 1 : item.amount;
                 this.frequency = item.frequency == null ? 1 : item.frequency;
                 this.protects = item.protects;
-                this.isEquipped = false;
+                this.setEquipped(false);
 	
             };
 
@@ -131,6 +131,16 @@
                         this.use = null
                     }
 
+                },
+
+                isEquipped: function()
+                {
+                    return this.equipped;
+                },
+
+                setEquipped: function(isEquipped)
+                {
+                    this.equipped = isEquipped;
                 }
 
 		    };  // prototype

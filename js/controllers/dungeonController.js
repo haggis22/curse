@@ -98,6 +98,20 @@
 
             };
 
+            $scope.useItem = function(creature, item) {
+
+                if (item.isEquipped())
+                {
+                    creature.unequipItem(item);
+                }
+                else
+                {
+                    creature.useItem(item);
+                }
+
+            };
+
+
 		
 		}
 	]);			
