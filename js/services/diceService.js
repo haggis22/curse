@@ -9,6 +9,10 @@
 				return Math.round(Math.random() * (max-min)) + min;
 			};
 
+            this.rollDecimalDie = function(min, max) { 
+                return (Math.random() * (max-min)) + min;
+            };
+
 			this.averageDie = function(min, max) {
                 var firstHalf = (max - min) / 2;
                 return this.rollDie(min, min+firstHalf) + this.rollDie(0, max - min - firstHalf);
