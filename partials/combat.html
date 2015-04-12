@@ -26,7 +26,7 @@
                 <div style="margin-top: 10px;" ng-show="currentMonster.hasAnything()">
                     Carrying
                     <ul>
-                        <li ng-repeat="item in currentMonster.pack"><span ng-class="{ 'equipped' : item.isEquipped }">{{ item.getName(false) }}</span></li>
+                        <li ng-repeat="item in currentMonster.pack"><span ng-class="{ 'equipped' : item.isEquipped() }">{{ item.getName(false) }}</span></li>
                     </ul>
                 </div>
             </div>
