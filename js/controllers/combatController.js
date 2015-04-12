@@ -8,6 +8,7 @@
 			$scope.playerService = playerService;
 			$scope.gameService = gameService;
             $scope.room = mapService.currentRoom;
+            $scope.spellService = spellService;
 			
             if (!playerService.hasPlayers())
 			{

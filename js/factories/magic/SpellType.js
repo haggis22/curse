@@ -9,7 +9,7 @@
 			function SpellType(spell) {
 
                 this.type = spell.type;
-                this.name = spell.name;
+                this.incantation = spell.incantation;
                 this.targeted = spell.targeted;
                 this.power = spell.power;
                 this.castingTime = spell.castingTime;
@@ -42,6 +42,10 @@
 
                 getType: function() {
                     return this.type;
+                },
+
+                getIncantation: function() {
+                    return this.incantation;
                 }
 
             };

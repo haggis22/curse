@@ -23,7 +23,11 @@
 
             Spell.prototype.getIntentDescription = function()
             {
-                return this.getActor().getName(true) + ' will cast ' + this.spellType.name;
+                var msg = this.getActor().getName(true) + ' will cast ' + this.spellType.getIncantation();
+                if (this.getTarget() != null) {
+                    msg += ' on ' + this.getTarget().getName(true);
+                }
+                return msg;
             };
 
             Spell.prototype.calculateSpeed = function() {
@@ -61,7 +65,7 @@
                 {
                     // not enough power left to cast the spell - reset their power to 0
                     this.actor.power = 0;
-                    var description = this.actor.getName(true) + ' tried to cast ' + this.spellType.name + ', but the spell fizzled...';
+                    var description = this.actor.getName(true) + ' tried to cast ' + this.spellType.getIncantation + ', but the spell fizzled...';
 
                     return [ description ];
                 }
@@ -87,7 +91,7 @@
 
                 // TODO: target magic resistance?
 
-                var description = this.actor.getName(true) + ' cast ' + this.spellType.name + ' on ' + this.target.getName(true) + ' for ' + damage + ' damage!';
+                var description = this.actor.getName(true) + ' cast ' + this.spellType.getIncantation() + ' on ' + this.target.getName(true) + ' for ' + damage + ' damage!';
 
                 actions.push(description);
 			

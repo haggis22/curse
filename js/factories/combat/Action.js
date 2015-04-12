@@ -25,6 +25,11 @@
                     return this.actor;
                 },
 
+                getTarget: function()
+                {
+                    return this.target;
+                },
+
                 getRelevantSkills: function() 
                 {
                     return this.relevantSkills;

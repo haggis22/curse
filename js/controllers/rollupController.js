@@ -23,7 +23,8 @@
 			{
 				return diceService.rollDie(3,8) + diceService.rollDie(3,8) + diceService.rollDie(3,8);
 			};
-			
+
+	
 			$scope.rollCharacter = function(player)
 			{
 				player.str = $scope.rollStat();
@@ -42,6 +43,11 @@
                 player.adjustSkill(SkillType.prototype.ID_FAITH, diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
 
                 player.power = player.maxPower = player.getSkillLevel(SkillType.prototype.ID_MAGIC);
+
+                player.clearSpells();
+
+                player.addKnownSpell('missile');
+                player.addKnownSpell('fireball');
 
 
 			}

@@ -33,6 +33,8 @@
                 this.useWeapons = creature.useWeapons == null ? true : creature.useWeapons;
                 this.useArmour = creature.useArmour == null ? true : creature.useArmour;
 
+                this.spells = [];
+
 			};
 			
 			Creature.prototype = {
@@ -285,8 +287,32 @@
                 hasSpecialAttacks: function()
                 {
                     return ((this.attacks != null) && (this.attacks.length > 0));
-                }
+                },
 
+                getKnownSpells: function() {
+                    return this.spells;
+                },
+
+                knowsSpells: function() {
+                    return this.spells.length > 0;
+                },
+
+                addKnownSpell: function(spellName) {
+                    for (var s=0; s < this.spells.length; s++)
+                    {
+                        if (this.spells[s] == spellName)
+                        {
+                            // already know the spell, nothing to do
+                            return;
+                        }
+                    }
+
+                    this.spells.push(spellName);
+                },
+
+                clearSpells: function() {
+                    this.spells.length = 0;
+                }
 
 			};  // prototype
 
