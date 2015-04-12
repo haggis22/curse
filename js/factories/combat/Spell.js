@@ -48,6 +48,12 @@
 
             Spell.prototype.perform = function()
             {
+                if (!this.getActor().isAlive())
+                {   
+                    // the would-b spellcaster is dead. Nothing to do here.
+                    return;
+                }
+
                 // reduce the spellcaster's power by the spell's amount - if they don't have enough then the spell fizzles...
                 this.actor.power = this.actor.power - this.spellType.power;
 
@@ -77,7 +83,7 @@
 
                 var relevant = this.getRelevantSkills();
 
-                var damage = Math.round(this.actor.getSkillLevel(SkillType.prototype.ID_MAGIC) * diceService.rollDie(this.spellType.damage.min, this.spellType.damage.max));
+                var damage = Math.round(this.actor.getSkillLevel(SkillType.prototype.ID_MAGIC) * diceService.rollDecimalDie(this.spellType.damage.min, this.spellType.damage.max));
 
                 // TODO: target magic resistance?
 
