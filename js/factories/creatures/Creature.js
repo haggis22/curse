@@ -329,7 +329,7 @@
 					    if (armour != null)
 					    {
 						    response.damage = Math.min(damage, armour.damage);
-                            response.descriptions.push(this.getPossessive() + ' ' + armour.name + ' absorbed ' + absorbed + ' of the damage');
+                            response.descriptions.push(this.getPossessive() + ' ' + armour.name + ' absorbed ' + response.damage + ' of the damage');
                         }
                     }
 
