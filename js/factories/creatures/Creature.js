@@ -2,9 +2,9 @@
 
 (function(app) {
 
-	app.factory('Creature', ['Sex', 'BodyShape', 'Skill',
+	app.factory('Creature', ['Sex', 'BodyShape', 'Skill', 'AttackType',
 
-		function(Sex, BodyShape, Skill) {
+		function(Sex, BodyShape, Skill, AttackType) {
 
 			function Creature(creature) {
                 
@@ -312,7 +312,31 @@
 
                 clearSpells: function() {
                     this.spells.length = 0;
-                }
+                },
+
+                getProtection: function(attackType, damage, bodyPart)
+                {
+                    var response = 
+                    {
+                        damage: 0,
+                        descriptions: []
+                    }
+
+                    if (AttackType.prototype.isPhysical(attackType))
+                    {
+					    var armour = this.checkArmour(bodyPart.name);
+
+					    if (armour != null)
+					    {
+						    response.damage = Math.min(damage, armour.damage);
+                            response.descriptions.push(this.getPossessive() + ' ' + armour.name + ' absorbed ' + absorbed + ' of the damage');
+                        }
+                    }
+
+                    return response;
+
+                }  // getProtection
+
 
 			};  // prototype
 

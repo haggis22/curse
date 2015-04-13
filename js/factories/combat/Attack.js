@@ -38,6 +38,11 @@
                 return this.target;
             }
 
+            Attack.prototype.getType = function()
+            {
+                return this.type;
+            };
+
             Attack.prototype.getIntentDescription = function()
             {
                 return this.getActor().getName(true) + ' will attack ' + this.getTarget().getName(true);
@@ -99,7 +104,7 @@
 
                     var description = '';
 
-                    switch (this.type)
+                    switch (this.getType())
 	                {
 		                case AttackType.prototype.WEAPON:
                             description = this.actor.getName(true) + ' hit ' + this.target.getName(true) + ' in the ' + bodyPart.name + ' with ';
@@ -118,16 +123,15 @@
 		
 	                } 
 					
-					var armour = this.target.checkArmour !== undefined ? this.target.checkArmour(bodyPart.name) : null;
+                    var protection = this.getTarget().getProtection(this.getType(), damage, bodyPart);
+                    damage = Math.max(damage - protection.damage, 0);
+                    
+                    // add any description of protection there might have been
+                    for (var p=0; p < protection.descriptions.length; p++)
+                    {
+                        actions.push(protection.descriptions[p]);
+                    }
 
-					if (armour != null)
-					{
-						var absorbed = Math.min(damage, armour.damage);
-						
-						actions.push(this.target.getPossessive() + ' ' + armour.name + ' absorbed ' + absorbed + ' of the damage');
-						damage = Math.max(damage - absorbed, 0);
-					}
-			
 					// Math.max will ensure the health can't go below zero. Negative health would just look weird
 					this.target.health = Math.max(0, this.target.health - damage);
 					

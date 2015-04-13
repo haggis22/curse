@@ -25,7 +25,23 @@
             {
                 WEAPON: 1,
                 BITE: 2,
-                CLAW: 3
+                CLAW: 3,
+                MAGIC: 4,
+                PSIONIC: 5,
+
+                isPhysical: function(attackType)
+                {
+                    switch (attackType)
+                    {   
+                        case AttackType.prototype.WEAPON:
+                        case AttackType.prototype.BITE:
+                        case AttackType.prototype.CLAW:
+                            return true;
+                    }
+
+                    return false;
+                }
+                
             };
 
 		    return (AttackType);
