@@ -2,9 +2,9 @@
 
 (function(app) {
 
-	app.factory('Creature', ['Sex', 'BodyShape', 'Skill', 'AttackType',
+	app.factory('Creature', ['Sex', 'BodyShape', 'Skill', 'AttackType', 'diceService',
 
-		function(Sex, BodyShape, Skill, AttackType) {
+		function(Sex, BodyShape, Skill, AttackType, diceService) {
 
 			function Creature(creature) {
                 
@@ -141,6 +141,11 @@
 						this.unequipAllOfType(item.type);
 						item.setEquipped(true);
                     }
+                    else if (item.isShield())
+                    {
+                        this.removeShield();
+                        item.setEquipped(true);
+                    }
                     else if (item.isPotion())
                     {
 						this.quaff(item);
@@ -154,6 +159,20 @@
 					{
 						var item = this.pack[a];
 						if ((item.isArmour()) && (item.protects == protects))
+						{
+							item.setEquipped(false);
+						}
+				
+					}  // end for
+					
+				},
+
+				removeShield: function()
+				{
+					for (var a=0; a < this.pack.length; a++)
+					{
+						var item = this.pack[a];
+						if (item.isShield())
 						{
 							item.setEquipped(false);
 						}
@@ -328,7 +347,18 @@
 
 					    if (armour != null)
 					    {
-						    response.damage = Math.min(damage, armour.damage);
+                            var blocked = 0;
+
+                            if (typeof armour.damage === 'number')
+                            {
+                                blocked = armour.damage;
+                            }
+                            else
+                            {
+                                blocked = diceService.rollDie(armour.damage.min, armour.damage.max);
+                            }
+
+						    response.damage = Math.min(damage, blocked);
                             response.descriptions.push(this.getPossessive() + ' ' + armour.name + ' absorbed ' + response.damage + ' of the damage');
                         }
                     }

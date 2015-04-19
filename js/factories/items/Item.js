@@ -2,16 +2,23 @@
 
 (function (app) {
 
-    app.factory('Item', ['BodyShape',
+    app.factory('Item', ['BodyShape', 'diceService',
 
-		function (BodyShape) {
+		function (BodyShape, diceService) {
 
             function Item(item) {
 
                 this.type = item.type;
                 this.name = item.name;
                 this.article = item.article == null ? 'a' : item.article;
-                this.damage = item.damage;
+                if (typeof item.damage === 'number')
+                {
+                    this.damage = { min: item.damage, max: item.damage };
+                }
+                else 
+                {
+                    this.damage = item.damage;
+                }
                 this.use = item.use;
                 this.amount = item.amount == null ? 1 : item.amount;
                 this.frequency = item.frequency == null ? 1 : item.frequency;
@@ -68,6 +75,11 @@
                     return this.type == this.ARMOUR;
                 },
 
+                isShield: function()
+                {
+                    return this.type == this.SHIELD;
+                },
+
                 isPotion : function()
                 {
                     return this.type == this.POTION;
@@ -117,7 +129,7 @@
                     switch (this.use)
 					{
 						case Item.prototype.USE_HEAL:
-                            var cure = quaffer.heal(this.damage);
+                            var cure = quaffer.heal(diceService.rollDie(this.damage.min, this.damage.max));
 							// gameService.actions.push('The potion cured you of ' + cure + ' damage');
 							break;
 							

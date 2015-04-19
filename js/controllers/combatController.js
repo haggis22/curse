@@ -118,25 +118,30 @@
 
             $scope.addAttack = function(attacker, target)
             {
+                var minDamage = 1;
+                var maxDamage = attacker.str / 5;
+
                 var weapon = attacker.checkWeapon();
                 if (weapon == null)
                 {
-                    weapon = new Item({ name: 'fist', article: 'a', damage: 0 });
+                    weapon = new Item({ name: 'fist', article: 'a' });
                 }
-                        
-                var damage = diceService.rollDie(1, Math.max(1, (attacker.str / 5))) + weapon.damage;
+                else
+                {
+                    minDamage += weapon.damage.min;
+                    maxDamage += weapon.damage.max;
+                }
 
-                var attack = new Attack({ actor: attacker, type: AttackType.prototype.WEAPON, target: target, damage: damage, weapon: weapon });
+                var attack = new Attack({ actor: attacker, type: AttackType.prototype.WEAPON, target: target, damage: { min: minDamage, max: maxDamage }, weapon: weapon });
                 $scope.combatActions.push(attack);
 
             };
 
             $scope.addMonsterAttack = function(monster, target, attack)
             {
-                var damage = diceService.rollDie(attack.damage.min, attack.damage.max);
                 var weapon = new Item({ name: attack.weaponName, damage: 0, article: 'a' });
 
-                var attack = new Attack({ actor: monster, type: attack.type, target: target, damage: damage, weapon: weapon });
+                var attack = new Attack({ actor: monster, type: attack.type, target: target, damage: attack.damage, weapon: weapon });
                 $scope.combatActions.push(attack);
 
             };
