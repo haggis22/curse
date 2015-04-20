@@ -59,6 +59,11 @@
                     return this.pack.length > 0;
                 },
 
+                getItems: function()
+                {
+                    return this.pack;
+                },
+
 				addItem: function(item)
 				{
 					switch (item.type)
@@ -95,7 +100,7 @@
                     }
 
                     // make sure it's not equipped any more
-                    item.setEquipped(false);
+                    item.equipped = false;
 
                     this.pack = remainingItems;
                     return item;
@@ -106,7 +111,7 @@
 					for (var a=0; a < this.pack.length; a++)
 					{
 						var item = this.pack[a];
-						if ((item.isArmour()) && (item.protects == part) && (item.isEquipped()))
+						if ((item.isArmour) && (item.protects == part) && (item.equipped))
 						{
 							return item;
 						}
@@ -120,7 +125,7 @@
 					for (var a=0; a < this.pack.length; a++)
 					{
 						var item = this.pack[a];
-						if ((item.isWeapon()) && (item.isEquipped()))
+						if ((item.isWeapon) && (item.equipped))
 						{
 							return item;
 						}
@@ -131,53 +136,10 @@
 
 				useItem: function(item)
 				{
-					if (item.isArmour())
+                    if (typeof item.use === 'function')
                     {
-						this.removeArmour(item.protects);
-						item.setEquipped(true);
+                        item.use(this);
                     }
-                    else if (item.isWeapon())
-                    {
-						this.unequipAllOfType(item.type);
-						item.setEquipped(true);
-                    }
-                    else if (item.isShield())
-                    {
-                        this.removeShield();
-                        item.setEquipped(true);
-                    }
-                    else if (item.isPotion())
-                    {
-						this.quaff(item);
-                    }
-					
-				},
-
-				removeArmour: function(protects)
-				{
-					for (var a=0; a < this.pack.length; a++)
-					{
-						var item = this.pack[a];
-						if ((item.isArmour()) && (item.protects == protects))
-						{
-							item.setEquipped(false);
-						}
-				
-					}  // end for
-					
-				},
-
-				removeShield: function()
-				{
-					for (var a=0; a < this.pack.length; a++)
-					{
-						var item = this.pack[a];
-						if (item.isShield())
-						{
-							item.setEquipped(false);
-						}
-				
-					}  // end for
 					
 				},
 
@@ -188,7 +150,7 @@
 						var item = this.pack[a];
 						if (item.type == type)
 						{
-							item.setEquipped(false);
+							item.equipped = false;
 						}
 				
 					}  // end for
@@ -201,15 +163,10 @@
                     {
                         if (this.pack[i] == item)
                         {
-                            this.pack[i].setEquipped(false);
+                            this.pack[i].equipped = false;
                         }
                     }
                 },
-
-				quaff: function(potion)
-				{
-					potion.quaff(this);
-				},
 
                 countGold: function()
                 {
@@ -347,16 +304,7 @@
 
 					    if (armour != null)
 					    {
-                            var blocked = 0;
-
-                            if (typeof armour.damage === 'number')
-                            {
-                                blocked = armour.damage;
-                            }
-                            else
-                            {
-                                blocked = diceService.rollDie(armour.damage.min, armour.damage.max);
-                            }
+                            var blocked = armour.getProtection();
 
 						    response.damage = Math.min(damage, blocked);
                             response.descriptions.push(this.getPossessive() + ' ' + armour.name + ' absorbed ' + response.damage + ' of the damage');

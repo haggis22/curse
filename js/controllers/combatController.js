@@ -2,8 +2,8 @@
 
 (function(app) {
 
-	app.controller('combatController', ['$scope', '$state', 'gameService', 'playerService', 'mapService', 'diceService', 'Sex', 'Action', 'AttackType', 'Attack', 'Item', 'spellService', 'Spell',
-		function($scope, $state, gameService, playerService, mapService, diceService, Sex, Action, AttackType, Attack, Item, spellService, Spell) {
+	app.controller('combatController', ['$scope', '$state', 'gameService', 'playerService', 'mapService', 'diceService', 'Sex', 'Action', 'AttackType', 'Attack', 'Item', 'spellService', 'Spell', 'Weapon',
+		function($scope, $state, gameService, playerService, mapService, diceService, Sex, Action, AttackType, Attack, Item, spellService, Spell, Weapon) {
 			
 			$scope.playerService = playerService;
 			$scope.gameService = gameService;
@@ -139,7 +139,7 @@
 
             $scope.addMonsterAttack = function(monster, target, attack)
             {
-                var weapon = new Item({ name: attack.weaponName, damage: 0, article: 'a' });
+                var weapon = new Weapon({ name: attack.weaponName, damage: 0, article: 'a' });
 
                 var attack = new Attack({ actor: monster, type: attack.type, target: target, damage: attack.damage, weapon: weapon });
                 $scope.combatActions.push(attack);

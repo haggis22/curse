@@ -100,7 +100,7 @@
 
             $scope.useItem = function(creature, item) {
 
-                if (item.isEquipped())
+                if (item.equipped)
                 {
                     creature.unequipItem(item);
                 }

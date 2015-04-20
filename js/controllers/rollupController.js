@@ -2,8 +2,8 @@
 
 (function(app) {
 
-	app.controller('rollupController', ['$scope', '$state', 'playerService', 'diceService', 'Sex', 'Item', 'SkillType', 'Skill', 
-		function($scope, $state, playerService, diceService, Sex, Item, SkillType, Skill) {
+	app.controller('rollupController', ['$scope', '$state', 'playerService', 'diceService', 'Sex', 'Item', 'SkillType', 'Skill', 'Weapon', 'Shield', 'Potion',
+		function($scope, $state, playerService, diceService, Sex, Item, SkillType, Skill, Weapon, Shield, Potion) {
 			
             $scope.Math = window.Math;
 
@@ -12,11 +12,11 @@
             $scope.player.name = 'Zogarth';
             
             // give him some basics to start out
-			$scope.player.addItem(new Item({ type: Item.prototype.WEAPON, name: 'dirk', damage: { min: 2, max: 3} }));
-            $scope.player.addItem(new Item({ type: Item.prototype.POTION, name: 'healing potion', damage: { min: 2, max: 4 }, use: Item.prototype.USE_HEAL }));
-            $scope.player.addItem(new Item({ type: Item.prototype.POTION, name: 'healing potion', damage: { min: 2, max: 4 }, use: Item.prototype.USE_HEAL }));
-            $scope.player.addItem(new Item({ type: Item.prototype.POTION, name: 'healing potion', damage: { min: 2, max: 4 }, use: Item.prototype.USE_HEAL }));
-			$scope.player.addItem(new Item({ type: Item.prototype.SHIELD, name: 'crappy shield', damage: { min: 1, max: 3 } }));
+			$scope.player.addItem(new Weapon({ name: 'dirk', damage: { min: 2, max: 3} }));
+            $scope.player.addItem(new Potion({ name: 'healing potion', effects: { type: Potion.prototype.EFFECTS_HEAL, damage: { min: 2, max: 4 } }, amount: 1 }));
+            $scope.player.addItem(new Potion({ name: 'healing potion', effects: { type: Potion.prototype.EFFECTS_HEAL, damage: { min: 2, max: 4 } }, amount: 1 }));
+            $scope.player.addItem(new Potion({ name: 'healing potion', effects: { type: Potion.prototype.EFFECTS_HEAL, damage: { min: 2, max: 4 } }, amount: 1 }));
+			$scope.player.addItem(new Shield({ name: 'buckler', damage: { min: 1, max: 2 } }));
 
             $scope.Sex = Sex;
 

@@ -118,7 +118,7 @@
 		
 		                case AttackType.prototype.BITE: 
 		                case AttackType.prototype.CLAW: 
-                            actions.push(this.actor.getName(true) + ' ' + this.weapon.getName() + ' ' + this.target.getName(true) + ' in the ' + bodyPart.name + ' for ' + damage + ' damage!');
+                            actions.push(this.actor.getName(true) + ' ' + this.weapon.getName(null) + ' ' + this.target.getName(true) + ' in the ' + bodyPart.name + ' for ' + damage + ' damage!');
                             break;
 		
 	                } 

@@ -69,7 +69,7 @@
 			    <div>
 				    <ul>
 					    <li ng-repeat="item in player.pack" ng-hide="item.isGold()">
-                            <span class="item" ng-click="useItem(player, item)" ng-class="{ 'equipped' : item.isEquipped() }">{{ item.getName(null) }}</span>
+                            <span class="item" ng-click="useItem(player, item)" ng-class="{ 'equipped' : item.equipped }">{{ item.getName(null) }}</span>
                             <span class="droppable" ng-click="dropItem(player, item)">[X]</span>
                         </li>
 				    </ul>

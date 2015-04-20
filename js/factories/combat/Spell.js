@@ -19,8 +19,6 @@
 
 			Spell.prototype = Object.create(Action.prototype);
 
-            Spell.prototype.constructor = Spell;
-
             Spell.prototype.getIntentDescription = function()
             {
                 var msg = this.getActor().getName(true) + ' will cast ' + this.spellType.getIncantation();
