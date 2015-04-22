@@ -54,13 +54,15 @@
     <Content Include="js\app.js" />
     <Content Include="js\directives\enter-action.js" />
     <Content Include="js\directives\focus-me.js" />
-    <Content Include="js\factories\combat\Action.js" />
+    <Content Include="js\factories\actions\Action.js" />
     <Content Include="js\controllers\combatController.js" />
     <Content Include="js\controllers\monsterController.js" />
     <Content Include="js\controllers\dungeonController.js" />
     <Content Include="js\controllers\rollupController.js" />
-    <Content Include="js\factories\combat\Attack.js" />
+    <Content Include="js\factories\actions\Attack.js" />
     <Content Include="js\factories\combat\AttackType.js" />
+    <Content Include="js\factories\combat\BiteAttack.js" />
+    <Content Include="js\factories\combat\WeaponAttack.js" />
     <Content Include="js\factories\creatures\BodyPart.js" />
     <Content Include="js\factories\creatures\BodyShape.js" />
     <Content Include="js\factories\creatures\MonsterType.js" />
@@ -73,7 +75,7 @@
     <Content Include="js\factories\creatures\Sex.js" />
     <Content Include="js\factories\creatures\Monster.js" />
     <Content Include="js\factories\creatures\Player.js" />
-    <Content Include="js\factories\combat\Spell.js" />
+    <Content Include="js\factories\actions\Spell.js" />
     <Content Include="js\factories\magic\SpellType.js" />
     <Content Include="js\factories\maps\Direction.js" />
     <Content Include="js\factories\maps\Exit.js" />
