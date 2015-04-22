@@ -20,7 +20,7 @@
 				'B' : [
 						// B is weapons and armour
                         new Weapon({ name: 'broadsword', damage: 4 }),
-                        new Weapon({ Weaponname: 'mace', damage: 3 }),
+                        new Weapon({ name: 'mace', damage: 3 }),
                         new Armour({ name: 'breastplate', damage: 3, protects: BodyPart.prototype.TORSO }),
                         new Armour({ name: 'helm', damage: 3, protects: BodyPart.prototype.HEAD })
 					  ],
