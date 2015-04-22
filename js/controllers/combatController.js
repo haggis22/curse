@@ -2,8 +2,8 @@
 
 (function(app) {
 
-	app.controller('combatController', ['$scope', '$state', 'gameService', 'playerService', 'mapService', 'diceService', 'Sex', 'Action', 'AttackType', 'Attack', 'Item', 'spellService', 'Spell', 'Weapon',
-		function($scope, $state, gameService, playerService, mapService, diceService, Sex, Action, AttackType, Attack, Item, spellService, Spell, Weapon) {
+	app.controller('combatController', ['$scope', '$state', 'gameService', 'playerService', 'mapService', 'diceService', 'Sex', 'Action', 'Attack', 'WeaponAttack', 'spellService', 'Spell', 'Weapon',
+		function($scope, $state, gameService, playerService, mapService, diceService, Sex, Action, Attack, WeaponAttack, spellService, Spell, Weapon) {
 			
 			$scope.playerService = playerService;
 			$scope.gameService = gameService;
@@ -77,9 +77,9 @@
 				}
 
                 // determine the order of actions by sorting each action's speed in DESCENDING order (higher numbers are better)
-                $scope.combatActions.sort(function(a, b) { return b.getSpeed() - a.getSpeed() });
+                $scope.combatActions.sort(function(a, b) { return b.speed - a.speed });
 
-                // sort in DESCENDING order, so higher dex rolls go first
+                // sort in DESCENDING order - the higher the speed, the faster the action
                 $scope.combatActions.sort(function(a,b) { return b.speed - a.speed });
 
 				$scope.gameService.clearPlays();
@@ -105,7 +105,7 @@
 				var newActions = [];
 				for (var a=0; a < $scope.combatActions.length; a++)
 				{
-					if (!$scope.combatActions[a].getActor() == player)
+					if (!$scope.combatActions[a].actor == player)
 					{
 						newActions.push($scope.combatActions[a]);
 					}
@@ -118,33 +118,23 @@
 
             $scope.addAttack = function(attacker, target)
             {
-                var minDamage = 1;
-                var maxDamage = attacker.str / 5;
-
                 var weapon = attacker.checkWeapon();
                 if (weapon == null)
                 {
-                    weapon = new Item({ name: 'fist', article: 'a' });
-                }
-                else
-                {
-                    minDamage += weapon.damage.min;
-                    maxDamage += weapon.damage.max;
+                    weapon = new Weapon({ name: 'fist', article: 'a', damage: { min: 1, max: attacker.str / 5 } });
                 }
 
-                var attack = new Attack({ actor: attacker, type: AttackType.prototype.WEAPON, target: target, damage: { min: minDamage, max: maxDamage }, weapon: weapon });
+                var attack = new Attack({ actor: attacker, target: target, type: new WeaponAttack({ weapon: weapon }) });
                 $scope.combatActions.push(attack);
 
             };
 
-            $scope.addMonsterAttack = function(monster, target, attack)
+            $scope.addMonsterAttack = function(monster, target, type)
             {
-                var weapon = new Weapon({ name: attack.weaponName, damage: 0, article: 'a' });
-
-                var attack = new Attack({ actor: monster, type: attack.type, target: target, damage: attack.damage, weapon: weapon });
+                var attack = new Attack({ actor: monster, target: target, type: type });
                 $scope.combatActions.push(attack);
-
             };
+
 
             $scope.addSpell = function(spell)
             {

@@ -8,49 +8,32 @@
 
 		    function Attack(attack) 
             {
-                // start a player with a blank name and all defaults
+                // Create an action based on the actor
                 Action.call(this, attack);
 
-                this.type = attack.type == null ? Attack.prototype.WEAPON : attack.type;
+                this.isPhysicalAttack = true;
 
-                if (typeof attack.damage === 'number')
-                {
-                    this.damage = { min: attack.damage, max: attack.damage };
-                }
-                else
-                {
-                    this.damage = attack.damage;
-                }
-
-                this.weapon = attack.weapon == null ? 'fist' : attack.weapon;
+                this.target = attack.target;
+                this.type = attack.type;
 
                 this.addRelevantSkill(SkillType.prototype.ID_MELEE);
                 this.calculateSpeed();
+
+                this.damage = 0;
+                this.bodyPart = null;
 
 		    };
 
 			Attack.prototype = Object.create(Action.prototype);
 
-            Attack.prototype.constructor = Attack;
-
-            Attack.prototype.getTarget = function()
-            {
-                return this.target;
-            }
-
-            Attack.prototype.getType = function()
-            {
-                return this.type;
-            };
-
             Attack.prototype.getIntentDescription = function()
             {
-                return this.getActor().getName(true) + ' will attack ' + this.getTarget().getName(true);
+                return this.actor.getName(true) + ' will attack ' + this.target.getName(true);
             };
 
             Attack.prototype.isStillRequired = function()
             {
-                return this.getActor().isAlive() && this.getTarget().isAlive();
+                return this.actor.isAlive() && this.target.isAlive();
             };
 
             Attack.prototype.calculateSpeed = function() {
@@ -92,39 +75,28 @@
                     toHit -= this.target.getSkillLevel(relevant[r]);
                 }
 
-				var roll = diceService.rollDie(1, 100);
+				// TODO: include skills for weapon, if relevant
+
+                var roll = diceService.rollDie(1, 100);
                 console.log('actor: ' + this.actor.getName(null) + ', target: ' + this.target.getName(null) + ', toHit: ' + toHit + ', roll: ' + roll);
-				if (roll <= toHit)
+				
+                if (roll <= toHit)
 				{
-                    var damage = diceService.rollDie(this.damage.min, this.damage.max);
+                    var damageRange = this.type.getDamage();
 
-                    var bodyPart = diceService.randomElement(this.target.bodyShape.parts);
+                    this.damage = diceService.rollDie(damageRange.min, damageRange.max);
 
-                    damage = Math.round(damage * bodyPart.damageFactor);
+                    this.bodyPart = diceService.randomElement(this.target.bodyShape.parts);
 
-                    var description = '';
+                    // TODO: Should any armour protection happen BEFORE the damageFactor is calculated?
+                    this.damage = Math.round(this.damage * this.bodyPart.damageFactor);
 
-                    switch (this.getType())
-	                {
-		                case AttackType.prototype.WEAPON:
-                            description = this.actor.getName(true) + ' hit ' + this.target.getName(true) + ' in the ' + bodyPart.name + ' with ';
-                            if (this.weapon.article != '')
-                            {
-                                description += this.actor.getPossessive() + ' ';
-                            }
-                            description += this.weapon.getName()  + ' for ' + damage + ' damage!';
-                            actions.push(description);
-                            break;
-		
-		                case AttackType.prototype.BITE: 
-		                case AttackType.prototype.CLAW: 
-                            actions.push(this.actor.getName(true) + ' ' + this.weapon.getName(null) + ' ' + this.target.getName(true) + ' in the ' + bodyPart.name + ' for ' + damage + ' damage!');
-                            break;
-		
-	                } 
-					
-                    var protection = this.getTarget().getProtection(this.getType(), damage, bodyPart);
-                    damage = Math.max(damage - protection.damage, 0);
+                    // the attack type knows best how to describe the attack in text form
+                    actions.push(this.type.getDescription(this));
+
+                    var protection = this.target.getProtection(this);
+
+                    this.damage = Math.max(this.damage - protection.blocked, 0);
                     
                     // add any description of protection there might have been
                     for (var p=0; p < protection.descriptions.length; p++)
@@ -132,9 +104,14 @@
                         actions.push(protection.descriptions[p]);
                     }
 
-					// Math.max will ensure the health can't go below zero. Negative health would just look weird
-					this.target.health = Math.max(0, this.target.health - damage);
-					
+					this.target.health -= this.damage;
+
+                    if (this.target.health < 0)
+                    {
+                        // Negative health would just look weird
+                        this.target.health = 0;
+                    }
+
 					if (!this.target.isAlive())
 					{
 						actions.push(this.actor.getName(true) + (this.target.isUndead ? ' destroyed ' : ' killed ') + this.target.getName(true) + '!');

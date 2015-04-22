@@ -304,7 +304,7 @@
                     this.spells.length = 0;
                 },
 
-                getProtection: function(attackType, damage, bodyPart)
+                getProtection: function(attack)
                 {
                     var response = 
                     {
@@ -312,7 +312,7 @@
                         descriptions: []
                     }
 
-                    if (AttackType.prototype.isPhysical(attackType))
+                    if (attack.isPhysicalAttack)
                     {
                         var shield = this.checkShield();
                         if (shield != null)
@@ -320,19 +320,18 @@
 
                         }
 
-                        var armour = this.checkArmour(bodyPart.name);
+                        var armour = this.checkArmour(attack.bodyPart.name);
 
 					    if (armour != null)
 					    {
+                            // TODO: limited blocked to the remaining amount of damage
                             response.blocked += armour.getProtection();
-                            response.descriptions.push(this.getPossessive() + ' ' + armour.name + ' absorbed ' + response.damage + ' of the damage');
-
+                            response.descriptions.push(this.getPossessive() + ' ' + armour.name + ' absorbed ' + response.blocked + ' of the damage');
                         }
-
 
                     }
 
-                    response.blocked = Math.min(damage, response.blocked);
+                    response.blocked = Math.min(attack.damage, response.blocked);
 
                     return response;
 
@@ -340,8 +339,6 @@
 
 
 			};  // prototype
-
-            Creature.prototype.constructor = Creature;
 
 			return (Creature);
 
