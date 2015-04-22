@@ -56,7 +56,7 @@
 
             Shield.prototype.isEquippableBy = function(creature)
             {
-                return creature.isShape([BodyShape.prototype.HUMANOID, BodyShape.prototype.WINGED_HUMANOID]) && creature.useArmour;
+                return creature.isShape([BodyShape.prototype.HUMANOID, BodyShape.prototype.WINGED_HUMANOID]) && creature.useWeapons;
             }
             
     	    return (Shield);

@@ -43,7 +43,7 @@
 
             Weapon.prototype.isEquippableBy = function(creature)
             {
-                return creature.isShape([BodyShape.prototype.HUMANOID, BodyShape.prototype.WINGED_HUMANOID]) && creature.useWeapon;
+                return creature.isShape([BodyShape.prototype.HUMANOID, BodyShape.prototype.WINGED_HUMANOID]) && creature.useWeapons;
             }
             
     	    return (Weapon);

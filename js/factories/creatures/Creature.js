@@ -120,6 +120,20 @@
 					return null;
 				},
 
+                checkShield: function()
+                {
+                    for (var a=0; a < this.pack.length; a++)
+                    {
+                        var item = this.pack[a];
+                        if ((item.isShield) && (item.equipped))
+                        {
+                            return item;
+                        }
+                    }
+
+                    return null;
+                },
+
 				checkWeapon: function()
 				{
 					for (var a=0; a < this.pack.length; a++)
@@ -294,22 +308,31 @@
                 {
                     var response = 
                     {
-                        damage: 0,
+                        blocked: 0,
                         descriptions: []
                     }
 
                     if (AttackType.prototype.isPhysical(attackType))
                     {
-					    var armour = this.checkArmour(bodyPart.name);
+                        var shield = this.checkShield();
+                        if (shield != null)
+                        {
+
+                        }
+
+                        var armour = this.checkArmour(bodyPart.name);
 
 					    if (armour != null)
 					    {
-                            var blocked = armour.getProtection();
-
-						    response.damage = Math.min(damage, blocked);
+                            response.blocked += armour.getProtection();
                             response.descriptions.push(this.getPossessive() + ' ' + armour.name + ' absorbed ' + response.damage + ' of the damage');
+
                         }
+
+
                     }
+
+                    response.blocked = Math.min(damage, response.blocked);
 
                     return response;
 
