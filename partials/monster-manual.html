@@ -69,8 +69,9 @@
                     <div ng-repeat="attack in monster.attacks" style="margin-top: 10px;">
                         <span>type: </span><select ng-model="attack.type" ng-options="type.id as type.desc for type in attackTypes"></select>
                         <span>damage: </span><input type="text" ng-model="attack.damage.min" style="width: 30px; text-align: center;" /> - <input type="text" ng-model="attack.damage.max" style="width: 30px; text-align: center;" />
-                        <span>weapon: </span><input type="text" ng-model="attack.weaponName" />
+                        <span>weapon: </span><input type="text" ng-model="attack.description" />
                         <span><button type="button" ng-click="removeAttack(attack)" style="cursor: pointer;">[ - ]</button></span>
+                        <span>type: {{ attack.type }}</span>
                     </div>
                 </td>
             </tr>
@@ -118,7 +119,9 @@
                 <span ng-repeat="skill in monster.skillSet"><span ng-if="!$first">, </span>{ type: {{ skill.type.id }}, min: {{ skill.min }}, max: {{ skill.max }} }</span>
             ]</span>
             <span ng-if="monster.attacks.length > 0">, attacks: [
-                <span ng-repeat="attack in monster.attacks"><span ng-if="!$first">, </span>new AttackType({ type: {{ attack.type }}, damage: { min: {{ attack.damage.min }}, max: {{ attack.damage.max }} }, weaponName: '{{ attack.weaponName }}' })</span>
+                <span ng-repeat="attack in monster.attacks"><span ng-if="!$first">, </span>
+                <span ng-show="attack.type == 'bite'">new BiteAttack({ description: '{{ attack.description }}', damage: { min: {{ attack.damage.min }}, max: {{ attack.damage.max }} } })</span>
+                <span ng-show="attack.type == 'weapon'">new WeaponAttack({ weapon: new Weapon({ name: '{{ attack.description }}', damage: { min: {{ attack.damage.min }}, max: {{ attack.damage.max }} }) })</span>
             ]</span>
             <span ng-if="monster.treasures.length > 0">, treasure: [
                 <span ng-repeat="treasure in monster.treasures"><span ng-if="!$first">, </span>'{{ treasure.value | uppercase }}'</span>

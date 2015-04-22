@@ -8,9 +8,8 @@
 			
             $scope.attackTypes = 
             [
-                { id: 'BITE', desc: 'bite' },
-                { id: 'CLAW', desc: 'claw' },
-                { id: 'WEAPON', desc: 'weapon' }
+                { id: 'bite', desc: 'bite/claw' },
+                { id: 'weapon', desc: 'weapon' }
             ];
 
             $scope.skillTypes = 
@@ -77,7 +76,7 @@
 
             $scope.addAttack = function() {
 
-                $scope.monster.attacks.push({ type: 1, damage: { min: 0, max: 0 }, weaponName: '' });
+                $scope.monster.attacks.push({ type: 'bite', damage: { min: 0, max: 0 }, description: '' });
 
             };
 
