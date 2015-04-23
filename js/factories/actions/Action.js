@@ -11,19 +11,29 @@
 
 	            this.actor = action.actor;
 
-                this.relevantSkills = [];
+                this.skills = {};
+
                 this.speed = 0;
 
             };
 
 		    Action.prototype.getRelevantSkills = function() 
             {
-                return this.relevantSkills;
+                var skills = [];
+                for (var prop in this.skills)
+                {
+                    if (this.skills.hasOwnProperty(prop))
+                    {
+                        skills.push(this.skills[prop]);
+                    }
+                }
+
+                return skills;
             };
 
-            Action.prototype.addRelevantSkill = function(skillID)
+            Action.prototype.addRelevantSkill = function(skillName)
             {
-                this.relevantSkills.push(skillID);
+                this.skills[skillName] = skillName;
             };
 
 		    return (Action);

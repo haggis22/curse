@@ -10,6 +10,8 @@
             {
                 AttackType.call(this, bite);
 
+                this.addRelevantSkill("melee");
+
                 this.description = bite.description;
 
                 if (typeof bite.damage === 'number')

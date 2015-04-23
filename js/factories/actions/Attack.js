@@ -16,7 +16,13 @@
                 this.target = attack.target;
                 this.type = attack.type;
 
-                this.addRelevantSkill("melee");
+                // add the skills required for the given AttackType
+                var attackTypeSkills = this.type.getSkills();
+                for (var s=0; s < attackTypeSkills.length; s++)
+                {
+                    this.addRelevantSkill(attackTypeSkills[s]);
+                }
+
                 this.calculateSpeed();
 
                 this.damage = 0;
@@ -66,24 +72,47 @@
 
                 var relevant = this.getRelevantSkills();
 
+                var msg = this.actor.getName(null) + ' Attack, Target: ' + this.target.getName(null) + ', Base: 50, myDex ' + this.actor.dex + ', tgtDex: -' + this.target.dex + ',';
+
                 var toHit = 50 + this.actor.dex - this.target.dex;
                 
                 for (var r=0; r < relevant.length; r++)
                 {
+                    msg += ' my' + relevant[r] + ': ' + this.actor.getSkillLevel(relevant[r]);
+                    msg += ' tgt' + relevant[r] + ': -' + this.target.getSkillLevel(relevant[r]);
+
                     toHit += this.actor.getSkillLevel(relevant[r]);
                     toHit -= this.target.getSkillLevel(relevant[r]);
                 }
 
-				// TODO: include skills for weapon, if relevant
-
                 var roll = diceService.rollDie(1, 100);
-                console.log('actor: ' + this.actor.getName(null) + ', target: ' + this.target.getName(null) + ', toHit: ' + toHit + ', roll: ' + roll);
+
+				msg += ' toHit: ' + toHit + ', roll: ' + roll;
+
+                console.log(msg);
 				
                 if (roll <= toHit)
 				{
                     var damageRange = this.type.getDamage();
 
                     this.damage = diceService.rollDie(damageRange.min, damageRange.max);
+
+                    var damageModifier = 1;
+
+                    console.log('Damage calc for ' + this.actor.getName(null));
+
+                    for (var r=0; r < relevant.length; r++)
+                    {
+                        damageModifier += (this.actor.getSkillLevel(relevant[r]) / 100);
+                        damageModifier -= (this.target.getSkillLevel(relevant[r]) / 100);
+
+                        console.log('  Skill: ' + relevant[r] + ', Add ' + this.actor.getSkillLevel(relevant[r]) / 100);
+                        console.log('  Skill: ' + relevant[r] + ', Sub ' + this.target.getSkillLevel(relevant[r]) / 100);
+
+                    }
+
+                    console.log('BaseDamage: ' + this.damage + ', modifier: ' + damageModifier + ', damage: ' + (this.damage * damageModifier));
+                    this.damage *= damageModifier;
 
                     this.bodyPart = diceService.randomElement(this.target.bodyShape.parts);
 

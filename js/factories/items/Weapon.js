@@ -27,7 +27,8 @@
                 }
                 else
                 {
-                    weapon.skills
+                    this.skills = weapon.skills;
+                }
 
             };
 
@@ -52,6 +53,11 @@
             Weapon.prototype.isEquippableBy = function(creature)
             {
                 return creature.isShape([BodyShape.prototype.HUMANOID, BodyShape.prototype.WINGED_HUMANOID]) && creature.useWeapons;
+            }
+
+            Weapon.prototype.getSkills = function()
+            {
+                return this.skills;
             }
             
     	    return (Weapon);

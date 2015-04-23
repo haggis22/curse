@@ -12,6 +12,14 @@
 
                 this.weapon = attack.weapon;
 
+                // all weapons will have even a default empty set of skills
+                var weaponSkills = this.weapon.getSkills();
+
+                for (var s=0; s < weaponSkills.length; s++)
+                {
+                    this.addRelevantSkill(weaponSkills[s]);
+                }
+
 		    };
 
             WeaponAttack.prototype = Object.create(AttackType.prototype);

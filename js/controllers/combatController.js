@@ -122,7 +122,7 @@
                 var weapon = attacker.checkWeapon();
                 if (weapon == null)
                 {
-                    weapon = new Weapon({ name: 'fist', article: 'a', damage: { min: 1, max: attacker.str / 5 } });
+                    weapon = new Weapon({ name: 'fist', article: 'a', damage: { min: 1, max: attacker.str / 5 }, skills: [ 'melee' ] });
                 }
 
                 var attack = new Attack({ actor: attacker, target: target, type: new WeaponAttack({ weapon: weapon }) });
