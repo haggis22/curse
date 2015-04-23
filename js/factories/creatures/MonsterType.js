@@ -80,7 +80,7 @@
                     // set up the monster's skills
                     for (var s=0; s < this.skillSet.length; s++)
                     {
-                        monster.adjustSkill(this.skillSet[s].type, diceService.averageDie(this.skillSet[s].min, this.skillSet[s].max));
+                        monster.adjustSkill(this.skillSet[s].name, diceService.averageDie(this.skillSet[s].min, this.skillSet[s].max));
                     }
 
                     // set up the monster's items - he may get to use some of them in combat

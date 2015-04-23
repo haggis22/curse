@@ -2,13 +2,14 @@
 
 (function(app) {
 
-	app.controller('combatController', ['$scope', '$state', 'gameService', 'playerService', 'mapService', 'diceService', 'Sex', 'Action', 'Attack', 'WeaponAttack', 'spellService', 'Spell', 'Weapon',
-		function($scope, $state, gameService, playerService, mapService, diceService, Sex, Action, Attack, WeaponAttack, spellService, Spell, Weapon) {
+	app.controller('combatController', ['$scope', '$state', 'gameService', 'playerService', 'mapService', 'diceService', 'Sex', 'Action', 'Attack', 'WeaponAttack', 'spellService', 'skillService', 'Spell', 'Weapon',
+		function($scope, $state, gameService, playerService, mapService, diceService, Sex, Action, Attack, WeaponAttack, spellService, skillService, Spell, Weapon) {
 			
 			$scope.playerService = playerService;
 			$scope.gameService = gameService;
             $scope.room = mapService.currentRoom;
             $scope.spellService = spellService;
+            $scope.skillService = skillService;
 			
             if (!playerService.hasPlayers())
 			{

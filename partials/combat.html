@@ -15,8 +15,8 @@
                         <div ng-show="currentMonster.hasSkills()" style="margin-top: 15px;">
                             <div class="header">Skills</div>
 					        <div ng-repeat="skill in currentMonster.skills">
-                                <span class="attr-label">{{ skill.getName() | capFirst }}:</span>
-                                <span class="attr-value">{{ skill.getLevel() | number: 0 }}</span>
+                                <span class="attr-label">{{ skillService.getSkill(skill.name).description | capFirst }}:</span>
+                                <span class="attr-value">{{ skill.level | number: 0 }}</span>
                             </div>
                         </div>
 

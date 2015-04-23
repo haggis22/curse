@@ -21,6 +21,14 @@
                     this.damage = weapon.damage;
                 }
 
+                if (weapon.skills == null)
+                {
+                    this.skills = [];
+                }
+                else
+                {
+                    weapon.skills
+
             };
 
             Weapon.prototype = Object.create(Item.prototype);

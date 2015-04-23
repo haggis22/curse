@@ -2,9 +2,9 @@
 
 (function(app) {
 
-	app.controller('monsterController', [ '$scope', 'treasureService',
+	app.controller('monsterController', [ '$scope', 'treasureService', 'skillService',
 
-		function($scope, treasureService) {
+		function($scope, treasureService, skillService) {
 			
             $scope.attackTypes = 
             [
@@ -12,10 +12,7 @@
                 { id: 'weapon', desc: 'weapon' }
             ];
 
-            $scope.skillTypes = 
-            [
-                { id: 'SkillType.prototype.ID_MELEE', desc: 'Melee' }
-            ];
+            $scope.skillService = skillService;
 
             $scope.bodyShapes = 
             [
@@ -66,7 +63,7 @@
                     images: [],
                     numAppearing: { min: 1, max: 1 },
                     treasures: [],
-                    skillSet: [ { type: $scope.skillTypes[0], min: 0, max: 0 } ]
+                    skillSet: []
 
                 };    
 
@@ -97,7 +94,14 @@
 
             $scope.addSkill = function() {
 
-                $scope.monster.skillSet.push({ type: $scope.skillTypes[0], min: 0, max: 0 });
+                var skillName = 'melee';
+
+                if ($scope.monster.skillSet.length > 0)
+                {
+                    skillName = skillService.getSkillList()[0].name;
+                }
+
+                $scope.monster.skillSet.push({ name: skillName, min: 0, max: 0 });
 
             };
 

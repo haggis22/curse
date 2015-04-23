@@ -2,9 +2,9 @@
 
 (function(app) {
 
-	app.factory('Spell', ['SpellType', 'SkillType', 'Action', 'diceService', 'AttackType',
+	app.factory('Spell', ['SpellType', 'SkillType', 'Action', 'diceService',
 
-		function(SpellType, SkillType, Action, diceService, AttackType) {
+		function(SpellType, SkillType, Action, diceService) {
 
 			function Spell(spell) {
 
@@ -14,7 +14,7 @@
 
                 this.isMagic = true;
 
-                this.addRelevantSkill(SkillType.prototype.ID_MAGIC);
+                this.addRelevantSkill("magic");
                 this.calculateSpeed();
 
 			};
@@ -39,8 +39,7 @@
                 var relevantSkills = this.getRelevantSkills();
                 for (var s=0; s < relevantSkills.length; s++)
                 {
-                    var skillType = SkillType.prototype.getSkillType(relevantSkills[s]);
-                    msg += ", " + skillType.getName() + ": " + this.actor.getSkillLevel(relevantSkills[s]);
+                    msg += ", " + relevantSkills[s] + ": " + this.actor.getSkillLevel(relevantSkills[s]);
                     speedChance += this.actor.getSkillLevel(relevantSkills[s]) / 2;
                 }
 
@@ -87,7 +86,8 @@
 
                 var relevant = this.getRelevantSkills();
 
-                var damage = Math.round(this.actor.getSkillLevel(SkillType.prototype.ID_MAGIC) * diceService.rollDecimalDie(this.spellType.damage.min, this.spellType.damage.max));
+                // TODO: change to use relevant skills?
+                var damage = Math.round(this.actor.getSkillLevel("magic") * diceService.rollDecimalDie(this.spellType.damage.min, this.spellType.damage.max));
 
                 var description = this.actor.getName(true) + ' cast ' + this.spellType.getIncantation() + ' on ' + this.target.getName(true) + ' for ' + damage + ' damage!';
 

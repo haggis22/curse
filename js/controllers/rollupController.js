@@ -2,10 +2,11 @@
 
 (function(app) {
 
-	app.controller('rollupController', ['$scope', '$state', 'playerService', 'diceService', 'Sex', 'Item', 'SkillType', 'Skill', 'Weapon', 'Shield', 'Potion',
-		function($scope, $state, playerService, diceService, Sex, Item, SkillType, Skill, Weapon, Shield, Potion) {
+	app.controller('rollupController', ['$scope', '$state', 'playerService', 'diceService', 'Sex', 'Item', 'SkillType', 'Skill', 'Weapon', 'Shield', 'Potion', 'skillService',
+		function($scope, $state, playerService, diceService, Sex, Item, SkillType, Skill, Weapon, Shield, Potion, skillService) {
 			
             $scope.Math = window.Math;
+            $scope.skillService = skillService;
 
             $scope.player = playerService.newPlayer();
 
@@ -39,13 +40,13 @@
                 // clear his skills
                 player.clearSkills();
 
-                player.adjustSkill(SkillType.prototype.ID_MELEE, diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
-                player.adjustSkill(SkillType.prototype.ID_SWORD, diceService.rollDie(2, 5) + diceService.rollDie(3, 5));
-                player.adjustSkill(SkillType.prototype.ID_MAGIC, diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
-                player.adjustSkill(SkillType.prototype.ID_MAGIC, diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
-                player.adjustSkill(SkillType.prototype.ID_FAITH, diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
+                player.adjustSkill("melee", diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
+                player.adjustSkill("sword", diceService.rollDie(2, 5) + diceService.rollDie(3, 5));
+                player.adjustSkill("magic", diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
+                player.adjustSkill("magic", diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
+                player.adjustSkill("faith", diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
 
-                player.power = player.maxPower = player.getSkillLevel(SkillType.prototype.ID_MAGIC);
+                player.power = player.maxPower = player.getSkillLevel("magic");
 
                 player.clearSpells();
 

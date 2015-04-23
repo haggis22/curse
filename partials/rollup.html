@@ -46,8 +46,8 @@
                         <td colspan="2" style="vertical-align: bottom; height: 50px;">Skills</td>
                     </tr>
 					<tr ng-repeat="skill in player.skills">
-						<td>{{ skill.getName() | capFirst }}:</td>
-						<td style="padding-left: 10px;">{{ skill.getLevel() | number:0 }}</td>
+						<td>{{ skillService.getSkill(skill.name).description | capFirst }}:</td>
+						<td style="padding-left: 10px;">{{ skill.level | number:0 }}</td>
 					</tr>
 				</tbody>
 			</table>

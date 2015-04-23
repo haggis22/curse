@@ -241,34 +241,34 @@
                     return false;
                 },
 
-                getSkill: function(skillType)
+                getSkill: function(skillName)
                 {
-                    if (this.skills.hasOwnProperty(skillType))
+                    if (this.skills.hasOwnProperty(skillName))
                     {
-                        return this.skills[skillType];
+                        return this.skills[skillName];
                     }
 
                     return null;
                 },
 
-                getSkillLevel: function(skillType)
+                getSkillLevel: function(skillName)
                 {
-                    var skill = this.getSkill(skillType);
+                    var skill = this.getSkill(skillName);
                     if (skill == null)
                     {
                         return 0;
                     }
 
-                    return skill.getLevel();
+                    return skill.level;
                 },
 
-                adjustSkill: function(skillType, amount)
+                adjustSkill: function(skillName, amount)
                 {
-                    var skill = this.getSkill(skillType);
+                    var skill = this.getSkill(skillName);
                     if (skill == null)
                     {
-                        skill = new Skill(skillType, 0);
-                        this.skills[skillType] = skill;
+                        skill = new Skill(skillName, 0);
+                        this.skills[skillName] = skill;
                     }
 
                     skill.level += amount;

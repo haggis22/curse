@@ -71,7 +71,6 @@
                         <span>damage: </span><input type="text" ng-model="attack.damage.min" style="width: 30px; text-align: center;" /> - <input type="text" ng-model="attack.damage.max" style="width: 30px; text-align: center;" />
                         <span>weapon: </span><input type="text" ng-model="attack.description" />
                         <span><button type="button" ng-click="removeAttack(attack)" style="cursor: pointer;">[ - ]</button></span>
-                        <span>type: {{ attack.type }}</span>
                     </div>
                 </td>
             </tr>
@@ -80,7 +79,7 @@
                 <td style="white-space: nowrap;">
                     <button type="button" ng-click="addSkill()" style="cursor: pointer;">[ + ]</button>
                     <div ng-repeat="skill in monster.skillSet" style="margin-top: 10px;">
-                        <span>type: </span><select ng-model="skill.type" ng-options="skillType.desc for skillType in skillTypes"></select>
+                        <span>type: </span><select ng-model="skill.name" ng-options="skillType.name as skillType.description for skillType in skillService.getSkillList()"></select>
                         <span>skill: </span><input type="text" ng-model="skill.min" style="width: 30px; text-align: center;" /> - <input type="text" ng-model="skill.max" style="width: 30px; text-align: center;" />
                         <span><button type="button" ng-click="removeSkill(skill)" style="cursor: pointer;">[ - ]</button></span>
                     </div>
@@ -100,7 +99,7 @@
         </tbody>
     </table>
 
-    <div style="white-space: nowrap; margin-top: 20px; margin-left: 15px; background-color: #efe; padding: 2px 10px;">new MonsterType({
+    <div style="width: 700px; margin-top: 20px; margin-left: 15px; background-color: #efe; padding: 2px 10px;">new MonsterType({
         
         species: "{{ monster.species }}", 
             <span ng-if="monster.article.id != null">article: '{{ monster.article.id }}', </span>
@@ -116,12 +115,14 @@
             frequency: {{ monster.frequency }},
             numAppearing: { min: {{ monster.numAppearing.min }}, max: {{ monster.numAppearing.max }} }
             <span ng-if="monster.skillSet.length > 0">, skillSet: [
-                <span ng-repeat="skill in monster.skillSet"><span ng-if="!$first">, </span>{ type: {{ skill.type.id }}, min: {{ skill.min }}, max: {{ skill.max }} }</span>
+                <span ng-repeat="skill in monster.skillSet"><span ng-if="!$first">, </span>{ name: '{{ skill.name }}', min: {{ skill.min }}, max: {{ skill.max }} }</span>
             ]</span>
             <span ng-if="monster.attacks.length > 0">, attacks: [
-                <span ng-repeat="attack in monster.attacks"><span ng-if="!$first">, </span>
-                <span ng-show="attack.type == 'bite'">new BiteAttack({ description: '{{ attack.description }}', damage: { min: {{ attack.damage.min }}, max: {{ attack.damage.max }} } })</span>
-                <span ng-show="attack.type == 'weapon'">new WeaponAttack({ weapon: new Weapon({ name: '{{ attack.description }}', damage: { min: {{ attack.damage.min }}, max: {{ attack.damage.max }} }) })</span>
+                <span ng-repeat="attack in monster.attacks">
+                    <span ng-if="!$first">, </span>
+                    <span ng-show="attack.type == 'bite'">new BiteAttack({ description: '{{ attack.description }}', damage: { min: {{ attack.damage.min }}, max: {{ attack.damage.max }} } })</span>
+                    <span ng-show="attack.type == 'weapon'">new WeaponAttack({ weapon: new Weapon({ name: '{{ attack.description }}', damage: { min: {{ attack.damage.min }}, max: {{ attack.damage.max }} }) })</span>
+                </span>
             ]</span>
             <span ng-if="monster.treasures.length > 0">, treasure: [
                 <span ng-repeat="treasure in monster.treasures"><span ng-if="!$first">, </span>'{{ treasure.value | uppercase }}'</span>

@@ -16,7 +16,7 @@
                 this.target = attack.target;
                 this.type = attack.type;
 
-                this.addRelevantSkill(SkillType.prototype.ID_MELEE);
+                this.addRelevantSkill("melee");
                 this.calculateSpeed();
 
                 this.damage = 0;
@@ -45,8 +45,7 @@
                 var relevantSkills = this.getRelevantSkills();
                 for (var s=0; s < relevantSkills.length; s++)
                 {
-                    var skillType = SkillType.prototype.getSkillType(relevantSkills[s]);
-                    msg += ", " + skillType.getName() + ": " + this.actor.getSkillLevel(relevantSkills[s]);
+                    msg += ", " + relevantSkills[s] + ": " + this.actor.getSkillLevel(relevantSkills[s]);
                     speedChance += this.actor.getSkillLevel(relevantSkills[s]);
                 }
 

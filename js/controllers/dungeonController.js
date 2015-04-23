@@ -2,13 +2,14 @@
 
 (function(app) {
 
-	app.controller('dungeonController', ['$scope', '$state', 'gameService', 'playerService', 'monsterService', 'mapService', 'diceService',
-		function($scope, $state, gameService, playerService, monsterService, mapService, diceService) {
+	app.controller('dungeonController', ['$scope', '$state', 'gameService', 'playerService', 'monsterService', 'mapService', 'diceService', 'skillService',
+		function($scope, $state, gameService, playerService, monsterService, mapService, diceService, skillService) {
 			
 			$scope.playerService = playerService;
             $scope.player = playerService.players[0];
 			$scope.gameService = gameService;
 			$scope.mapService = mapService;
+            $scope.skillService = skillService;
 			
             if (!playerService.hasPlayers())
 			{
