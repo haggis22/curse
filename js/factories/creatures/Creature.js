@@ -317,7 +317,13 @@
                         var shield = this.checkShield();
                         if (shield != null)
                         {
-
+                            var melee = this.getSkillLevel("melee");
+                            if (diceService.rollDie(1, 100) <= melee)
+                            {
+                                var shieldBlock = shield.getProtection();
+                                response.blocked += shieldBlock;
+                                response.descriptions.push(this.getPossessive() + ' ' + shield.name + ' absorbed ' + shieldBlock + ' of the damage');
+                            }
                         }
 
                         var armour = this.checkArmour(attack.bodyPart.name);
@@ -325,8 +331,9 @@
 					    if (armour != null)
 					    {
                             // TODO: limited blocked to the remaining amount of damage
-                            response.blocked += armour.getProtection();
-                            response.descriptions.push(this.getPossessive() + ' ' + armour.name + ' absorbed ' + response.blocked + ' of the damage');
+                            var armourBlock = armour.getProtection();
+                            response.blocked += armourBlock;
+                            response.descriptions.push(this.getPossessive() + ' ' + armour.name + ' absorbed ' + armourBlock + ' of the damage');
                         }
 
                     }

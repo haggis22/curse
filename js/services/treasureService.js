@@ -38,7 +38,7 @@
 				'E' : [
                         new Armour({ name: 'rusty chainmail', article: '', damage: 2, protects: BodyPart.prototype.TORSO }),
                         new Shield({ name: 'cracked shield', damage: 1 }),
-                        new Weapon({ name: 'bent knife', damage: 1, skills: [ 'melee', 'sword' ] })
+                        new Weapon({ name: 'bent knife', damage: 1, skills: [ 'melee' ] })
 					  ]
 			};
 			

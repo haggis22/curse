@@ -14,6 +14,8 @@
 
                 this.isMagic = true;
 
+                this.target = spell.target;
+
                 this.addRelevantSkill("magic");
                 this.calculateSpeed();
 

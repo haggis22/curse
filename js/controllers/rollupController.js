@@ -13,7 +13,7 @@
             $scope.player.name = 'Zogarth';
             
             // give him some basics to start out
-			$scope.player.addItem(new Weapon({ name: 'dirk', damage: { min: 2, max: 3}, skills: [ 'melee', 'sword' ] }));
+			$scope.player.addItem(new Weapon({ name: 'dirk', damage: { min: 2, max: 3}, skills: [ 'melee' ] }));
             $scope.player.addItem(new Potion({ name: 'healing potion', effects: { type: Potion.prototype.EFFECTS_HEAL, damage: { min: 2, max: 4 } }, amount: 1 }));
             $scope.player.addItem(new Potion({ name: 'healing potion', effects: { type: Potion.prototype.EFFECTS_HEAL, damage: { min: 2, max: 4 } }, amount: 1 }));
             $scope.player.addItem(new Potion({ name: 'healing potion', effects: { type: Potion.prototype.EFFECTS_HEAL, damage: { min: 2, max: 4 } }, amount: 1 }));
