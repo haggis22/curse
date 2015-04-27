@@ -34,7 +34,7 @@
                 this.useArmour = creature.useArmour == null ? true : creature.useArmour;
 
                 this.isPoisoned = false;
-                this.isStone = false;
+                this.isStoned = false;
                 this.isParalyzed = false;
 
                 this.spells = [];
@@ -46,6 +46,16 @@
                 getName: function(useDefiniteArticle)
                 {
                     return this.name;
+                },
+
+                getNominative: function()
+                {
+                    return Sex.prototype.getNominative(this.sex);
+                },
+
+                getObjective : function()
+                {
+                    return Sex.prototype.getObjective(this.sex);
                 },
 
                 getPossessive: function()
@@ -60,7 +70,7 @@
 
                 isActive: function()
                 {
-                    return !(this.isStone || this.isParalyzed);
+                    return this.isAlive() && (!(this.isStoned || this.isParalyzed));
                 },
 
                 hasAnything: function()

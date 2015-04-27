@@ -53,9 +53,9 @@
 
             Spell.prototype.perform = function()
             {
-                if (!this.actor.isAlive())
+                if (!this.actor.isActive())
                 {   
-                    // the would-be spellcaster is dead. Nothing to do here.
+                    // the would-be attacker is incapacitated/dead, nothing to do here
                     return;
                 }
 

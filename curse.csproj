@@ -60,8 +60,10 @@
     <Content Include="js\controllers\dungeonController.js" />
     <Content Include="js\controllers\rollupController.js" />
     <Content Include="js\factories\actions\Attack.js" />
+    <Content Include="js\factories\actions\SpecialAttack.js" />
     <Content Include="js\factories\combat\AttackType.js" />
     <Content Include="js\factories\combat\BiteAttack.js" />
+    <Content Include="js\factories\combat\StoneGaze.js" />
     <Content Include="js\factories\combat\WeaponAttack.js" />
     <Content Include="js\factories\creatures\BodyPart.js" />
     <Content Include="js\factories\creatures\BodyShape.js" />

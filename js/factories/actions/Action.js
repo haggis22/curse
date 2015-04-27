@@ -15,6 +15,13 @@
 
                 this.speed = 0;
 
+                this.isPhysical = false;
+
+            };
+
+            Action.prototype.isPhysicalAttack = function()
+            {
+                return this.isPhysical;
             };
 
 		    Action.prototype.getRelevantSkills = function() 

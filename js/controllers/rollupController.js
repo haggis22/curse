@@ -9,7 +9,6 @@
             $scope.skillService = skillService;
 
             $scope.player = playerService.newPlayer();
-            $scope.player.isPoisoned = true;
             
             playerService.currentPlayer = $scope.player;
 

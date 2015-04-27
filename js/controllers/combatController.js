@@ -2,8 +2,8 @@
 
 (function(app) {
 
-	app.controller('combatController', ['$scope', '$state', 'gameService', 'playerService', 'mapService', 'diceService', 'Sex', 'Action', 'Attack', 'WeaponAttack', 'spellService', 'skillService', 'Spell', 'Weapon',
-		function($scope, $state, gameService, playerService, mapService, diceService, Sex, Action, Attack, WeaponAttack, spellService, skillService, Spell, Weapon) {
+	app.controller('combatController', ['$scope', '$state', 'gameService', 'playerService', 'mapService', 'diceService', 'Sex', 'Action', 'Attack', 'WeaponAttack', 'SpecialAttack', 'spellService', 'skillService', 'Spell', 'Weapon',
+		function($scope, $state, gameService, playerService, mapService, diceService, Sex, Action, Attack, WeaponAttack, SpecialAttack, spellService, skillService, Spell, Weapon) {
 			
 			$scope.playerService = playerService;
 			$scope.gameService = gameService;
@@ -67,7 +67,14 @@
                     {
                         for (var a=0; a < monster.attacks.length; a++)
                         {
-                            $scope.addMonsterAttack(monster, playerService.currentPlayer, monster.attacks[a]);
+                            if (monster.attacks[a].isSpecialAttack)
+                            {
+                                $scope.addSpecialAttack(monster, playerService.currentPlayer, monster.attacks[a]);
+                            }
+                            else
+                            {
+                                $scope.addMonsterAttack(monster, playerService.currentPlayer, monster.attacks[a]);
+                            }
                         }
                     }
                     else
@@ -136,6 +143,11 @@
                 $scope.combatActions.push(attack);
             };
 
+            $scope.addSpecialAttack = function(attacker, target, type)
+            {
+                var attack = new SpecialAttack({ actor: attacker, target: target, type: type });
+                $scope.combatActions.push(attack);
+            };
 
             $scope.addSpell = function(spell)
             {

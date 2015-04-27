@@ -11,8 +11,6 @@
                 // Create an action based on the actor
                 Action.call(this, attack);
 
-                this.isPhysicalAttack = true;
-
                 this.target = attack.target;
                 this.type = attack.type;
 
@@ -22,6 +20,8 @@
                 {
                     this.addRelevantSkill(attackTypeSkills[s]);
                 }
+
+                this.isPhysical = true;
 
                 this.calculateSpeed();
 
@@ -39,7 +39,7 @@
 
             Attack.prototype.isStillRequired = function()
             {
-                return this.actor.isAlive() && this.target.isAlive();
+                return this.actor.isActive() && this.target.isAlive();
             };
 
             Attack.prototype.calculateSpeed = function() {
@@ -61,6 +61,7 @@
 
             };
 
+            // returns an array of text descriptions of the attack and its effects
             Attack.prototype.perform = function()
             {
                 var actions = [];

@@ -17,28 +17,6 @@
                 return;
 			}
 
-			$scope.searchTheRoom = function() {
-
-                for (var m=0; m < $scope.mapService.currentRoom.monsters.length; m++)
-                {
-                    var monster = $scope.mapService.currentRoom.monsters[m];
-
-                    if (!monster.isAlive())
-                    {
-                        // put the monster's items in the room
-                        for (var i=0; i < monster.pack.length; i++)
-                        {
-                            $scope.mapService.currentRoom.items.push(monster.pack[i]);
-                        }
-
-                        // empty the monster's pack
-                        monster.pack.length = 0;
-                    }
-                
-                }  // for loop
-
-				
-			};
 			
 			$scope.isAtPeace = function()
 			{
