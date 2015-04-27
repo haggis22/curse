@@ -331,6 +331,8 @@
                         descriptions: []
                     }
 
+                    // TODO: Shield spell
+
                     if (attack.isPhysicalAttack)
                     {
                         var shield = this.checkShield();

@@ -2,8 +2,8 @@
 
 (function(app) {
 
-	app.service('monsterService', ['MonsterType', 'Sex', 'BodyShape', 'diceService', 'treasureService', 'SkillType', 'BiteAttack', 'WeaponAttack', 'Weapon', 'StoneGaze', 
-		function(MonsterType, Sex, BodyShape, diceService, treasureService, SkillType, BiteAttack, WeaponAttack, Weapon, StoneGaze) {
+	app.service('monsterService', ['MonsterType', 'Sex', 'BodyShape', 'diceService', 'treasureService', 'SkillType', 'BiteAttack', 'WeaponAttack', 'Weapon', 'StoneGaze', 'FireBreath',
+		function(MonsterType, Sex, BodyShape, diceService, treasureService, SkillType, BiteAttack, WeaponAttack, Weapon, StoneGaze, FireBreath) {
 
             this.monsters = [
 
@@ -14,7 +14,7 @@
                 new MonsterType({ species: 'ogre', article: 'an', str: 14, int: 3, dex: 7, health: 17,skillSet: [ { name: "melee", min: 14, max: 20 } ] , frequency: 7, treasure: ['B'], images: ['ogre.png']}),
                 new MonsterType({ species: 'skeleton', isUndead: true, str: 7, int: 0, dex: 9, health: 6,skillSet: [ { name: "melee", min: 8, max: 10 } ] , frequency: 14, numAppearing: { max: 3 }, treasure: ['E'], images: ['skeleton1.jpg', 'skeleton2.jpg', 'skeleton3.jpg']}),
                 new MonsterType({ species: 'warlock', str: 10, int: 18, dex: 12, health: 18,skillSet: [ { name: "melee", min: 16, max: 20} ] , frequency: 3, sex: Sex.prototype.MALE, treasure: ['C'], images: ['warlock.png']}),
-                new MonsterType({ species: 'scorchfire dragon', bodyShape: BodyShape.prototype.WINGED_QUADRUPED, str: 18, int: 16, dex: 14, health: 22, skillSet: [ { name: "melee", min: 18, max: 22 } ] ,frequency: 1, attacks: [ new BiteAttack({ damage: { min: 2, max: 5 }, description: 'bites' }) ], treasure: ['A','D'], images: ['dragon.png']}),
+                new MonsterType({ species: 'scorchfire dragon', bodyShape: BodyShape.prototype.WINGED_QUADRUPED, str: 18, int: 16, dex: 14, health: 22, skillSet: [ { name: "melee", min: 18, max: 22 } ] ,frequency: 111111, attacks: [ new BiteAttack({ damage: { min: 2, max: 5 }, description: 'bites' }), new FireBreath({ damage: { min: 5, max: 15 } }) ], treasure: ['A','D'], images: ['dragon.png']}),
                 new MonsterType({ species: 'giant serpent', bodyShape: BodyShape.prototype.SNAKE, str: 10, int: 0, dex: 8, health: 12,skillSet: [ { name: "melee", min: 6, max: 8 } ] , frequency: 8, attacks: [ new BiteAttack({ damage: { min: 1, max: 2 }, description: 'bites' }) ], images: ['serpent.png']}),
                 new MonsterType({ species: 'demon', str: 20, int: 22, dex: 15, health: 24, skillSet: [ { name: "melee", min: 18, max: 30 } ] ,frequency: 0.5, treasure: ['A','C'], images: ['demon.png']}),
                 new MonsterType({ species: 'runty goblin', str: 2, int: 2, dex: 6, health: 4,skillSet: [ { name: "melee", min: 6, max: 8 } ] , frequency: 6, numAppearing: { min: 2, max: 5 }, images: ['runty.png']}),

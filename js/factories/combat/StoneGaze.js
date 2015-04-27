@@ -18,11 +18,6 @@
 
             StoneGaze.prototype.name = 'Stone Gaze';
 
-            StoneGaze.prototype.getDescription = function(attack)
-            {
-                return attack.actor.getName(true) + ' ' + this.description + ' ' + attack.target.getName(true) + ' in the ' + attack.bodyPart.name + ' for ' + attack.damage + ' damage!';
-            }
-
             // returns an array of text descriptions of the attack and its effects
             StoneGaze.prototype.perform = function(attack)
             {
