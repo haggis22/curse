@@ -33,6 +33,10 @@
                 this.useWeapons = creature.useWeapons == null ? true : creature.useWeapons;
                 this.useArmour = creature.useArmour == null ? true : creature.useArmour;
 
+                this.isPoisoned = false;
+                this.isStone = false;
+                this.isParalyzed = false;
+
                 this.spells = [];
 
 			};
@@ -52,6 +56,11 @@
                 isAlive : function()
                 {
                     return this.health > 0;
+                },
+
+                isActive: function()
+                {
+                    return !(this.isStone || this.isParalyzed);
                 },
 
                 hasAnything: function()

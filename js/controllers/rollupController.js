@@ -9,6 +9,9 @@
             $scope.skillService = skillService;
 
             $scope.player = playerService.newPlayer();
+            $scope.player.isPoisoned = true;
+            
+            playerService.currentPlayer = $scope.player;
 
             $scope.player.name = 'Zogarth';
             
@@ -17,6 +20,7 @@
             $scope.player.addItem(new Potion({ name: 'healing potion', effects: { type: Potion.prototype.EFFECTS_HEAL, damage: { min: 2, max: 4 } }, amount: 1 }));
             $scope.player.addItem(new Potion({ name: 'healing potion', effects: { type: Potion.prototype.EFFECTS_HEAL, damage: { min: 2, max: 4 } }, amount: 1 }));
             $scope.player.addItem(new Potion({ name: 'healing potion', effects: { type: Potion.prototype.EFFECTS_HEAL, damage: { min: 2, max: 4 } }, amount: 1 }));
+            $scope.player.addItem(new Potion({ name: 'antivenom', effects: { type: Potion.prototype.EFFECTS_ANTIVENOM}, amount: 1 }));
 			$scope.player.addItem(new Shield({ name: 'buckler', damage: { min: 1, max: 2 } }));
 
             $scope.Sex = Sex;

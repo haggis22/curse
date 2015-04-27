@@ -67,13 +67,13 @@
                     {
                         for (var a=0; a < monster.attacks.length; a++)
                         {
-                            $scope.addMonsterAttack(monster, $scope.player, monster.attacks[a]);
+                            $scope.addMonsterAttack(monster, playerService.currentPlayer, monster.attacks[a]);
                         }
                     }
                     else
                     {
                         // monster will attack with its fists / weapon
-                        $scope.addAttack(monster, $scope.player);
+                        $scope.addAttack(monster, playerService.currentPlayer);
                     }
 				}
 
@@ -148,14 +148,19 @@
                 gameService.clearPlays();
 
 				// clear out anything he might already have decided to do this round
-				$scope.clearPlayerAction($scope.player);
+				$scope.clearPlayerAction(playerService.currentPlayer);
 				
+                if (!playerService.currentPlayer.isActive())
+                {
+                    return;
+                }
+
                 // returns an array of live monsters
                 var liveMonsters = $scope.room.liveMonsters();
 
 				if (liveMonsters.length == 1)
 				{
-                    $scope.addAttack($scope.player, liveMonsters[0]);
+                    $scope.addAttack(playerService.currentPlayer, liveMonsters[0]);
 				}
                 else
                 {
@@ -169,7 +174,13 @@
                 gameService.clearPlays();
 
 				// clear out anything he might already have decided to do this round
-				$scope.clearPlayerAction($scope.player);
+				$scope.clearPlayerAction(playerService.currentPlayer);
+
+                if (!playerService.currentPlayer.isActive())
+                {
+                    // incapacitated players can't do anything
+                    return;
+                }
 				
                 $scope.mode = 'spell-chant';
 				
@@ -191,7 +202,7 @@
                 }
                 else
                 {
-                    $scope.addSpell(new Spell({ actor: $scope.player, spellType: $scope.spellType }));
+                    $scope.addSpell(new Spell({ actor: playerService.currentPlayer, spellType: $scope.spellType }));
                     $scope.mode = 'action';
                 }
 
@@ -214,13 +225,13 @@
 
                 if ($scope.mode == 'attack-target')
                 {
-                    $scope.addAttack($scope.player, target);
+                    $scope.addAttack(playerService.currentPlayer, target);
                     $scope.mode = 'action';
                 }
 
                 if ($scope.mode == 'spell-target')
                 {
-                    $scope.addSpell(new Spell({ actor: $scope.player, spellType: $scope.spellType, target: target }));
+                    $scope.addSpell(new Spell({ actor: playerService.currentPlayer, spellType: $scope.spellType, target: target }));
                     $scope.mode = 'action';
                 }
 

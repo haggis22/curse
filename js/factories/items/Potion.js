@@ -20,6 +20,7 @@
             Potion.prototype = Object.create(Item.prototype);
 
             Potion.prototype.EFFECTS_HEAL = 1;
+            Potion.prototype.EFFECTS_ANTIVENOM = 2;
 
             Potion.prototype.use = function(creature)
             {
@@ -37,6 +38,12 @@
 						// gameService.actions.push('The potion cured you of ' + cure + ' damage');
 						break;
 							
+					case Potion.prototype.EFFECTS_ANTIVENOM:
+
+                        creature.isPoisoned = false;
+						// gameService.actions.push('The potion cured you of ' + cure + ' damage');
+						break;
+
 				}  // end switch
 
                 // TODO: change it from potion to empty bottle

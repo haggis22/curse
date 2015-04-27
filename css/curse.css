@@ -18,6 +18,31 @@ body
 */
 }
 
+.active-player
+{
+    border: 2px solid #00f;
+}
+
+.poisoned
+{
+    font-style: italic;
+    color: #909;
+}
+
+.paralyzed
+{
+    font-style: italic;
+    color: darkorange;
+}
+
+
+.stoned
+{
+    font-style: italic;
+    color: lightslategray;
+}
+
+
 .window-pack
 {
 	background-color: saddlebrown;

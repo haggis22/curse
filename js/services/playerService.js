@@ -8,6 +8,8 @@
 
 			this.players = [];
 
+            this.currentPlayer = null;
+
             this.newPlayer = function()
             {
                 var player = new Player();
