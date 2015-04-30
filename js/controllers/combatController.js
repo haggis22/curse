@@ -2,8 +2,8 @@
 
 (function(app) {
 
-	app.controller('combatController', ['$scope', '$state', 'gameService', 'playerService', 'mapService', 'diceService', 'Sex', 'Action', 'Attack', 'WeaponAttack', 'SpecialAttack', 'spellService', 'skillService', 'Spell', 'Weapon',
-		function($scope, $state, gameService, playerService, mapService, diceService, Sex, Action, Attack, WeaponAttack, SpecialAttack, spellService, skillService, Spell, Weapon) {
+	app.controller('combatController', ['$scope', '$state', 'gameService', 'playerService', 'mapService', 'diceService', 'timeService', 'Sex', 'Action', 'Attack', 'WeaponAttack', 'SpecialAttack', 'spellService', 'skillService', 'Spell', 'Weapon',
+		function($scope, $state, gameService, playerService, mapService, diceService, timeService, Sex, Action, Attack, WeaponAttack, SpecialAttack, spellService, skillService, Spell, Weapon) {
 			
 			$scope.playerService = playerService;
 			$scope.gameService = gameService;
@@ -56,6 +56,8 @@
 
 			
 			$scope.fightRound = function() {
+
+                timeService.addRounds(1);
 
                 // declare action for each LIVE monster
                 var liveMonsters = $scope.room.liveMonsters();

@@ -2,14 +2,15 @@
 
 (function(app) {
 
-	app.controller('dungeonController', ['$scope', '$state', 'gameService', 'playerService', 'monsterService', 'mapService', 'diceService', 'skillService',
-		function($scope, $state, gameService, playerService, monsterService, mapService, diceService, skillService) {
+	app.controller('dungeonController', ['$scope', '$state', 'gameService', 'playerService', 'monsterService', 'mapService', 'diceService', 'skillService', 'timeService',
+		function($scope, $state, gameService, playerService, monsterService, mapService, diceService, skillService, timeService) {
 			
 			$scope.playerService = playerService;
             $scope.player = playerService.players[0];
 			$scope.gameService = gameService;
 			$scope.mapService = mapService;
             $scope.skillService = skillService;
+            $scope.timeService = timeService;
 			
             if (!playerService.hasPlayers())
 			{
@@ -27,6 +28,8 @@
 				
 				if ($scope.isAtPeace())
 				{
+                    timeService.addTurns(1);
+
                     $scope.gameService.clearPlays();
 				
 					$scope.mapService.takeExit(exit);

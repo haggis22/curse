@@ -4,7 +4,9 @@
 
 	    <div class="window window-map" style="margin-top: 15px;">
 		
-		    <div>You are standing {{ mapService.currentRoom.prep }} {{ mapService.currentRoom.name }}.</div>
+		    <div style="float: right; font-size: 0.9em;">{{ timeService.date | date : 'HH:mm:ss' }}</div>
+
+            <div>You are standing {{ mapService.currentRoom.prep }} {{ mapService.currentRoom.name }}.</div>
 		    <div ng-show="mapService.currentRoom.hasVisibleExits() && isAtPeace()">
 			    <ul>
 				    <li ng-repeat="exit in mapService.currentRoom.exits" ng-hide="exit.isSecret()">There is <span ng-class="{ 'exit': isAtPeace() }" ng-click="takeExit(exit)">{{ exit.desc }} {{ exit.getDirection() }}</span>.</li>
@@ -24,6 +26,8 @@
                     <li class="item" ng-repeat="item in mapService.currentRoom.items" ng-click="pickUp(item)">{{ item.getName(false) }}</li>
                 </ul>
             </div>
+
+            <span class="clear"></span>
 
 	    </div>
 

@@ -194,4 +194,11 @@ div.image
     cursor: pointer;
 }
 
-
+span.clear { 
+    display: block; 
+    clear: both; 
+    width: 1px; 
+    height: 0.001%;
+    font-size: 0px; 
+    line-height: 0px; 
+} 

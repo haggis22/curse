@@ -90,6 +90,7 @@
     <Content Include="js\filters\cap-first.js" />
     <Content Include="js\filters\floor.js" />
     <Content Include="js\routes.js" />
+    <Content Include="js\services\timeService.js" />
     <Content Include="js\services\skillService.js" />
     <Content Include="js\services\spellService.js" />
     <Content Include="js\services\diceService.js" />
