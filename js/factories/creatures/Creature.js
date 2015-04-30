@@ -33,7 +33,7 @@
                 this.useWeapons = creature.useWeapons == null ? true : creature.useWeapons;
                 this.useArmour = creature.useArmour == null ? true : creature.useArmour;
 
-                this.isPoisoned = false;
+                this.poisons = [];
                 this.isStoned = false;
                 this.isParalyzed = false;
 
@@ -363,7 +363,23 @@
 
                     return response;
 
-                }  // getProtection
+                } , // getProtection
+
+                isPoisoned: function()
+                {
+                    return this.poisons.length > 0;
+                },
+
+                addPoison: function(venom)
+                {
+                    this.poisons.push(venom);
+                },
+
+                curePoison: function()
+                {
+                    // remove all poisons
+                    this.poisons.length = 0;
+                }
 
 
 			};  // prototype

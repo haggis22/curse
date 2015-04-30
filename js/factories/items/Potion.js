@@ -40,7 +40,7 @@
 							
 					case Potion.prototype.EFFECTS_ANTIVENOM:
 
-                        creature.isPoisoned = false;
+                        creature.curePoison();
 						// gameService.actions.push('The potion cured you of ' + cure + ' damage');
 						break;
 

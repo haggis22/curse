@@ -9,6 +9,8 @@
 		    function AttackType(attackType) 
             {
                 this.skills = {};
+                
+                this.specialEffects = (attackType == null || attackType.specialEffects == null) ? [] : attackType.specialEffects;
 		    };
 
             AttackType.prototype.getSkills = function()
@@ -31,8 +33,20 @@
                 this.skills[skillName] = skillName;
             };
 
+            AttackType.prototype.checkEffects = function(attack)
+            {
+                var effects = [];
 
-		    return (AttackType);
+                for (var e=0; e < this.specialEffects.length; e++)
+                {
+                    effects = effects.concat(this.specialEffects[e].perform(attack));
+                }
+
+                return effects;
+
+            };
+
+            return (AttackType);
 
 		}
 

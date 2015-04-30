@@ -133,7 +133,9 @@
                         actions.push(protection.descriptions[p]);
                     }
 
-					this.target.health -= this.damage;
+					actions = actions.concat(this.type.checkEffects(this));
+
+                    this.target.health -= this.damage;
 
                     if (this.target.health < 0)
                     {

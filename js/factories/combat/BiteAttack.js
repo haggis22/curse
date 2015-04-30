@@ -23,7 +23,6 @@
                     this.damage = bite.damage;
                 }
 
-
 		    };
 
             BiteAttack.prototype = Object.create(AttackType.prototype);
