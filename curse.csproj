@@ -63,6 +63,7 @@
     <Content Include="js\factories\actions\SpecialAttack.js" />
     <Content Include="js\factories\combat\AttackType.js" />
     <Content Include="js\factories\combat\BiteAttack.js" />
+    <Content Include="js\factories\combat\effects\Paralysis.js" />
     <Content Include="js\factories\combat\effects\Venom.js" />
     <Content Include="js\factories\combat\FireBreath.js" />
     <Content Include="js\factories\combat\StoneGaze.js" />

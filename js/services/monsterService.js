@@ -2,8 +2,8 @@
 
 (function(app) {
 
-	app.service('monsterService', ['MonsterType', 'Sex', 'BodyShape', 'diceService', 'treasureService', 'SkillType', 'BiteAttack', 'WeaponAttack', 'Weapon', 'StoneGaze', 'FireBreath', 'Venom',
-		function(MonsterType, Sex, BodyShape, diceService, treasureService, SkillType, BiteAttack, WeaponAttack, Weapon, StoneGaze, FireBreath, Venom) {
+	app.service('monsterService', ['MonsterType', 'Sex', 'BodyShape', 'diceService', 'treasureService', 'SkillType', 'BiteAttack', 'WeaponAttack', 'Weapon', 'StoneGaze', 'FireBreath', 'Venom', 'Paralysis',
+		function(MonsterType, Sex, BodyShape, diceService, treasureService, SkillType, BiteAttack, WeaponAttack, Weapon, StoneGaze, FireBreath, Venom, Paralysis) {
 
             this.monsters = [
 
@@ -23,7 +23,7 @@
                 new MonsterType({ species: 'chimera', bodyShape: BodyShape.prototype.WINGED_QUADRUPED, str: 15, int: 6, dex: 12, health: 18,skillSet: [ { name: "melee", min: 16, max: 20 } ] , frequency: 1, attacks: [ new BiteAttack({ damage: { min: 2, max: 4 }, description: 'claws' }) ], treasure: ['C','D'], images: ['chimera.png']}),
                 new MonsterType({ species: 'ettin', article: 'an', str: 15, int: 3, dex: 12, health: 14,skillSet: [ { name: "melee", min: 16, max: 18 } ] , frequency: 3, treasure: ['B'], images: ['Ettin.png']}),
                 new MonsterType({ species: 'gargoyle', bodyShape: BodyShape.prototype.WINGED_HUMANOID, str: 14, int: 5, dex: 9, health: 14,skillSet: [ { name: "melee", min: 14, max: 17 } ] , frequency: 3, treasure: ['A'], images: ['gargoyle.png']}),
-                new MonsterType({ species: 'ghoul', isUndead: true, str: 11, int: 2, dex: 9, health: 9, useWeapons: false, useArmour: false, skillSet: [ { name: "melee", min: 14, max: 16 } ] , frequency: 3, numAppearing: { max: 3 }, treasure: ['A'], images: ['ghoul.png']}),
+                new MonsterType({ species: 'ghoul', isUndead: true, str: 11, int: 2, dex: 9, health: 9, useWeapons: false, useArmour: false, skillSet: [ { name: "melee", min: 14, max: 16 } ] , attacks: [ new BiteAttack({ damage: { min: 1, max: 3 }, description: 'claws', specialEffects: [ new Paralysis({ chance: 100 }) ] }) ], frequency: 3, numAppearing: { max: 3 }, treasure: ['A'], images: ['ghoul.png']}),
                 new MonsterType({ species: 'giant', str: 17, int: 4, dex: 10, health: 18,skillSet: [ { name: "melee", min: 16, max: 24 } ] , frequency: 3, treasure: ['A','B'], images: ['giant.png']}),
                 new MonsterType({ species: 'golem', str: 17, int: 0, dex: 12, health: 18, useWeapons: false, useArmour: false, skillSet: [ { name: "melee", min: 15, max: 28 } ] ,frequency: 3, treasure: ['B'], images: ['golem.png']}),
                 new MonsterType({ species: 'harpy', bodyShape: BodyShape.prototype.WINGED_HUMANOID, str: 7, int: 8, dex: 14, health: 8, useWeapons: false, useArmour: false, skillSet: [ { name: "melee", min: 14, max: 16 } ] , frequency: 4, sex: Sex.prototype.FEMALE, attacks: [ new BiteAttack({ damage: { min: 2, max: 3 }, description: 'claws' }) ], treasure: ['A','A'], images: ['harpy.png']}),
