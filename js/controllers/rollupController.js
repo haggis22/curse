@@ -14,14 +14,6 @@
 
             $scope.player.name = 'Zogarth';
             
-            // give him some basics to start out
-			$scope.player.addItem(new Weapon({ name: 'dirk', damage: { min: 2, max: 3}, skills: [ 'melee' ] }));
-            $scope.player.addItem(new Potion({ name: 'healing potion', effects: { type: Potion.prototype.EFFECTS_HEAL, damage: { min: 2, max: 4 } }, amount: 1 }));
-            $scope.player.addItem(new Potion({ name: 'healing potion', effects: { type: Potion.prototype.EFFECTS_HEAL, damage: { min: 2, max: 4 } }, amount: 1 }));
-            $scope.player.addItem(new Potion({ name: 'healing potion', effects: { type: Potion.prototype.EFFECTS_HEAL, damage: { min: 2, max: 4 } }, amount: 1 }));
-            $scope.player.addItem(new Potion({ name: 'antivenom', effects: { type: Potion.prototype.EFFECTS_ANTIVENOM}, amount: 1 }));
-			$scope.player.addItem(new Shield({ name: 'buckler', damage: { min: 1, max: 2 } }));
-
             $scope.Sex = Sex;
 
             $scope.availableSpecies = [ 'dwarf', 'elf', 'hobbit', 'human' ];
@@ -59,8 +51,17 @@
                 player.curePoison();
                 // player.addPoison(new Venom({ chance: 1, damage: { min: 0, max: 1 }, interval: 1200 }), timeService.START_TIME);
 
+                // give him some basics to start out
+                player.clearPack();
+			    player.addItem(new Weapon({ name: 'dirk', damage: { min: 2, max: 3}, skills: [ 'melee' ], weight: 3 }));
+                player.addItem(new Potion({ name: 'healing potion', effects: { type: Potion.prototype.EFFECTS_HEAL, damage: { min: 2, max: 4 } }, amount: 1, weight: 3 }));
+                player.addItem(new Potion({ name: 'healing potion', effects: { type: Potion.prototype.EFFECTS_HEAL, damage: { min: 2, max: 4 } }, amount: 1, weight: 3 }));
+                player.addItem(new Potion({ name: 'healing potion', effects: { type: Potion.prototype.EFFECTS_HEAL, damage: { min: 2, max: 4 } }, amount: 1, weight: 3 }));
+                player.addItem(new Potion({ name: 'antivenom', article: 'an', effects: { type: Potion.prototype.EFFECTS_ANTIVENOM}, amount: 1, weight: 3 }));
+			    player.addItem(new Shield({ name: 'buckler', damage: { min: 1, max: 2 }, weight: 8 }));
 
-			}
+			};
+
 			
 			$scope.enterDungeon = function(isValid) {
 

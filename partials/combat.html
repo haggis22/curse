@@ -23,11 +23,13 @@
 				    </div>
 			    </div>
 			    <div style="clear: both;">&nbsp;</div>
-                <div style="margin-top: 10px;" ng-show="currentMonster.hasAnything()">
-                    Carrying
-                    <ul>
-                        <li ng-repeat="item in currentMonster.pack"><span ng-class="{ 'equipped' : item.equipped }">{{ item.getName(false) }}</span></li>
-                    </ul>
+                <div ng-show="currentMonster.hasAnything()">
+                    <div style="margin-top: 10px;">Encumbrance: {{ currentMonster.getEncumbrance() }} #</div>
+                    <div style="margin-top: 10px;">Carrying
+                        <ul>
+                            <li ng-repeat="item in currentMonster.pack"><span ng-class="{ 'equipped' : item.equipped }">{{ item.getName(false) }}</span></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 

@@ -78,6 +78,11 @@
                     return this.pack.length > 0;
                 },
 
+                clearPack: function()
+                {
+                    this.pack.length = 0;
+                },
+
                 hasAttribute: function(attr)
                 {
                     for (var a=0; a < this.attributes.length; a++)
@@ -96,8 +101,30 @@
                     return this.pack;
                 },
 
+                getEncumbrance: function()
+                {
+                    var weight = 0;
+
+                    for (var i=0; i < this.pack.length; i++)
+                    {
+                        weight += this.pack[i].getWeight();
+                    }
+
+                    return weight;
+                },
+
+                getWeightAllowance: function()
+                {
+                    return this.str * 5;
+                },
+
 				addItem: function(item)
 				{
+                    if (item.getWeight() + this.getEncumbrance() > this.getWeightAllowance()) 
+                    {
+                        return { success: false, message: this.getName(true) + ' cannot carry that much.' };
+                    }
+
 					switch (item.type)
 					{
 /*
@@ -108,7 +135,7 @@
 */			
 						default:
 							this.pack.push(item); 
-							break; 
+                            return { success: true, message: null };
 					}
 					
 				},
@@ -127,15 +154,14 @@
 
                     if (remainingItems.length == this.pack.length)
                     {
-                        console.error(this.getName() + ' does not have ' + item.getName(true));
-                        return null;
+                        return { success: false, message: this.getName() + ' does not have ' + item.getName(true) };
                     }
 
                     // make sure it's not equipped any more
                     item.equipped = false;
 
                     this.pack = remainingItems;
-                    return item;
+                    return { success: true, item: item };
                 },
 
 				checkArmour: function(part)

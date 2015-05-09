@@ -87,12 +87,20 @@
                     for (var t=0; t < this.treasure.length; t++)
                     {
                         var item = treasureService.randomTreasure(this.treasure[t]);
-                        monster.addItem(item);
-                    
-                        //TODO? Allow the monster to pick the best item
-                        if (item.isEquippableBy(monster))
+                        var addResult = monster.addItem(item);
+
+                        if (addResult.success)
                         {
-                            monster.useItem(item);
+                            //TODO? Allow the monster to pick the best item
+                            if (item.isEquippableBy(monster))
+                            {
+                                monster.useItem(item);
+                            }
+                        }
+                        else
+                        {
+                            // TODO: just put it into the room
+                            console.log(addResult.message);
                         }
 
                     }

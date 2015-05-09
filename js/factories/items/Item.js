@@ -15,6 +15,8 @@
                 this.amount = item.amount == null ? 1 : item.amount;
                 this.frequency = item.frequency == null ? 1 : item.frequency;
                 this.equipped = false;
+
+                this.weight = item.weight == null ? 0 : item.weight;
 	
             };
 
@@ -50,6 +52,22 @@
                 isGold: function()
                 {
                     return this.type == this.GOLD;
+                },
+
+                getWeight: function()
+                {
+                    switch (this.type)
+                    {
+                        case Item.prototype.GOLD:
+                            return 0.1 * this.amount;
+
+                        case Item.prototype.WEALTH:
+                            return 0.1 * this.amount;
+
+                    }
+
+                    return this.weight;
+
                 },
 
                 isEquippableBy: function(creature)

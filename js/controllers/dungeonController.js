@@ -46,36 +46,54 @@
 
             $scope.pickUp = function(item) {
 
-                $scope.player.addItem(item);
-                
-                var remainingItems = [];
-                for (var i=0; i < $scope.mapService.currentRoom.items.length; i++)
-                {
-                    if ($scope.mapService.currentRoom.items[i] != item)
-                    {
-                        remainingItems.push($scope.mapService.currentRoom.items[i]);
-                    }
-                }
+                var results = $scope.player.addItem(item);
 
-                $scope.mapService.currentRoom.items = remainingItems;
+                if (results.success)
+                {
+                    var remainingItems = [];
+                    for (var i=0; i < $scope.mapService.currentRoom.items.length; i++)
+                    {
+                        if ($scope.mapService.currentRoom.items[i] != item)
+                        {
+                            remainingItems.push($scope.mapService.currentRoom.items[i]);
+                        }
+                    }
+
+                    $scope.mapService.currentRoom.items = remainingItems;
+                }
+                else
+                {
+                    gameService.addPlay(results.message);
+                }
 
             };
 
             $scope.dropItem = function(player, item) {
 
-                var droppedItem = player.dropItem(item);
-                if (droppedItem != null)
+                var dropResult = player.dropItem(item);
+
+                if (dropResult.success)
                 {
-                    mapService.currentRoom.addItem(droppedItem);
+                    mapService.currentRoom.addItem(dropResult.item);
                 }
 
             };
 
             $scope.transfer = function(item, giver, taker) {
 
-                if (giver.dropItem(item) != null)
+                var dropResult = giver.dropItem(item);
+
+                if (dropResult.success)
                 {
-                    taker.addItem(item);
+                    var addResult = taker.addItem(item);
+                    if (!addResult.success)
+                    {
+                        gameService.addPlay(addResult.message);
+                    }
+                }
+                else
+                {
+                    gameService.addPlay(dropResult.message);
                 }
 
             };
