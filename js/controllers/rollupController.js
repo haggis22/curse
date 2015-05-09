@@ -26,9 +26,32 @@
 	
 			$scope.rollCharacter = function(player)
 			{
-				player.str = $scope.rollStat();
-                player.int = $scope.rollStat();
-				player.dex = $scope.rollStat();
+                switch (player.species)
+                {
+                    case 'dwarf':
+        				player.str = diceService.rollDie(5, 10) + diceService.rollDie(5, 10) + diceService.rollDie(5,10);
+        				player.int = diceService.rollDie(2, 6) + diceService.rollDie(3, 7) + diceService.rollDie(2,7);
+        				player.dex = diceService.rollDie(3, 7) + diceService.rollDie(2, 8) + diceService.rollDie(3,7);
+                        break;
+
+                    case 'elf':
+        				player.str = diceService.rollDie(3, 7) + diceService.rollDie(2, 8) + diceService.rollDie(3,7);
+        				player.int = diceService.rollDie(4, 9) + diceService.rollDie(3, 8) + diceService.rollDie(3,8);
+        				player.dex = diceService.rollDie(4, 8) + diceService.rollDie(3, 8) + diceService.rollDie(3,9);
+                        break;
+
+                    case 'hobbit':
+        				player.str = diceService.rollDie(2, 6) + diceService.rollDie(2, 7) + diceService.rollDie(2, 8);
+        				player.int = diceService.rollDie(3, 8) + diceService.rollDie(3, 8) + diceService.rollDie(3, 8);
+        				player.dex = diceService.rollDie(3, 9) + diceService.rollDie(4, 8) + diceService.rollDie(4, 9);
+                        break;
+
+                    default:  // human, et al
+        				player.str = diceService.rollDie(3, 8) + diceService.rollDie(3, 8) + diceService.rollDie(3, 8);
+        				player.int = diceService.rollDie(3, 8) + diceService.rollDie(3, 8) + diceService.rollDie(3, 8);
+        				player.dex = diceService.rollDie(3, 8) + diceService.rollDie(3, 8) + diceService.rollDie(3, 8);
+                        break;
+                }
 				
                 player.health = player.maxHealth = $scope.rollStat();
                
