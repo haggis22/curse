@@ -2,7 +2,7 @@
 
 (function(app) {
 
-	app.factory('Creature', ['Sex', 'BodyShape', 'Skill', 'AttackType', 'diceService',
+	app.factory('Creature', ['Sex', 'BodyShape', 'Skill', 'AttackType', 'diceService', 
 
 		function(Sex, BodyShape, Skill, AttackType, diceService) {
 
@@ -370,8 +370,9 @@
                     return this.poisons.length > 0;
                 },
 
-                addPoison: function(venom)
+                addPoison: function(venom, date)
                 {
+                    venom.lastTime = new Date(date);
                     this.poisons.push(venom);
                 },
 
@@ -379,6 +380,38 @@
                 {
                     // remove all poisons
                     this.poisons.length = 0;
+                },
+
+                checkHealth: function()
+                {
+                    if (this.health < 0)
+                    {
+                        // Negative health would just look weird
+                        this.health = 0;
+                    }
+
+                },
+
+                checkTime: function(date)
+                {
+                    // check for any poisons
+                    for (var p=0; p < this.poisons.length; p++)
+                    {
+                        var poison = this.poisons[p];
+
+                        var effectTime = poison.lastTime.getTime() + (poison.interval * 1000);
+
+                        if (date.getTime() >= effectTime)
+                        {
+                            this.health -= diceService.rollDie(poison.damage.min, poison.damage.max);
+                            this.checkHealth();
+
+                            poison.lastTime = new Date(date);
+                        }
+
+
+                    }
+
                 }
 
 

@@ -42,12 +42,7 @@
                     results.push(attack.actor.getName(true) + ' breathed fire at ' + attack.target.getName(true) + ' for ' + damage + ' damage');
 
 					attack.target.health -= damage;
-
-                    if (attack.target.health < 0)
-                    {
-                        // Negative health would just look weird
-                        attack.target.health = 0;
-                    }
+                    attack.target.checkHealth();
 
 					if (!attack.target.isAlive())
 					{

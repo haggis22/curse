@@ -62,7 +62,7 @@
             };
 
             // returns an array of text descriptions of the attack and its effects
-            Attack.prototype.perform = function()
+            Attack.prototype.perform = function(date)
             {
                 var actions = [];
 
@@ -133,15 +133,10 @@
                         actions.push(protection.descriptions[p]);
                     }
 
-					actions = actions.concat(this.type.checkEffects(this));
+					actions = actions.concat(this.type.checkEffects(this, date));
 
                     this.target.health -= this.damage;
-
-                    if (this.target.health < 0)
-                    {
-                        // Negative health would just look weird
-                        this.target.health = 0;
-                    }
+                    this.target.checkHealth();
 
 					if (!this.target.isAlive())
 					{

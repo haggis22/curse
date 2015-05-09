@@ -33,13 +33,13 @@
                 this.skills[skillName] = skillName;
             };
 
-            AttackType.prototype.checkEffects = function(attack)
+            AttackType.prototype.checkEffects = function(attack, date)
             {
                 var effects = [];
 
                 for (var e=0; e < this.specialEffects.length; e++)
                 {
-                    effects = effects.concat(this.specialEffects[e].perform(attack));
+                    effects = effects.concat(this.specialEffects[e].perform(attack, date));
                 }
 
                 return effects;

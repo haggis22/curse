@@ -9,6 +9,7 @@
 		    function Paralysis(paralysis) 
             {
                 this.chance = paralysis.chance;
+                this.requiresDamage = paralysis.requiresDamage == null ? true : paralysis.requiresDamage;
 		    };
 
             Paralysis.prototype = Object.create(Object.prototype);
@@ -22,7 +23,7 @@
 
                 if (diceService.rollDie(1, 100) <= this.chance)
                 {
-                    if (attack.damage > 0)
+                    if ((attack.damage > 0) || (!this.requiresDamage))
                     {
                         attack.target.isParalyzed = true;
                         results.push(attack.actor.getName(true) + ' paralyzed ' + attack.target.getName(true) + '!');

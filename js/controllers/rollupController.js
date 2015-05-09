@@ -2,8 +2,8 @@
 
 (function(app) {
 
-	app.controller('rollupController', ['$scope', '$state', 'playerService', 'diceService', 'Sex', 'Item', 'SkillType', 'Skill', 'Weapon', 'Shield', 'Potion', 'skillService',
-		function($scope, $state, playerService, diceService, Sex, Item, SkillType, Skill, Weapon, Shield, Potion, skillService) {
+	app.controller('rollupController', ['$scope', '$state', 'playerService', 'diceService', 'Sex', 'Item', 'SkillType', 'Skill', 'Weapon', 'Shield', 'Potion', 'Venom', 'skillService', 'timeService',
+		function($scope, $state, playerService, diceService, Sex, Item, SkillType, Skill, Weapon, Shield, Potion, Venom, skillService, timeService) {
 			
             $scope.Math = window.Math;
             $scope.skillService = skillService;
@@ -55,6 +55,9 @@
 
                 player.addKnownSpell('missile');
                 player.addKnownSpell('fireball');
+
+                player.curePoison();
+                // player.addPoison(new Venom({ chance: 1, damage: { min: 0, max: 1 }, interval: 1200 }), timeService.START_TIME);
 
 
 			}

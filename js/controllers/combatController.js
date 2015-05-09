@@ -96,7 +96,7 @@
 
 				for (var a=0; a < $scope.combatActions.length; a++)
 				{
-                    var descriptions = $scope.combatActions[a].perform();
+                    var descriptions = $scope.combatActions[a].perform(timeService.date);
 
                     // could be empty if no action was taken
                     for (var d=0; d < descriptions.length; d++)
