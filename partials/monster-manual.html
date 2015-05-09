@@ -105,7 +105,7 @@
             <span ng-if="monster.article.id != null">article: '{{ monster.article.id }}', </span>
             <span ng-if="monster.bodyShape.id">bodyShape: {{ monster.bodyShape.id }}, </span>
             <span ng-if="monster.sex.id">sex: {{ monster.sex.id }}, </span>
-            <span ng-if="monster.isUndead">isUndead: true,</span>
+            <span ng-if="monster.isUndead">attributes: ['undead'],</span>
             <span ng-if="!monster.useWeapons">useWeapons: false,</span>
             <span ng-if="!monster.useArmour">useArmour: false,</span>
             str: { min: {{ monster.str.min }}, max: {{ monster.str.max }} }, 

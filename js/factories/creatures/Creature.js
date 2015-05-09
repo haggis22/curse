@@ -16,8 +16,6 @@
                 this.int = creature.int == null ? 0 : creature.int;
                 this.dex = creature.dex == null ? 0 : creature.dex;
 
-                this.isUndead = creature.isUndead == null ? false : creature.isUndead;
-
                 this.health = creature.health == null ? 0 : creature.health;
                 this.maxHealth = this.health;
 
@@ -36,6 +34,8 @@
                 this.poisons = [];
                 this.isStoned = false;
                 this.isParalyzed = false;
+
+                this.attributes = creature.attributes == null ? [] : creature.attributes;
 
                 this.spells = [];
 
@@ -76,6 +76,19 @@
                 hasAnything: function()
                 {
                     return this.pack.length > 0;
+                },
+
+                hasAttribute: function(attr)
+                {
+                    for (var a=0; a < this.attributes.length; a++)
+                    {
+                        if (this.attributes[a].toLowerCase() == attr.toLowerCase())
+                        {
+                            return true;
+                        }
+                    }
+
+                    return false;
                 },
 
                 getItems: function()

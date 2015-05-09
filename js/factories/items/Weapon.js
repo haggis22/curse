@@ -30,6 +30,8 @@
                     this.skills = weapon.skills;
                 }
 
+                this.damageAdjustments = weapon.damageAdjustments == null ? [] : weapon.damageAdjustments;
+
             };
 
             Weapon.prototype = Object.create(Item.prototype);

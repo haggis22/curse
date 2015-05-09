@@ -11,14 +11,7 @@
                 this.type = item.type;
                 this.name = item.name;
                 this.article = item.article == null ? 'a' : item.article;
-                if (typeof item.damage === 'number')
-                {
-                    this.damage = { min: item.damage, max: item.damage };
-                }
-                else 
-                {
-                    this.damage = item.damage;
-                }
+
                 this.amount = item.amount == null ? 1 : item.amount;
                 this.frequency = item.frequency == null ? 1 : item.frequency;
                 this.equipped = false;

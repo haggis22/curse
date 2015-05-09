@@ -46,7 +46,7 @@
 
 					if (!attack.target.isAlive())
 					{
-						results.push(attack.actor.getName(true) + (attack.isUndead ? ' destroyed ' : ' killed ') + attack.target.getName(true) + '!');
+						results.push(attack.actor.getName(true) + (attack.target.hasAttribute('undead') ? ' destroyed ' : ' killed ') + attack.target.getName(true) + '!');
 					}
 
                 }

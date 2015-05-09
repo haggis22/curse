@@ -56,7 +56,6 @@
                     dex: { min: 0, max: 0},
                     health: { min: 0, max: 0},
                     frequency: 10,
-                    isUndead: false,
                     useWeapons: true,
                     useArmour: true,
                     attacks: [],

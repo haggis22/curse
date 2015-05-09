@@ -140,7 +140,7 @@
 
 					if (!this.target.isAlive())
 					{
-						actions.push(this.actor.getName(true) + (this.target.isUndead ? ' destroyed ' : ' killed ') + this.target.getName(true) + '!');
+						actions.push(this.actor.getName(true) + (this.target.hasAttribute('undead') ? ' destroyed ' : ' killed ') + this.target.getName(true) + '!');
 					}
 					
 				}
