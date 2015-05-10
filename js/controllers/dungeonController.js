@@ -89,7 +89,12 @@
                     if (!addResult.success)
                     {
                         gameService.addPlay(addResult.message);
+
+                        // just put it in the room instead
+                        mapService.currentRoom.addItem(dropResult.item);
+
                     }
+
                 }
                 else
                 {

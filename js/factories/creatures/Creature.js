@@ -372,33 +372,52 @@
 
                     // TODO: Shield spell
 
-                    if (attack.isPhysicalAttack)
+                    if (attack.damage > 0)
                     {
-                        var shield = this.checkShield();
-                        if (shield != null)
+
+                        if (attack.isPhysicalAttack)
                         {
-                            var melee = this.getSkillLevel("melee");
-                            if (diceService.rollDie(1, 100) <= melee)
+                            var shield = this.checkShield();
+                            if (shield != null)
                             {
-                                var shieldBlock = shield.getProtection();
-                                response.blocked += shieldBlock;
-                                response.descriptions.push(this.getPossessive() + ' ' + shield.name + ' absorbed ' + shieldBlock + ' of the damage');
+                                var melee = this.getSkillLevel("melee");
+                                if (diceService.rollDie(1, 100) <= melee)
+                                {
+                                    var shieldBlock = Math.min(attack.damage, shield.getProtection());
+
+                                    if (shieldBlock > 0)
+                                    {
+                                        response.blocked += shieldBlock;
+                                        response.descriptions.push(this.getPossessive() + ' ' + shield.name + ' absorbed ' + shieldBlock + ' of the damage');
+                                    }
+                                }
                             }
-                        }
 
-                        var armour = this.checkArmour(attack.bodyPart.name);
 
-					    if (armour != null)
-					    {
-                            // TODO: limited blocked to the remaining amount of damage
-                            var armourBlock = armour.getProtection();
-                            response.blocked += armourBlock;
-                            response.descriptions.push(this.getPossessive() + ' ' + armour.name + ' absorbed ' + armourBlock + ' of the damage');
-                        }
+                            if (attack.damage > response.blocked)
+                            {
+                                // there is still some damage to try to absorb
+                                var armour = this.checkArmour(attack.bodyPart.name);
+
+					            if (armour != null)
+					            {
+                                    // TODO: limited blocked to the remaining amount of damage
+                                    var armourBlock = Math.min((attack.damage - response.blocked), armour.getProtection());
+
+                                    if (armourBlock > 0)
+                                    {
+                                        response.blocked += armourBlock;
+                                        response.descriptions.push(this.getPossessive() + ' ' + armour.name + ' absorbed ' + armourBlock + ' of the damage');
+                                    }
+
+                                }
+                            }
+
+                        }  // end if attack caused any damage
+
+                        response.blocked = Math.min(attack.damage, response.blocked);
 
                     }
-
-                    response.blocked = Math.min(attack.damage, response.blocked);
 
                     return response;
 
