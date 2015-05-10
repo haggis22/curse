@@ -14,7 +14,7 @@
 
                 if (typeof weapon.damage === 'number')
                 {
-                    this.weapon = { min: weapon.damage, max: weapon.damage };
+                    this.damage = { min: weapon.damage, max: weapon.damage };
                 }
                 else 
                 {
@@ -29,6 +29,8 @@
                 {
                     this.skills = weapon.skills;
                 }
+
+                this.bonus = weapon.bonus == null ? [] : weapon.bonus;
 
                 this.damageAdjustments = weapon.damageAdjustments == null ? [] : weapon.damageAdjustments;
 
@@ -62,6 +64,61 @@
                 return this.skills;
             }
             
+            Weapon.prototype.toHitModifier = function(attack) 
+            {
+                var modifier = 0;
+                for (var b=0; b < this.bonus.length; b++)
+                {
+                    var bonus = this.bonus[b];
+                    if (bonus.hit)
+                    {
+                        if (bonus.attr == null)
+                        {
+                            modifier += bonus.hit;
+                        }
+                        else
+                        {
+                            if (attack.target.hasAttribute(bonus.attr))
+                            {
+                                modifier += bonus.hit;
+                            }
+                        }
+                    
+                    }  // if weapon has a to-hit bonus
+                
+                }  // for each bonus
+
+                return modifier;
+            };
+
+            Weapon.prototype.damageModifier = function(attack) 
+            {
+                var modifier = 0;
+                for (var b=0; b < this.bonus.length; b++)
+                {
+                    var bonus = this.bonus[b];
+                    if (bonus.damage)
+                    {
+                        if (bonus.attr == null)
+                        {
+                            modifier += bonus.damage;
+                        }
+                        else
+                        {
+                            if (attack.target.hasAttribute(bonus.attr))
+                            {
+                                modifier += bonus.damage;
+                            }
+                        }
+                    
+                    }  // if weapon has a to-hit bonus
+                
+                }  // for each bonus
+
+                return modifier;
+            };
+
+
     	    return (Weapon);
 
 		}

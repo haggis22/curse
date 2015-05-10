@@ -46,6 +46,16 @@
 
             };
 
+            AttackType.prototype.toHitModifier = function(attack) 
+            {
+                return 0;
+            };
+
+            AttackType.prototype.damageModifier = function(attack) 
+            {
+                return 0;
+            };
+
             return (AttackType);
 
 		}

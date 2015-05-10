@@ -86,6 +86,8 @@
                     toHit -= this.target.getSkillLevel(relevant[r]);
                 }
 
+                toHit += this.type.toHitModifier(this);
+
                 var roll = diceService.rollDie(1, 100);
 
 				msg += ' toHit: ' + toHit + ', roll: ' + roll;
@@ -97,6 +99,7 @@
                     var damageRange = this.type.getDamage();
 
                     this.damage = diceService.rollDie(damageRange.min, damageRange.max);
+                    this.damage += this.type.damageModifier(this);
 
                     var damageModifier = 1;
 

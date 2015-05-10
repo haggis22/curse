@@ -42,6 +42,16 @@
 
             };
 
+            WeaponAttack.prototype.toHitModifier = function(attack) 
+            {
+                return this.weapon.toHitModifier(attack);
+            };
+
+            WeaponAttack.prototype.damageModifier = function(attack) 
+            {
+                return this.weapon.damageModifier(attack);
+            };
+
 		    return (WeaponAttack);
 
 		}
