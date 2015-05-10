@@ -105,13 +105,20 @@
 
             $scope.useItem = function(creature, item) {
 
+                var result = {};
+
                 if (item.equipped)
                 {
-                    creature.unequipItem(item);
+                    result = creature.unequipItem(item);
                 }
                 else
                 {
-                    creature.useItem(item);
+                    result = creature.useItem(item);
+                }
+
+                if (result.message)
+                {
+                    gameService.addPlay(result.message);
                 }
 
             };

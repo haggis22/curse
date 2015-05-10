@@ -34,15 +34,34 @@
 
                 this.damageAdjustments = weapon.damageAdjustments == null ? [] : weapon.damageAdjustments;
 
+                this.hands = weapon.hands == null ? 1 : weapon.hands;
+
             };
 
             Weapon.prototype = Object.create(Item.prototype);
 
             Weapon.prototype.use = function(creature)
             {
-                // remove any other item the creature is using that is considered a weapon
+                // see how many hands free the character has
                 var items = creature.getItems();
 
+                var handsInUse = 0;
+
+                for (var i=0; i < items.length; i++)
+                {
+                    if ((items[i].equipped) && (!items[i].isWeapon))
+                    {
+                        handsInUse += items[i].hands;
+                    }
+                }
+
+                if (handsInUse + this.hands > creature.hands)
+                {
+                    return { success: false, message: creature.getName(true) + ' does not have enough hands free to equip ' + this.getName(true) };
+                }
+
+                // unequip any other item the creature is using that is considered a weapon
+                // TODO: allow other weapons to be equipped at the same time?
                 for (var i=0; i < items.length; i++)
                 {
                     if (items[i].isWeapon)
@@ -52,6 +71,8 @@
                 }
 
                 this.equipped = true;
+
+                return { success: true };
             };
 
             Weapon.prototype.isEquippableBy = function(creature)

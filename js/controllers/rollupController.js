@@ -77,10 +77,12 @@
                 // give him some basics to start out
                 player.clearPack();
 			    player.addItem(new Weapon({ name: 'dirk of undead slaying', damage: { min: 2, max: 3}, skills: [ 'melee' ], weight: 3, bonus: [ { attr: 'undead', hit: 10, damage: 10 } ] }));
+                player.addItem(new Weapon({ name: 'battle axe', damage: { min: 5, max: 6}, skills: [ 'melee' ], weight: 16, hands: 2 }));
                 player.addItem(new Potion({ name: 'healing potion', effects: { type: Potion.prototype.EFFECTS_HEAL, damage: { min: 2, max: 4 } }, amount: 1, weight: 3 }));
                 player.addItem(new Potion({ name: 'healing potion', effects: { type: Potion.prototype.EFFECTS_HEAL, damage: { min: 2, max: 4 } }, amount: 1, weight: 3 }));
                 player.addItem(new Potion({ name: 'healing potion', effects: { type: Potion.prototype.EFFECTS_HEAL, damage: { min: 2, max: 4 } }, amount: 1, weight: 3 }));
                 player.addItem(new Potion({ name: 'antivenom', article: 'an', effects: { type: Potion.prototype.EFFECTS_ANTIVENOM}, amount: 1, weight: 3 }));
+                player.addItem(new Potion({ name: 'Mountain Dew', effects: { }, amount: 1, weight: 3 }));
 			    player.addItem(new Shield({ name: 'buckler', damage: { min: 1, max: 2 }, weight: 8 }));
 
 			};

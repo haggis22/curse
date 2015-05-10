@@ -17,6 +17,7 @@
                 this.equipped = false;
 
                 this.weight = item.weight == null ? 0 : item.weight;
+                this.hands = item.hands == null ? 0 : item.hands;
 	
             };
 
@@ -75,6 +76,11 @@
                     // by default, items are not equippable. Some items, like armour and weapons 
                     // will override this method
                     return false;
+                },
+
+                use: function(creature)
+                {
+                    return { success: false, message: this.getName(true) + ' is not usable' };
                 }
 
 		    };  // prototype

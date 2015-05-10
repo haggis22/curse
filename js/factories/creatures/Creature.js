@@ -39,6 +39,8 @@
 
                 this.spells = [];
 
+                this.hands = creature.hands == null ? 2 : creature.hands;
+
 			};
 			
 			Creature.prototype = {
@@ -208,25 +210,7 @@
 
 				useItem: function(item)
 				{
-                    if (typeof item.use === 'function')
-                    {
-                        item.use(this);
-                    }
-					
-				},
-
-				unequipAllOfType: function(type)
-				{
-					for (var a=0; a < this.pack.length; a++)
-					{
-						var item = this.pack[a];
-						if (item.type == type)
-						{
-							item.equipped = false;
-						}
-				
-					}  // end for
-					
+                    return item.use(this);
 				},
 
                 unequipItem: function(item)
@@ -236,8 +220,11 @@
                         if (this.pack[i] == item)
                         {
                             this.pack[i].equipped = false;
+                            return { success: true };
                         }
                     }
+
+                    return { success: false, message: this.getName(true) + ' does not have ' + item.getName(true) + ', so ' + this.getNominative() + ' cannot unequip it!' };
                 },
 
                 countGold: function()

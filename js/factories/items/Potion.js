@@ -26,8 +26,7 @@
             {
                 if (this.amount == 0)
                 {
-                    console.error(creature.getName(true) + " tried to drink, but the " + this.name + " is empty.");
-                    return;
+                    return { success: false, message: creature.getName(true) + " tried to drink, but the " + this.name + " is empty." };
                 }
 
                 switch (this.effects.type)
@@ -35,25 +34,30 @@
 					case Potion.prototype.EFFECTS_HEAL:
 
                         var cure = creature.heal(diceService.rollDie(this.effects.damage.min, this.effects.damage.max));
-						// gameService.actions.push('The potion cured you of ' + cure + ' damage');
-						break;
+                        this.amount--;
+                        if (this.amount == 0)
+                        {
+                            this.name = "empty flask";
+                            this.article = "an";
+                        }
+
+                        return { success: true, message: 'The potion cured ' + creature.getName(true) + ' of ' + cure + ' damage.' };
 							
 					case Potion.prototype.EFFECTS_ANTIVENOM:
 
                         creature.curePoison();
-						// gameService.actions.push('The potion cured you of ' + cure + ' damage');
-						break;
+                        this.amount--;
+                        if (this.amount == 0)
+                        {
+                            this.name = "empty flask";
+                            this.article = "an";
+                        }
+						
+                        return { success: true, message: 'The potion cured ' + creature.getName(true) + ' of poison.' };
 
 				}  // end switch
 
-                // TODO: change it from potion to empty bottle
-                this.amount--;
-                if (this.amount == 0)
-                {
-                    this.name = "empty flask";
-                    this.article = "an";
-                }
-
+                return { success: false, message: 'What a refreshing drink!' };
             };
 
     	    return (Potion);

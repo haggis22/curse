@@ -41,6 +41,8 @@
                 }
 
                 this.equipped = true;
+
+                return { success: true };
             };
 
             Armour.prototype.getProtection = function()

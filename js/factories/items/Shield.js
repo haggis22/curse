@@ -21,15 +21,33 @@
                     this.damage = shield.damage;
                 }
 
+                this.hands = shield.hands == null ? 1 : shield.hands;
+
             };
 
             Shield.prototype = Object.create(Item.prototype);
 
             Shield.prototype.use = function(creature)
             {
-                // unequip any other shield the creature is using
+                // see how many hands free the character has
                 var items = creature.getItems();
 
+                var handsInUse = 0;
+
+                for (var i=0; i < items.length; i++)
+                {
+                    if ((items[i].equipped) && (!items[i].isShield))
+                    {
+                        handsInUse += items[i].hands;
+                    }
+                }
+
+                if (handsInUse + this.hands > creature.hands)
+                {
+                    return { success: false, message: creature.getName(true) + ' does not have enough hands free to equip ' + this.getName(true) };
+                }
+
+                // unequip any other item the creature is using that is considered a shield
                 for (var i=0; i < items.length; i++)
                 {
                     if (items[i].isShield)
@@ -39,6 +57,10 @@
                 }
 
                 this.equipped = true;
+
+                return { success: true };
+
+
             };
 
             Shield.prototype.getProtection = function()

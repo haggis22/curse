@@ -33,7 +33,7 @@
 				'D' : [
                         new Item({ type: Item.prototype.WEALTH, name: 'jewels', article: '', amount: { min: 1, max: 3 } }),
                         new Armour({ name: 'mithril armour', article: '', damage: 7, protects: BodyPart.prototype.TORSO, weight: 12 }),
-                        new Weapon({ name: 'gilded sword', damage: 4, skills: [ 'melee', 'sword' ], weight: 12 })
+                        new Weapon({ name: 'gilded sword', damage: 4, skills: [ 'melee', 'sword' ], weight: 12, bonus: [ { hit: 15, damage: 5 } ] })
 					  ],
 				'E' : [
                         new Armour({ name: 'rusty chainmail', article: '', damage: 2, protects: BodyPart.prototype.TORSO, weight: 15 }),
