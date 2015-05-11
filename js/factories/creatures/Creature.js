@@ -75,6 +75,11 @@
                     return this.isAlive() && (!(this.isStoned || this.isParalyzed));
                 },
 
+                isImmobilized: function()
+                {
+                    return this.isAlive() && (this.isStoned || this.isParalyzed);
+                },
+
                 hasAnything: function()
                 {
                     return this.pack.length > 0;

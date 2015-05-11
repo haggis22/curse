@@ -27,9 +27,9 @@
                 if (!attack.target.isStoned)
                 {
 
-                    if (diceService.rollDie(1, 100) <= 20)
+                    // a paralyzed target cannot look away
+                    if ((attack.target.isImmobilized) || (diceService.rollDie(1, 100) <= 20))
                     {
-
                         attack.target.isStoned = true;
 
                         results.push(attack.actor.getName(true) + ' gazed at ' + attack.target.getName(true) + ' and turned ' + attack.target.getObjective() + ' to stone!');
