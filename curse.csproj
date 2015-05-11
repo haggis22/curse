@@ -70,6 +70,8 @@
     <Content Include="js\factories\combat\WeaponAttack.js" />
     <Content Include="js\factories\creatures\BodyPart.js" />
     <Content Include="js\factories\creatures\BodyShape.js" />
+    <Content Include="js\directives\creatures\player-panel.js" />
+    <Content Include="partials\creatures\player-panel.html" />
     <Content Include="js\factories\creatures\MonsterType.js" />
     <Content Include="js\factories\creatures\Creature.js" />
     <Content Include="js\factories\items\Armour.js" />
