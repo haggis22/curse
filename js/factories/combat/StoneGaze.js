@@ -23,16 +23,22 @@
             {
                 var results = [];
 
-                if (diceService.rollDie(1, 100) <= 20)
+                // don't stone someone that is already stoned!
+                if (!attack.target.isStoned)
                 {
 
-                    attack.target.isStoned = true;
+                    if (diceService.rollDie(1, 100) <= 20)
+                    {
 
-                    results.push(attack.actor.getName(true) + ' gazed at ' + attack.target.getName(true) + ' and turned ' + attack.target.getObjective() + ' to stone!');
-                }
-                else
-                {
-                    results.push(attack.actor.getName(true) + ' gazed at ' + attack.target.getName(true) + ', but ' + attack.target.getNominative() + ' turned ' + attack.target.getPossessive() + ' eyes away in time!');
+                        attack.target.isStoned = true;
+
+                        results.push(attack.actor.getName(true) + ' gazed at ' + attack.target.getName(true) + ' and turned ' + attack.target.getObjective() + ' to stone!');
+                    }
+                    else
+                    {
+                        results.push(attack.actor.getName(true) + ' gazed at ' + attack.target.getName(true) + ', but ' + attack.target.getNominative() + ' turned ' + attack.target.getPossessive() + ' eyes away in time!');
+                    }
+
                 }
 
                 return results;
