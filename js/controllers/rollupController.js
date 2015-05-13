@@ -8,24 +8,21 @@
             $scope.Math = window.Math;
             $scope.skillService = skillService;
 
-            $scope.player = playerService.newPlayer();
-            
-            playerService.currentPlayer = $scope.player;
-
-            $scope.player.name = 'Zogarth';
-            
-            $scope.Sex = Sex;
-
             $scope.availableSpecies = [ 'dwarf', 'elf', 'hobbit', 'human' ];
+
 
 			$scope.rollStat = function()
 			{
 				return diceService.rollDie(3,8) + diceService.rollDie(3,8) + diceService.rollDie(3,8);
 			};
-
 	
 			$scope.rollCharacter = function(player)
 			{
+                if (player == null)
+                {
+                    player = playerService.currentPlayer;
+                }
+
                 switch (player.species)
                 {
                     case 'dwarf':
@@ -87,6 +84,21 @@
 
 			};
 
+
+
+            var player = playerService.newPlayer();
+            player.name = 'Zack';
+            player.species = 'human';
+            $scope.rollCharacter(player);
+
+            // Zogarth
+            player = playerService.newPlayer();
+            player.name = 'Zogarth';
+            player.species = 'human';
+            playerService.currentPlayer = player;
+
+            $scope.player = player;
+
 			
 			$scope.enterDungeon = function(isValid) {
 
@@ -94,9 +106,9 @@
 				
 				if (isValid)
 				{
-					if ($scope.player.health == 0)
+					if (playerService.currentPlayer.health == 0)
 					{
-						$scope.rollCharacter($scope.player);
+						$scope.rollCharacter(playerService.currentPlayer);
 					}
 					
 					$state.go('dungeon');

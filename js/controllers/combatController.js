@@ -115,7 +115,7 @@
 				var newActions = [];
 				for (var a=0; a < $scope.combatActions.length; a++)
 				{
-					if (!$scope.combatActions[a].actor == player)
+					if ($scope.combatActions[a].actor != player)
 					{
 						newActions.push($scope.combatActions[a]);
 					}

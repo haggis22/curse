@@ -35,12 +35,20 @@
 
     
     <div style="margin-top: 15px; float: left;">
-        <div ng-repeat="player in playerService.players">
-            <player-panel player="player"></player-panel>
+        <div style="float: left;">
+            <player-panel player="playerService.currentPlayer"></player-panel>
         </div>
+        <div style="float: left;">
+            <div ng-repeat="player in playerService.players" ng-click="playerService.currentPlayer = player" class="player-tag" ng-class="{ 'player-tag-active' : player == playerService.currentPlayer}">
+                {{ player.getName(null) | capFirst }}
+            </div>
+
+        </div>
+
     </div>
 
-	<div style="float: left; margin-left: 20px;">
+
+	<div style="float: left; margin-left: 20px; margin-top: 15px;">
 		<div ui-view></div>
 	</div>
 	

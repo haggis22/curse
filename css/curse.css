@@ -176,6 +176,25 @@ div.image
     font-weight: bold;
 }
 
+.player-tag-active
+{
+    font-weight: bold;
+    background-color: #009 !important;
+    color: #fff !important;
+    border-left: 1px solid transparent !important;
+}
+
+.player-tag
+{
+    background-color: #eee;
+    border: 1px solid #000;
+    text-align: left; 
+    margin: 1px 0px 1px 0px;
+    padding: 0px 15px 0px 5px;
+    cursor: pointer;
+}
+
+
 .monster-tag-active
 {
     font-weight: bold;
