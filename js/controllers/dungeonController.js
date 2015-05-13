@@ -44,7 +44,7 @@
 		
             $scope.pickUp = function(item) {
 
-                var results = $scope.player.addItem(item);
+                var results = playerService.currentPlayer.addItem(item);
 
                 if (results.success)
                 {

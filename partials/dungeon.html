@@ -20,7 +20,7 @@
                     <li ng-repeat="monster in mapService.currentRoom.monsters" ng-hide="monster.isAlive()">
                         <span class="lootable" ng-click="monster.isLooted = !monster.isLooted" ng-class="{ 'looted': monster.isLooted }">A dead {{ monster.getName(null) }}</span>
                         <ul ng-show="monster.isLooted && monster.hasAnything()">
-                            <li class="item" ng-repeat="item in monster.pack" ng-click="transfer(item, monster, player)">{{ item.getName(false) }}</li>
+                            <li class="item" ng-repeat="item in monster.pack" ng-click="transfer(item, monster, playerService.currentPlayer)">{{ item.getName(false) }}</li>
                         </ul>
                     </li>
                     <li class="item" ng-repeat="item in mapService.currentRoom.items" ng-click="pickUp(item)">{{ item.getName(false) }}</li>

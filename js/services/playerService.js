@@ -2,9 +2,9 @@
 
 (function(app) {
 
-	app.service('playerService', [ 'Player',
+	app.service('playerService', [ 'Player', 'diceService',
 
-		function(Player) {
+		function(Player, diceService) {
 
 			this.players = [];
 
@@ -53,6 +53,26 @@
                 }
 
                 return true;
+            };
+
+            this.randomLivingPlayer = function() 
+            {
+                var livers = [];
+
+                for (var p=0; p < this.players.length; p++)
+                {
+                    if (this.players[p].isAlive())
+                    {
+                        livers.push(this.players[p]);
+                    }
+                }
+
+                if (livers.length == 0)
+                {
+                    return null;
+                }
+
+                return livers[diceService.rollDie(0, livers.length - 1)];
             };
 
 

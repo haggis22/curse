@@ -65,24 +65,32 @@
 				for (var m=0; m < liveMonsters.length; m++)
 				{
 					var monster = liveMonsters[m];
-                    if (monster.hasSpecialAttacks())
+
+                    // each player will use all its attacks on a single, random player
+                    var target = playerService.randomLivingPlayer();
+                    if (target != null)
                     {
-                        for (var a=0; a < monster.attacks.length; a++)
+
+                        if (monster.hasSpecialAttacks())
                         {
-                            if (monster.attacks[a].isSpecialAttack)
+                            for (var a=0; a < monster.attacks.length; a++)
                             {
-                                $scope.addSpecialAttack(monster, playerService.currentPlayer, monster.attacks[a]);
-                            }
-                            else
-                            {
-                                $scope.addMonsterAttack(monster, playerService.currentPlayer, monster.attacks[a]);
+                                if (monster.attacks[a].isSpecialAttack)
+                                {
+                                    $scope.addSpecialAttack(monster, target, monster.attacks[a]);
+                                }
+                                else
+                                {
+                                    $scope.addMonsterAttack(monster, target, monster.attacks[a]);
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        // monster will attack with its fists / weapon
-                        $scope.addAttack(monster, playerService.currentPlayer);
+                        else
+                        {
+                            // monster will attack with its fists / weapon
+                            $scope.addAttack(monster, target);
+                        }
+
                     }
 				}
 
