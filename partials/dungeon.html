@@ -32,66 +32,19 @@
 	    </div>
 
     </div>
-<!--
-    <div ng-repeat="player in playerService.players">
-        <player-panel player="player"></player-panel>
-    </div>
--->
-    <div style="margin-top: 15px;">
-        
-        <div class="window window-player" style="float: left;" ng-class="{ 'active-player' : playerService.currentPlayer == player }">
 
-		    <div class="name">
-                {{ player.getName() }}
-                <span ng-show="player.isPoisoned()" class="poisoned">poisoned</span>
-                <span ng-show="player.isParalyzed" class="paralyzed">paralyzed</span>
-                <span ng-show="player.isStoned" class="stoned">turned to stone</span>
-            </div>
-            <div class="species">{{ player.species | capFirst }}</div>
-		    <div class="attributes">
-			    <div><span class="attr-label">Strength:</span> <span class="attr-value">{{ player.str }}</span></div>
-			    <div><span class="attr-label">Intelligence:</span> <span class="attr-value">{{ player.int }}</span></div>
-			    <div><span class="attr-label">Dexterity:</span> <span class="attr-value">{{ player.dex }}</span></div>
-			    <div style="margin-top: 10px;"><span class="attr-label">Health:</span>
-					    <span ng-show="player.health > 0 && player.health == player.maxHealth" class="attr-value">{{ player.health }}</span>
-					    <span ng-show="player.health > 0 && player.health < player.maxHealth" class="attr-value">{{ player.health }} / {{ player.maxHealth }}</span>
-					    <span ng-show="player.health <= 0" class="attr-value dead">DEAD</span>
-			    </div>
-			    <div ng-show="player.maxPower > 0">
-                    <span class="attr-label">Magic:</span>
-					<span ng-show="player.power == player.maxPower" class="attr-value">{{ player.power }}</span>
-					<span ng-show="player.power < player.maxPower" class="attr-value">{{ player.power }} / {{ player.maxPower }}</span>
-			    </div>
-                <div ng-show="player.hasSkills()" style="margin-top: 15px;">
-                    <div class="header">Skills</div>
-					<div ng-repeat="skill in player.skills">
-                        <span class="attr-label">{{ skillService.getSkill(skill.name).description | capFirst }}:</span>
-                        <span class="attr-value">{{ skill.level | floor | number: 0 }}</span>
-                    </div>
-                </div>
-		    </div>
-
-		    <div class="window window-pack" style="margin-top: 10px;">
-			    <div><span class="attr-label">Gold:</span><span class="attr-value gold">{{ player.countGold() }} gold</span></div>
-			    <div><span class="attr-label">Encumbrance:</span><span class="attr-value">{{ player.getEncumbrance() | number:0 }} #</span></div>
-			    <div style="margin-top: 10px; text-decoration: underline">Inventory</div>
-			    <div>
-				    <ul>
-					    <li ng-repeat="item in player.pack" ng-hide="item.isGold()">
-                            <span class="item" ng-click="useItem(player, item)" ng-class="{ 'equipped' : item.equipped }">{{ item.getName(null) }}</span>
-                            <span class="droppable" ng-click="dropItem(player, item)">[X]</span>
-                        </li>
-				    </ul>
-			    </div>
-		    </div>
-	    </div>
-	
-	    <div style="float: left; margin-left: 20px;">
-		    <div ui-view></div>
-	    </div>
-	
-	    <div style="clear: both;">&nbsp;</div>
+    
+    <div style="margin-top: 15px; float: left;">
+        <div ng-repeat="player in playerService.players">
+            <player-panel player="player"></player-panel>
+        </div>
     </div>
+
+	<div style="float: left; margin-left: 20px;">
+		<div ui-view></div>
+	</div>
+	
+	<div style="clear: both;">&nbsp;</div>
 
     <div class="window window-dead dead" style="margin-top: 15px;" ng-show="playerService.allDead()">
         You are dead.
@@ -104,5 +57,5 @@
 	</div>
 
 
-	
+
 </div>

@@ -43,7 +43,7 @@
 				
 				
 			};
-
+		
             $scope.pickUp = function(item) {
 
                 var results = $scope.player.addItem(item);
@@ -51,15 +51,15 @@
                 if (results.success)
                 {
                     var remainingItems = [];
-                    for (var i=0; i < $scope.mapService.currentRoom.items.length; i++)
+                    for (var i=0; i < mapService.currentRoom.items.length; i++)
                     {
-                        if ($scope.mapService.currentRoom.items[i] != item)
+                        if (mapService.currentRoom.items[i] != item)
                         {
-                            remainingItems.push($scope.mapService.currentRoom.items[i]);
+                            remainingItems.push(mapService.currentRoom.items[i]);
                         }
                     }
 
-                    $scope.mapService.currentRoom.items = remainingItems;
+                    mapService.currentRoom.items = remainingItems;
                 }
                 else
                 {
@@ -68,16 +68,6 @@
 
             };
 
-            $scope.dropItem = function(player, item) {
-
-                var dropResult = player.dropItem(item);
-
-                if (dropResult.success)
-                {
-                    mapService.currentRoom.addItem(dropResult.item);
-                }
-
-            };
 
             $scope.transfer = function(item, giver, taker) {
 
@@ -103,29 +93,9 @@
 
             };
 
-            $scope.useItem = function(creature, item) {
 
-                var result = {};
-
-                if (item.equipped)
-                {
-                    result = creature.unequipItem(item);
-                }
-                else
-                {
-                    result = creature.useItem(item);
-                }
-
-                if (result.message)
-                {
-                    gameService.addPlay(result.message);
-                }
-
-            };
-
-
-		
 		}
+
 	]);			
 	
 }) (angular.module('CurseApp'));
