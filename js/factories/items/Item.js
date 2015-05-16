@@ -18,6 +18,8 @@
 
                 this.weight = item.weight == null ? 0 : item.weight;
                 this.hands = item.hands == null ? 0 : item.hands;
+
+                this.attributes = item.attributes == null ? [] : item.attributes;
 	
             };
 

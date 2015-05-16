@@ -52,6 +52,11 @@
                 return this.weapon.damageModifier(attack);
             };
 
+            WeaponAttack.prototype.isReady = function(attack) 
+            {
+                return this.weapon.isReady(attack);
+            };
+
 		    return (WeaponAttack);
 
 		}

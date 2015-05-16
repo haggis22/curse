@@ -161,7 +161,7 @@
 
                     if (remainingItems.length == this.pack.length)
                     {
-                        return { success: false, message: this.getName() + ' does not have ' + item.getName(true) };
+                        return { success: false, message: this.getName() + ' does not have ' + item.getName(true) + '.' };
                     }
 
                     // make sure it's not equipped any more

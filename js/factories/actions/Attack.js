@@ -71,6 +71,19 @@
                     return actions;
                 }
 
+                var attackReady = this.type.isReady(this);
+
+                if (!attackReady.success)
+                {
+                    // the attack was not ready, for whatever reason (out of ammo, dragon breath not built up yet, etc).
+                    if (attackReady.message)
+                    {
+                        actions.push(attackReady.message);
+                    }
+
+                    return actions;
+                }
+
                 var relevant = this.getRelevantSkills();
 
                 var msg = this.actor.getName(null) + ' Attack, Target: ' + this.target.getName(null) + ', Base: 50, myDex ' + this.actor.dex + ', tgtDex: -' + this.target.dex + ',';

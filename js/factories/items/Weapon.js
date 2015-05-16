@@ -57,7 +57,7 @@
 
                 if (handsInUse + this.hands > creature.hands)
                 {
-                    return { success: false, message: creature.getName(true) + ' does not have enough hands free to equip ' + this.getName(true) };
+                    return { success: false, message: creature.getName(true) + ' does not have enough hands free to equip ' + this.getName(true) + '.' };
                 }
 
                 // unequip any other item the creature is using that is considered a weapon
@@ -139,6 +139,9 @@
                 return modifier;
             };
 
+            Weapon.prototype.isReady = function(attack) {
+                return { success: true };
+            };
 
     	    return (Weapon);
 

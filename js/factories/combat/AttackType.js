@@ -56,6 +56,11 @@
                 return 0;
             };
 
+            AttackType.prototype.isReady = function(attack)
+            {  
+                return { success: true };
+            }
+
             return (AttackType);
 
 		}
