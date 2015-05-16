@@ -55,10 +55,10 @@
 
         <div ng-hide="mode == 'spell-chant'">
 		    <button type="button" ng-click="chooseAttack()">Attack</button>
-		    <button ng-show="player.knowsSpells()" type="button" ng-click="chooseSpell()">Cast spell</button>
+		    <button ng-show="playerService.currentPlayer.knowsSpells()" type="button" ng-click="chooseSpell()">Cast spell</button>
 	    </div>
 	    <div ng-show="mode == 'spell-chant'">
-            Spell: <select ng-model="spellName" ng-options="spell as spellService.getSpell(spell).getIncantation() for spell in player.getKnownSpells()" style="width: 120px;"></select>
+            Spell: <select ng-model="spellName" ng-options="spell as spellService.getSpell(spell).getIncantation() for spell in playerService.currentPlayer.getKnownSpells()" style="width: 120px;"></select>
 		    <button type="button" ng-click="castSpell()">Cast</button>
 		    <button type="button" ng-click="cancelSpell()">Cancel</button>
 	    </div>

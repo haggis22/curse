@@ -16,7 +16,7 @@
 				return diceService.rollDie(3,8) + diceService.rollDie(3,8) + diceService.rollDie(3,8);
 			};
 	
-			$scope.rollCharacter = function(player)
+			$scope.rollCharacter = function(player, knowsSpells)
 			{
                 if (player == null)
                 {
@@ -65,8 +65,11 @@
 
                 player.clearSpells();
 
-                player.addKnownSpell('missile');
-                player.addKnownSpell('fireball');
+                if (knowsSpells)
+                {
+                    player.addKnownSpell('missile');
+                    player.addKnownSpell('fireball');
+                }
 
                 player.curePoison();
                 // player.addPoison(new Venom({ chance: 1, damage: { min: 0, max: 1 }, interval: 1200 }), timeService.START_TIME);
@@ -95,7 +98,7 @@
             var player = playerService.newPlayer();
             player.name = 'Zack';
             player.species = 'human';
-            $scope.rollCharacter(player);
+            $scope.rollCharacter(player, true);
 
             // Zogarth
             player = playerService.newPlayer();
@@ -114,7 +117,7 @@
 				{
 					if (playerService.currentPlayer.health == 0)
 					{
-						$scope.rollCharacter(playerService.currentPlayer);
+						$scope.rollCharacter(playerService.currentPlayer, false);
 					}
 					
 					$state.go('dungeon');
