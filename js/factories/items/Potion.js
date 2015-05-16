@@ -22,6 +22,17 @@
             Potion.prototype.EFFECTS_HEAL = 1;
             Potion.prototype.EFFECTS_ANTIVENOM = 2;
 
+            Potion.prototype.drainOnce = function()
+            {
+                this.amount--;
+                if (this.amount == 0)
+                {
+                    this.name = "empty flask";
+                    this.article = "an";
+                }
+
+            };
+
             Potion.prototype.use = function(creature)
             {
                 if (this.amount == 0)
@@ -34,30 +45,21 @@
 					case Potion.prototype.EFFECTS_HEAL:
 
                         var cure = creature.heal(diceService.rollDie(this.effects.damage.min, this.effects.damage.max));
-                        this.amount--;
-                        if (this.amount == 0)
-                        {
-                            this.name = "empty flask";
-                            this.article = "an";
-                        }
-
+                        this.drainOnce();
                         return { success: true, message: 'The potion cured ' + creature.getName(true) + ' of ' + cure + ' damage.' };
 							
 					case Potion.prototype.EFFECTS_ANTIVENOM:
 
                         creature.curePoison();
-                        this.amount--;
-                        if (this.amount == 0)
-                        {
-                            this.name = "empty flask";
-                            this.article = "an";
-                        }
-						
+                        this.drainOnce();
                         return { success: true, message: 'The potion cured ' + creature.getName(true) + ' of poison.' };
+
+                    default:
+                        this.drainOnce();
+                        return { success: false, message: 'Ahhh...refreshing!' };
 
 				}  // end switch
 
-                return { success: false, message: 'What a refreshing drink!' };
             };
 
     	    return (Potion);
