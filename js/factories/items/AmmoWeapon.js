@@ -38,6 +38,13 @@
                                 return dropResult;
                             }
 
+                            if (diceService.rollDie(1,100) < 20)
+                            {
+                                // the ammo broken, so remove the attribute that was valuable and adjust its name
+                                item.removeAttribute(this.ammo);
+                                item.name += ' [broken]';
+                            }
+
                             mapService.currentRoom.addItem(item);
 
                             return result;

@@ -83,6 +83,20 @@
                 use: function(creature)
                 {
                     return { success: false, message: this.getName(true) + ' is not usable' };
+                },
+
+                removeAttribute: function(attribute)
+                {
+                    var newAttrs = [];
+                    for (var a=0; a < this.attributes.length; a++)
+                    {
+                        if (this.attributes[a].toLowerCase() != attribute.toLowerCase())
+                        {
+                            newAttrs.push(this.attributes[a]);
+                        }
+                    }
+
+                    this.attributes = newAttrs;
                 }
 
 		    };  // prototype
