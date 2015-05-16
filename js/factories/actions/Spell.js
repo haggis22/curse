@@ -53,10 +53,13 @@
 
             Spell.prototype.perform = function()
             {
+                var result = { success: true, messages: [] };
+
                 if (!this.actor.isActive())
                 {   
                     // the would-be attacker is incapacitated/dead, nothing to do here
-                    return;
+                    result.success = false;
+                    return result;
                 }
 
                 // reduce the spellcaster's power by the spell's amount - if they don't have enough then the spell fizzles...
@@ -68,7 +71,9 @@
                     this.actor.power = 0;
                     var description = this.actor.getName(true) + ' tried to cast ' + this.spellType.getIncantation + ', but the spell fizzled...';
 
-                    return [ description ];
+                    result.success = false;
+                    result.messages.push(description);
+                    return result;
                 }
 
                 switch (this.spellType.getType())
@@ -83,8 +88,7 @@
 
             Spell.prototype.performAttack = function()
             {
-
-                var actions = [];
+                var result = { success: true, messages: [] };
 
                 var relevant = this.getRelevantSkills();
 
@@ -93,7 +97,7 @@
 
                 var description = this.actor.getName(true) + ' cast ' + this.spellType.getIncantation() + ' on ' + this.target.getName(true) + ' for ' + damage + ' damage!';
 
-                actions.push(description);
+                result.messages.push(description);
 
                 // Determine what resistance to magic the target might have
                 // Note: magic attacks do not focus on a body part
@@ -104,7 +108,7 @@
                 // add any description of protection there might have been
                 for (var p=0; p < protection.descriptions.length; p++)
                 {
-                    actions.push(protection.descriptions[p]);
+                    result.messages.push(protection.descriptions[p]);
                 }
 
 				// Math.max will ensure the health can't go below zero. Negative health would just look weird
@@ -112,10 +116,10 @@
 					
 				if (!this.target.isAlive())
 				{
-					actions.push(this.actor.getName(true) + (this.target.hasAttribute('undead') ? ' destroyed ' : ' killed ') + this.target.getName(true) + '!');
+					result.messages.push(this.actor.getName(true) + (this.target.hasAttribute('undead') ? ' destroyed ' : ' killed ') + this.target.getName(true) + '!');
 				}
 					
-                return actions;
+                return result;
 
             };
 

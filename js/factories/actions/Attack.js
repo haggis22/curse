@@ -64,11 +64,11 @@
             // returns an array of text descriptions of the attack and its effects
             Attack.prototype.perform = function(date)
             {
-                var actions = [];
+                var result = { success: true, messages: [] };
 
                 if (!this.isStillRequired())
                 {
-                    return actions;
+                    return result;
                 }
 
                 var attackReady = this.type.isReady(this);
@@ -76,12 +76,7 @@
                 if (!attackReady.success)
                 {
                     // the attack was not ready, for whatever reason (out of ammo, dragon breath not built up yet, etc).
-                    if (attackReady.message)
-                    {
-                        actions.push(attackReady.message);
-                    }
-
-                    return actions;
+                    return attackReady;
                 }
 
                 var relevant = this.getRelevantSkills();
@@ -137,7 +132,7 @@
                     this.damage = Math.round(this.damage * this.bodyPart.damageFactor);
 
                     // the attack type knows best how to describe the attack in text form
-                    actions.push(this.type.getDescription(this));
+                    result.messages.push(this.type.getDescription(this));
 
                     var protection = this.target.getProtection(this);
 
@@ -146,26 +141,26 @@
                     // add any description of protection there might have been
                     for (var p=0; p < protection.descriptions.length; p++)
                     {
-                        actions.push(protection.descriptions[p]);
+                        result.messages.push(protection.descriptions[p]);
                     }
 
-					actions = actions.concat(this.type.checkEffects(this, date));
+					result.messages = result.messages.concat(this.type.checkEffects(this, date));
 
                     this.target.health -= this.damage;
                     this.target.checkHealth();
 
 					if (!this.target.isAlive())
 					{
-						actions.push(this.actor.getName(true) + (this.target.hasAttribute('undead') ? ' destroyed ' : ' killed ') + this.target.getName(true) + '!');
+						result.messages.push(this.actor.getName(true) + (this.target.hasAttribute('undead') ? ' destroyed ' : ' killed ') + this.target.getName(true) + '!');
 					}
 					
 				}
 				else
 				{
-					actions.push(this.actor.getName(true) + ' attacked ' + this.target.getName(true) + ' but missed...');
+					result.messages.push(this.actor.getName(true) + ' attacked ' + this.target.getName(true) + ' but missed...');
 				}
 
-                return actions;
+                return result;
 
             };
 

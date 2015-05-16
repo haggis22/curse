@@ -54,7 +54,7 @@
                 if (!this.actor.isActive())
                 {   
                     // the would-be attacker is incapacitated/dead, nothing to do here
-                    return;
+                    return { success: false, messages: [] };
                 }
 
                 return this.type.perform(this);

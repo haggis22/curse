@@ -21,23 +21,23 @@
             // returns an array of text descriptions of the attack and its effects
             Venom.prototype.perform = function(attack, date)
             {
-                var results = [];
+                var result = { success: true, messages: [] };
 
                 if (diceService.rollDie(1, 100) <= this.chance)
                 {
                     if ((attack.damage > 0) || (!this.requiresDamage))
                     {
                         attack.target.addPoison(this, date);
-                        results.push(attack.actor.getName(true) + ' poisoned ' + attack.target.getName(true) + '!');
+                        result.messages.push(attack.actor.getName(true) + ' poisoned ' + attack.target.getName(true) + '!');
                     }
                     else
                     {
-                        results.push(attack.actor.getName(true) + ' would have poisoned ' + attack.target.getName(true) + ', but no damage was done...');
+                        result.messages.push(attack.actor.getName(true) + ' would have poisoned ' + attack.target.getName(true) + ', but no damage was done...');
                     }
 
                 }
 
-                return results;
+                return result;
 
             };
 

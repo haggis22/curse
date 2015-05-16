@@ -21,7 +21,7 @@
             // returns an array of text descriptions of the attack and its effects
             StoneGaze.prototype.perform = function(attack)
             {
-                var results = [];
+                var result = { success: true, messages: [] };
 
                 // don't stone someone that is already stoned!
                 if (!attack.target.isStoned)
@@ -32,16 +32,16 @@
                     {
                         attack.target.isStoned = true;
 
-                        results.push(attack.actor.getName(true) + ' gazed at ' + attack.target.getName(true) + ' and turned ' + attack.target.getObjective() + ' to stone!');
+                        result.messages.push(attack.actor.getName(true) + ' gazed at ' + attack.target.getName(true) + ' and turned ' + attack.target.getObjective() + ' to stone!');
                     }
                     else
                     {
-                        results.push(attack.actor.getName(true) + ' gazed at ' + attack.target.getName(true) + ', but ' + attack.target.getNominative() + ' turned ' + attack.target.getPossessive() + ' eyes away in time!');
+                        result.messages.push(attack.actor.getName(true) + ' gazed at ' + attack.target.getName(true) + ', but ' + attack.target.getNominative() + ' turned ' + attack.target.getPossessive() + ' eyes away in time!');
                     }
 
                 }
 
-                return results;
+                return result;
 
             };
 

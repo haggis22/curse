@@ -104,12 +104,12 @@
 
 				for (var a=0; a < $scope.combatActions.length; a++)
 				{
-                    var descriptions = $scope.combatActions[a].perform(timeService.date);
+                    var result = $scope.combatActions[a].perform(timeService.date);
 
                     // could be empty if no action was taken
-                    for (var d=0; d < descriptions.length; d++)
+                    for (var d=0; d < result.messages.length; d++)
                     {
-					    $scope.gameService.addPlay(descriptions[d]);
+					    $scope.gameService.addPlay(result.messages[d]);
                     }
 				}
 				

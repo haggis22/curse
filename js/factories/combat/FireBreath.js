@@ -30,7 +30,7 @@
             // returns an array of text descriptions of the attack and its effects
             FireBreath.prototype.perform = function(attack)
             {
-                var results = [];
+                var result = { success: true, messages: [] };
 
                 var roll = diceService.rollDie(1, 100);
                 console.log("FireBreath die roll: " + roll);
@@ -39,23 +39,23 @@
                 {
                     var damage = diceService.rollDie(this.damage.min, this.damage.max);
 
-                    results.push(attack.actor.getName(true) + ' breathed fire at ' + attack.target.getName(true) + ' for ' + damage + ' damage');
+                    result.messages.push(attack.actor.getName(true) + ' breathed fire at ' + attack.target.getName(true) + ' for ' + damage + ' damage');
 
 					attack.target.health -= damage;
                     attack.target.checkHealth();
 
 					if (!attack.target.isAlive())
 					{
-						results.push(attack.actor.getName(true) + (attack.target.hasAttribute('undead') ? ' destroyed ' : ' killed ') + attack.target.getName(true) + '!');
+						result.messages.push(attack.actor.getName(true) + (attack.target.hasAttribute('undead') ? ' destroyed ' : ' killed ') + attack.target.getName(true) + '!');
 					}
 
                 }
                 else
                 {
-                    results.push(attack.actor.getName(true) + ' breathed fire at ' + attack.target.getName(true) + ', but ' + attack.target.getNominative() + ' managed to avoid the flames!');
+                    result.messages.push(attack.actor.getName(true) + ' breathed fire at ' + attack.target.getName(true) + ', but ' + attack.target.getNominative() + ' managed to avoid the flames!');
                 }
 
-                return results;
+                return result;
 
             };
 

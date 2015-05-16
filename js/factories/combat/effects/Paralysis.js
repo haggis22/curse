@@ -19,23 +19,23 @@
             // returns an array of text descriptions of the attack and its effects
             Paralysis.prototype.perform = function(attack)
             {
-                var results = [];
+                var result = { success: true, messages: [] };
 
                 if (diceService.rollDie(1, 100) <= this.chance)
                 {
                     if ((attack.damage > 0) || (!this.requiresDamage))
                     {
                         attack.target.isParalyzed = true;
-                        results.push(attack.actor.getName(true) + ' paralyzed ' + attack.target.getName(true) + '!');
+                        result.messages.push(attack.actor.getName(true) + ' paralyzed ' + attack.target.getName(true) + '!');
                     }
                     else
                     {
-                        results.push(attack.actor.getName(true) + ' would have paralyzed ' + attack.target.getName(true) + ', but no damage was done...');
+                        result.messages.push(attack.actor.getName(true) + ' would have paralyzed ' + attack.target.getName(true) + ', but no damage was done...');
                     }
 
                 }
 
-                return results;
+                return result;
 
             };
 
