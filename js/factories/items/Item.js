@@ -12,7 +12,6 @@
                 this.name = item.name;
                 this.article = item.article == null ? 'a' : item.article;
 
-                this.amount = item.amount == null ? 1 : item.amount;
                 this.frequency = item.frequency == null ? 1 : item.frequency;
                 this.equipped = false;
 
@@ -20,14 +19,23 @@
                 this.hands = item.hands == null ? 0 : item.hands;
 
                 this.attributes = item.attributes == null ? [] : item.attributes;
-	
+
+                if (item.stackable)
+                {
+                    this.stackable = 
+                    {
+                        type: item.stackable.type,
+                        plural: item.stackable.plural,
+                        amount: item.stackable.amount
+                    };
+                }
+
+
             };
 
 		    Item.prototype = {
 
-		        GOLD: 0,
                 NECK: 5,
-                WEALTH: 6,
 
                 USE_HEAL: 1,
 
@@ -35,38 +43,30 @@
                 {
                     var text = '';
 
-                    if (this.isGold())
+                    if (this.stackable)
                     {
-                        text = this.amount + ' gold piece' + (this.amount > 1 ? 's' : '');
-                    }
-                    else
-                    {
-                        if (useDefiniteArticle != null)
+                        if (this.stackable.amount == 1)
                         {
-                            text += (useDefiniteArticle ? 'the' : this.article) + ' ';
+                            return (useDefiniteArticle ? 'the' : this.article) + ' ' + this.name;
                         }
-                
-                        text += this.name;
+
+                        return (useDefiniteArticle ? 'the' : '') + ' ' + this.stackable.amount + ' ' + this.stackable.plural;
                     }
 
-                    return text;
-                },
 
-                isGold: function()
-                {
-                    return this.type == this.GOLD;
+                    if (useDefiniteArticle != null)
+                    {
+                        return (useDefiniteArticle ? 'the' : this.article) + ' ' + this.name;
+                    }
+                
+                    return this.name;
                 },
 
                 getWeight: function()
                 {
-                    switch (this.type)
+                    if (this.stackable)
                     {
-                        case Item.prototype.GOLD:
-                            return 0.1 * this.amount;
-
-                        case Item.prototype.WEALTH:
-                            return 0.1 * this.amount;
-
+                        return this.weight * this.stackable.amount;
                     }
 
                     return this.weight;
@@ -85,6 +85,19 @@
                     return { success: false, message: this.getName(true) + ' is not usable' };
                 },
 
+                hasAttribute: function(attribute)
+                {
+                    for (var a=0; a < this.attributes.length; a++)
+                    {
+                        if (this.attributes[a].toLowerCase() == attribute.toLowerCase())
+                        {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                },
+
                 removeAttribute: function(attribute)
                 {
                     var newAttrs = [];
@@ -97,7 +110,23 @@
                     }
 
                     this.attributes = newAttrs;
+                },
+
+                findItemsOfStackableType: function(type, items)
+                {
+                    for (var i=0; i < items.length; i++)
+                    {
+                        if ((items[i].stackable) && (items[i].stackable.type == type))
+                        {
+                            return items[i];
+                        }
+                    }
+
+                    return null;
                 }
+                    
+
+
 
 		    };  // prototype
 

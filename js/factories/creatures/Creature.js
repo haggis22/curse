@@ -2,9 +2,9 @@
 
 (function(app) {
 
-	app.factory('Creature', ['Sex', 'BodyShape', 'Skill', 'AttackType', 'diceService', 
+	app.factory('Creature', ['Sex', 'BodyShape', 'Skill', 'AttackType', 'Item','diceService', 
 
-		function(Sex, BodyShape, Skill, AttackType, diceService) {
+		function(Sex, BodyShape, Skill, AttackType, Item, diceService) {
 
 			function Creature(creature) {
                 
@@ -132,23 +132,28 @@
                         return { success: false, message: this.getName(true) + ' cannot carry that much.' };
                     }
 
-					switch (item.type)
-					{
-/*
-                        TODO: Consolidate gold into a single item
-						case Item.prototype.GOLD:
-							this.gold += item.amount;
-							break;
-*/			
-						default:
-							this.pack.push(item); 
-                            return { success: true, message: null };
-					}
+					if (item.stackable)
+                    {
+                        var existing = item.findItemsOfStackableType(item.stackable.type, this.pack);
+                        if (existing != null)
+                        {
+                            existing.stackable.amount += item.stackable.amount;
+                            return { success: true }
+                        }
+
+                    }
+
+                    // if it's not stackable, or the creature doesn't already have a similar item, then just add
+                    // it to the pack
+					this.pack.push(item); 
+                    return { success: true };
 					
 				},
 
-                dropItem: function(item)
+                dropItem: function(item, amount)
                 {
+                    var droppedItem = null;
+
                     var remainingItems = [];
 
                     for (var i=0; i < this.pack.length; i++)
@@ -157,18 +162,55 @@
                         {
                             remainingItems.push(this.pack[i]);
                         }
+                        else
+                        {
+                            if (this.pack[i].stackable)
+                            {
+                                if (this.pack[i].stackable.amount < amount)
+                                {
+                                    return { success: false, message: this.getName(true) + ' does not have enough ' + this.pack[i].stackable.plural + ' to drop ' + amount };
+                                }
+
+                                if (this.pack[i].stackable.amount > amount)
+                                {
+                                    // subtract the parameter amount from his total, and keep the rest in his pack
+                                    this.pack[i].stackable.amount -= amount;
+                                    // make sure he holds on to the remaining items
+                                    remainingItems.push(this.pack[i]);
+
+                                    // re-create the item as the amount dropped
+                                    droppedItem = new Item(item);
+                                    droppedItem.stackable.amount = amount;
+                                    droppedItem.equipped = false;
+                                }
+                                else
+                                {
+                                    // drop the whole thing
+                                    droppedItem = this.pack[i];
+                                    droppedItem.equipped = false;
+                                }
+
+                            }
+                            else
+                            {
+                                // not stackable, so just drop it
+                                droppedItem = item;
+                                droppedItem.equipped = false;
+                            }
+
+                        }
+
                     }
 
+/*
                     if (remainingItems.length == this.pack.length)
                     {
                         return { success: false, message: this.getName() + ' does not have ' + item.getName(true) + '.' };
                     }
-
-                    // make sure it's not equipped any more
-                    item.equipped = false;
+*/
 
                     this.pack = remainingItems;
-                    return { success: true, item: item };
+                    return { success: true, item: droppedItem };
                 },
 
 				checkArmour: function(part)
@@ -234,17 +276,15 @@
 
                 countGold: function()
                 {
-                    var gold = 0;
-                    
-                    for (var i=0; i < this.pack.length; i++)
+                    var gold = Item.prototype.findItemsOfStackableType('gold', this.pack);
+
+                    if (gold == null)
                     {
-                        if (this.pack[i].isGold())
-                        {
-                            gold += this.pack[i].amount;
-                        }
+                        return 0;
                     }
 
-                    return gold;
+                    return gold.stackable.amount;
+
                 },
 
                 isShape: function(shapeArray)

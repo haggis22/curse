@@ -11,7 +11,55 @@
 			this.treasures = 
 			{
 				'A' : [
-                        new Item({ type: Item.prototype.GOLD, name: 'gold', article: '', amount: { min: 5, max: 20 } }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
+                        new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: { min: 5, max: 20 } }, attributes: [ 'gold' ], weight: 0.1 }),
                         new Armour({ name: 'magic codpiece', damage: 5, protects: BodyPart.prototype.GROIN, weight: 5 }),
                         new Armour({ name: 'steel underwear', article: '', damage: 3, protects: BodyPart.prototype.BUTT, weight: 5 }),
                         new Weapon({ name: 'club', damage: 2, skills: [ 'melee' ], weight: 7 }),
@@ -50,9 +98,9 @@
                 }
 
                 var item = diceService.randomElement(this.treasures[treasureType]);
-                if (typeof item.amount === 'object')
+                if ((item.stackable) && (typeof item.stackable.amount === 'object'))
                 {
-                    item.amount = diceService.rollDie(item.amount.min, item.amount.max);
+                    item.stackable.amount = diceService.rollDie(item.stackable.amount.min, item.stackable.amount.max);
                 }
 
                 return item;

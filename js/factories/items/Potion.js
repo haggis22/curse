@@ -24,6 +24,7 @@
 
             Potion.prototype.drainOnce = function()
             {
+                
                 this.amount--;
                 if (this.amount == 0)
                 {
@@ -35,6 +36,7 @@
 
             Potion.prototype.use = function(creature)
             {
+
                 if (this.amount == 0)
                 {
                     return { success: false, message: creature.getName(true) + " tried to drink, but the " + this.name + " is empty." };
