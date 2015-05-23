@@ -135,6 +135,64 @@
 
             $scope.transfer = function(item, giver, taker) {
 
+                var results = null;
+
+                if ((item.stackable) && (item.stackable.amount > 1))
+                {
+                    if (item.showAmount)
+                    {
+                        var amountToTake = parseInt(item.amountToTake, 10);
+                        amountToTake = Math.max(0, Math.min(amountToTake, item.stackable.amount));
+
+                        if (amountToTake == 0)
+                        {
+                            // nothing to do here - turn off the pickup
+                            item.showAmount = false;
+                            return;
+                        }
+
+                        results = giver.dropItem(item, amountToTake);
+
+                        if (!results.success)
+                        {
+                            // the giver could not give it up, so turn off the pickup
+                            item.showAMount = false;
+                            gameService.addPlay(results.message);
+                        }
+
+                        // the giver has dropped it, now try to add it to the taker
+                        results = taker.addItem(results.item);
+
+                        if (results.success)
+                        {
+                            // added successfully, so stop showing the dialog
+                            item.showAmount = false;
+                        }
+                        else
+                        {
+                            gameService.addPlay(results.message);
+
+                            // just put it in the room instead
+                            mapService.currentRoom.addItem(dropResult.item);
+
+                        }
+
+                    }
+                    else
+                    {
+                        var amountToTake = parseInt(item.amountToTake, 10);
+
+                        if ((isNaN(amountToTake)) || (amountToTake > item.stackable.amount) || (amountToTake < 1))
+                        {
+                            item.amountToTake = item.stackable.amount;
+                        }
+
+                        item.showAmount = true;
+                    }
+
+                    return;
+                }
+
                 var dropResult = giver.dropItem(item);
 
                 if (dropResult.success)
@@ -146,7 +204,6 @@
 
                         // just put it in the room instead
                         mapService.currentRoom.addItem(dropResult.item);
-
                     }
 
                 }
