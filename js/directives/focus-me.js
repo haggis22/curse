@@ -9,7 +9,10 @@
                     if (value === true) {
                         // the timeout will give any container time to appear
                         $timeout(function() {
+                            
+                            element[0].select();
                             element[0].focus();
+
                         }, 200);
                     }
                 });

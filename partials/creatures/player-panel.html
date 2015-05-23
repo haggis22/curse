@@ -31,13 +31,11 @@
 	</div>
 
 	<div class="window window-pack" style="margin-top: 10px;">
-		<div><span class="attr-label">Gold:</span><span class="attr-value gold">{{ player.countGold() }} gold</span></div>
-		<div><span class="attr-label">Encumbrance:</span><span class="attr-value">{{ player.getEncumbrance() | number:0 }} #</span></div>
-		<div style="margin-top: 10px; text-decoration: underline">Inventory</div>
+		<div style="text-decoration: underline">Inventory ({{ player.getEncumbrance() | number:0 }} #)</div>
 		<div>
 			<ul>
-				<li ng-repeat="item in player.pack" ng-hide="item.hasAttribute('gold')">
-                    <span class="item" ng-click="useItem(player, item)" ng-class="{ 'equipped' : item.equipped }">{{ item.getName(null) }}</span>
+				<li ng-repeat="item in player.pack">
+                    <span class="item" ng-click="useItem(player, item)" ng-class="{ 'equipped' : item.equipped, 'gold': item.hasAttribute('gold') }">{{ item.getName(null) }}</span>
                     <span class="droppable" ng-click="dropItem(player, item)">[X]</span>
                 </li>
 			</ul>

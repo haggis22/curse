@@ -23,7 +23,10 @@
                             <li class="item" ng-repeat="item in monster.pack" ng-click="transfer(item, monster, playerService.currentPlayer)">{{ item.getName(false) }}</li>
                         </ul>
                     </li>
-                    <li class="item" ng-repeat="item in mapService.currentRoom.items" ng-click="pickUp(item)">{{ item.getName(false) }}</li>
+                    <li class="item" ng-repeat="item in mapService.currentRoom.items">
+                        <span ng-click="pickUp(item)">{{ item.getName(false) }}</span>
+                        <span ng-show="item.showAmount" style="margin-left: 10px;"><input type="text" ng-model="item.amountToPickUp" style="width: 30px;" focus-me="item.showAmount" enter-action="pickUp(item)" /></span>
+                    </li>
                 </ul>
             </div>
 

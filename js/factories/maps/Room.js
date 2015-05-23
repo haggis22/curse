@@ -6,13 +6,14 @@
 
 		function (diceService) {
 
-		    function Room(name, prep, exits, monsters, items) {
-		        this.name = name;
-                this.prep = prep;
-                this.exits = exits;
-                this.monsters = monsters == null ? [] : monsters;
-                this.items = items == null ? [] : items;
-		    };
+		    function Room(room)
+            {
+                this.name = room.name;
+                this.prep = room.prep;
+                this.exits = room.exits == null ? [] : room.exits;
+                this.monsters = room.monsters == null ? [] : room.monsters;
+                this.items = room.items == null ? [] : room.items;
+            }
 
 		    Room.prototype = {
 

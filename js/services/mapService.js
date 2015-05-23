@@ -3,9 +3,9 @@
 (function(app) {
 
 
-	app.service('mapService', ['diceService', 'monsterService', 'Room', 'Exit', 'Direction',
+	app.service('mapService', ['diceService', 'monsterService', 'Room', 'Exit', 'Direction', 'Item', 
 
-		function(diceService, monsterService, Room, Exit, Direction) {
+		function(diceService, monsterService, Room, Exit, Direction, Item) {
 
 			this.rooms = [
 				{ name: 'library', prep: 'in a', frequency: 1 },
@@ -21,8 +21,9 @@
 			
 			this.map = 
 			[
-				new Room('castle gate', 'at the', [ new Exit('a gate', Direction.prototype.NORTH, 1, false) ]),
-				new Room('castle entryway', 'in the', [ new Exit('a gate', Direction.prototype.SOUTH, 0, false), new Exit('a door', Direction.prototype.NORTH, null, false) ])
+				new Room({ name: 'castle gate', prep: 'at the', exits: [ new Exit('a gate', Direction.prototype.NORTH, 1, false) ], items: [ new Item({ name: 'gold piece', article: 'a', stackable: { type: 'gold', plural: 'gold pieces', amount: 12 }, attributes: [ 'gold' ], weight: 0.1 }) ] }),
+
+				new Room({ name: 'castle entryway', prep: 'in the', exits: [ new Exit('a gate', Direction.prototype.SOUTH, 0, false), new Exit('a door', Direction.prototype.NORTH, null, false) ] })
 			]
 			
 			this.currentRoomID = 0;
@@ -77,7 +78,7 @@
 				
 				var roomTemplate = diceService.randomElement(this.rooms);
 
-				var room = new Room(roomTemplate.name, roomTemplate.prep, []);
+				var room = new Room({ name: roomTemplate.name, prep: roomTemplate.prep });
 				room.exits.push(new Exit(entry.desc, Direction.prototype.opposite(entry.dir), lastRoomID, false));
 
 				for (var e=0; e < diceService.rollDie(1, 2); e++)
