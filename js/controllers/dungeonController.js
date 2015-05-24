@@ -56,6 +56,7 @@
                         if (amountToPickUp == 0)
                         {
                             // nothing to do here - turn off the pickup
+                            item.amountToPickUp = null;
                             item.showAmount = false;
                             return;
                         }
@@ -147,6 +148,7 @@
                         if (amountToTake == 0)
                         {
                             // nothing to do here - turn off the pickup
+                            item.amountToTake = null;
                             item.showAmount = false;
                             return;
                         }
@@ -166,6 +168,7 @@
                         if (results.success)
                         {
                             // added successfully, so stop showing the dialog
+                            item.amountToTake = null;
                             item.showAmount = false;
                         }
                         else

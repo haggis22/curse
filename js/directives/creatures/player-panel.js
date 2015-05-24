@@ -42,6 +42,7 @@
                         if (amountToDrop == 0)
                         {
                             // nothing to do here - turn off the drop
+                            item.amountToDrop = null;
                             item.showAmount = false;
                             return;
                         }
@@ -50,6 +51,7 @@
 
                         if (dropResult.success)
                         {
+                            item.amountToDrop = null;
                             item.showAmount = false;
                             mapService.currentRoom.addItem(dropResult.item);
                         }
@@ -75,6 +77,7 @@
 
                 if (dropResult.success)
                 {
+                    item.amountToDrop = null;
                     item.showAmount = false;
                     mapService.currentRoom.addItem(dropResult.item);
                 }

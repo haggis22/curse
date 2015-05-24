@@ -89,7 +89,22 @@
                 },
 
                 addItem: function(item) {
-                    this.items.push(item);
+
+					if (item.stackable)
+                    {
+                        var existing = item.findItemsOfStackableType(item.stackable.type, this.items);
+                        if (existing != null)
+                        {
+                            existing.stackable.amount += item.stackable.amount;
+                            return { success: true }
+                        }
+
+                    }
+
+                    // if it's not stackable, or the room doesn't already have a similar item, then just add
+                    // it to the pack
+					this.items.push(item); 
+                    return { success: true };
                 }
 
 
