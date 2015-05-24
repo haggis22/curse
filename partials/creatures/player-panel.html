@@ -37,6 +37,8 @@
 				<li ng-repeat="item in player.pack">
                     <span class="item" ng-click="useItem(player, item)" ng-class="{ 'equipped' : item.equipped, 'gold': item.hasAttribute('gold') }">{{ item.getName(null) }}</span>
                     <span class="droppable" ng-click="dropItem(player, item)">[X]</span>
+                    <span ng-show="item.showAmount" style="margin-left: 10px;"><input type="text" ng-model="item.amountToDrop" style="width: 30px;" focus-me="item.showAmount" enter-action="dropItem(player, item)" /></span>
+
                 </li>
 			</ul>
 		</div>

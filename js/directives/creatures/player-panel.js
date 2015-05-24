@@ -30,10 +30,52 @@
 
             $scope.dropItem = function(player, item) {
 
-                var dropResult = player.dropItem(item);
+                var dropResult = null;
+
+                if ((item.stackable) && (item.stackable.amount > 1))
+                {
+                    if (item.showAmount)
+                    {
+                        var amountToDrop = parseInt(item.amountToDrop, 10);
+                        amountToDrop = Math.max(0, Math.min(amountToDrop, item.stackable.amount));
+
+                        if (amountToDrop == 0)
+                        {
+                            // nothing to do here - turn off the drop
+                            item.showAmount = false;
+                            return;
+                        }
+
+                        dropResult = player.dropItem(item, amountToDrop);
+
+                        if (dropResult.success)
+                        {
+                            item.showAmount = false;
+                            mapService.currentRoom.addItem(dropResult.item);
+                        }
+
+
+                    }
+                    else
+                    {
+                        var amountToDrop = parseInt(item.amountToDrop, 10);
+
+                        if ((isNaN(amountToDrop)) || (amountToDrop > item.stackable.amount) || (amountToDrop < 1))
+                        {
+                            item.amountToDrop = item.stackable.amount;
+                        }
+
+                        item.showAmount = true;
+                    }
+
+                    return;
+                }
+
+                dropResult = player.dropItem(item);
 
                 if (dropResult.success)
                 {
+                    item.showAmount = false;
                     mapService.currentRoom.addItem(dropResult.item);
                 }
 

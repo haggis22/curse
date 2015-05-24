@@ -166,6 +166,11 @@
                         {
                             if (this.pack[i].stackable)
                             {
+                                if (amount == null)
+                                {
+                                    amount = this.pack[i].stackable.amount;
+                                }
+
                                 if (this.pack[i].stackable.amount < amount)
                                 {
                                     return { success: false, message: this.getName(true) + ' does not have enough ' + this.pack[i].stackable.plural + ' to drop ' + amount };
