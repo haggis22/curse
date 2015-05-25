@@ -132,7 +132,7 @@
     <Content Include="client\js\factories\skills\SkillType.js" />
     <Content Include="client\js\filters\cap-first.js" />
     <Content Include="client\js\filters\floor.js" />
-    <Content Include="client\js\jquery-ui\1.10.3\jquery.min.js" />
+    <Content Include="client\js\jquery-ui\1.10.3\jquery-ui.min.js" />
     <Content Include="client\js\jquery\2.1.3\jquery.min.js" />
     <Content Include="client\js\routes.js" />
     <Content Include="client\common\services\errorService.js" />
