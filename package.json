@@ -1,0 +1,16 @@
+{
+  "name": "Cursemaster",
+  "version": "0.0.1",
+  "description": "A recreation of my BASIC game for the 80's",
+  "author": "Daniel Shell <dshell@gmail.com>",
+  "contributors": [
+    {
+      "name": "Zachary Shell"
+    }
+  ],
+  "dependencies": {
+    "express": "^4.12.4",
+    "http-server": "~0.7.5"
+  },
+  "private": true
+}

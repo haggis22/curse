@@ -48,3 +48,7 @@ Temporary Items
 bin
 obj
 
+# Node.js dependencies that need to be installed separately
+/node-modules
+
+
