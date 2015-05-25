@@ -1,5 +1,17 @@
 <div ng-controller="rollupController">
 
+
+    <div>
+        Characters:
+        <ul>
+            <li ng-repeat="char in characters">{{ char.name }} - {{ char.class }}</li>
+        </ul>
+    </div>
+
+    <div>
+        Char: {{ char }}
+    </div>
+
 	<div class="window window-player">
 	
 		<form name="characterForm" novalidate>

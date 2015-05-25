@@ -9,8 +9,7 @@
     }
   ],
   "dependencies": {
-    "express": "^4.12.4",
-    "http-server": "~0.7.5"
+    "express": "^4.12.4"
   },
   "private": true
 }

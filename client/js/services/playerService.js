@@ -2,9 +2,9 @@
 
 (function(app) {
 
-	app.service('playerService', [ 'Player', 'diceService',
+	app.service('playerService', [ '$resource', 'Player', 'diceService',
 
-		function(Player, diceService) {
+		function($resource, Player, diceService) {
 
 			this.players = [];
 
@@ -73,6 +73,18 @@
                 }
 
                 return livers[diceService.rollDie(0, livers.length - 1)];
+            };
+
+            this.characterClient = function()
+            {
+                return $resource('/characters/:name');
+/*
+                    return $resource('http://z-10929:8081/tath/job/results/:submissionHash', { submissionHash: '@submissionHash' }, {
+                        'query': { method: 'GET', headers: { 'session': viewService.getToken() } },
+                        'delete': { method: 'DELETE', headers: { 'session': viewService.getToken() } }
+                    });
+*/
+            
             };
 
 

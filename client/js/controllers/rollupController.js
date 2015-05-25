@@ -2,13 +2,57 @@
 
 (function(app) {
 
-	app.controller('rollupController', ['$scope', '$state', 'playerService', 'diceService', 'Sex', 'Item', 'SkillType', 'Skill', 'Weapon', 'AmmoWeapon', 'Shield', 'Potion', 'Venom', 'skillService', 'timeService',
-		function($scope, $state, playerService, diceService, Sex, Item, SkillType, Skill, Weapon, AmmoWeapon, Shield, Potion, Venom, skillService, timeService) {
+	app.controller('rollupController', ['$scope', '$rootScope', '$state', 'errorService', 'playerService', 'diceService', 'Sex', 'Item', 'SkillType', 'Skill', 'Weapon', 'AmmoWeapon', 'Shield', 'Potion', 'Venom', 'skillService', 'timeService',
+		function($scope, $rootScope, $state, errorService, playerService, diceService, Sex, Item, SkillType, Skill, Weapon, AmmoWeapon, Shield, Potion, Venom, skillService, timeService) {
 			
             $scope.Math = window.Math;
             $scope.skillService = skillService;
 
             $scope.availableSpecies = [ 'dwarf', 'elf', 'hobbit', 'human' ];
+
+            $scope.characters = null;
+            
+            $scope.pullCharacters = function() {
+                
+                playerService.characterClient().query(
+                    function(response) {
+
+                        $scope.characters = response;
+
+                    },
+                    function(error) {
+
+                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not fetch characters", error) });
+
+                    });
+
+
+
+            };
+
+            $scope.pullCharacters();
+
+            $scope.char = null;
+
+            $scope.pullChar = function(name) {
+                
+                playerService.characterClient().get({ name: name },
+                    function(response) {
+
+                        $scope.char = response;
+
+                    },
+                    function(error) {
+
+                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not fetch character (single)", error) });
+
+                    });
+
+
+
+            };
+
+            $scope.pullChar('Zogarth');
 
 
 			$scope.rollStat = function()
