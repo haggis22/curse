@@ -159,6 +159,7 @@
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
     <None Include="client\js\angularjs\1.3.14\angular.min.js.map" />
+    <None Include="client\js\angularjs\1.3.14\angular-resource.min.js.map" />
     <None Include="package.json" />
   </ItemGroup>
   <ItemGroup />
