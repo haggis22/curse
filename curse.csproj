@@ -151,8 +151,8 @@
     <Content Include="client\partials\dungeon.html" />
     <Content Include="client\partials\monster-manual.html" />
     <Content Include="client\partials\rollup.html" />
+    <Content Include="server\models\creatures\Creature.js" />
     <Content Include="server\routes\characters.js" />
-    <Content Include="server\routes\wines.js" />
     <Content Include="server\server.js" />
   </ItemGroup>
   <ItemGroup>
