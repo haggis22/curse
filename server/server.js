@@ -1,5 +1,5 @@
 var express = require('express');
-var wines = require('./routes/wines.js');
+
 var characters = require('./routes/characters.js');
 var path = require('path');
 
@@ -15,8 +15,6 @@ app.use(function(err, req, res, next) {
     next();
 });
 
-app.get('/wines', wines.findAll);
-app.get('/wines/:id', wines.findById);
 app.get('/characters', characters.findAll);
 app.get('/characters/:name', characters.findByName);
 

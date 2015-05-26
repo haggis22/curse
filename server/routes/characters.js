@@ -1,7 +1,9 @@
+var Creature = require('./../creatures/Creature.js');
+
 var characters = [
-        { name: 'Zogarth', class: 'Fighter' },
-        { name: 'Zachary', class: 'Thief' },
-        { name: 'Quasimatium', class: 'Cleric' }
+        new Creature({ name: 'Zogarth', class: 'Fighter'}),
+        new Creature({name: 'Zachary', class: 'Thief'}),
+        new Creature({name: 'Quasimatium', class: 'Cleric'})
     ];
 
 exports.findAll = function (req, res) {
