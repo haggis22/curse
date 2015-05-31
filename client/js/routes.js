@@ -5,20 +5,40 @@
 	app.config(function($stateProvider, $urlRouterProvider) {
 			
 		// for any unmatched URL, redirect to main
-		$urlRouterProvider.otherwise("/campaigns");
+		$urlRouterProvider.otherwise("/tavern");
 		
 		$stateProvider
             .state('tavern', {
                 url: "/tavern",
-                templateUrl: "partials/tavern.html?v=" + (new Date()).getTime()
+                templateUrl: "js/tavern/tavern.html?v=" + (new Date()).getTime(),
+                // this will forward to the characters list by default
+                controller: ['$scope', '$state',
+                                function ($scope, $state) {
+                                    // if only asking for the root path, then forward to the default
+                                    if ($state.is('tavern')) {
+                                        $state.go('tavern.characters');
+                                    }
+                                }
+                            ]
             })
-            .state('campaigns', {
+            .state('tavern.characters', {
+                url: "/characters",
+                templateUrl: "js/tavern/characters/characters.html?v=" + (new Date()).getTime()
+            })
+            .state('tavern.characters.edit', {
+                url: "/:characterID",
+                templateUrl: "js/tavern/characters/edit/character.html?v=" + (new Date()).getTime(),
+                controller: function($scope, $stateParams) {
+                    $scope.characterID = $stateParams.characterID;
+                }
+            })
+            .state('tavern.campaigns', {
                 url: "/campaigns",
-                templateUrl: "js/campaigns/campaigns.html?v=" + (new Date()).getTime()
+                templateUrl: "js/tavern/campaigns/campaigns.html?v=" + (new Date()).getTime()
             })
-            .state('campaigns.edit', {
+            .state('tavern.campaigns.edit', {
                 url: "/:campaignID",
-                templateUrl: "js/campaigns/edit/campaign.html?v=" + (new Date()).getTime(),
+                templateUrl: "js/tavern/campaigns/edit/campaign.html?v=" + (new Date()).getTime(),
                 controller: function($scope, $stateParams) {
                     $scope.campaignID = $stateParams.campaignID;
                 }

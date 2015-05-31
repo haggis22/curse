@@ -43,8 +43,6 @@ CampaignManager.fetchByID = function (id, callback) {
 
     var collection = db.get('campaigns');
 
-    var myCampaigns = [];
-
     collection.find({ _id: id }, function (err, result) {
 
         if (err) {
@@ -63,7 +61,7 @@ CampaignManager.fetchByID = function (id, callback) {
 };
 
 
-CampaignManager.save = function (campaign, callback) {
+CampaignManager.create = function (campaign, callback) {
 
     var collection = db.get('campaigns');
 
@@ -71,7 +69,7 @@ CampaignManager.save = function (campaign, callback) {
 
         if (err) {
             // it failed - return an error
-            logger.error('Could not save campaign: ' + err);
+            logger.error('Could not create campaign: ' + err);
             return callback(err, null);
         }
 
@@ -83,5 +81,27 @@ CampaignManager.save = function (campaign, callback) {
 
 
 };
+
+CampaignManager.update = function (campaign, callback) {
+
+    var collection = db.get('campaigns');
+
+    collection.update({ _id: campaign.id }, campaign, function (err, doc) {
+
+        if (err) {
+            // it failed - return an error
+            logger.error('Could not update campaign: ' + err);
+            return callback(err, null);
+        }
+
+        console.info('campaign saved successfully');
+
+        return callback(null, 'Campaign ' + campaign.id + ' saved successfully');
+
+    });
+
+
+};
+
 
 module.exports = CampaignManager;

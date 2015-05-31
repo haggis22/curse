@@ -7,7 +7,8 @@
 		function($resource) {
 
             return $resource('/api/campaigns/:id', {}, {
-                'save': { method: 'PUT' }
+                create: { method: 'POST' },
+                update: { method: 'PUT' }
             });
 
 		}

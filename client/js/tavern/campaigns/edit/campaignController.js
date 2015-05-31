@@ -33,6 +33,45 @@
 
             $scope.pullCampaign();
 
+
+            $scope.createCampaign = function() {
+
+                campaignService.create({}, $scope.campaign,
+
+                    function(response) {
+                        
+                        console.log(response.message);
+                        $state.go('tavern.campaigns', {}, { reload: true });
+
+                    },
+                    function(error) {
+
+                        console.log(error);
+                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not create campaign", error) });
+
+                    });
+
+            };
+
+            $scope.updateCampaign = function() {
+
+                campaignService.update({ id: $scope.campaignID }, $scope.campaign,
+
+                    function(response) {
+                        
+                        console.log(response.message);
+                        $state.go('tavern.campaigns', {}, { reload: true });
+
+                    },
+                    function(error) {
+
+                        console.log(error);
+                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not update campaign", error) });
+
+                    });
+
+            };
+
             $scope.saveCampaign = function(isValid) {
 
                 $scope.submitted = true;
@@ -42,48 +81,17 @@
                     return;
                 }
 
-                console.log('saving campaign');
-//                campaignService.save({ id: $scope.campaignID }, $scope.campaign,
-                campaignService.save({ id: 'testID' }, $scope.campaign,
-
-                    function(response) {
-                        
-                        console.log(response.message);
-                        $state.go('campaigns', {}, { reload: true });
-
-                    },
-                    function(error) {
-
-                        console.log(error);
-                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not save campaign", error) });
-
-                    });
+                if ($scope.campaignID)
+                {
+                    $scope.updateCampaign();
+                }
+                else
+                {
+                    $scope.createCampaign();
+                }
 
             }
 
-/*
-            $scope.char = null;
-
-            $scope.pullChar = function(name) {
-                
-                playerService.characterClient().get({ name: name },
-                    function(response) {
-
-                        $scope.char = response;
-
-                    },
-                    function(error) {
-
-                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not fetch character (single)", error) });
-
-                    });
-
-
-
-            };
-
-            $scope.pullChar('Zogarth');
-*/
         }
 
 	]);			

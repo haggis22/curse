@@ -240,3 +240,65 @@ span.clear {
     font-size: 0px; 
     line-height: 0px; 
 } 
+
+/* styles related to tabs */
+div.m-tabs 
+{
+    border-bottom: 1px solid #999999;
+    zoom: 1;
+    margin-bottom: 15px;
+    padding-left: 4px;
+}
+
+div.m-tabs:before, div.m-tabs:after 
+{
+    display: table;
+    content: "";
+}
+
+div.m-tabs:after 
+{
+    clear: both;
+}
+
+div.m-tabs > a 
+{
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-bottom-width: 0px;
+    -webkit-border-radius: 3px 3px 0px 0px;
+    -moz-border-radius: 3px 3px 0px 0px;
+    border-radius: 3px 3px 0px 0px;
+    color: #666;
+    float: left;
+    margin-right: 7px;
+    padding: 4px 15px 4px 15px;
+    position: relative;
+    text-decoration: none;
+}
+
+div.m-tabs > a:hover 
+{
+    text-decoration: underline;
+}
+
+div.m-tabs > a.active 
+{
+    border-color: #999;
+    color: #333;
+    font-weight: bold;
+    padding-bottom: 5px;
+    margin-top: -1px;
+    top: 1px;
+}
+
+div.m-tabs > a.active:hover 
+{
+    text-decoration: none;
+}
+
+.updateTime
+{
+    font-size: 0.8em;
+}
+

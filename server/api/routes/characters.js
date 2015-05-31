@@ -5,7 +5,7 @@ var log4js = require('log4js');
 log4js.configure(__dirname + '/../../log4js_config.json', {});
 var logger = log4js.getLogger('curse');
 
-var PlayerManager = require('./../../managers/PlayerManager');
+var CharacterManager = require('./../../managers/CharacterManager');
 
 router.get('/', function (req, res) {
 
@@ -20,19 +20,69 @@ router.get('/', function (req, res) {
 
     };
 
-    PlayerManager.fetchAll(callback);
+    CharacterManager.fetchAll(callback);
 
 });
 
-router.get('/:name', function (req, res) {
+router.get('/:characterID', function (req, res) {
 
-    var name = req.params.name;
+    var characterID = req.params.characterID;
 
-    var player = PlayerManager.fetchByName(name);
+    var callback = function (err, character) {
 
-    res.json(player);
+        if (err) {
+            return res.status(500).send(err).end();
+        }
+        else {
+            return res.json(character).end();
+        }
+
+    };
+
+    CharacterManager.fetchByID(characterID, callback);
 
 });
 
+router.post('/', function (req, res) {
+
+    var character = req.body;
+    character.updated = new Date();
+
+    var callback = function (err, message) {
+
+        if (err) {
+            return res.status(500).json({ error: err }).end();
+        }
+        else {
+            return res.json({ message: message });
+        }
+
+    }
+
+    CharacterManager.create(character, callback);
+
+});
+
+
+router.put('/:characterID', function (req, res) {
+
+    var characterID = req.params.characterID;
+    var character = req.body;
+    character.updated = new Date();
+
+    var callback = function (err, message) {
+
+        if (err) {
+            return res.status(500).json({ error: err }).end();
+        }
+        else {
+            return res.json({ message: message });
+        }
+
+    }
+
+    CharacterManager.update(character, callback);
+
+});
 
 module.exports = router;

@@ -32,29 +32,6 @@
                 $scope.pullCampaigns();
             };
 
-/*
-            $scope.char = null;
-
-            $scope.pullChar = function(name) {
-                
-                playerService.characterClient().get({ name: name },
-                    function(response) {
-
-                        $scope.char = response;
-
-                    },
-                    function(error) {
-
-                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not fetch character (single)", error) });
-
-                    });
-
-
-
-            };
-
-            $scope.pullChar('Zogarth');
-*/
         }
 
 	]);			

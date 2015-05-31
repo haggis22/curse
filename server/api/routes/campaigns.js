@@ -43,6 +43,26 @@ router.get('/:campaignID', function (req, res) {
 
 });
 
+router.post('/', function (req, res) {
+
+    var campaign = req.body;
+    campaign.updated = new Date();
+
+    var callback = function (err, message) {
+
+        if (err) {
+            return res.status(500).json({ error: err }).end();
+        }
+        else {
+            return res.json({ message: message });
+        }
+
+    }
+
+    CampaignManager.create(campaign, callback);
+
+});
+
 
 router.put('/:campaignID', function (req, res) {
 
@@ -61,20 +81,8 @@ router.put('/:campaignID', function (req, res) {
 
     }
 
-    CampaignManager.save(campaign, callback);
+    CampaignManager.update(campaign, callback);
 
 });
-
-/*
-router.get('/:name', function (req, res) {
-
-    var name = req.params.name;
-
-    var player = PlayerManager.fetchByName(name);
-
-    res.json(player);
-
-});
-*/
 
 module.exports = router;

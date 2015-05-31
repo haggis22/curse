@@ -2,6 +2,7 @@
 
 var Creature = function (creature) {
 
+    this.id = creature._id;
     this.name = creature.name;
     this.species = creature.species == null ? 'human' : creature.species;
     this.class = creature.class;

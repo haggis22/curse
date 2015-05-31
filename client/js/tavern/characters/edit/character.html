@@ -1,0 +1,31 @@
+<div ng-controller="tavern.characterController">
+
+    <form name="characterForm" novalidate>
+        <table class="form-table" style="width: 300px;">
+            <thead>
+                <tr>
+                    <th colspan="2">{{ isNewCharacter() ? 'Create' : 'Edit' }} Character</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Name:</td>
+                    <td>
+                        <input type="text" name="name" ng-model="character.name" required ng-class="{ 'field-error': submitted && characterForm.name.$invalid }" />
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">
+                        <button type="button" ng-click="saveCharacter(characterForm.$valid)">Save</button>
+                        <button type="button" ui-sref="tavern.characters">Cancel</button>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+
+    </form>
+
+</div>
