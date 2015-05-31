@@ -19,7 +19,7 @@
                 <tr>
                     <td colspan="2">
                         <button type="button" ng-click="saveCharacter(characterForm.$valid)">Save</button>
-                        <button type="button" ui-sref="tavern.characters">Cancel</button>
+                        <button type="button" ui-sref="tavern.characters.list">Cancel</button>
                     </td>
                 </tr>
             </tfoot>
@@ -27,5 +27,7 @@
 
 
     </form>
+
+    <player-panel player="character" style="margin-top: 15px;"></player-panel>
 
 </div>

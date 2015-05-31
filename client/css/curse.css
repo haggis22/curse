@@ -302,3 +302,29 @@ div.m-tabs > a.active:hover
     font-size: 0.8em;
 }
 
+/* special link classes for text and images */
+.text-link
+{
+/*	font-weight: bold;  */
+	cursor: pointer;
+	color: blue;
+	text-decoration: underline;
+}
+
+.icon-link
+{
+	cursor: pointer;
+	border: outset 1px transparent;
+	margin: 0px 3px;
+}
+
+.icon-link:hover
+{
+	border: outset 1px #eee;
+}
+
+.icon-link-disabled
+{
+	border: outset 1px transparent;
+}
+

@@ -27,9 +27,29 @@
 
             $scope.pullCampaigns();
 
-            $scope.reload = function() {
 
-                $scope.pullCampaigns();
+            $scope.deleteCampaign = function(campaign) {
+
+                if (!confirm('Are you sure you want to delete the campaign "' + campaign.name + '" ?'))
+                {
+                    return;
+                }
+
+                campaignService.delete({ id: campaign.id },
+
+                    function(response) {
+
+                        $scope.pullCampaigns();
+
+                    },
+                    function(error) {
+
+                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not delete campaign", error) });
+
+                    });
+
+
+
             };
 
         }

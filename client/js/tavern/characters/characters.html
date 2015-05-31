@@ -1,13 +1,13 @@
 <div ng-controller="tavern.charactersController">
 
-    <div>
-
+    <div ng-show="characters.length == 0">You have no saved characters.</div>
+    <div ng-show="characters.length > 0">
         <ul>
-            <li ng-repeat="character in characters"><a ui-sref="characters.edit({ characterID: character.id })">{{ character.name }}</a> <span ng-show="character.updated" class="updateTime"> ({{ character.updated | date:'dd-MM-yyyy HH:mm:ss' }})</span></li>
+            <li ng-repeat="character in characters"><a ui-sref="tavern.characters.edit({ characterID: character.id })">{{ character.name }}</a> <span ng-show="character.updated" class="updateTime"> ({{ character.updated | date:'dd-MM-yyyy HH:mm:ss' }})</span></li>
         </ul>
     </div>
 
-    <div>
+    <div style="margin-top: 15px;">
         <button type="button" ui-sref="tavern.characters.edit({ characterID: null })">Create character</button>
     </div>
 

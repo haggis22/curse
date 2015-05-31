@@ -4,14 +4,10 @@
         <table class="form-table" style="width: 300px;">
             <thead>
                 <tr>
-                    <th colspan="2">Edit Campaign</th>
+                    <th colspan="2">{{ isNewCampaign() ? 'Create' : 'Edit' }} Campaign</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>ID:</td>
-                    <td>{{ campaign.id.length > 0 ? campaign.id : 'New' }}</td>
-                </tr>
                 <tr>
                     <td>Name:</td>
                     <td>

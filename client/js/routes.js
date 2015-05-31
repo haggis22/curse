@@ -23,6 +23,18 @@
             })
             .state('tavern.characters', {
                 url: "/characters",
+                template: "<div ui-view></div>",
+                controller: ['$scope', '$state',
+                                function ($scope, $state) {
+                                    // if only asking for the root path, then forward to the default
+                                    if ($state.is('tavern.characters')) {
+                                        $state.go('tavern.characters.list');
+                                    }
+                                }
+                            ]
+            })
+            .state('tavern.characters.list', {
+                url: "/",
                 templateUrl: "js/tavern/characters/characters.html?v=" + (new Date()).getTime()
             })
             .state('tavern.characters.edit', {

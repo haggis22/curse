@@ -1,12 +1,17 @@
 <div ng-controller="campaignsController">
 
-    <div>
+    <div ng-show="campaigns.length == 0">You have no saved campaigns.</div>
+    <div ng-show="campaigns.length > 0">
         <ul>
-            <li ng-repeat="campaign in campaigns"><a ui-sref="tavern.campaigns.edit({ campaignID: campaign.id })">{{ campaign.name }}</a> <span ng-show="campaign.updated" class="updateTime"> ({{ campaign.updated | date:'dd-MM-yyyy HH:mm:ss' }})</span></li>
+            <li ng-repeat="campaign in campaigns" class="danny">
+                <a ui-sref="tavern.campaigns.edit({ campaignID: campaign.id })">{{ campaign.name }}</a> 
+                <span ng-show="campaign.updated" class="updateTime"> ({{ campaign.updated | date:'dd-MM-yyyy HH:mm:ss' }})</span>
+                <img src="/images/delete.png" class="icon-link" title="Delete campaign" ng-click="deleteCampaign(campaign)" />
+            </li>
         </ul>
     </div>
 
-    <div>
+    <div style="margin-top: 15px;">
         <button type="button" ui-sref="tavern.campaigns.edit({ campaignID: null })">Create campaign</button>
     </div>
 

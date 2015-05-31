@@ -103,5 +103,27 @@ CampaignManager.update = function (campaign, callback) {
 
 };
 
+CampaignManager.delete = function (campaignID, callback) {
+
+    var collection = db.get('campaigns');
+
+    collection.remove({ _id: campaignID }, { justOne: true }, function (err, doc) {
+
+        if (err) {
+            // it failed - return an error
+            logger.error('Could not delete campaign: ' + err);
+            return callback(err, null);
+        }
+
+        console.info('campaign delete successfully');
+
+        return callback(null, 'Campaign ' + campaignID + ' deleted successfully');
+
+    });
+
+
+};
+
+
 
 module.exports = CampaignManager;

@@ -8,6 +8,7 @@
 
 			function Creature(creature) {
                 
+                this.id = creature.id;
                 this.name = creature.name;
                 this.species = creature.species == null ? 'human' : creature.species;
                 this.bodyShape = creature.bodyShape == null ? BodyShape.prototype.HUMANOID : creature.bodyShape;

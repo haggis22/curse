@@ -3,12 +3,12 @@
 (function(app) {
 
 
-	app.controller('tavern.characterController', ['$scope', '$rootScope', '$state', 'errorService', 'characterService',
-		function($scope, $rootScope, $state, errorService, characterService) {
+	app.controller('tavern.characterController', ['$scope', '$rootScope', '$state', 'errorService', 'characterService', 'Creature',
+		function($scope, $rootScope, $state, errorService, characterService, Creature) {
 			
             $scope.isNewCharacter = function() {
 
-                return $scope.character == null || $scope.character.id == null || $scope.character.id.length == 0;
+                return $scope.characterID == null || $scope.characterID.length == 0;
 
             };
 
@@ -24,7 +24,7 @@
 
                     function(response) {
 
-                        $scope.character = response;
+                        $scope.character = new Creature(response);
 
                     },
                     function(error) {
@@ -36,7 +36,6 @@
             };
 
             $scope.pullCharacter();
-
 
             $scope.createCharacter = function() {
 

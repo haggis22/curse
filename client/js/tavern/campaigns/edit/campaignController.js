@@ -6,8 +6,12 @@
 	app.controller('campaignController', ['$scope', '$rootScope', '$state', 'errorService', 'campaignService',
 		function($scope, $rootScope, $state, errorService, campaignService) {
 			
-            $scope.campaigns = null;
-            
+            $scope.isNewCampaign = function() {
+
+                return $scope.campaignID == null || $scope.campaignID.length == 0;
+
+            };
+
             $scope.pullCampaign = function() {
                 
                 if (($scope.campaignID == null) || ($scope.campaignID == ''))
