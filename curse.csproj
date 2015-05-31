@@ -93,7 +93,12 @@
     <Content Include="client\common\directives\error-message.js" />
     <Content Include="client\common\partials\ajax-loader.html" />
     <Content Include="client\common\partials\error-message.html" />
+    <Content Include="client\js\campaigns\campaigns.html" />
+    <Content Include="client\js\campaigns\edit\campaign.html" />
+    <Content Include="client\js\campaigns\edit\campaignController.js" />
     <Content Include="client\js\controllers\combatController.js" />
+    <Content Include="client\js\campaigns\campaignsController.js" />
+    <Content Include="client\js\controllers\tavernController.js" />
     <Content Include="client\js\controllers\dungeonController.js" />
     <Content Include="client\js\controllers\monsterController.js" />
     <Content Include="client\js\controllers\rollupController.js" />
@@ -136,6 +141,7 @@
     <Content Include="client\js\jquery\2.1.3\jquery.min.js" />
     <Content Include="client\js\routes.js" />
     <Content Include="client\common\services\errorService.js" />
+    <Content Include="client\js\campaigns\campaignService.js" />
     <Content Include="client\js\services\diceService.js" />
     <Content Include="client\js\services\gameService.js" />
     <Content Include="client\js\services\mapService.js" />
@@ -147,12 +153,20 @@
     <Content Include="client\js\services\treasureService.js" />
     <Content Include="client\js\angularjs\ui-router\angular-ui-router.js" />
     <Content Include="client\partials\combat.html" />
+    <Content Include="client\partials\tavern.html" />
     <Content Include="client\partials\creatures\player-panel.html" />
     <Content Include="client\partials\dungeon.html" />
     <Content Include="client\partials\monster-manual.html" />
     <Content Include="client\partials\rollup.html" />
+    <None Include="server\log4js_config.json" />
+    <Content Include="server\api\routes\characters.js" />
+    <Content Include="server\api\routes\campaigns.js" />
+    <Content Include="server\config.js" />
+    <Content Include="server\managers\CampaignManager.js" />
+    <Content Include="server\managers\PlayerManager.js" />
+    <Content Include="server\models\campaigns\Campaign.js" />
     <Content Include="server\models\creatures\Creature.js" />
-    <Content Include="server\routes\characters.js" />
+    <Content Include="server\api\routes\curseapi.js" />
     <Content Include="server\server.js" />
   </ItemGroup>
   <ItemGroup>
@@ -162,7 +176,9 @@
     <None Include="client\js\angularjs\1.3.14\angular-resource.min.js.map" />
     <None Include="package.json" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="logs\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

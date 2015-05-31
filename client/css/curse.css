@@ -1,5 +1,7 @@
 body
 {
+    font-size: 11pt;
+    font-family: CelticHand, Arial
 }
 
 .window
@@ -7,6 +9,23 @@ body
 	border: 1px solid #000;
 	padding: 10px;
 }
+
+.form-table
+{
+    border: 1px solid #000;
+    background-color: burlywood;
+}
+
+.form-table > tfoot > tr > td
+{
+    text-align: center;
+}
+
+.field-error
+{
+    border: 2px solid #f00 !important;
+}
+
 
 .window-player
 {

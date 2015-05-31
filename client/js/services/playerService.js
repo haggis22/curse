@@ -77,7 +77,7 @@
 
             this.characterClient = function()
             {
-                return $resource('/characters/:name');
+                return $resource('/api/characters/:name');
 /*
                     return $resource('http://z-10929:8081/tath/job/results/:submissionHash', { submissionHash: '@submissionHash' }, {
                         'query': { method: 'GET', headers: { 'session': viewService.getToken() } },

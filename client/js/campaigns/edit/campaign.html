@@ -1,0 +1,31 @@
+<div ng-controller="campaignController">
+
+    <form name="campaignForm" novalidate>
+        <table class="form-table">
+            <thead>
+                <tr>
+                    <th colspan="2">Edit Campaign</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Name:</td>
+                    <td>
+                        <input type="text" name="name" ng-model="campaign.name" required ng-class="{ 'field-error': submitted && campaignForm.name.$invalid }" />
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">
+                        <button type="button" ng-click="saveCampaign(campaignForm.$valid)">Save</button>
+                        <button type="button" ui-sref="campaigns">Cancel</button>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+
+    </form>
+
+</div>

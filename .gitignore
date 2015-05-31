@@ -52,5 +52,5 @@ obj
 node_modules
 
 # log4js log files
-# logs/*.log
+*.log
 

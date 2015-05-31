@@ -30,6 +30,9 @@
                         if (errorObject.data["error_message"] != null) {
                             response.errors.push(errorObject.data["error_message"]);
                         }
+                        if (errorObject.data["error"] != null) {
+                            response.errors.push(errorObject.data["error"]);
+                        }
 
                     }
                     else if (errorObject.description) {
