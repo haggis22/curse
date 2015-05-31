@@ -1,0 +1,17 @@
+{
+	"appenders": [
+		{
+			"type": "dateFile",
+			"filename": "logs/curse.log",
+			"pattern": "-yyyy-MM-dd",
+			"alwaysIncludePattern": false,
+			"category": "file_curse"
+		},
+		{
+			"type": "console",
+			"category": "curse"
+		}
+
+	]
+}
+

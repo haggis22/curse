@@ -51,4 +51,6 @@ obj
 # Node.js dependencies that need to be installed separately
 node_modules
 
+# log4js log files
+# logs/*.log
 

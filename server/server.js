@@ -1,5 +1,10 @@
 var express = require('express');
 
+var log4js = require('log4js');
+log4js.configure(__dirname + '/log4js_config.json', {});
+var logger = log4js.getLogger('curse');
+
+
 var characters = require('./routes/characters.js');
 var path = require('path');
 

@@ -1,4 +1,4 @@
-var Creature = require('./../creatures/Creature.js');
+var Creature = require('./../models/creatures/Creature.js');
 
 var characters = [
         new Creature({ name: 'Zogarth', class: 'Fighter'}),
