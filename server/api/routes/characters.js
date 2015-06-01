@@ -12,13 +12,13 @@ router.post('/rollup/:characterID', function (req, res) {
 
     var characterID = req.params.characterID;
 
-    var callback = function (err, message) {
+    var callback = function (err, character) {
 
         if (err) {
             return res.status(500).json({ error: err }).end();
         }
         else {
-            return res.json({ message: message });
+            return res.json(character);
         }
 
     }

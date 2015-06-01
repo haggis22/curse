@@ -5,6 +5,7 @@ var Creature = function (creature) {
     this.id = creature._id;
     this.name = creature.name;
     this.species = creature.species == null ? 'human' : creature.species;
+    this.sex = creature.sex;
     this.class = creature.class;
     this.str = creature.str == null ? 0 : creature.str;
     this.int = creature.int == null ? 0 : creature.int;

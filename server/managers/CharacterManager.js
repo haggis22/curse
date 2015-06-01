@@ -73,8 +73,7 @@ CharacterManager.reroll = function (characterID, callback) {
         }
 
         CharacterManager.rollCharacter(character);
-        CharacterManager.update(character, callback);
-        return;
+        return CharacterManager.update(character, callback);
 
     };
 
@@ -157,7 +156,7 @@ CharacterManager.update = function (character, callback) {
 
         console.info('character saved successfully');
 
-        return callback(null, 'Character ' + character.id + ' saved successfully');
+        return callback(null, character);
 
     });
 

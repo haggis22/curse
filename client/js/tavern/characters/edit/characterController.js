@@ -3,8 +3,8 @@
 (function(app) {
 
 
-	app.controller('tavern.characterController', ['$scope', '$rootScope', '$state', 'errorService', 'characterService', 'Creature',
-		function($scope, $rootScope, $state, errorService, characterService, Creature) {
+	app.controller('tavern.characterController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'Creature',
+		function($scope, $rootScope, $state, $timeout, errorService, characterService, Creature) {
 			
             $scope.availableSpecies = [ 'dwarf', 'elf', 'hobbit', 'human' ];
 
@@ -64,7 +64,6 @@
 
                     function(response) {
                         
-                        console.log(response.message);
                         $state.go('tavern.characters', {}, { reload: true });
 
                     },
@@ -108,8 +107,12 @@
 
                     function(response) {
                         
-                        console.log(response.message);
-                        $state.go('tavern.characters', {}, { reload: true });
+                        // show the updated character stats
+                        $scope.character = response;
+
+                        // show the success message for a bit
+                        $scope.showUpdated = true;
+                        $timeout(function() { $scope.showUpdated = false; }, 2000);
 
                     },
                     function(error) {

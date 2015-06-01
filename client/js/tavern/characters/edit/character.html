@@ -20,6 +20,15 @@
                         <select name="species" ng-model="character.species" ng-options="species | capFirst for species in availableSpecies" required ng-class="{ 'field-error': submitted && characterForm.species.$invalid }"></select>
                     </td>
                 </tr>
+				<tr>
+					<td>Sex:</td>
+					<td>
+                        <span ng-class="{ 'field-error': submitted && characterForm.sex.$invalid }" style="padding: 2px;">
+                            <label><input type="radio" name="sex" ng-model="character.sex" value="1" required /> Female</label>
+                            <label><input type="radio" name="sex" ng-model="character.sex" value="2" required /> Male</label>
+                        </span>
+					</td>
+				</tr>
             </tbody>
             <tbody><tr><td colspan="2">&nbsp;</td></tr></tbody>
             <tbody ng-show="true">
@@ -41,6 +50,7 @@
 				</tr>
             </tbody>
             <tbody><tr><td colspan="2">&nbsp;</td></tr></tbody>
+<!--            <tbody ng-show="showUpdated" class="response-message"><tr><td colspan="2" align="center">Character Updated</td></tr></tbody> -->
             <tfoot>
                 <tr>
                     <td colspan="2">
@@ -61,6 +71,6 @@
 
     </form>
 
-    <!-- <player-panel player="character" style="margin-top: 15px;"></player-panel> -->
+    <div ng-show="showUpdated" class="response-message" style="margin-top: 15px; margin-left: 5px;">Character Updated</div>
 
 </div>
