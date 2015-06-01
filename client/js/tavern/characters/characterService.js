@@ -6,10 +6,18 @@
 
 		function($resource) {
 
-            return $resource('/api/characters/:id', {}, {
-                create: { method: 'POST' },
-                update: { method: 'PUT' }
-            });
+            return {
+            
+                characters: $resource('/api/characters/:id', {}, {
+                    create: { method: 'POST' },
+                    update: { method: 'PUT' }
+                }),
+
+                rollup: $resource('/api/characters/rollup/:id', { id: '@id' }, {
+                    reroll: { method: 'POST' }
+                })
+            
+            };
 
 		}
 

@@ -12,6 +12,7 @@ var monk = require('monk');
 
 var db = monk(config.db);
 
+var dice = require('./../core/Dice.js');
 var Creature = require('./../models/creatures/Creature.js');
 
 var CharacterManager = function () {
@@ -62,8 +63,64 @@ CharacterManager.fetchByID = function (id, callback) {
 
 };
 
+CharacterManager.reroll = function (characterID, callback) {
+
+    var myCallback = function (err, character) {
+
+        if (err) {
+            logger.error('Could not load character for re-roll: ' + err);
+            return callback(err, null);
+        }
+
+        CharacterManager.rollCharacter(character);
+        CharacterManager.update(character, callback);
+        return;
+
+    };
+
+    CharacterManager.fetchByID(characterID, myCallback);
+
+};
+
+
+CharacterManager.rollCharacter = function (character) {
+
+    switch (character.species) {
+        case 'dwarf':
+            character.str = dice.rollDie(5, 10) + dice.rollDie(5, 10) + dice.rollDie(5, 10);
+            character.int = dice.rollDie(2, 6) + dice.rollDie(3, 7) + dice.rollDie(2, 7);
+            character.dex = dice.rollDie(3, 7) + dice.rollDie(2, 8) + dice.rollDie(3, 7);
+            break;
+
+        case 'elf':
+            character.str = dice.rollDie(3, 7) + dice.rollDie(2, 8) + dice.rollDie(3, 7);
+            character.int = dice.rollDie(4, 9) + dice.rollDie(3, 8) + dice.rollDie(3, 8);
+            character.dex = dice.rollDie(4, 8) + dice.rollDie(3, 8) + dice.rollDie(3, 9);
+            break;
+
+        case 'hobbit':
+            character.str = dice.rollDie(2, 6) + dice.rollDie(2, 7) + dice.rollDie(2, 8);
+            character.int = dice.rollDie(3, 8) + dice.rollDie(3, 8) + dice.rollDie(3, 8);
+            character.dex = dice.rollDie(3, 9) + dice.rollDie(4, 8) + dice.rollDie(4, 9);
+            break;
+
+        default:  // human, et al
+            character.str = dice.rollDie(3, 8) + dice.rollDie(3, 8) + dice.rollDie(3, 8);
+            character.int = dice.rollDie(3, 8) + dice.rollDie(3, 8) + dice.rollDie(3, 8);
+            character.dex = dice.rollDie(3, 8) + dice.rollDie(3, 8) + dice.rollDie(3, 8);
+            break;
+    }
+
+    character.health = character.maxHealth = dice.rollDie(3, 8) + dice.rollDie(3, 8) + dice.rollDie(3, 8);
+
+};
+
 
 CharacterManager.create = function (character, callback) {
+
+    CharacterManager.rollCharacter(character);
+
+    character.updated = new Date();
 
     var collection = db.get('characters');
 
@@ -85,6 +142,8 @@ CharacterManager.create = function (character, callback) {
 };
 
 CharacterManager.update = function (character, callback) {
+
+    character.updated = new Date();
 
     var collection = db.get('characters');
 

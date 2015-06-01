@@ -9,6 +9,7 @@ var Creature = function (creature) {
     this.str = creature.str == null ? 0 : creature.str;
     this.int = creature.int == null ? 0 : creature.int;
     this.dex = creature.dex == null ? 0 : creature.dex;
+    this.health = creature.health == null ? 0 : creature.health;
 
 };
 			

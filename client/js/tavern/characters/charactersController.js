@@ -10,7 +10,7 @@
             
             $scope.pullCharacters = function() {
                 
-                characterService.query({ id: null },
+                characterService.characters.query({ id: null },
 
                     function(response) {
 

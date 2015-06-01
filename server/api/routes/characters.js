@@ -7,6 +7,27 @@ var logger = log4js.getLogger('curse');
 
 var CharacterManager = require('./../../managers/CharacterManager');
 
+
+router.post('/rollup/:characterID', function (req, res) {
+
+    var characterID = req.params.characterID;
+
+    var callback = function (err, message) {
+
+        if (err) {
+            return res.status(500).json({ error: err }).end();
+        }
+        else {
+            return res.json({ message: message });
+        }
+
+    }
+
+    CharacterManager.reroll(characterID, callback);
+
+});
+
+
 router.get('/', function (req, res) {
 
     var callback = function (err, characters) {
@@ -46,7 +67,6 @@ router.get('/:characterID', function (req, res) {
 router.post('/', function (req, res) {
 
     var character = req.body;
-    character.updated = new Date();
 
     var callback = function (err, message) {
 
@@ -68,7 +88,6 @@ router.put('/:characterID', function (req, res) {
 
     var characterID = req.params.characterID;
     var character = req.body;
-    character.updated = new Date();
 
     var callback = function (err, message) {
 

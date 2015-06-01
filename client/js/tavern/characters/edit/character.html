@@ -14,12 +14,45 @@
                         <input type="text" name="name" ng-model="character.name" required ng-class="{ 'field-error': submitted && characterForm.name.$invalid }" />
                     </td>
                 </tr>
+                <tr>
+                    <td>Species:</td>
+                    <td>
+                        <select name="species" ng-model="character.species" ng-options="species | capFirst for species in availableSpecies" required ng-class="{ 'field-error': submitted && characterForm.species.$invalid }"></select>
+                    </td>
+                </tr>
             </tbody>
+            <tbody><tr><td colspan="2">&nbsp;</td></tr></tbody>
+            <tbody ng-show="true">
+				<tr>
+					<td>Strength:</td>
+					<td style="padding-left: 5px;">{{ character.str }}</td>
+				</tr>
+				<tr>
+					<td>Intelligence:</td>
+					<td style="padding-left: 5px;">{{ character.int }}</td>
+				</tr>
+				<tr>
+					<td>Dexterity:</td>
+					<td style="padding-left: 5px;">{{ character.dex }}</td>
+				</tr>
+				<tr>
+					<td>Health:</td>
+					<td style="padding-left: 5px;">{{ character.health }}</td>
+				</tr>
+            </tbody>
+            <tbody><tr><td colspan="2">&nbsp;</td></tr></tbody>
             <tfoot>
                 <tr>
                     <td colspan="2">
-                        <button type="button" ng-click="saveCharacter(characterForm.$valid)">Save</button>
+                        <button type="button" ng-click="rerollCharacter()">Re-roll</button>
+                    </td>
+                </tr>
+            </tfoot>
+            <tfoot>
+                <tr>
+                    <td colspan="2">
                         <button type="button" ui-sref="tavern.characters.list">Cancel</button>
+                        <button type="button" ng-click="saveCharacter(characterForm.$valid)">{{ isNewCharacter() ? 'Create' : 'Update' }}</button>
                     </td>
                 </tr>
             </tfoot>
@@ -28,6 +61,6 @@
 
     </form>
 
-    <player-panel player="character" style="margin-top: 15px;"></player-panel>
+    <!-- <player-panel player="character" style="margin-top: 15px;"></player-panel> -->
 
 </div>

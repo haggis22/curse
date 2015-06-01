@@ -328,3 +328,7 @@ div.m-tabs > a.active:hover
 	border: outset 1px transparent;
 }
 
+ul > li
+{
+    height: 1.5em;
+}

@@ -6,6 +6,8 @@
 	app.controller('tavern.characterController', ['$scope', '$rootScope', '$state', 'errorService', 'characterService', 'Creature',
 		function($scope, $rootScope, $state, errorService, characterService, Creature) {
 			
+            $scope.availableSpecies = [ 'dwarf', 'elf', 'hobbit', 'human' ];
+
             $scope.isNewCharacter = function() {
 
                 return $scope.characterID == null || $scope.characterID.length == 0;
@@ -20,7 +22,7 @@
                     return;
                 }                        
 
-                characterService.get({ id: $scope.characterID },
+                characterService.characters.get({ id: $scope.characterID },
 
                     function(response) {
 
@@ -39,7 +41,7 @@
 
             $scope.createCharacter = function() {
 
-                characterService.create({}, $scope.character,
+                characterService.characters.create({}, $scope.character,
 
                     function(response) {
                         
@@ -58,7 +60,7 @@
 
             $scope.updateCharacter = function() {
 
-                characterService.update({ id: $scope.characterID }, $scope.character,
+                characterService.characters.update({ id: $scope.characterID }, $scope.character,
 
                     function(response) {
                         
@@ -94,6 +96,30 @@
                 }
 
             }
+
+            $scope.rerollCharacter = function() {
+
+                if (!confirm('Are you sure you want to re-roll this character?'))
+                {
+                    return;
+                }
+
+                characterService.rollup.reroll({ id: $scope.characterID }, 
+
+                    function(response) {
+                        
+                        console.log(response.message);
+                        $state.go('tavern.characters', {}, { reload: true });
+
+                    },
+                    function(error) {
+
+                        console.log(error);
+                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not re-roll character", error) });
+
+                    });
+            
+            };
 
         }
 
