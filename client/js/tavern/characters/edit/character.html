@@ -1,74 +1,63 @@
 <div ng-controller="tavern.characterController">
 
     <form name="characterForm" novalidate>
-        <table class="form-table" style="width: 300px;">
-            <thead>
-                <tr>
-                    <th colspan="2">{{ isNewCharacter() ? 'Create' : 'Edit' }} Character</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Name:</td>
-                    <td>
-                        <input type="text" name="name" ng-model="character.name" required ng-class="{ 'field-error': submitted && characterForm.name.$invalid }" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>Species:</td>
-                    <td>
-                        <select name="species" ng-model="character.species" ng-options="species | capFirst for species in availableSpecies" required ng-class="{ 'field-error': submitted && characterForm.species.$invalid }"></select>
-                    </td>
-                </tr>
-				<tr>
-					<td>Sex:</td>
-					<td>
-                        <span ng-class="{ 'field-error': submitted && characterForm.sex.$invalid }" style="padding: 2px;">
-                            <label><input type="radio" name="sex" ng-model="character.sex" value="1" required /> Female</label>
-                            <label><input type="radio" name="sex" ng-model="character.sex" value="2" required /> Male</label>
-                        </span>
-					</td>
-				</tr>
-            </tbody>
-            <tbody><tr><td colspan="2">&nbsp;</td></tr></tbody>
-            <tbody ng-show="true">
-				<tr>
-					<td>Strength:</td>
-					<td style="padding-left: 5px;">{{ character.str }}</td>
-				</tr>
-				<tr>
-					<td>Intelligence:</td>
-					<td style="padding-left: 5px;">{{ character.int }}</td>
-				</tr>
-				<tr>
-					<td>Dexterity:</td>
-					<td style="padding-left: 5px;">{{ character.dex }}</td>
-				</tr>
-				<tr>
-					<td>Health:</td>
-					<td style="padding-left: 5px;">{{ character.health }}</td>
-				</tr>
-            </tbody>
-            <tbody><tr><td colspan="2">&nbsp;</td></tr></tbody>
-<!--            <tbody ng-show="showUpdated" class="response-message"><tr><td colspan="2" align="center">Character Updated</td></tr></tbody> -->
-            <tfoot>
-                <tr>
-                    <td colspan="2">
-                        <button type="button" ng-click="rerollCharacter()">Re-roll</button>
-                    </td>
-                </tr>
-            </tfoot>
-            <tfoot>
-                <tr>
-                    <td colspan="2">
-                        <button type="button" ui-sref="tavern.characters.list">Cancel</button>
-                        <button type="button" ng-click="saveCharacter(characterForm.$valid)">{{ isNewCharacter() ? 'Create' : 'Update' }}</button>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
+        <div class="form-table" style="width: 300px; padding: 10px;">
+            <div class="header" style="text-align: center;">{{ isNewCharacter() ? 'Create' : 'Edit' }} Character</div>
 
+            <div class="bio" ng-show="false">
+                <div class="label">ID:</div>
+                <div class="value">{{ character._id }}</div>
+            </div>
+            <div class="bio">
+                <div class="label">Name:</div>
+                <div class="value"><input type="text" name="name" ng-model="character.name" required ng-class="{ 'field-error': submitted && characterForm.name.$invalid }" /></div>
+            </div>
+            <div class="bio">
+                <div class="label">Species:</div>
+                <div class="value"><select name="species" ng-model="character.species" ng-options="species | capFirst for species in availableSpecies" required ng-class="{ 'field-error': submitted && characterForm.species.$invalid }"></select></div>
+            </div>
+            <div class="bio">
+                <div class="label">Sex:</div>
+                <div class="value" ng-class="{ 'field-error': submitted && characterForm.sex.$invalid }" style="padding: 2px;">
+                    <label><input type="radio" name="sex" ng-model="character.sex" value="1" required /> Female</label>
+                    <label><input type="radio" name="sex" ng-model="character.sex" value="2" required /> Male</label>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 10px;">
+                <button type="button" ui-sref="tavern.characters.list">Done</button>
+                <button type="button" ng-click="saveCharacter(characterForm.$valid)">Save</button>
+            </div>
+            <div ng-show="character.stats">
+    
+                <div class="m-tabs" style="margin-top: 20px;">
+                <a ng-click="gotoTab('stats')" ng-class="{ 'active': showTab == 'stats' }">Stats</a>
+                <a ng-click="gotoTab('skills')" ng-class="{ 'active': showTab == 'skills' }">Skills</a>
+            </div>
+                <div ng-show="showTab == 'stats'">
+                <div ng-repeat="stat in statArray" class="stat">
+                    <div class="label">{{ stat.name }}:</div>
+                    <div class="value">{{ (character.stats[stat.prop] + statsAdjust[stat.prop]) }}</div>
+                    <img ng-show="character.stats.bonus > 0" src="/images/up-arrow.png" ng-click="raiseStat(stat.prop)" /> 
+                    <img ng-hide="character.stats.bonus > 0" src="/images/up-arrow-disabled.png" /> 
 
+                    <img ng-show="statsAdjust[stat.prop] > 0" src="/images/down-arrow.png" ng-click="lowerStat(stat.prop)" /> 
+                    <img ng-hide="statsAdjust[stat.prop] > 0" src="/images/down-arrow-disabled.png" /> 
+                </div>
+                <div style="margin-top: 5px;">
+                    <div class="attr-label">Health:</div>
+                    <div class="attr-value">{{ character.stats.health }}</div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <div class="attr-label">Bonus:</div>
+                    <div class="attr-value">{{ character.stats.bonus }}</div>
+                </div>
+                <div style="margin-top: 10px;">
+                    <button type="button" ng-click="rerollCharacter()">Re-roll</button>
+                </div>
+            </div>
+            </div>
+
+        </div>
     </form>
 
     <div ng-show="showUpdated" class="response-message" style="margin-top: 15px; margin-left: 5px;">Character Updated</div>

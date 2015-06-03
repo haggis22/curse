@@ -68,13 +68,13 @@ router.post('/', function (req, res) {
 
     var character = req.body;
 
-    var callback = function (err, message) {
+    var callback = function (err, result) {
 
         if (err) {
             return res.status(500).json({ error: err }).end();
         }
         else {
-            return res.json({ message: message });
+            return res.json(result);
         }
 
     }
@@ -89,13 +89,13 @@ router.put('/:characterID', function (req, res) {
     var characterID = req.params.characterID;
     var character = req.body;
 
-    var callback = function (err, message) {
+    var callback = function (err, character) {
 
         if (err) {
             return res.status(500).json({ error: err }).end();
         }
         else {
-            return res.json({ message: message });
+            return res.json({ character: character });
         }
 
     }

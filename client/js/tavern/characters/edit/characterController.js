@@ -10,13 +10,22 @@
 
             $scope.isNewCharacter = function() {
 
-                return $scope.characterID == null || $scope.characterID.length == 0;
+                return $scope.character == null || $scope.character._id == null;
 
             };
 
+            $scope.gotoTab = function(tabName) 
+            {
+                $scope.showTab = tabName;
+            };
+
+            $scope.gotoTab('stats');
+
             $scope.pullCharacter = function() {
                 
-                if ($scope.isNewCharacter())
+                $scope.statsAdjust = { str: 0, int: 0, dex: 0 };
+
+                if ($scope.characterID == null)
                 {
                     $scope.character = {};
                     return;
@@ -45,8 +54,10 @@
 
                     function(response) {
                         
-                        console.log(response.message);
-                        $state.go('tavern.characters', {}, { reload: true });
+                        console.log('Create character response = ' + response);
+                        $scope.character = response.character;
+
+//                        $state.go('tavern.characters', {}, { reload: true });
 
                     },
                     function(error) {
@@ -123,6 +134,32 @@
                     });
             
             };
+
+            $scope.statArray = [
+                { prop: 'str', name: 'Strength' },
+                { prop: 'int', name: 'Intelligence' },
+                { prop: 'dex', name: 'Dexterity' }
+            ];
+
+            $scope.raiseStat = function(stat)
+            {
+                if ($scope.character.stats.bonus > 0)
+                {
+                    $scope.statsAdjust[stat]++;
+                    $scope.character.stats.bonus--;
+                }
+
+            };
+
+            $scope.lowerStat = function(stat)
+            {
+                if ($scope.statsAdjust[stat] > 0)
+                {
+                    $scope.statsAdjust[stat]--;
+                    $scope.character.stats.bonus++;
+                }
+
+            }
 
         }
 

@@ -143,6 +143,41 @@ input, select, button
 	margin-top: 15px;
 }
 
+.bio
+{
+    margin-top: 7px;
+}
+
+.bio > .label
+{
+    display: inline-block;
+    width: 60px;
+}
+
+.bio > .value
+{
+    display: inline-block;
+    width: 200px;
+}
+
+.stat
+{
+    margin-top: 5px;
+}
+
+.stat > .label
+{
+    display: inline-block;
+    width: 100px;
+}
+
+.stat > .value
+{
+    display: inline-block;
+    width: 40px;
+}
+
+
 .attr-label
 {
 	display: inline-block;
@@ -151,7 +186,9 @@ input, select, button
 
 .attr-value
 {
+	display: inline-block;
 	font-weight: bold;
+	width: 180px;
 }
 
 .gold
@@ -289,6 +326,7 @@ div.m-tabs > a
     padding: 4px 15px 4px 15px;
     position: relative;
     text-decoration: none;
+    cursor: pointer;
 }
 
 div.m-tabs > a:hover 
@@ -304,6 +342,7 @@ div.m-tabs > a.active
     padding-bottom: 5px;
     margin-top: -1px;
     top: 1px;
+    cursor: default;
 }
 
 div.m-tabs > a.active:hover 

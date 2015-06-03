@@ -84,33 +84,40 @@ CharacterManager.reroll = function (characterID, callback) {
 
 CharacterManager.rollCharacter = function (character) {
 
+    character.stats = {};
+
     switch (character.species) {
+
         case 'dwarf':
-            character.str = dice.rollDie(5, 10) + dice.rollDie(5, 10) + dice.rollDie(5, 10);
-            character.int = dice.rollDie(2, 6) + dice.rollDie(3, 7) + dice.rollDie(2, 7);
-            character.dex = dice.rollDie(3, 7) + dice.rollDie(2, 8) + dice.rollDie(3, 7);
+            character.stats.str = 13;
+            character.stats.int = 7;
+            character.stats.dex = 8;
             break;
 
         case 'elf':
-            character.str = dice.rollDie(3, 7) + dice.rollDie(2, 8) + dice.rollDie(3, 7);
-            character.int = dice.rollDie(4, 9) + dice.rollDie(3, 8) + dice.rollDie(3, 8);
-            character.dex = dice.rollDie(4, 8) + dice.rollDie(3, 8) + dice.rollDie(3, 9);
+            character.stats.str = 8;
+            character.stats.int = 10;
+            character.stats.dex = 10;
             break;
 
         case 'hobbit':
-            character.str = dice.rollDie(2, 6) + dice.rollDie(2, 7) + dice.rollDie(2, 8);
-            character.int = dice.rollDie(3, 8) + dice.rollDie(3, 8) + dice.rollDie(3, 8);
-            character.dex = dice.rollDie(3, 9) + dice.rollDie(4, 8) + dice.rollDie(4, 9);
+            character.stats.str = 7;
+            character.stats.int = 8;
+            character.stats.dex = 13;
             break;
 
         default:  // human, et al
-            character.str = dice.rollDie(3, 8) + dice.rollDie(3, 8) + dice.rollDie(3, 8);
-            character.int = dice.rollDie(3, 8) + dice.rollDie(3, 8) + dice.rollDie(3, 8);
-            character.dex = dice.rollDie(3, 8) + dice.rollDie(3, 8) + dice.rollDie(3, 8);
+            character.stats.str = 9;
+            character.stats.int = 9;
+            character.stats.dex = 9;
             break;
     }
 
-    character.health = character.maxHealth = dice.rollDie(3, 8) + dice.rollDie(3, 8) + dice.rollDie(3, 8);
+    character.stats.health = Math.round((character.stats.str / 2) + (character.stats.dex / 2));
+    character.stats.power = 0;
+    character.stats.bonus = dice.averageDie(8, 12);
+
+    character.maxStats = Creature.statsOrDefault(character.stats);
 
 };
 
@@ -133,7 +140,7 @@ CharacterManager.create = function (character, callback) {
 
         console.info('character saved successfully');
 
-        return callback(null, 'Character ' + character.id + ' saved successfully');
+        return callback(null, { character: character });
 
     });
 
@@ -146,15 +153,13 @@ CharacterManager.update = function (character, callback) {
 
     var collection = db.get('characters');
 
-    collection.update({ _id: character.id }, character, function (err, doc) {
+    collection.update({ _id: character._id }, character, function (err, doc) {
 
         if (err) {
             // it failed - return an error
             logger.error('Could not update character: ' + err);
             return callback(err, null);
         }
-
-        console.info('character saved successfully');
 
         return callback(null, character);
 
