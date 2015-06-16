@@ -87,12 +87,14 @@ router.post('/', function (req, res) {
 router.put('/:characterID', function (req, res) {
 
     var characterID = req.params.characterID;
-    var character = req.body;
+    var request = req.body;
+    var character = request.character;
+    var adjustment = request.adjustment;
 
     var callback = function (err, character) {
 
         if (err) {
-            return res.status(500).json({ error: err }).end();
+            return res.status(500).json({ error: err.message }).end();
         }
         else {
             return res.json({ character: character });
@@ -100,7 +102,7 @@ router.put('/:characterID', function (req, res) {
 
     }
 
-    CharacterManager.update(character, callback);
+    CharacterManager.update(character, adjustment, callback);
 
 });
 

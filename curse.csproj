@@ -166,13 +166,16 @@
     <None Include="server\log4js_config.json" />
     <Content Include="server\api\routes\characters.js" />
     <Content Include="server\api\routes\campaigns.js" />
+    <Content Include="server\api\routes\skills.js" />
     <Content Include="server\config.js" />
     <Content Include="server\core\Dice.js" />
     <Content Include="server\managers\CampaignManager.js" />
     <Content Include="server\managers\CharacterManager.js" />
+    <Content Include="server\managers\SkillManager.js" />
     <Content Include="server\models\campaigns\Campaign.js" />
     <Content Include="server\models\creatures\Creature.js" />
     <Content Include="server\api\routes\curseapi.js" />
+    <Content Include="server\models\skills\Skill.js" />
     <Content Include="server\server.js" />
   </ItemGroup>
   <ItemGroup>

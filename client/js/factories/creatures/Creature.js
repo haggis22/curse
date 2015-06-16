@@ -6,6 +6,8 @@
 
 		function(Sex, BodyShape, Skill, AttackType, Item, diceService) {
 
+            
+
             function valueOrDefault(value, defaultValue)
             {
                 return (value == null) ? defaultValue : value;
@@ -62,6 +64,24 @@
 			
 			Creature.prototype = {
 				
+                hasSkill: function(creature, skillName)
+                {
+                    if ((creature == null) || (creature.skills == null))
+                    {
+                        return false;
+                    }
+
+                    for (var s=0; s < creature.skills.length; s++)
+                    {
+                        if (creature.skills[s].name == skillName)
+                        {
+                            return true;
+                        }
+                    }
+
+                },
+
+
                 getName: function(useDefiniteArticle)
                 {
                     return this.name;
@@ -352,6 +372,9 @@
 
                     return false;
                 },
+
+                    
+
 
                 getSkill: function(skillName)
                 {

@@ -9,10 +9,10 @@ function statsOrDefault(stats) {
     if (stats) {
         return {
             str: valueOrDefault(stats.str, 0),
-            int: valueOrDefault(stats.int, 0),
             dex: valueOrDefault(stats.dex, 0),
+            int: valueOrDefault(stats.int, 0),
+            pie: valueOrDefault(stats.pie, 0),
             health: valueOrDefault(stats.health, 0),
-            power: valueOrDefault(stats.power, 0),
             bonus: valueOrDefault(stats.bonus, 0)
         };
 
@@ -32,6 +32,8 @@ var Creature = function (creature) {
 
     this.stats = statsOrDefault(creature.stats);
     this.maxStats = statsOrDefault(creature.maxStats);
+
+    this.skills = creature.skills;
 
 };
 

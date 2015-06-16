@@ -13,8 +13,9 @@ router.use(function (req, res, next) {
 
 });
 
-router.use('/characters', require('./characters.js'));
-router.use('/campaigns', require('./campaigns.js'));
+router.use('/characters', require('./characters'));
+router.use('/campaigns', require('./campaigns'));
+router.use('/skills', require('./skills'));
 
 
 module.exports = router;

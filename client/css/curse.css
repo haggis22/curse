@@ -177,19 +177,24 @@ input, select, button
     width: 40px;
 }
 
-
-.attr-label
+.skill
 {
-	display: inline-block;
-	width: 100px;
+    margin-top: 5px;
 }
 
-.attr-value
+.skill > .label
 {
-	display: inline-block;
-	font-weight: bold;
-	width: 180px;
+    display: inline-block;
+    width: 100px;
 }
+
+.skill > .value
+{
+    display: inline-block;
+    width: 40px;
+}
+
+
 
 .gold
 {
@@ -364,6 +369,12 @@ div.m-tabs > a.active:hover
 	text-decoration: underline;
 }
 
+.text-link-disabled
+{
+    cursor: default;
+    color: #999;
+}
+
 .icon-link
 {
 	cursor: pointer;
@@ -385,3 +396,23 @@ ul > li
 {
     height: 1.5em;
 }
+
+fieldset
+{
+    border-radius: 10px;
+}
+
+fieldset > legend
+{
+    font-weight: bold;
+    border: 1px solid #000;
+    background-color: #eee;
+    padding: 4px;
+}
+
+fieldset.character
+{
+    background-color: burlywood;
+}
+
+

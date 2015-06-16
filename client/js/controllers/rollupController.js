@@ -103,7 +103,6 @@
                 player.adjustSkill("sword", diceService.rollDie(2, 5) + diceService.rollDie(3, 5));
                 player.adjustSkill("magic", diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
                 player.adjustSkill("magic", diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
-                player.adjustSkill("faith", diceService.rollDie(7, 12) + diceService.rollDie(8, 13));
 
                 player.power = player.maxPower = player.getSkillLevel("magic");
 

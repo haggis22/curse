@@ -3,14 +3,44 @@
 (function(app) {
 
 
-	app.controller('tavern.characterController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'Creature',
-		function($scope, $rootScope, $state, $timeout, errorService, characterService, Creature) {
+	app.controller('tavern.characterController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'skillService', 'Creature',
+		function($scope, $rootScope, $state, $timeout, errorService, characterService, skillService, Creature) {
 			
+            $scope.Creature = Creature;
+
             $scope.availableSpecies = [ 'dwarf', 'elf', 'hobbit', 'human' ];
+
+            $scope.statArray = [
+                { prop: 'str', name: 'Strength' },
+                { prop: 'int', name: 'Intelligence' },
+                { prop: 'dex', name: 'Dexterity' },
+                { prop: 'pie', name: 'Piety' }
+            ];
+
+            $scope.skills = null;
+
+            $scope.pullSkills = function() {
+
+                skillService.query({}, 
+                    function(response) {
+
+                        $scope.skills = response;
+
+                    },
+                    function(error) {
+
+                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not fetch skills", error) });
+
+                    });
+
+            };
+
+            $scope.pullSkills();
+
 
             $scope.isNewCharacter = function() {
 
-                return $scope.character == null || $scope.character._id == null;
+                return $scope.characterID == null || $scope.characterID == '';
 
             };
 
@@ -23,9 +53,13 @@
 
             $scope.pullCharacter = function() {
                 
-                $scope.statsAdjust = { str: 0, int: 0, dex: 0 };
+                $scope.statsAdjust = {};
+                
+                $scope.statArray.forEach(function(stat) {
+                    $scope.statsAdjust[stat.prop] = 0;
+                });
 
-                if ($scope.characterID == null)
+                if (($scope.characterID == null) || ($scope.characterID == ''))
                 {
                     $scope.character = {};
                     return;
@@ -35,7 +69,8 @@
 
                     function(response) {
 
-                        $scope.character = new Creature(response);
+                        // $scope.character = new Creature(response);
+                        $scope.character = response;
 
                     },
                     function(error) {
@@ -56,6 +91,7 @@
                         
                         console.log('Create character response = ' + response);
                         $scope.character = response.character;
+                        $scope.characterID = response.character._id;
 
 //                        $state.go('tavern.characters', {}, { reload: true });
 
@@ -71,7 +107,13 @@
 
             $scope.updateCharacter = function() {
 
-                characterService.characters.update({ id: $scope.characterID }, $scope.character,
+                var request =
+                {
+                    character: $scope.character,
+                    adjustment: $scope.statsAdjust
+                };
+
+                characterService.characters.update({ id: $scope.characterID }, request,
 
                     function(response) {
                         
@@ -135,11 +177,6 @@
             
             };
 
-            $scope.statArray = [
-                { prop: 'str', name: 'Strength' },
-                { prop: 'int', name: 'Intelligence' },
-                { prop: 'dex', name: 'Dexterity' }
-            ];
 
             $scope.raiseStat = function(stat)
             {
