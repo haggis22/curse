@@ -17,14 +17,14 @@
                 { prop: 'pie', name: 'Piety' }
             ];
 
-            $scope.skills = null;
+            $scope.availableSkills = null;
 
             $scope.pullSkills = function() {
 
                 skillService.query({}, 
                     function(response) {
 
-                        $scope.skills = response;
+                        $scope.availableSkills = response;
 
                     },
                     function(error) {
@@ -53,12 +53,6 @@
 
             $scope.pullCharacter = function() {
                 
-                $scope.statsAdjust = {};
-                
-                $scope.statArray.forEach(function(stat) {
-                    $scope.statsAdjust[stat.prop] = 0;
-                });
-
                 if (($scope.characterID == null) || ($scope.characterID == ''))
                 {
                     $scope.character = {};
@@ -109,8 +103,7 @@
 
                 var request =
                 {
-                    character: $scope.character,
-                    adjustment: $scope.statsAdjust
+                    character: $scope.character
                 };
 
                 characterService.characters.update({ id: $scope.characterID }, request,
@@ -177,26 +170,129 @@
             
             };
 
+            $scope.getStatValue = function(mapName, key)
+            {
+                if ($scope.character == null || !$scope.character.hasOwnProperty(mapName) || !$scope.character[mapName].hasOwnProperty(key))
+                {
+                    return null;
+                }
+
+                return $scope.character[mapName][key].value + $scope.character[mapName][key].adjust;
+            };
 
             $scope.raiseStat = function(stat)
             {
-                if ($scope.character.stats.bonus > 0)
-                {
-                    $scope.statsAdjust[stat]++;
-                    $scope.character.stats.bonus--;
-                }
-
+                $scope.character.stats[stat].adjust++;
+                $scope.character.bonus.stats--;
             };
 
             $scope.lowerStat = function(stat)
             {
-                if ($scope.statsAdjust[stat] > 0)
+                $scope.character.stats[stat].adjust--;
+                $scope.character.bonus.stats++;
+            };
+
+            $scope.hasAnySkills = function()
+            {
+                if ($scope.character == null)
                 {
-                    $scope.statsAdjust[stat]--;
-                    $scope.character.stats.bonus++;
+                    return false;
                 }
 
-            }
+                for (var prop in $scope.character.skills)
+                {
+                    if ($scope.character.skills.hasOwnProperty(prop))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            };
+
+            // if the character is short of the necessary value in any of
+            // the skill minimums, then he can't acquire this skill yet
+            $scope.skillEligible = function(skill) 
+            {
+                if (($scope.character == null) || (skill == null))
+                {
+                    return false;
+                }
+
+                if (!skill.minimums)
+                {
+                    // no minimum stats required
+                    return true;
+                }
+                
+                if (!$scope.character.stats)
+                {
+                    return false;
+                }
+
+                for (var prop in skill.minimums)
+                {
+                    if (skill.minimums.hasOwnProperty(prop))
+                    {
+                        if (!$scope.character.stats.hasOwnProperty(prop))
+                        {
+                            return false;
+                        }
+
+                        if ($scope.getStatValue('stats', prop) < parseInt(skill.minimums[prop], 10))
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            };
+
+            $scope.addSkill = function(skill) {
+
+                $scope.skillError = null;
+
+                if (!$scope.skillEligible(skill))
+                {
+                    $scope.skillError = "You are not eligible for the " + skill.name + " skill.";
+                    return;
+                }
+
+                if ($scope.character.bonus.skills < 1)
+                {
+                    $scope.skillError = "You have no skill points to allocate.";
+                    return;
+                }
+
+                var mySkill = 
+                {
+                    name: skill.name,
+                    value: 1,
+                    max: 1,
+                    adjust: 0
+                };
+
+                // take a point from his skills allocation
+                $scope.character.bonus.skills--;
+
+                $scope.character.skills[skill.name] = mySkill;
+
+
+            };
+
+
+            $scope.raiseSkill = function(skillName)
+            {
+                $scope.character.skills[skillName].adjust++;
+                $scope.character.bonus.skills--;
+            };
+
+            $scope.lowerSkill = function(skillName)
+            {
+                $scope.character.skills[skillName].adjust--;
+                $scope.character.bonus.skills++;
+            };
 
         }
 

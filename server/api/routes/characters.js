@@ -89,7 +89,6 @@ router.put('/:characterID', function (req, res) {
     var characterID = req.params.characterID;
     var request = req.body;
     var character = request.character;
-    var adjustment = request.adjustment;
 
     var callback = function (err, character) {
 
@@ -102,7 +101,7 @@ router.put('/:characterID', function (req, res) {
 
     }
 
-    CharacterManager.update(character, adjustment, callback);
+    CharacterManager.update(character, callback);
 
 });
 

@@ -73,8 +73,7 @@ CharacterManager.reroll = function (characterID, callback) {
         }
 
         CharacterManager.rollCharacter(character);
-        // pass an empty adjustment object
-        return CharacterManager.update(character, {}, callback);
+        return CharacterManager.update(character, callback);
 
     };
 
@@ -83,46 +82,44 @@ CharacterManager.reroll = function (characterID, callback) {
 };
 
 
-CharacterManager.rollCharacter = function (character) {
+function setStat(value) {
 
-    character.stats = {};
+    return { value: value, max: value, adjust: 0 };
+
+};
+
+function setStats(str, dex, int, pie)
+{
+    return { str: setStat(str), dex: setStat(dex), int: setStat(int), pie: setStat(pie) };
+}
+
+CharacterManager.rollCharacter = function (character) {
 
     switch (character.species) {
 
         case 'dwarf':
-            character.stats.str = 13;
-            character.stats.dex = 8;
-            character.stats.int = 7;
-            character.stats.pie = 8;
+            character.stats = setStats(13, 8, 7, 8);
             break;
 
         case 'elf':
-            character.stats.str = 8;
-            character.stats.int = 10;
-            character.stats.dex = 10;
-            character.stats.pie = 8;
+            character.stats = setStats(8, 10, 10, 8);
             break;
 
         case 'hobbit':
-            character.stats.str = 7;
-            character.stats.int = 8;
-            character.stats.dex = 13;
-            character.stats.pie = 8;
+            character.stats = setStats(7, 13, 8, 8);
             break;
 
         default:  // human, et al
-            character.stats.str = 9;
-            character.stats.int = 9;
-            character.stats.dex = 9;
-            character.stats.pie = 9;
+            character.stats = setStats(9, 9, 9, 9);
             break;
     }
 
-    character.stats.health = Math.round((character.stats.str / 2) + (character.stats.dex / 2));
-    character.stats.power = 0;
-    character.stats.bonus = dice.averageDie(8, 12);
-
-    character.maxStats = Creature.statsOrDefault(character.stats);
+    character.health = setStat(Math.round((character.stats.str.value / 2) + (character.stats.dex.value / 2)));
+    character.bonus = 
+    {
+        stats: dice.averageDie(8, 12),
+        skills: 10
+    };
 
 };
 
@@ -152,7 +149,7 @@ CharacterManager.create = function (character, callback) {
 
 };
 
-CharacterManager.update = function (character, adjustment, callback) {
+CharacterManager.update = function (character, callback) {
 
     // first, validate that the character's stat adjustments are legal
     // We need to pull the existing character
@@ -166,31 +163,31 @@ CharacterManager.update = function (character, adjustment, callback) {
 
         // add up the number of points
         var totalUpdates = 0;
-        for (var prop in adjustment) {
+        for (var prop in character.stats) {
 
             // only count upwards adjustments - we don't want anyone lowering a stat so that they
             // can raise another
-            if ((adjustment.hasOwnProperty(prop)) && (adjustment[prop] > 0)) {
-                totalUpdates += adjustment[prop];
+            if ((character.stats.hasOwnProperty(prop)) && (character.stats[prop].adjust > 0)) {
+                totalUpdates += character.stats[prop].adjust;
             }
         }
 
         if (totalUpdates > 0) {
 
-            if (totalUpdates > oldCharacter.stats.bonus) {
-                logger.error('Character ' + character._id + ' tried to add ' + totalUpdates + ' worth of stats, but only has ' + oldCharacter.stats.bonus + ' available!');
+            if (totalUpdates > oldCharacter.bonus.stats) {
+                logger.error('Character ' + character._id + ' tried to add ' + totalUpdates + ' worth of stats, but only has ' + oldCharacter.bonus.stats + ' available!');
                 return callback(new Error('Allocated more stat points than are available'), null);
             }
 
             // passed validation, add the points to the stats and maxstats, and remove them from the bonus
             for (var prop in character.stats) {
                 if ((character.stats.hasOwnProperty(prop)) && (oldCharacter.stats.hasOwnProperty(prop))) {
-                    character.stats[prop] = oldCharacter.stats[prop] + (adjustment[prop] ? adjustment[prop] : 0);
-                    character.maxStats[prop] = oldCharacter.maxStats[prop] + (adjustment[prop] ? adjustment[prop] : 0);
+                    character.stats[prop].value = oldCharacter.stats[prop].value + character.stats[prop].adjust;
+                    character.stats[prop].max = oldCharacter.stats[prop].value + character.stats[prop].adjust;
                 }
             }
 
-            character.stats.bonus = oldCharacter.stats.bonus - totalUpdates;
+            character.bonus.stats = oldCharacter.bonus.stats - totalUpdates;
 
         }
 

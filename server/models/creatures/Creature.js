@@ -1,24 +1,36 @@
 "use strict";
 
-function valueOrDefault(value, defaultValue) {
-    return (value == null) ? defaultValue : value;
+function valueOrDefault(otherStat) {
+    if (otherStat)
+    {
+        return { value: otherStat.value, max: otherStat.max, adjust: otherStat.adjust };
+    }
+
+    return { value: 0, max: 0, otherStat: 0 };
 }
 
 function statsOrDefault(stats) {
 
     if (stats) {
+
         return {
-            str: valueOrDefault(stats.str, 0),
-            dex: valueOrDefault(stats.dex, 0),
-            int: valueOrDefault(stats.int, 0),
-            pie: valueOrDefault(stats.pie, 0),
-            health: valueOrDefault(stats.health, 0),
-            bonus: valueOrDefault(stats.bonus, 0)
+            
+            str: valueOrDefault(stats.str),
+            dex: valueOrDefault(stats.dex),
+            int: valueOrDefault(stats.int),
+            pie: valueOrDefault(stats.pie)
+
         };
 
     }
 
-    return { str: 0, int: 0, dex: 0, health: 0, power: 0, bonus: 0 };
+    return {
+        str: valueOrDefault(null),
+        dex: valueOrDefault(null),
+        int: valueOrDefault(null),
+        pie: valueOrDefault(null)
+    };
+
 };
 
 
@@ -31,9 +43,12 @@ var Creature = function (creature) {
     this.class = creature.class;
 
     this.stats = statsOrDefault(creature.stats);
-    this.maxStats = statsOrDefault(creature.maxStats);
+    this.health = valueOrDefault(creature.health);
 
-    this.skills = creature.skills;
+    this.skills = creature.skills ? creature.skills : {};
+
+    this.bonus = creature.bonus ? { stats: creature.bonus.stats, skills: creature.bonus.skills} : { stats: 0, skills: 0 };
+
 
 };
 

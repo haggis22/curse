@@ -71,13 +71,7 @@
                         return false;
                     }
 
-                    for (var s=0; s < creature.skills.length; s++)
-                    {
-                        if (creature.skills[s].name == skillName)
-                        {
-                            return true;
-                        }
-                    }
+                    return creature.skills.hasOwnProperty(skillName);
 
                 },
 

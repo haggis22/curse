@@ -415,4 +415,21 @@ fieldset.character
     background-color: burlywood;
 }
 
+table.datatable
+{
+    border: 1px solid #000;
+}
+
+table.datatable > thead > tr > th, table.datatable > tbody > tr > td
+{
+    padding: 3px;
+}
+
+table.datatable > thead > tr > th
+{
+    border-bottom: 1px solid #000;
+}
+
+
+
 

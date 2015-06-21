@@ -6,6 +6,16 @@
         {
             cursor: pointer;
         }
+
+        .skill-eligible
+        {
+            cursor: pointer;
+        }
+        
+        .skill-ineligible
+        {
+            color: #999;
+        }
         
     </style>
 
@@ -47,48 +57,104 @@
                 <fieldset ng-hide="isNewCharacter()" class="character" style="margin-top: 15px;">
                     <legend>Stats</legend>
 
-                    <div ng-repeat="stat in statArray" class="stat">
-                        <div class="label">{{ stat.name }}:</div>
-                        <div class="value">{{ (character.stats[stat.prop] + statsAdjust[stat.prop]) }}</div>
-                        <img ng-show="character.stats.bonus > 0" src="/images/up-arrow.png" ng-click="raiseStat(stat.prop)" class="stat-adjuster" /> 
-                        <img ng-hide="character.stats.bonus > 0" src="/images/up-arrow-disabled.png" /> 
+                    <div class="stat" style="margin-top: 7px;">
+                        <div class="label">Allocation:</div>
+                        <div class="value">{{ character.bonus.stats }}</div>
+                    </div>
 
-                        <img ng-show="statsAdjust[stat.prop] > 0" src="/images/down-arrow.png" ng-click="lowerStat(stat.prop)" class="stat-adjuster" /> 
-                        <img ng-hide="statsAdjust[stat.prop] > 0" src="/images/down-arrow-disabled.png" /> 
+                    <hr />
+
+                    <div>
+
+                        <div ng-repeat="stat in statArray" class="stat">
+                            <div class="label">{{ stat.name }}:</div>
+                            <div class="value">{{ getStatValue('stats', stat.prop) }}</div>
+                            <img ng-show="character.bonus.stats > 0" src="/images/up-arrow.png" ng-click="raiseStat(stat.prop)" class="stat-adjuster" /> 
+                            <img ng-hide="character.bonus.stats > 0" src="/images/up-arrow-disabled.png" /> 
+
+                            <img ng-show="character.stats[stat.prop].adjust > 0" src="/images/down-arrow.png" ng-click="lowerStat(stat.prop)" class="stat-adjuster" /> 
+                            <img ng-hide="character.stats[stat.prop].adjust > 0" src="/images/down-arrow-disabled.png" /> 
+                        </div>
                     </div>
-                    <div class="stat" style="margin-top: 15px;">
+
+                    <hr />
+
+                    <div class="stat">
                         <div class="label">Health:</div>
-                        <div class="value">{{ character.stats.health }}</div>
+                        <div class="value">{{ character.health.value | number:0 }}</div>
                     </div>
-                    <div class="stat" style="margin-top: 15px;">
-                        <div class="label">Bonus:</div>
-                        <div class="value">{{ character.stats.bonus }}</div>
-                    </div>
-                    <div class="stat" style="margin-top: 10px;">
+
+                    <div style="text-align: center; margin-top: 10px;">
                         <button type="button" ng-click="rerollCharacter()">Re-roll</button>
                     </div>
+
                 </fieldset>
 
             </div>
 
-            <div style="float: left; margin-left: 10px;">
+            <div style="float: left; margin-left: 10px; width: 300px;">
 
                 <fieldset class="character">
                     <legend>Skills</legend>
 
-                    <div style="margin-top: 10px;">
-                        <div ng-show="character.skills">
-                            <div ng-repeat="skill in character.skills">{{ skill.name | capFirst }} : {{ skill.level | number: 0 }}</div>
-                        </div>
-                        <div ng-hide="character.skills">No skills selected</div>
+                    <div class="stat" style="margin-top: 7px;">
+                        <div class="label">Allocation:</div>
+                        <div class="value">{{ character.bonus.skills }}</div>
                     </div>
 
                     <hr />
 
                     <div style="margin-top: 10px;">
-                        <div ng-repeat="skill in skills" class="skill" ng-if="!Creature.prototype.hasSkill(character, skill.name)">
-                            <div class="label">{{ skill.name | capFirst }}</div>
+                        <div ng-show="hasAnySkills()">
+                            <table class="datatable">
+                                <thead>
+                                    <tr>
+                                        <th align="left">Skill</th>
+                                        <th align="center">Level</th>
+                                        <th align="center">Adjust</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="skill in character.skills">
+                                        <td style="width: 120px;">{{ skill.name | capFirst }}</td>
+                                        <td align="center" style="width: 50px;">{{ getStatValue('skills', skill.name) | number: 0 }}</td>
+                                        <td align="center" style="width: 60px;">
+                                            <img ng-show="character.bonus.skills > 0" src="/images/up-arrow.png" ng-click="raiseSkill(skill.name)" class="stat-adjuster" /> 
+                                            <img ng-hide="character.bonus.skills > 0" src="/images/up-arrow-disabled.png" /> 
+                                            <img ng-show="skill.adjust > 0" src="/images/down-arrow.png" ng-click="lowerSkill(skill.name)" class="stat-adjuster" /> 
+                                            <img ng-hide="skill.adjust > 0" src="/images/down-arrow-disabled.png" /> 
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
                         </div>
+                        <div ng-hide="hasAnySkills()">No skills selected</div>
+                    </div>
+
+                    <hr />
+
+                    <div style="margin-top: 10px;">
+
+                        <table class="datatable">
+                            <thead>
+                                <tr>
+                                    <th align="left">Skill</th>
+                                    <th align="left">Prerequisites</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="skill in availableSkills" ng-if="!Creature.prototype.hasSkill(character, skill.name)" class="skill" 
+                                        ng-class="{ 'skill-ineligible': !skillEligible(skill), 'skill-eligible': skillEligible(skill) }" 
+                                        ng-click="addSkill(skill)">
+                                    <td>{{ skill.name | capFirst }}</td>
+                                    <td><span ng-repeat="(key, value) in skill.minimums"><span ng-show="$index > 0">, </span>{{ key }}: {{ value|number:0 }}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div ng-show="skillError" style="margin-top: 10px;" class="error">{{ skillError }}</div>
+
                     </div>
 
                 </fieldset>
