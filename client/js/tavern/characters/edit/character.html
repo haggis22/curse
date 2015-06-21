@@ -148,7 +148,10 @@
                                         ng-class="{ 'skill-ineligible': !skillEligible(skill), 'skill-eligible': skillEligible(skill) }" 
                                         ng-click="addSkill(skill)">
                                     <td>{{ skill.name | capFirst }}</td>
-                                    <td><span ng-repeat="(key, value) in skill.minimums"><span ng-show="$index > 0">, </span>{{ key }}: {{ value|number:0 }}</span></td>
+                                    <td>
+                                        <span ng-repeat="(key, value) in skill.prereqs.stats"><span ng-show="$index > 0">, </span>{{ key }}: {{ value|number:0 }}</span>
+                                        <span ng-repeat="(key, value) in skill.prereqs.skills"><span ng-show="$index > 0">, </span>{{ key }}: {{ value|number:0 }}</span>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

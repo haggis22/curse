@@ -4,7 +4,7 @@ var Skill = function (skill) {
 
     this._id = skill._id;
     this.name = skill.name;
-    this.minimums = skill.minimums;
+    this.prereqs = skill.prereqs;
 
 };
 

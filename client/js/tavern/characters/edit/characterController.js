@@ -174,7 +174,7 @@
             {
                 if ($scope.character == null || !$scope.character.hasOwnProperty(mapName) || !$scope.character[mapName].hasOwnProperty(key))
                 {
-                    return null;
+                    return 0;
                 }
 
                 return $scope.character[mapName][key].value + $scope.character[mapName][key].adjust;
@@ -210,6 +210,26 @@
                 return false;
             };
 
+            $scope.hasPreReqs = function(reqs, mapName)
+            {
+                for (var prop in reqs)
+                {
+                    if (reqs.hasOwnProperty(prop))
+                    {
+                        // getStatValue will return 0 if the character does not have that stat at all
+                        if ($scope.getStatValue(mapName, prop) < parseInt(reqs[prop], 10))
+                        {
+                            return false;
+                        }
+
+                    }
+                    
+                }  // for each pre-req
+
+                return true;
+            }
+
+
             // if the character is short of the necessary value in any of
             // the skill minimums, then he can't acquire this skill yet
             $scope.skillEligible = function(skill) 
@@ -219,34 +239,13 @@
                     return false;
                 }
 
-                if (!skill.minimums)
+                if (!skill.prereqs)
                 {
-                    // no minimum stats required
                     return true;
                 }
-                
-                if (!$scope.character.stats)
-                {
-                    return false;
-                }
 
-                for (var prop in skill.minimums)
-                {
-                    if (skill.minimums.hasOwnProperty(prop))
-                    {
-                        if (!$scope.character.stats.hasOwnProperty(prop))
-                        {
-                            return false;
-                        }
+                return $scope.hasPreReqs(skill.prereqs.stats, 'stats') && $scope.hasPreReqs(skill.prereqs.skills, 'skills');
 
-                        if ($scope.getStatValue('stats', prop) < parseInt(skill.minimums[prop], 10))
-                        {
-                            return false;
-                        }
-                    }
-                }
-
-                return true;
             };
 
             $scope.addSkill = function(skill) {
