@@ -140,14 +140,20 @@ CharacterManager.create = function (character, callback) {
             return callback(err, null);
         }
 
-        console.info('character saved successfully');
+        console.info('character saved successfully with id ' + doc._id);
 
-        return callback(null, { character: character });
+        return CharacterManager.fetchByID(doc._id, callback);
 
     });
 
 
 };
+
+
+CharacterManager.isSkillEligible = function(character) {
+
+}
+
 
 CharacterManager.update = function (character, callback) {
 
@@ -184,12 +190,21 @@ CharacterManager.update = function (character, callback) {
                 if ((character.stats.hasOwnProperty(prop)) && (oldCharacter.stats.hasOwnProperty(prop))) {
                     character.stats[prop].value = oldCharacter.stats[prop].value + character.stats[prop].adjust;
                     character.stats[prop].max = oldCharacter.stats[prop].value + character.stats[prop].adjust;
+
+                    // clear out the adjustment
+                    character.stats[prop].adjust = 0;
                 }
             }
 
             character.bonus.stats = oldCharacter.bonus.stats - totalUpdates;
 
         }
+
+        // now validate the skills
+        var totalSkillUpdates = 0;
+
+        for (var prop in character.skills) {
+
 
         character.updated = new Date();
 

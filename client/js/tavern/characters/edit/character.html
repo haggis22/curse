@@ -94,7 +94,7 @@
 
             <div style="float: left; margin-left: 10px; width: 300px;">
 
-                <fieldset class="character">
+                <fieldset ng-hide="isNewCharacter()" class="character">
                     <legend>Skills</legend>
 
                     <div class="stat" style="margin-top: 7px;">
@@ -144,7 +144,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="skill in availableSkills" ng-if="!Creature.prototype.hasSkill(character, skill.name)" class="skill" 
+                                <tr ng-repeat="skill in availableSkills" ng-if="showPotentialSkill(skill)" class="skill" 
                                         ng-class="{ 'skill-ineligible': !skillEligible(skill), 'skill-eligible': skillEligible(skill) }" 
                                         ng-click="addSkill(skill)">
                                     <td>{{ skill.name | capFirst }}</td>

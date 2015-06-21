@@ -12,8 +12,8 @@
 
             $scope.statArray = [
                 { prop: 'str', name: 'Strength' },
-                { prop: 'int', name: 'Intelligence' },
                 { prop: 'dex', name: 'Dexterity' },
+                { prop: 'int', name: 'Intelligence' },
                 { prop: 'pie', name: 'Piety' }
             ];
 
@@ -84,8 +84,8 @@
                     function(response) {
                         
                         console.log('Create character response = ' + response);
-                        $scope.character = response.character;
-                        $scope.characterID = response.character._id;
+                        $scope.character = response;
+                        $scope.characterID = response._id;
 
 //                        $state.go('tavern.characters', {}, { reload: true });
 
@@ -209,6 +209,40 @@
 
                 return false;
             };
+
+            $scope.showPotentialSkill = function(skill)
+            {
+                if (($scope.character == null) || (skill == null))
+                {
+                    return false;
+                }
+
+                if (Creature.prototype.hasSkill($scope.character, skill.name))
+                {
+                    return false;
+                }
+
+                // if the skill doesn't have any reqs at all, or only stats pre-reqs, then always show it
+                if ((!skill.prereqs) || (!skill.prereqs.skills))
+                {
+                    return true;
+                }
+
+                for (var prop in skill.prereqs.skills)
+                {
+                    if (skill.prereqs.skills.hasOwnProperty(prop))
+                    {
+                        // if they don't even have level 1 in the skill, then don't show the sub-skill
+                        if ($scope.getStatValue('skills', prop) == 0)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            };
+
 
             $scope.hasPreReqs = function(reqs, mapName)
             {
