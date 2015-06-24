@@ -17,11 +17,14 @@
                 { prop: 'pie', name: 'Piety' }
             ];
 
-            $scope.availableSkills = null;
+            $scope.availableSkills = [];
 
             $scope.pullSkills = function() {
 
+                $scope.availableSkills.length = 0;
+
                 skillService.query({}, 
+                    
                     function(response) {
 
                         $scope.availableSkills = response;

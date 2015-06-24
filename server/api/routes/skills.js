@@ -9,13 +9,24 @@ var SkillManager = require('./../../managers/SkillManager');
 
 router.get('/', function (req, res) {
 
-    var callback = function (err, characters) {
+    var callback = function (err, skillsMap) {
 
         if (err) {
             return res.status(500).send(err).end();
         }
         else {
-            return res.json(characters);
+
+            // convert the map into an array
+            var skillsArray = [];
+            for (var prop in skillsMap) {
+                if (skillsMap.hasOwnProperty(prop)) {
+                    skillsArray.push(skillsMap[prop]);
+                }
+            }
+
+            skillsArray.sort(function (a, b) { return ((a.name < b.name) ? -1 : ((a.name > b.name) ? 1 : 0)); });
+
+            return res.json(skillsArray);
         }
 
     };

@@ -14,6 +14,7 @@ var db = monk(config.db);
 
 var dice = require('./../core/Dice.js');
 var Creature = require('./../models/creatures/Creature.js');
+var SkillManager = require(__dirname + '/SkillManager.js');
 
 var CharacterManager = function () {
 
@@ -150,11 +151,6 @@ CharacterManager.create = function (character, callback) {
 };
 
 
-CharacterManager.isSkillEligible = function(character) {
-
-}
-
-
 CharacterManager.update = function (character, callback) {
 
     // first, validate that the character's stat adjustments are legal
@@ -203,26 +199,94 @@ CharacterManager.update = function (character, callback) {
         // now validate the skills
         var totalSkillUpdates = 0;
 
+        for (var prop in character.skills) {
 
+            if (character.skills.hasOwnProperty(prop)) {
 
-        character.updated = new Date();
+                // First, check to see whether the character has added any skills
+                if (!oldCharacter.skills.hasOwnProperty(prop)) {
+                    // it's a new skill, so count its level as well as adjustments
+                    totalSkillUpdates += character.skills[prop].value;
+                 }
 
-        var collection = db.get('characters');
+                // only count upwards adjustments - we don't want anyone lowering a stat so that they can raise another
+                totalSkillUpdates += Math.max(0, character.skills[prop].adjust);
+            }
+        }
 
-        collection.update({ _id: character._id }, character, function (err, doc) {
+        console.log('totalSkillUpdates: ' + totalSkillUpdates);
 
-            if (err) {
-                // it failed - return an error
-                logger.error('Could not update character: ' + err);
-                return callback(err, null);
+        if (totalSkillUpdates > 0) {
+
+            console.log('oldCharacter.bonus.skills = ' + oldCharacter.bonus.skills);
+
+            if (totalSkillUpdates > oldCharacter.bonus.skills) {
+
+                logger.error('Character ' + character._id + ' tried to add ' + totalSkillUpdates + ' worth of skills, but only has ' + oldCharacter.bonus.skills + ' available!');
+                return callback(new Error('Allocated more skill points than are available'), null);
             }
 
-            return callback(null, character);
+        }
 
-        });
+        // passed validation, add the points to the skills and maxskills, and remove them from the bonus
+        for (var prop in character.skills) {
+            if (character.skills.hasOwnProperty(prop)) {
+                character.skills[prop].value = character.skills[prop].value + character.skills[prop].adjust;
+                character.skills[prop].max = character.skills[prop].max + character.skills[prop].adjust;
 
-    });
+                // clear out the adjustment
+                character.skills[prop].adjust = 0;
+            }
+        }
 
+        character.bonus.skills = oldCharacter.bonus.skills - totalSkillUpdates;
+
+        // now verify that the character has all the necessary pre-requisites
+        // First, fetch all skill data in one fell swoop
+        SkillManager.fetchAll(function (err, allSkills) {
+
+            if (err) {
+                logger.error('Could not fetch skills in order to verify pre-requisites');
+                return callback(err, null)
+            }
+
+            // now make sure that the character is eligible for any new skills
+            for (var prop in character.skills) {
+
+                if (character.skills.hasOwnProperty(prop)) {
+                    if (!allSkills.hasOwnProperty(prop)) {
+                        return callback(new Error('Could not verify skill ' + prop), null);
+                    }
+
+                    if (!oldCharacter.skills.hasOwnProperty(prop)) {
+                        if (!SkillManager.isCharacterEligible(character, allSkills[prop])) {
+                            return callback(new Error('Character is not eligible for skill ' + prop), null);
+                        }
+                    }
+                }
+            }
+
+
+            // Passed all validation, now save the character!
+            character.updated = new Date();
+
+            var collection = db.get('characters');
+
+            collection.update({ _id: character._id }, character, function (err, doc) {
+
+                if (err) {
+                    // it failed - return an error
+                    logger.error('Could not update character: ' + err);
+                    return callback(err, null);
+                }
+
+                return callback(null, character);
+
+            });   // collection.update callback
+
+        });  // SkillManager.fetchAll callback
+
+    });  // oldCharacter.fetch callback
 
 
 };
