@@ -203,7 +203,6 @@ CharacterManager.update = function (character, callback) {
         // now validate the skills
         var totalSkillUpdates = 0;
 
-        for (var prop in character.skills) {
 
 
         character.updated = new Date();
