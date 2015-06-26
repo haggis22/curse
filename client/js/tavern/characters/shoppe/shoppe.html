@@ -1,0 +1,31 @@
+<div ng-controller="tavern.shoppeController">
+
+
+    <div style="float: left;">
+
+        <fieldset class="shoppe">
+            <legend>Armoury</legend>
+        
+            <div style="margin-top: 15px;">
+                <table class="datatable">
+                    <thead>
+                        <tr>
+                            <th align="left" style="width: 150px;">Weapon</th>
+                            <th align="left">Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="weapon in weapons">
+                            <td align="left">{{ weapon.name | capFirst }}</td>
+                            <td align="left">{{ weapon.price | coins }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </fieldset>    
+
+    </div>
+
+
+</div>

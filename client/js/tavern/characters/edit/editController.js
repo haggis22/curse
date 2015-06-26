@@ -3,7 +3,7 @@
 (function(app) {
 
 
-	app.controller('tavern.characterController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'skillService', 'Creature',
+	app.controller('tavern.editController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'skillService', 'Creature',
 		function($scope, $rootScope, $state, $timeout, errorService, characterService, skillService, Creature) {
 			
             $scope.Creature = Creature;
@@ -53,32 +53,6 @@
             };
 
             $scope.gotoTab('stats');
-
-            $scope.pullCharacter = function() {
-                
-                if (($scope.characterID == null) || ($scope.characterID == ''))
-                {
-                    $scope.character = {};
-                    return;
-                }                        
-
-                characterService.characters.get({ id: $scope.characterID },
-
-                    function(response) {
-
-                        // $scope.character = new Creature(response);
-                        $scope.character = response;
-
-                    },
-                    function(error) {
-
-                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not fetch character", error) });
-
-                    });
-
-            };
-
-            $scope.pullCharacter();
 
             $scope.createCharacter = function() {
 

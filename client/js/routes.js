@@ -35,11 +35,33 @@
             })
             .state('tavern.characters.list', {
                 url: "/",
-                templateUrl: "js/tavern/characters/characters.html?v=" + (new Date()).getTime()
+                templateUrl: "js/tavern/characters/list/characters.html?v=" + (new Date()).getTime()
             })
-            .state('tavern.characters.edit', {
+            .state('tavern.characters.single', {
                 url: "/:characterID",
-                templateUrl: "js/tavern/characters/edit/character.html?v=" + (new Date()).getTime(),
+                templateUrl: "js/tavern/characters/single/single.html?v=" + (new Date()).getTime(),
+                controller: ['$scope', '$state', '$stateParams',
+                    function ($scope, $state, $stateParams) {
+
+                        $scope.characterID = $stateParams.characterID;
+
+                        // if only asking for the root path, then forward to the default
+                        if ($state.is('tavern.characters.single')) {
+                            $state.go('tavern.characters.single.edit');
+                        }
+                    }
+                ]
+            })
+            .state('tavern.characters.single.edit', {
+                url: "/edit",
+                templateUrl: "js/tavern/characters/edit/edit.html?v=" + (new Date()).getTime(),
+                controller: function($scope, $stateParams) {
+                    $scope.characterID = $stateParams.characterID;
+                }
+            })
+            .state('tavern.characters.single.shoppe', {
+                url: "/shoppe",
+                templateUrl: "js/tavern/characters/shoppe/shoppe.html?v=" + (new Date()).getTime(),
                 controller: function($scope, $stateParams) {
                     $scope.characterID = $stateParams.characterID;
                 }

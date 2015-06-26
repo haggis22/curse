@@ -1,0 +1,12 @@
+<div ng-controller="tavern.singleController">
+
+    <h3>{{ character.name }}</h3>
+
+    <div class="m-tabs">
+        <a ui-sref-active="active" ui-sref="tavern.characters.single.edit">Edit</a>
+        <a ui-sref-active="active" ui-sref="tavern.characters.single.shoppe">Shoppe</a>
+    </div>
+
+    <div ui-view style="padding-left: 20px;"></div>
+
+</div>

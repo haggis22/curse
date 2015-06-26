@@ -415,6 +415,12 @@ fieldset.character
     background-color: burlywood;
 }
 
+fieldset.shoppe
+{
+    background-color: lightsteelblue;
+}
+
+
 table.datatable
 {
     border: 1px solid #000;
