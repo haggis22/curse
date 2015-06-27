@@ -27,6 +27,26 @@ var Item = function(item) {
 
 };
 
+Item.prototype.getName = function (useDefiniteArticle) {
+    var text = '';
+
+    if (this.stackable) {
+        if (this.stackable.amount == 1) {
+            return (useDefiniteArticle ? 'the' : this.article) + ' ' + this.name;
+        }
+
+        return (useDefiniteArticle ? 'the' : '') + ' ' + this.stackable.amount + ' ' + this.stackable.plural;
+    }
+
+
+    if (useDefiniteArticle != null) {
+        return (useDefiniteArticle ? 'the' : this.article) + ' ' + this.name;
+    }
+
+    return this.name;
+};
+
+
 Item.prototype.getWeight = function()
 {
     if (this.stackable)
@@ -34,7 +54,7 @@ Item.prototype.getWeight = function()
         return this.weight * this.stackable.amount;
     }
 
-    return this.weight;
+    return (this.weight ? this.weight : 0);
 
 };
 

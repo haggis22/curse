@@ -57,7 +57,7 @@ Armour.prototype.getProtection = function()
 
 Armour.prototype.isEquippableBy = function(creature)
 {
-    return creature.isShape([BodyShape.prototype.HUMANOID, BodyShape.prototype.WINGED_HUMANOID]) && creature.useArmour;
+    return creature.isShape([BodyShape.HUMANOID, BodyShape.WINGED_HUMANOID]) && creature.useArmour;
 }
 
 

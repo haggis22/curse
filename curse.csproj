@@ -182,7 +182,9 @@
     <Content Include="server\models\creatures\MonsterType.js" />
     <Content Include="server\models\creatures\Sex.js" />
     <Content Include="server\models\creatures\Stat.js" />
+    <Content Include="server\models\items\AmmoWeapon.js" />
     <Content Include="server\models\items\Potion.js" />
+    <Content Include="server\models\items\Shield.js" />
     <Content Include="server\models\items\Weapon.js" />
     <Content Include="server\test.js" />
     <Content Include="server\core\Dice.js" />

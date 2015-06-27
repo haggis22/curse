@@ -74,7 +74,7 @@ Weapon.prototype.use = function(creature)
 
 Weapon.prototype.isEquippableBy = function(creature)
 {
-    return creature.isShape([BodyShape.prototype.HUMANOID, BodyShape.prototype.WINGED_HUMANOID]) && creature.useWeapons;
+    return creature.isShape([BodyShape.HUMANOID, BodyShape.WINGED_HUMANOID]) && creature.useWeapons;
 }
 
 Weapon.prototype.getSkills = function()
