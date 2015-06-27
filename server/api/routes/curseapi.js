@@ -13,9 +13,10 @@ router.use(function (req, res, next) {
 
 });
 
-router.use('/characters', require('./characters'));
-router.use('/campaigns', require('./campaigns'));
-router.use('/skills', require('./skills'));
+router.use('/characters', require(__dirname + '/characters'));
+router.use('/campaigns', require(__dirname + '/campaigns'));
+router.use('/skills', require(__dirname + '/skills'));
+router.use('/shoppe', require(__dirname + '/shoppe'));
 
 
 module.exports = router;

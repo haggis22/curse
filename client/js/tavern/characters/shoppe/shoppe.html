@@ -4,7 +4,7 @@
     <div style="float: left;">
 
         <fieldset class="shoppe">
-            <legend>Armoury</legend>
+            <legend>Weapons</legend>
         
             <div style="margin-top: 15px;">
                 <table class="datatable">
@@ -15,9 +15,57 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="weapon in weapons">
+                        <tr ng-repeat="weapon in shoppe.items | filter:{ isWeapon:true }">
                             <td align="left">{{ weapon.name | capFirst }}</td>
-                            <td align="left">{{ weapon.price | coins }}</td>
+                            <td align="left">{{ weapon.value | coins }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </fieldset>    
+
+        <fieldset class="shoppe" style="margin-top: 15px;">
+            <legend>Armour</legend>
+        
+            <div style="margin-top: 15px;">
+                <table class="datatable">
+                    <thead>
+                        <tr>
+                            <th align="left" style="width: 150px;">Armour</th>
+                            <th align="left">Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="armour in shoppe.items | filter:isArmour">
+                            <td align="left">{{ armour.name | capFirst }}</td>
+                            <td align="left">{{ armour.value | coins }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </fieldset>    
+
+    </div>
+
+    <div style="float: left; margin-left: 20px;">
+
+        <fieldset class="shoppe">
+            <legend>Potions</legend>
+        
+            <div style="margin-top: 15px;">
+                <table class="datatable">
+                    <thead>
+                        <tr>
+                            <th align="left" style="width: 150px;">Potion</th>
+                            <th align="left">Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="potion in shoppe.items | filter:{ isPotion:true }">
+                            <td align="left">{{ potion.name | capFirst }}</td>
+                            <td align="left">{{ potion.value | coins }}</td>
                         </tr>
                     </tbody>
                 </table>

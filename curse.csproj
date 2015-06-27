@@ -96,6 +96,7 @@
     <Content Include="client\common\partials\ajax-loader.html" />
     <Content Include="client\common\partials\error-message.html" />
     <Content Include="client\js\filters\coins.js" />
+    <Content Include="client\js\services\shoppeService.js" />
     <Content Include="client\js\tavern\campaigns\campaigns.html" />
     <Content Include="client\js\tavern\campaigns\edit\campaign.html" />
     <Content Include="client\js\tavern\campaigns\edit\campaignController.js" />
@@ -175,6 +176,7 @@
     <None Include="server\log4js_config.json" />
     <Content Include="server\api\routes\characters.js" />
     <Content Include="server\api\routes\campaigns.js" />
+    <Content Include="server\api\routes\shoppe.js" />
     <Content Include="server\api\routes\skills.js" />
     <Content Include="server\config.js" />
     <Content Include="server\models\creatures\BodyPart.js" />
@@ -182,10 +184,12 @@
     <Content Include="server\models\creatures\MonsterType.js" />
     <Content Include="server\models\creatures\Sex.js" />
     <Content Include="server\models\creatures\Stat.js" />
-    <Content Include="server\models\items\AmmoWeapon.js" />
     <Content Include="server\models\items\Potion.js" />
     <Content Include="server\models\items\Shield.js" />
+    <Content Include="server\models\items\Value.js" />
     <Content Include="server\models\items\Weapon.js" />
+    <Content Include="server\models\shoppe\ShoppeManager.js" />
+    <Content Include="server\models\shoppe\Shoppe.js" />
     <Content Include="server\test.js" />
     <Content Include="server\core\Dice.js" />
     <Content Include="server\models\campaigns\CampaignManager.js" />

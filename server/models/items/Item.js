@@ -1,6 +1,8 @@
 "use strict";
 
-var Item = function(item) {
+var Value = require(__dirname + '/Value');
+
+var Item = function (item) {
 
     this.type = item.type;
     this.name = item.name;
@@ -12,11 +14,12 @@ var Item = function(item) {
     this.weight = item.weight == null ? 0 : item.weight;
     this.hands = item.hands == null ? 0 : item.hands;
 
+    this.value = new Value(item.value);
+     
     this.attributes = item.attributes == null ? [] : item.attributes;
 
-    if (item.stackable)
-    {
-        this.stackable = 
+    if (item.stackable) {
+        this.stackable =
         {
             type: item.stackable.type,
             plural: item.stackable.plural,

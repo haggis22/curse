@@ -3,17 +3,34 @@
 (function(app) {
 
 
-	app.controller('tavern.shoppeController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'skillService', 'Creature',
-		function($scope, $rootScope, $state, $timeout, errorService, characterService, skillService, Creature) {
+	app.controller('tavern.shoppeController', ['$scope', '$rootScope', '$state', 'errorService', 'shoppeService', 
+		function($scope, $rootScope, $state, errorService, shoppeService) {
 			
+            $scope.shoppe = null;
 
-            $scope.weapons = 
-            [
-                { name: 'broadsword', price: { gold: 20, silver: 5 } },
-                { name: 'mace', price: { gold: 12, silver: 6, copper: 3 } },
-                { name: 'axe', price: { gold: 5, silver: 10, copper: 5 } },
-                { name: 'kazoo', price: { free: true } }
-            ];
+            $scope.pullShoppe = function() {
+
+                shoppeService.get({}, 
+                    
+                    function(response) {
+
+                        $scope.shoppe = response;
+
+                    },
+                    function(error) {
+
+                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not fetch shoppe", error) });
+
+                    });
+
+            };
+
+            $scope.pullShoppe();
+    
+            $scope.isArmour = function(item)
+            {
+                return item.isArmour || item.isShield;
+            }
 
 
         }   // end controller function
