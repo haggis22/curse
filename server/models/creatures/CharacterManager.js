@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-var config = require('./../config');
+var config = require(__dirname + '/../../config');
 
 var log4js = require('log4js');
 log4js.configure(config.logconfig, {});
@@ -12,9 +12,9 @@ var monk = require('monk');
 
 var db = monk(config.db);
 
-var dice = require('./../core/Dice.js');
-var Creature = require('./../models/creatures/Creature.js');
-var SkillManager = require(__dirname + '/SkillManager.js');
+var dice = require(__dirname + '/../../core/Dice');
+var Creature = require(__dirname + '/Creature');
+var SkillManager = require(__dirname + '/../skills/SkillManager');
 
 var CharacterManager = function () {
 
@@ -127,13 +127,15 @@ CharacterManager.rollCharacter = function (character) {
 
 CharacterManager.create = function (character, callback) {
 
-    CharacterManager.rollCharacter(character);
+    var newCharacter = new Creature(character);
 
-    character.updated = new Date();
+    CharacterManager.rollCharacter(newCharacter);
+
+    newCharacter.updated = new Date();
 
     var collection = db.get('characters');
 
-    collection.insert(character, function (err, doc) {
+    collection.insert(newCharacter, function (err, doc) {
 
         if (err) {
             // it failed - return an error

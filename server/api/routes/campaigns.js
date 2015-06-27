@@ -5,7 +5,7 @@ var log4js = require('log4js');
 log4js.configure(__dirname + '/../../log4js_config.json', {});
 var logger = log4js.getLogger('curse');
 
-var CampaignManager = require('./../../managers/CampaignManager');
+var CampaignManager = require(__dirname + '/../../models/campaigns/CampaignManager');
 
 router.get('/', function (req, res) {
 

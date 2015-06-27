@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-var config = require('./../config');
+var config = require(__dirname + '/../../config');
 
 var log4js = require('log4js');
 log4js.configure(config.logconfig, {});
@@ -11,7 +11,7 @@ var monk = require('monk');
 
 var db = monk(config.db);
 
-var Campaign = require('./../models/campaigns/Campaign.js');
+var Campaign = require(__dirname + '/Campaign.js');
 
 var CampaignManager = function () {
 

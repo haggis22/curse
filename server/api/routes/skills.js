@@ -5,7 +5,7 @@ var log4js = require('log4js');
 log4js.configure(__dirname + '/../../log4js_config.json', {});
 var logger = log4js.getLogger('curse');
 
-var SkillManager = require('./../../managers/SkillManager');
+var SkillManager = require(__dirname + '/../../models/skills/SkillManager');
 
 router.get('/', function (req, res) {
 

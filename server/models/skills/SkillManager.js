@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-var config = require('./../config');
+var config = require(__dirname + '/../../config');
 
 var log4js = require('log4js');
 log4js.configure(config.logconfig, {});
@@ -11,7 +11,7 @@ var monk = require('monk');
 
 var db = monk(config.db);
 
-var Skill = require('./../models/skills/Skill.js');
+var Skill = require(__dirname + '/Skill.js');
 
 
 var SkillManager = function () {

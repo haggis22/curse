@@ -5,7 +5,7 @@ var log4js = require('log4js');
 log4js.configure(__dirname + '/../../log4js_config.json', {});
 var logger = log4js.getLogger('curse');
 
-var CharacterManager = require('./../../managers/CharacterManager');
+var CharacterManager = require(__dirname + '/../../models/creatures/CharacterManager');
 
 
 router.post('/rollup/:characterID', function (req, res) {
