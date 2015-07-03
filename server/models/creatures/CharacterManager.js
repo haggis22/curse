@@ -15,6 +15,7 @@ var db = monk(config.db);
 var dice = require(__dirname + '/../../core/Dice');
 var Creature = require(__dirname + '/Creature');
 var SkillManager = require(__dirname + '/../skills/SkillManager');
+var Item = require(__dirname + '/../items/Item');
 
 var CharacterManager = function () {
 
@@ -34,7 +35,7 @@ CharacterManager.fetchAll = function (callback) {
         }
 
         for (var r = 0; r < result.length; r++) {
-            myCharacters.push(new Creature(result[r]));
+            myCharacters.push(Creature.prototype.create(result[r]));
         }
 
         return callback(null, myCharacters);
@@ -59,7 +60,7 @@ CharacterManager.fetchByID = function (id, callback) {
             return callback(new Error('Unknown ID ' + id), null);
         }
 
-        return callback(null, new Creature(result[0]));
+        return callback(null, Creature.prototype.create(result[0]));
     });
 
 };
@@ -116,18 +117,22 @@ CharacterManager.rollCharacter = function (character) {
     }
 
     character.health = setStat(Math.round((character.stats.str.value / 2) + (character.stats.dex.value / 2)));
-    character.bonus = 
+    character.bonus =
     {
         stats: dice.averageDie(8, 12),
         skills: 10
     };
+
+    character.pack = [];
+
+    character.addItem(new Item({ name: 'gold piece', stackable: { type: 'gold', plural: 'gold pieces', amount: 50 }, attributes: ['gold'], weight: 0.1 }));
 
 };
 
 
 CharacterManager.create = function (character, callback) {
 
-    var newCharacter = new Creature(character);
+    var newCharacter = Creature.prototype.create(character);
 
     CharacterManager.rollCharacter(newCharacter);
 

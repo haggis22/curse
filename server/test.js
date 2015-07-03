@@ -16,11 +16,12 @@ var shield = new Shield({ name: 'cracked shield' });
 
 console.log('I am holding ' + shield.getName(false) + '. It is my friend.');
 
+
+var danny = Creature.prototype.create({ name: 'Danny the Magnificent', health: new Stat({ value: 14, max: 36 }) });
+
+console.log('Creature: ' + danny.getName());
+
 /*
-
-var danny = new Creature({ name: 'Danny the Magnificent', health: new Stat({ value: 14, max: 36 }) });
-
-// console.log('New Creature: ' + danny.getName());
 
 var potion = new Potion({ name: 'healing potion', effects: { type: Potion.EFFECTS.ANTIVENOM, damage: { min: 2, max: 14} }, amount: 1, weight: 3 });
 
@@ -46,7 +47,6 @@ monsters.forEach(function (monster, index) {
     }
 
 });
-
 */
 
 

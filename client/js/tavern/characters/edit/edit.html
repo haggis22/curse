@@ -44,8 +44,8 @@
                     <div class="bio">
                         <div class="label">Sex:</div>
                         <div class="value" ng-class="{ 'field-error': submitted && characterForm.sex.$invalid }" style="padding: 2px;">
-                            <label><input type="radio" name="sex" ng-model="character.sex" value="1" required /> Female</label>
-                            <label><input type="radio" name="sex" ng-model="character.sex" value="2" required /> Male</label>
+                            <label><input type="radio" name="sex" ng-model="character.sex" ng-value="Sex.FEMALE" required /> {{ Sex.getSex(Sex.FEMALE) }}</label>
+                            <label><input type="radio" name="sex" ng-model="character.sex" ng-value="Sex.MALE" required /> {{ Sex.getSex(Sex.MALE) }}</label>
                         </div>
                     </div>
                     <div style="text-align: center; margin-top: 10px;">

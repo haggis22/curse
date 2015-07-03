@@ -59,12 +59,13 @@
                     $scope.characterID = $stateParams.characterID;
                 }
             })
+            .state('tavern.characters.single.gear', {
+                url: "/shoppe",
+                templateUrl: "js/tavern/characters/gear/gear.html?v=" + (new Date()).getTime()
+            })
             .state('tavern.characters.single.shoppe', {
                 url: "/shoppe",
-                templateUrl: "js/tavern/characters/shoppe/shoppe.html?v=" + (new Date()).getTime(),
-                controller: function($scope, $stateParams) {
-                    $scope.characterID = $stateParams.characterID;
-                }
+                templateUrl: "js/tavern/characters/shoppe/shoppe.html?v=" + (new Date()).getTime()
             })
             .state('tavern.campaigns', {
                 url: "/campaigns",

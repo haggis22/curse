@@ -95,6 +95,7 @@
     <Content Include="client\common\directives\error-message.js" />
     <Content Include="client\common\partials\ajax-loader.html" />
     <Content Include="client\common\partials\error-message.html" />
+    <Content Include="client\js\factories\creatures\Stat.js" />
     <Content Include="client\js\filters\coins.js" />
     <Content Include="client\js\services\shoppeService.js" />
     <Content Include="client\js\tavern\campaigns\campaigns.html" />
@@ -102,6 +103,8 @@
     <Content Include="client\js\tavern\campaigns\edit\campaignController.js" />
     <Content Include="client\js\controllers\combatController.js" />
     <Content Include="client\js\tavern\campaigns\campaignsController.js" />
+    <Content Include="client\js\tavern\characters\gear\gear.html" />
+    <Content Include="client\js\tavern\characters\gear\gearController.js" />
     <Content Include="client\js\tavern\characters\list\characters.html" />
     <Content Include="client\js\tavern\characters\list\charactersController.js" />
     <Content Include="client\js\tavern\characters\characterService.js" />
@@ -171,6 +174,7 @@
     <Content Include="client\partials\dungeon.html" />
     <Content Include="client\partials\monster-manual.html" />
     <Content Include="client\partials\rollup.html" />
+    <Content Include="sql\shoppe.sql" />
     <None Include="client\js\angularjs\1.4.0\angular-resource.min.js.map" />
     <None Include="client\js\angularjs\1.4.0\angular.min.js.map" />
     <None Include="server\log4js_config.json" />

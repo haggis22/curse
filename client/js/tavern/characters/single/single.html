@@ -1,9 +1,25 @@
 <div ng-controller="tavern.singleController">
 
-    <h3>{{ character.name }}</h3>
+    <style type="text/css">
+        
+        .header-name
+        {
+            font-size: 14pt;
+        }
+        
+        .header-species
+        {
+            font-size: 10pt;
+        }
+        
+    </style>
 
-    <div class="m-tabs">
+    <div class="header-name">{{ character.name }}</div>
+    <div class="header-species" style="margin-top: 5px;">{{ Sex.getSex(character.sex) }} {{ character.species }}</div>
+
+    <div class="m-tabs" style="margin-top: 15px;">
         <a ui-sref-active="active" ui-sref="tavern.characters.single.edit">Edit</a>
+        <a ui-sref-active="active" ui-sref="tavern.characters.single.gear">Equipment</a>
         <a ui-sref-active="active" ui-sref="tavern.characters.single.shoppe">Shoppe</a>
     </div>
 

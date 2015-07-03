@@ -2,44 +2,62 @@
 
 var Stat = require(__dirname + '/Stat');
 var Sex = require(__dirname + '/Sex');
+var Item = require(__dirname + '/../items/Item');
 
 
 var Creature = function (creature) {
-
-    this._id = creature._id;
-    this.name = creature.name;
-    this.species = creature.species == null ? 'human' : creature.species;
-    this.sex = creature.sex == null ? Sex.NEUTRAL : parseInt(creature.sex, 10);
-
-    this.stats = Stat.statsOrDefault(creature.stats);
-    this.health = new Stat(creature.health);
-
-    this.skills = creature.skills ? creature.skills : {};
-    this.pack = [];
-    this.isLooted = false;
-
-    this.bonus = creature.bonus ? { stats: creature.bonus.stats, skills: creature.bonus.skills} : { stats: 0, skills: 0 };
-
-    this.attributes = creature.attributes ? creature.attributes : [];
-
-    this.attacks = creature.attacks;
-
-    this.useWeapons = creature.useWeapons == null ? true : creature.useWeapons;
-    this.useArmour = creature.useArmour == null ? true : creature.useArmour;
-
-    this.poisons = [];
-    this.isStoned = false;
-    this.isParalyzed = false;
-
-    this.hands = creature.hands == null ? 2 : creature.hands;
-
-
 
 };
 
 
 Creature.prototype =
 {
+    create: function (creature) {
+
+        var me = new Creature();
+
+        me._id = creature._id;
+        me.name = creature.name;
+        me.species = creature.species == null ? 'human' : creature.species;
+        me.sex = creature.sex == null ? Sex.NEUTRAL : parseInt(creature.sex, 10);
+
+        me.stats = Stat.statsOrDefault(creature.stats);
+        me.health = new Stat(creature.health);
+
+        me.skills = creature.skills ? creature.skills : {};
+
+        me.pack = [];
+
+        if (creature.pack) {
+            creature.pack.forEach(function (item) {
+
+                me.addItem(new Item(item));
+
+            });
+        }
+
+        me.isLooted = false;
+
+        me.bonus = creature.bonus ? { stats: creature.bonus.stats, skills: creature.bonus.skills} : { stats: 0, skills: 0 };
+
+        me.attributes = creature.attributes ? creature.attributes : [];
+
+        me.attacks = creature.attacks;
+
+        me.useWeapons = creature.useWeapons == null ? true : creature.useWeapons;
+        me.useArmour = creature.useArmour == null ? true : creature.useArmour;
+
+        me.poisons = [];
+        me.isStoned = false;
+        me.isParalyzed = false;
+
+        me.hands = creature.hands == null ? 2 : creature.hands;
+
+        return me;
+
+    },
+
+
     hasSkill: function (creature, skillName) {
         if ((creature == null) || (creature.skills == null)) {
             return false;

@@ -73,7 +73,7 @@ MonsterType.prototype.spawn = function () {
 
         }
 
-        var monster = new Creature(monsterInstance);
+        var monster = Creature.prototype.create(monsterInstance);
 
         if (this.images != null) {
             monster.image = this.images[Dice.rollDie(0, this.images.length - 1)];

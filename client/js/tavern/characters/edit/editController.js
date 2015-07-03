@@ -3,10 +3,11 @@
 (function(app) {
 
 
-	app.controller('tavern.editController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'skillService', 'Creature',
-		function($scope, $rootScope, $state, $timeout, errorService, characterService, skillService, Creature) {
+	app.controller('tavern.editController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'skillService', 'Creature', 'Sex',
+		function($scope, $rootScope, $state, $timeout, errorService, characterService, skillService, Creature, Sex) {
 			
             $scope.Creature = Creature;
+            $scope.Sex = Sex;
 
             $scope.availableSpecies = [ 'dwarf', 'elf', 'hobbit', 'human' ];
 

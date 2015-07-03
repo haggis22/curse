@@ -1,0 +1,37 @@
+<div ng-controller="tavern.shoppeController">
+
+    <style type="text/css">
+        
+        fieldset.gear
+        {
+            width: 300px;
+            background-color: burlywood;
+            min-height: 300px;
+        }
+
+        fieldset.gear table.datatable thead tr th:first-child
+        {
+            width: 200px;
+        }
+        
+        fieldset.gear table.datatable thead tr th:last-child
+        {
+            width: 100px;
+        }
+
+    </style>
+
+    <div style="float: left;">
+
+        <fieldset class="gear">
+            <legend>Equipment</legend>
+        
+            <div style="margin-top: 10px;">
+                <div ng-repeat="item in character.getItems()">{{ item.getName() }}</div>
+            </div>
+
+        </fieldset>    
+
+    </div>
+
+</div>

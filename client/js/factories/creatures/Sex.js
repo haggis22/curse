@@ -9,52 +9,58 @@
 			function Sex() {
 			};
 			
-			Sex.prototype = {
+            Sex.FEMALE = 1;
+            Sex.MALE = 2;
+            Sex.NEUTER = 3;
 
-                FEMALE: "1",
-                MALE: "2",
-                NEUTER: "3",
-
-                getNominative: function(sex)
+            Sex.getSex = function(sex)
+            {
+                switch (sex)
                 {
-                    switch (sex)
-                    {
-                        case Sex.prototype.FEMALE:
-                            return 'she';
-                        case Sex.prototype.MALE:
-                            return 'he';
-                        default:
-                            return 'it'
-                    }
-                },
-
-                getObjective: function(sex)
-                {
-                    switch (sex)
-                    {
-                        case Sex.prototype.FEMALE:
-                            return 'her';
-                        case Sex.prototype.MALE:
-                            return 'him';
-                        default:
-                            return 'it'
-                    }
-                },
-
-                getPossessive: function(sex)
-                {
-                    switch (sex)
-                    {
-                        case Sex.prototype.FEMALE:
-                            return 'her';
-                        case Sex.prototype.MALE:
-                            return 'his';
-                        default:
-                            return 'its'
-                    }
+                    case Sex.FEMALE:
+                        return 'female';
+                    case Sex.MALE:
+                        return 'male';
+                    default:
+                        return 'neuter';
                 }
+            };
 
-			};  // Sex prototype
+
+            Sex.getNominative = function(sex)
+            {
+                switch (sex)
+                {
+                    case Sex.FEMALE:
+                        return 'she';
+                    case Sex.MALE:
+                        return 'he';
+                    default:
+                        return 'it'
+                }
+            };
+
+            Sex.getObjective = function (sex) {
+                switch (sex) {
+                    case Sex.FEMALE:
+                        return 'her';
+                    case Sex.MALE:
+                        return 'him';
+                    default:
+                        return 'it'
+                }
+            };
+
+            Sex.getPossessive = function (sex) {
+                switch (sex) {
+                    case Sex.FEMALE:
+                        return 'her';
+                    case Sex.MALE:
+                        return 'his';
+                    default:
+                        return 'its'
+                }
+            };
 
 			return (Sex);
 

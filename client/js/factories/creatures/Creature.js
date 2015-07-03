@@ -2,68 +2,63 @@
 
 (function(app) {
 
-	app.factory('Creature', ['Sex', 'BodyShape', 'Skill', 'AttackType', 'Item','diceService', 
+	app.factory('Creature', ['Sex', 'BodyShape', 'Skill', 'AttackType', 'Item','diceService', 'Stat',
 
-		function(Sex, BodyShape, Skill, AttackType, Item, diceService) {
+		function(Sex, BodyShape, Skill, AttackType, Item, diceService, Stat) {
 
-            
-
-            function valueOrDefault(value, defaultValue)
-            {
-                return (value == null) ? defaultValue : value;
-            };
-
-            function statsOrDefault(stats) {
-                if (stats) {
-                    return {
-                        str: valueOrDefault(stats.str, 0),
-                        int: valueOrDefault(stats.int, 0),
-                        dex: valueOrDefault(stats.dex, 0),
-                        health: valueOrDefault(stats.health, 0),
-                        power: valueOrDefault(stats.power, 0),
-                        bonus: valueOrDefault(stats.bonus, 0)
-                    };
-
-                }
-
-                return { str: 0, int: 0, dex: 0, health: 0, power: 0, bonus: 0 };
-            }
-
-
+          
 			function Creature(creature) {
-                
-                this._id = creature._id;
-                this.name = creature.name;
-                this.species = creature.species == null ? 'human' : creature.species;
-                this.bodyShape = creature.bodyShape == null ? BodyShape.prototype.HUMANOID : creature.bodyShape;
-                this.sex = creature.sex == null ? Sex.prototype.MALE : creature.sex;
-
-                this.stats = statsOrDefault(creature.stats);
-                this.maxStats = statsOrDefault(creature.maxStats);
-
-                this.skills = creature.skills == null ? {} : creature.skills;
-                this.attacks = creature.attacks;
-
-				this.pack = [];
-                this.isLooted = false;
-
-                this.useWeapons = creature.useWeapons == null ? true : creature.useWeapons;
-                this.useArmour = creature.useArmour == null ? true : creature.useArmour;
-
-                this.poisons = [];
-                this.isStoned = false;
-                this.isParalyzed = false;
-
-                this.attributes = creature.attributes == null ? [] : creature.attributes;
-
-                this.spells = [];
-
-                this.hands = creature.hands == null ? 2 : creature.hands;
+               
 
 			};
 			
 			Creature.prototype = {
 				
+                create: function(creature) {
+
+                    var me = new Creature();
+
+                    me._id = creature._id;
+                    me.name = creature.name;
+                    me.species = creature.species == null ? 'human' : creature.species;
+                    me.sex = creature.sex == null ? Sex.NEUTRAL : parseInt(creature.sex, 10);
+
+                    me.stats = Stat.statsOrDefault(creature.stats);
+                    me.health = new Stat(creature.health);
+
+                    me.skills = creature.skills ? creature.skills : {};
+
+                    me.pack = [];
+
+                    if (creature.pack) {
+                        creature.pack.forEach(function (item) {
+
+                            me.addItem(new Item(item));
+
+                        });
+                    }
+
+                    me.isLooted = false;
+
+                    me.bonus = creature.bonus ? { stats: creature.bonus.stats, skills: creature.bonus.skills} : { stats: 0, skills: 0 };
+
+                    me.attributes = creature.attributes ? creature.attributes : [];
+
+                    me.attacks = creature.attacks;
+
+                    me.useWeapons = creature.useWeapons == null ? true : creature.useWeapons;
+                    me.useArmour = creature.useArmour == null ? true : creature.useArmour;
+
+                    me.poisons = [];
+                    me.isStoned = false;
+                    me.isParalyzed = false;
+
+                    me.hands = creature.hands == null ? 2 : creature.hands;
+
+                    return me;
+
+                },
+
                 hasSkill: function(creature, skillName)
                 {
                     if ((creature == null) || (creature.skills == null))

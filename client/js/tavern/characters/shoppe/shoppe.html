@@ -1,5 +1,30 @@
 <div ng-controller="tavern.shoppeController">
 
+    <style type="text/css">
+        
+        fieldset.shoppe
+        {
+            background-color: lightsteelblue;
+        }
+
+        fieldset.shoppe table.datatable thead tr th:first-child
+        {
+            width: 200px;
+        }
+        
+        fieldset.shoppe table.datatable thead tr th:last-child
+        {
+            width: 100px;
+        }
+
+        .buy-link:hover
+        {
+            cursor: pointer;
+            color: gold;
+            font-weight: bold;
+        }
+
+    </style>
 
     <div style="float: left;">
 
@@ -15,7 +40,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="weapon in shoppe.items | filter:{ isWeapon:true }">
+                        <tr ng-repeat="weapon in shoppe.items | filter:{ isWeapon:true }" class="buy-link" ng-click="buy(weapon)">
                             <td align="left">{{ weapon.name | capFirst }}</td>
                             <td align="left">{{ weapon.value | coins }}</td>
                         </tr>
@@ -37,7 +62,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="armour in shoppe.items | filter:isArmour">
+                        <tr ng-repeat="armour in shoppe.items | filter:isArmour" class="buy-link" ng-click="buy(armour)">
                             <td align="left">{{ armour.name | capFirst }}</td>
                             <td align="left">{{ armour.value | coins }}</td>
                         </tr>
@@ -63,7 +88,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="potion in shoppe.items | filter:{ isPotion:true }">
+                        <tr ng-repeat="potion in shoppe.items | filter:{ isPotion:true }" class="buy-link" ng-click="buy(potion)">
                             <td align="left">{{ potion.name | capFirst }}</td>
                             <td align="left">{{ potion.value | coins }}</td>
                         </tr>

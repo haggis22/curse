@@ -3,8 +3,10 @@
 (function(app) {
 
 
-	app.controller('tavern.singleController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'skillService', 'Creature',
-		function($scope, $rootScope, $state, $timeout, errorService, characterService, skillService, Creature) {
+	app.controller('tavern.singleController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'skillService', 'Creature', 'Sex',
+		function($scope, $rootScope, $state, $timeout, errorService, characterService, skillService, Creature, Sex) {
+
+            $scope.Sex = Sex;
 			
             $scope.pullCharacter = function() {
                 
@@ -18,8 +20,8 @@
 
                     function(response) {
 
-                        // $scope.character = new Creature(response);
-                        $scope.character = response;
+                        $scope.character = Creature.prototype.create(response);
+                        // $scope.character = response;
 
                     },
                     function(error) {
