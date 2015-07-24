@@ -7,43 +7,41 @@ var Shield = require(__dirname + '/../items/Shield');
 var Potion = require(__dirname + '/../items/Potion');
 
 
-var Shoppe = function (shoppe) {
+var Shoppe = function (itemArray) {
 
     this.items = [];
 
-    if (!shoppe) {
+    if (!itemArray || itemArray.length == 0) {
         return;
     }
 
-    if (shoppe.weapon) {
-        for (var w = 0; w < shoppe.weapon.length; w++) {
-            this.items.push(new Weapon(shoppe.weapon[w]));
-        }
-    }
+    itemArray.forEach(function (item) {
 
-    if (shoppe.armour) {
-        for (var a = 0; a < shoppe.armour.length; a++) {
-            this.items.push(new Armour(shoppe.armour[a]));
-        }
-    }
+        switch (item.type) {
 
-    if (shoppe.shield) {
-        for (var s = 0; s < shoppe.shield.length; s++) {
-            this.items.push(new Shield(shoppe.shield[s]));
-        }
-    }
+            case "weapon":
+                this.items.push(new Weapon(item));
+                break;
 
-    if (shoppe.potion) {
-        for (var p = 0; p < shoppe.potion.length; p++) {
-            this.items.push(new Potion(shoppe.potion[p]));
-        }
-    }
+            case "armour":
+                this.items.push(new Armour(item));
+                break;
 
-    if (shoppe.item) {
-        for (var i = 0; i < shoppe.item.length; i++) {
-            this.items.push(new Item(shoppe.item[i]));
-        }
-    }
+            case "shield":
+                this.items.push(new Shield(item));
+                break;
+
+            case "potion":
+                this.items.push(new Potion(item));
+                break;
+
+            default:
+                this.items.push(new Item(item));
+                break;
+
+        }  // end switch
+
+    }, this);
 
 };
 

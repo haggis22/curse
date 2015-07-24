@@ -8,6 +8,7 @@
 
             function Item(item) {
 
+                this._id = item._id;
                 this.type = item.type;
                 this.name = item.name;
                 this.article = item.article == null ? 'a' : item.article;
@@ -30,6 +31,7 @@
                     };
                 }
 
+                this.value = item.value || {};
 
             };
 

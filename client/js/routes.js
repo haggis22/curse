@@ -60,7 +60,7 @@
                 }
             })
             .state('tavern.characters.single.gear', {
-                url: "/shoppe",
+                url: "/gear",
                 templateUrl: "js/tavern/characters/gear/gear.html?v=" + (new Date()).getTime()
             })
             .state('tavern.characters.single.shoppe', {

@@ -3,8 +3,8 @@
 (function(app) {
 
 
-	app.controller('tavern.shoppeController', ['$scope', '$rootScope', '$state', 'errorService', 'shoppeService', 
-		function($scope, $rootScope, $state, errorService, shoppeService) {
+	app.controller('tavern.shoppeController', ['$scope', '$rootScope', '$state', 'errorService', 'shoppeService', 'Armour',
+		function($scope, $rootScope, $state, errorService, shoppeService, Armour) {
 			
             $scope.shoppe = null;
 
@@ -14,7 +14,25 @@
                     
                     function(response) {
 
-                        $scope.shoppe = response;
+                        var shop = 
+                        { 
+                            items: []
+                        };
+                            
+                        response.items.forEach(function(item) {
+
+                            if (item.isArmour)
+                            {
+                                shop.items.push(new Armour(item));
+                            }
+                            else
+                            {
+                                shop.items.push(item);
+                            }
+
+                        });
+
+                        $scope.shoppe = shop;
 
                     },
                     function(error) {
@@ -30,6 +48,11 @@
             $scope.isArmour = function(item)
             {
                 return item.isArmour || item.isShield;
+            }
+
+            $scope.buy = function(item)
+            {
+                console.log('Bought ' + item.getName(true) + ' _id = ' + item._id);
             }
 
 

@@ -37,7 +37,7 @@ ShoppeManager.fetch = function (callback) {
             return callback(null, new Shoppe());
         }
 
-        return callback(null, new Shoppe(result[0]));
+        return callback(null, new Shoppe(result));
     });
 
 };

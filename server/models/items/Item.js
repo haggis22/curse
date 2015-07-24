@@ -4,6 +4,7 @@ var Value = require(__dirname + '/Value');
 
 var Item = function (item) {
 
+    this._id = item._id;
     this.type = item.type;
     this.name = item.name;
     this.article = item.article == null ? 'a' : item.article;
@@ -15,7 +16,7 @@ var Item = function (item) {
     this.hands = item.hands == null ? 0 : item.hands;
 
     this.value = new Value(item.value);
-     
+
     this.attributes = item.attributes == null ? [] : item.attributes;
 
     if (item.stackable) {
