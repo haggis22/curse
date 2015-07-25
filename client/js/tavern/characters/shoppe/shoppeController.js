@@ -3,8 +3,8 @@
 (function(app) {
 
 
-	app.controller('tavern.shoppeController', ['$scope', '$rootScope', '$state', 'errorService', 'shoppeService', 'Armour',
-		function($scope, $rootScope, $state, errorService, shoppeService, Armour) {
+	app.controller('tavern.shoppeController', ['$scope', '$rootScope', '$state', 'errorService', 'shoppeService', 'Armour', 'Weapon', 'Potion',
+		function($scope, $rootScope, $state, errorService, shoppeService, Armour, Weapon, Potion) {
 			
             $scope.shoppe = null;
 
@@ -16,14 +16,25 @@
 
                         var shop = 
                         { 
+                            weapons: [],
+                            armour: [],
+                            potions: [],
                             items: []
                         };
                             
                         response.items.forEach(function(item) {
 
-                            if (item.isArmour)
+                            if ((item.isArmour) || (item.isShield))
                             {
-                                shop.items.push(new Armour(item));
+                                shop.armour.push(new Armour(item));
+                            }
+                            else if (item.isWeapon)
+                            {
+                                shop.weapons.push(new Weapon(item));
+                            }
+                            else if (item.isPotion)
+                            {
+                                shop.potions.push(new Potion(item));
                             }
                             else
                             {

@@ -40,7 +40,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="weapon in shoppe.items | filter:{ isWeapon:true }" class="buy-link" ng-click="buy(weapon)">
+                        <tr ng-repeat="weapon in shoppe.weapons" class="buy-link" ng-click="buy(weapon)">
                             <td align="left">{{ weapon.name | capFirst }}</td>
                             <td align="left">{{ weapon.value | coins }}</td>
                         </tr>
@@ -62,7 +62,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="armour in shoppe.items | filter:isArmour" class="buy-link" ng-click="buy(armour)">
+                        <tr ng-repeat="armour in shoppe.armour" class="buy-link" ng-click="buy(armour)">
                             <td align="left">{{ armour.name | capFirst }}</td>
                             <td align="left">{{ armour.value | coins }}</td>
                         </tr>
@@ -88,9 +88,35 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="potion in shoppe.items | filter:{ isPotion:true }" class="buy-link" ng-click="buy(potion)">
+                        <tr ng-repeat="potion in shoppe.potions" class="buy-link" ng-click="buy(potion)">
                             <td align="left">{{ potion.name | capFirst }}</td>
                             <td align="left">{{ potion.value | coins }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </fieldset>    
+
+    </div>
+
+    <div style="float: left; margin-left: 20px;">
+
+        <fieldset class="shoppe">
+            <legend>General Items</legend>
+        
+            <div style="margin-top: 15px;">
+                <table class="datatable">
+                    <thead>
+                        <tr>
+                            <th align="left" style="width: 150px;">Item</th>
+                            <th align="left">Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in shoppe.items" class="buy-link" ng-click="buy(item)">
+                            <td align="left">{{ item.name | capFirst }}</td>
+                            <td align="left">{{ item.value | coins }}</td>
                         </tr>
                     </tbody>
                 </table>
