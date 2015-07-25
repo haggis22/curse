@@ -168,6 +168,7 @@
     <Content Include="client\js\services\timeService.js" />
     <Content Include="client\js\services\treasureService.js" />
     <Content Include="client\js\angularjs\ui-router\angular-ui-router.js" />
+    <Content Include="client\js\test\owl.js" />
     <Content Include="client\partials\combat.html" />
     <Content Include="client\js\tavern\tavern.html" />
     <Content Include="client\partials\creatures\player-panel.html" />

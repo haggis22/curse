@@ -7,6 +7,8 @@ var logger = log4js.getLogger('curse');
 
 var CharacterManager = require(__dirname + '/../../models/creatures/CharacterManager');
 
+var Owl = require(__dirname + '/../../../client/js/test/owl.js');
+
 
 router.post('/rollup/:characterID', function (req, res) {
 
@@ -29,6 +31,10 @@ router.post('/rollup/:characterID', function (req, res) {
 
 
 router.get('/', function (req, res) {
+
+    console.log('Loading Owl');
+    var owl = new Owl();
+    owl.hoot();
 
     var callback = function (err, characters) {
 

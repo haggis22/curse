@@ -3,8 +3,9 @@
 (function(app) {
 
 
-	app.controller('tavern.charactersController', ['$scope', '$rootScope', '$state', 'errorService', 'characterService',
-		function($scope, $rootScope, $state, errorService, characterService) {
+	app.controller('tavern.charactersController', ['$scope', '$rootScope', '$state', 'errorService', 'characterService', 'Owl',
+
+		function($scope, $rootScope, $state, errorService, characterService, Owl) {
 			
             $scope.characters = null;
             
@@ -31,6 +32,9 @@
 
                 $scope.pullCharacters();
             };
+
+            var owl = new Owl();
+            owl.hoot();
 
         }
 
