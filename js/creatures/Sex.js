@@ -11,6 +11,32 @@
         Sex.MALE = 2;
         Sex.NEUTER = 3;
 
+        Sex.getSex = function(sex)
+        {
+            switch (sex)
+            {
+                case Sex.FEMALE:
+                    return 'female';
+                case Sex.MALE:
+                    return 'male';
+                default:
+                    return 'neuter';
+            }
+        };
+
+        Sex.getSexAbbr = function(sex)
+        {
+            switch (sex)
+            {
+                case Sex.FEMALE:
+                    return 'F';
+                case Sex.MALE:
+                    return 'M';
+                default:
+                    return '-';
+            }
+        };
+
         Sex.getNominative = function(sex)
         {
             switch (sex)

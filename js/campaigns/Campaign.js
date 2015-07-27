@@ -20,6 +20,8 @@
             ADVENTURE: 2
         };
 
+        return Campaign;
+
     };
 
     if (isAngular) 

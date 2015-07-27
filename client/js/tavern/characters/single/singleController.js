@@ -20,7 +20,7 @@
 
                     function(response) {
 
-                        $scope.character = Creature.prototype.create(response);
+                        $scope.character = new Creature(response);
                         // $scope.character = response;
 
                     },

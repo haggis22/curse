@@ -3,19 +3,30 @@
 (function(app) {
 
 
-	app.controller('tavern.charactersController', ['$scope', '$rootScope', '$state', 'errorService', 'characterService', 'Owl',
+	app.controller('tavern.charactersController', ['$scope', '$rootScope', '$state', 'errorService', 'characterService', 'Creature', 'Sex',
 
-		function($scope, $rootScope, $state, errorService, characterService, Owl) {
+		function($scope, $rootScope, $state, errorService, characterService, Creature, Sex) {
 			
+            $scope.Sex = Sex;
+
             $scope.characters = null;
             
             $scope.pullCharacters = function() {
                 
+                $scope.characters = [];
+
                 characterService.characters.query({ id: null },
 
                     function(response) {
 
-                        $scope.characters = response;
+                        var list = [];
+                        response.forEach(function(character) {
+
+                            list.push(new Creature(character));
+
+                        });
+
+                        $scope.characters = list;
 
                     },
                     function(error) {
@@ -32,9 +43,6 @@
 
                 $scope.pullCharacters();
             };
-
-            var owl = new Owl();
-            owl.hoot();
 
         }
 

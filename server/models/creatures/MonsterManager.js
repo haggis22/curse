@@ -35,7 +35,7 @@ CharacterManager.fetchAll = function (callback) {
         }
 
         for (var r = 0; r < result.length; r++) {
-            myCharacters.push(Creature.prototype.create(result[r]));
+            myCharacters.push(new Creature(result[r]));
         }
 
         return callback(null, myCharacters);
@@ -60,7 +60,7 @@ CharacterManager.fetchByID = function (id, callback) {
             return callback(new Error('Unknown ID ' + id), null);
         }
 
-        return callback(null, Creature.prototype.create(result[0]));
+        return callback(null, new Creature(result[0]));
     });
 
 };
@@ -132,7 +132,7 @@ CharacterManager.rollCharacter = function (character) {
 
 CharacterManager.create = function (character, callback) {
 
-    var newCharacter = Creature.prototype.create(character);
+    var newCharacter = new Creature(character);
 
     CharacterManager.rollCharacter(newCharacter);
 
@@ -322,7 +322,7 @@ MonsterType.prototype.spawn = function () {
 
         }
 
-        var monster = Creature.prototype.create(monsterInstance);
+        var monster = new Creature(monsterInstance);
 
         if (this.images != null) {
             monster.image = this.images[Dice.rollDie(0, this.images.length - 1)];

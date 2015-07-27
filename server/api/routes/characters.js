@@ -32,10 +32,6 @@ router.post('/rollup/:characterID', function (req, res) {
 
 router.get('/', function (req, res) {
 
-    console.log('Loading Owl');
-    var owl = new Owl();
-    owl.hoot();
-
     var callback = function (err, characters) {
 
         if (err) {

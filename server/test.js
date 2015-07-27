@@ -17,7 +17,7 @@ var shield = new Shield({ name: 'cracked shield' });
 console.log('I am holding ' + shield.getName(false) + '. It is my friend.');
 
 
-var danny = Creature.prototype.create({ name: 'Danny the Magnificent', health: new Stat({ value: 14, max: 36 }) });
+var danny = new Creature({ name: 'Danny the Magnificent', health: new Stat({ value: 14, max: 36 }) });
 
 console.log('Creature: ' + danny.getName());
 

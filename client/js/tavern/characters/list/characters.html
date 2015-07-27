@@ -2,9 +2,29 @@
 
     <div ng-show="characters.length == 0">You have no saved characters.</div>
     <div ng-show="characters.length > 0">
-        <ul>
-            <li ng-repeat="character in characters | orderBy:'name'"><a ui-sref="tavern.characters.single({ characterID: character._id })">{{ character.name }}</a> <span ng-show="character.updated" class="updateTime"> ({{ character.updated | date:'dd-MM-yyyy HH:mm:ss' }})</span></li>
-        </ul>
+        <fieldset class="character" style="margin-top: 15px; width: 300px; padding: 15px 10px;">
+            <legend>Characters</legend>
+
+            <table class="datatable" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th align="left">Name</th>
+                        <th align="left">Species</th>
+                        <th>Sex</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="character in characters | orderBy:'name'">
+                        <td>
+                            <a ui-sref="tavern.characters.single({ characterID: character._id })">{{ character.getName(true) }}</a>
+                            <!-- <span ng-show="character.updated" class="updateTime"> ({{ character.updated | date:'dd-MM-yyyy HH:mm:ss' }})</span> -->
+                        </td>
+                        <td>{{ character.species }}</td>
+                        <td align="center">{{ Sex.getSexAbbr(character.sex) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
     </div>
 
     <div style="margin-top: 15px;">
