@@ -11,7 +11,7 @@ var monk = require('monk');
 
 var db = monk(config.db);
 
-var Shoppe = require(__dirname + '/Shoppe');
+var Shoppe = require(__dirname + '/../../../js/shoppe/Shoppe');
 
 
 var ShoppeManager = function () {

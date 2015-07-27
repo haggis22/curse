@@ -11,7 +11,7 @@ var monk = require('monk');
 
 var db = monk(config.db);
 
-var Campaign = require(__dirname + '/Campaign.js');
+var Campaign = require(__dirname + '/../../../js/campaigns/Campaign.js');
 
 var CampaignManager = function () {
 

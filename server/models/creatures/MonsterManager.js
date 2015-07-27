@@ -13,11 +13,9 @@ var monk = require('monk');
 var db = monk(config.db);
 
 var dice = require(__dirname + '/../../core/Dice');
-
-var Creature = require(__dirname + '/../../../js/creatures/Creature');
-
+var Creature = require(__dirname + '/Creature');
 var SkillManager = require(__dirname + '/../skills/SkillManager');
-var Item = require(__dirname + '/../../../js/items/Item');
+var Item = require(__dirname + '/../../../client/js/items/Item');
 
 var CharacterManager = function () {
 
@@ -299,6 +297,69 @@ CharacterManager.update = function (character, callback) {
 
 
 };
+
+
+MonsterType.prototype.spawn = function () {
+
+    var monsters = [];
+    var numAppearing = Dice.rollDie(this.numAppearing.min, this.numAppearing.max);
+
+    for (var m = 0; m < numAppearing; m++) {
+
+        var monsterInstance = extend.clone(this);
+
+        for (var s = 0; s < Stat.stats.length; s++) {
+            var stat = Stat.stats[s];
+
+            if (typeof this.stats[stat] === 'object') {
+
+
+                monsterInstance.stats[stat].value = monsterInstance.stats[stat].max = Dice.rollDie(this.stats[stat].min, this.stats[stat].max);
+
+                console.log(' ' + stat + ' is an object, rolling new value: ' + monsterInstance.stats[stat].value);
+
+            }
+
+        }
+
+        var monster = Creature.prototype.create(monsterInstance);
+
+        if (this.images != null) {
+            monster.image = this.images[Dice.rollDie(0, this.images.length - 1)];
+        };
+
+        // set up the monster's skills
+        /*
+        for (var s = 0; s < this.skillSet.length; s++) {
+        monster.adjustSkill(this.skillSet[s].name, diceService.averageDie(this.skillSet[s].min, this.skillSet[s].max));
+        }
+        */
+
+        // set up the monster's items - he may get to use some of them in combat
+        /*
+        for (var t = 0; t < this.treasure.length; t++) {
+        var item = treasureService.randomTreasure(this.treasure[t]);
+        var addResult = monster.addItem(item);
+
+        if (addResult.success) {
+        //TODO? Allow the monster to pick the best item
+        if (item.isEquippableBy(monster)) {
+        monster.useItem(item);
+        }
+        }
+        else {
+        // TODO: just put it into the room
+        console.log(addResult.message);
+        }
+
+        }
+        */
+        monsters.push(monster);
+    }
+
+    return monsters;
+
+}    // spawn method
 
 
 

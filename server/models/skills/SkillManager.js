@@ -11,7 +11,7 @@ var monk = require('monk');
 
 var db = monk(config.db);
 
-var Skill = require(__dirname + '/Skill.js');
+var Skill = require(__dirname + '/../../../js/skills/Skill.js');
 
 
 var SkillManager = function () {

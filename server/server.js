@@ -21,6 +21,10 @@ app.get('/', function (req, res) {
 
 app.use('/api', require('./api/routes/curseapi.js'));
 
+// app.use('/', express.static(__dirname + './../client'));
+
+app.use('/js', express.static(__dirname + '/../js'));
+
 app.use('/', express.static(__dirname + './../client'));
 
 app.use(function(err, req, res, next) {

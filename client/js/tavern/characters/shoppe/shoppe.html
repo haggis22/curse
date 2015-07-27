@@ -35,13 +35,19 @@
                 <table class="datatable">
                     <thead>
                         <tr>
+                            <th colspan="2">{{ shoppe.weapons.length | number }} weapons</th>
+                        </tr>
+                    </thead>
+
+                    <thead>
+                        <tr>
                             <th align="left" style="width: 150px;">Weapon</th>
                             <th align="left">Cost</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="weapon in shoppe.weapons" class="buy-link" ng-click="buy(weapon)">
-                            <td align="left">{{ weapon.name | capFirst }}</td>
+                            <td align="left">{{ weapon.getName(null) | capFirst }}</td>
                             <td align="left">{{ weapon.value | coins }}</td>
                         </tr>
                     </tbody>
