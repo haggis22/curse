@@ -3,8 +3,8 @@
 (function(app) {
 
 
-	app.controller('tavern.shoppeController', ['$scope', '$rootScope', '$state', 'errorService', 'shoppeService', 'Armour', 'Weapon', 'Potion',
-		function($scope, $rootScope, $state, errorService, shoppeService, Armour, Weapon, Potion) {
+	app.controller('tavern.shoppeController', ['$scope', '$rootScope', '$state', 'errorService', 'shoppeService', 'ItemFactory', 
+		function($scope, $rootScope, $state, errorService, shoppeService, ItemFactory) {
 			
             $scope.shoppe = null;
 
@@ -24,21 +24,23 @@
                             
                         response.items.forEach(function(item) {
 
+                            var itemObj = ItemFactory.createItem(item);
+                            
                             if ((item.isArmour) || (item.isShield))
                             {
-                                shop.armour.push(new Armour(item));
+                                shop.armour.push(itemObj);
                             }
                             else if (item.isWeapon)
                             {
-                                shop.weapons.push(new Weapon(item));
+                                shop.weapons.push(itemObj);
                             }
                             else if (item.isPotion)
                             {
-                                shop.potions.push(new Potion(item));
+                                shop.potions.push(itemObj);
                             }
                             else
                             {
-                                shop.items.push(item);
+                                shop.items.push(itemObj);
                             }
 
                         });
@@ -64,8 +66,18 @@
 
                     function(response) {
 
-                        $scope.character.addItem(item);
-                        console.log('Bought ' + item.getName(true) + ' _id = ' + item._id);
+                        if (response.success)
+                        {
+                            var boughtItem = ItemFactory.createItem(response.item);
+                            
+                            $scope.character.addItem(boughtItem);
+
+                            console.log('Bought ' + boughtItem.getName(true) + ' _id = ' + boughtItem._id);
+                        }
+                        else
+                        {
+                            console.error(response.message);
+                        }
 
 
                     },

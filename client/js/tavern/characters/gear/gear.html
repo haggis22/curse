@@ -27,7 +27,9 @@
             <legend>Equipment</legend>
         
             <div style="margin-top: 10px;">
-                <div ng-repeat="item in character.getItems()">{{ item.getName() }}</div>
+                <ul>
+                    <li ng-repeat="item in character.getItems()">{{ item.getName() | capFirst }}</li>
+                </ul>
             </div>
 
         </fieldset>    

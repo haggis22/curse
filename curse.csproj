@@ -175,6 +175,7 @@
     <Content Include="client\partials\dungeon.html" />
     <Content Include="client\partials\monster-manual.html" />
     <Content Include="client\partials\rollup.html" />
+    <Content Include="js\items\ItemFactory.js" />
     <Content Include="server\models\creatures\MonsterManager.js" />
     <Content Include="sql\shoppe.sql" />
     <None Include="client\js\angularjs\1.4.0\angular-resource.min.js.map" />

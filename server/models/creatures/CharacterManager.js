@@ -303,10 +303,9 @@ CharacterManager.update = function (character, callback) {
 };
 
 
-CharacterManager.addItem = function (character, item, callback) {
+CharacterManager.savePack = function (character, callback) {
 
-    character.addItem(item);
-
+    /*
     // now save the character
     character.updated = new Date();
 
@@ -314,17 +313,18 @@ CharacterManager.addItem = function (character, item, callback) {
 
     collection.update({ _id: character._id }, { $push: { 'pack': item} }, function (err, doc) {
 
-        if (err) {
-            // it failed - return an error
-            logger.error('Could not update character: ' + err);
-            return callback(err, null);
-        }
+    if (err) {
+    // it failed - return an error
+    logger.error('Could not update character: ' + err);
+    return callback(err, null);
+    }
 
-        return callback(null, character);
+    return callback(null, character);
 
     });   // collection.update callback
+    */
 
-
+    callback(null, character);
 
 };
 

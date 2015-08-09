@@ -67,20 +67,25 @@ router.post('/:characterID/:itemID', function (req, res) {
 
             // the character successfully buys the item!
             // First, add the item to his pack
-            CharacterManager.addItem(character, item, function (err, newChar) {
+            var result = character.addItem(item);
+            if (result.success) {
 
-                if (err) {
-                    return res.status(500).send(err).end();
-                }
+                CharacterManager.savePack(character, function (err, newChar) {
 
-                // we added the item!
-                return res.status(200).json({});
+                    if (err) {
+                        return res.status(500).send(err).end();
+                    }
 
+                    // we added the item!
+                    return res.status(200).json({ success: true, item: item, message: character.getName(true) + ' bought ' + item.getName(true) });
 
+                });
 
-            });
-
-
+            }
+            else {
+                // this will be a not-successful result object
+                return res.status(200).json(result);
+            }
 
         });
 
