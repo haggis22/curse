@@ -3,7 +3,7 @@
 (function(isNode, isAngular) {
 
     // This wrappers function returns the contents of the module, with dependencies
-    var CreatureModule = function (Stat, Sex, Item) {
+    var CreatureModule = function (Stat, Sex, Item, Value) {
 
         var Creature = function (creature) {
 
@@ -254,14 +254,24 @@
                 return { success: false, message: this.getName(true) + ' does not have ' + item.getName(true) + ', so ' + this.getNominative() + ' cannot unequip it!' };
             },
 
-            countGold: function () {
-                var gold = Item.prototype.findItemsOfStackableType('gold', this.pack);
+            countMoney: function () {
 
-                if (gold == null) {
-                    return 0;
-                }
+                var money = {};
 
-                return gold.stackable.amount;
+                // make sure that "this" refers to this creature, and not the item
+                Value.denominations.forEach(function(denom) {
+
+                    var stack = Item.prototype.findItemsOfStackableType(denom, this.pack);
+                    if (stack != null)
+                    {
+                        money[denom] = stack.stackable.amount;
+                    }
+
+                }, this);
+
+                var value = new Value(money);
+
+                return value.getCoppers();
 
             },
 
@@ -456,14 +466,15 @@
     {
         // AngularJS module definition
         angular.module('CurseApp').
-            factory('Creature', ['Stat', 'Sex', 'Item', CreatureModule]);
+            factory('Creature', ['Stat', 'Sex', 'Item', 'Value', CreatureModule]);
 
     } else if (isNode) {
         // NodeJS module definition
         module.exports = CreatureModule(
             require(__dirname + '/Stat'),
             require(__dirname + '/Sex'),
-            require(__dirname + '/../items/Item')
+            require(__dirname + '/../items/Item'),
+            require(__dirname + '/../items/Value')
         );
     }
 

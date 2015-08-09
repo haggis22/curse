@@ -31,7 +31,6 @@
                 };
             }
 
-
         };
 
         Item.prototype.getName = function (useDefiniteArticle) {
@@ -47,6 +46,7 @@
 
 
             if (useDefiniteArticle != null) {
+
                 return (useDefiniteArticle ? 'the' : this.article) + ' ' + this.name;
             }
 

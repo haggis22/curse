@@ -10,7 +10,7 @@
 
             $scope.pullShoppe = function() {
 
-                shoppeService.get({}, 
+                shoppeService.shoppe.get({}, 
                     
                     function(response) {
 
@@ -56,14 +56,25 @@
 
             $scope.pullShoppe();
     
-            $scope.isArmour = function(item)
-            {
-                return item.isArmour || item.isShield;
-            }
 
             $scope.buy = function(item)
             {
-                console.log('Bought ' + item.getName(true) + ' _id = ' + item._id);
+
+                shoppeService.purchase.buy({ characterID: $scope.character._id, itemID: item._id }, 
+
+                    function(response) {
+
+                        $scope.character.addItem(item);
+                        console.log('Bought ' + item.getName(true) + ' _id = ' + item._id);
+
+
+                    },
+                    function(error) {
+
+                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not buy item", error) });
+
+                    });
+
             }
 
 

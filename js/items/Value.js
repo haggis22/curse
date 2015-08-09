@@ -17,6 +17,18 @@
 
         Value.denominations = ['gold', 'silver', 'copper'];
 
+        Value.prototype.getCoppers = function() {
+
+            var coppers = 0;
+            
+            coppers += (this.hasOwnProperty("gold") ? this.gold * 100 : 0);
+            coppers += (this.hasOwnProperty("silver") ? this.silver * 10 : 0);
+            coppers += (this.hasOwnProperty("copper") ? this.copper : 0);
+    
+            return coppers;
+
+        };
+
         return Value;
     };
 

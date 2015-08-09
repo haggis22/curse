@@ -97,7 +97,7 @@
     <Content Include="client\common\partials\error-message.html" />
     <Content Include="client\js\factories\creatures\Stat.js" />
     <Content Include="client\js\filters\coins.js" />
-    <Content Include="client\js\services\shoppeService.js" />
+    <Content Include="client\js\tavern\characters\shoppe\shoppeService.js" />
     <Content Include="client\js\tavern\campaigns\campaigns.html" />
     <Content Include="client\js\tavern\campaigns\edit\campaign.html" />
     <Content Include="client\js\tavern\campaigns\edit\campaignController.js" />

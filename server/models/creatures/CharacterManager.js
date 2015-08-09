@@ -59,7 +59,9 @@ CharacterManager.fetchByID = function (id, callback) {
 
         if (result.length == 0) {
             logger.error('Could not find record with id ' + id);
-            return callback(new Error('Unknown ID ' + id), null);
+            // return callback(new Error('Unknown ID ' + id), null);
+            // no error, but no character, either
+            return callback(null, null);
         }
 
         return callback(null, new Creature(result[0]));
@@ -296,6 +298,32 @@ CharacterManager.update = function (character, callback) {
         });  // SkillManager.fetchAll callback
 
     });  // oldCharacter.fetch callback
+
+
+};
+
+
+CharacterManager.addItem = function (character, item, callback) {
+
+    character.addItem(item);
+
+    // now save the character
+    character.updated = new Date();
+
+    var collection = db.get('characters');
+
+    collection.update({ _id: character._id }, { $push: { 'pack': item} }, function (err, doc) {
+
+        if (err) {
+            // it failed - return an error
+            logger.error('Could not update character: ' + err);
+            return callback(err, null);
+        }
+
+        return callback(null, character);
+
+    });   // collection.update callback
+
 
 
 };
