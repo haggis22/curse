@@ -59,33 +59,39 @@ router.post('/:characterID/:itemID', function (req, res) {
             logger.debug('Item costs ' + cost + ' copper pieces');
             logger.debug(character.getName(true) + ' has ' + money + ' copper pieces!');
 
-            if (cost > money) {
+            var payResult = character.payMoney(cost);
 
-                // the character does not have enough money
-                return res.status(400).json({ error: character.getName(true) + ' does not have enough money to purchase ' + item.getName(true) }).end();
-            }
+            if (payResult.success) {
 
-            // the character successfully buys the item!
-            // First, add the item to his pack
-            var result = character.addItem(item);
-            if (result.success) {
+                // the character successfully buys the item!
+                // add the item to his pack
+                var addResult = character.addItem(item);
+                if (addResult.success) {
 
-                CharacterManager.savePack(character, function (err, newChar) {
+                    CharacterManager.savePack(character, function (err, newChar) {
 
-                    if (err) {
-                        return res.status(500).send(err).end();
-                    }
+                        if (err) {
+                            return res.status(500).send(err).end();
+                        }
 
-                    // we added the item!
-                    return res.status(200).json({ success: true, item: item, message: character.getName(true) + ' bought ' + item.getName(true) });
+                        // we added the item!
+                        return res.status(200).json({ success: true, item: item, message: character.getName(true) + ' bought ' + item.getName(true) });
 
-                });
+                    });
+
+                }
+                else {
+
+                    // this will be a not-successful result object
+                    return res.status(200).json(addResult);
+                }
 
             }
             else {
-                
-                // this will be a not-successful result object
-                return res.status(200).json(result);
+
+                // the character does not have enough money
+                //                return res.status(400).json({ error: character.getName(true) + ' does not have enough money to purchase ' + item.getName(true) }).end();
+                return res.status(200).json({ error: payResult.message }).end();
             }
 
         });
