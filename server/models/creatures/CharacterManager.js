@@ -305,26 +305,22 @@ CharacterManager.update = function (character, callback) {
 
 CharacterManager.savePack = function (character, callback) {
 
-    /*
     // now save the character
     character.updated = new Date();
 
     var collection = db.get('characters');
 
-    collection.update({ _id: character._id }, { $push: { 'pack': item} }, function (err, doc) {
+    collection.update({ _id: character._id }, { $set: { 'pack': character.pack } }, function (err, doc) {
 
-    if (err) {
-    // it failed - return an error
-    logger.error('Could not update character: ' + err);
-    return callback(err, null);
-    }
+        if (err) {
+            // it failed - return an error
+            logger.error('Could not update character: ' + err);
+            return callback(err, null);
+        }
 
-    return callback(null, character);
+        return callback(null, character);
 
     });   // collection.update callback
-    */
-
-    callback(null, character);
 
 };
 

@@ -83,6 +83,7 @@ router.post('/:characterID/:itemID', function (req, res) {
 
             }
             else {
+                
                 // this will be a not-successful result object
                 return res.status(200).json(result);
             }
