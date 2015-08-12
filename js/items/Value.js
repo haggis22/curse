@@ -17,6 +17,21 @@
 
         Value.denominations = ['gold', 'silver', 'copper'];
 
+        Value.colorUp = function(coppers) {
+
+            var coins = {};
+            coins.gold = parseInt(coppers / 100, 10);
+            coppers -= coins.gold * 100;
+
+            coins.silver = parseInt(coppers / 10, 10);
+            coppers -= coins.silver * 10;
+
+            coins.copper = coppers;
+
+            return coins;
+
+        };
+
         Value.prototype.getCoppers = function() {
 
             var coppers = 0;

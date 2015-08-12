@@ -58,9 +58,26 @@
 
             $scope.pullShoppe();
     
+            $scope.checkWallet = function() {
+                $scope.cash = $scope.character? $scope.character.countMoney() : 0;
+            };
+
+            $scope.checkWallet();
+
+            $scope.$watch('character', function(newChar) {
+
+                $scope.checkWallet();
+
+            });
+
 
             $scope.buy = function(item)
             {
+                if (item.value.getCoppers() > $scope.character.countMoney())
+                {
+                    console.debug('Not enough money');
+                    return;
+                }
 
                 $scope.shoppeError = null;
 
@@ -71,8 +88,10 @@
                         if (response.success)
                         {
                             var boughtItem = ItemFactory.createItem(response.item);
-                            
                             $scope.character.addItem(boughtItem);
+
+                            // TODO: take his money (or possibly just reload the character?)
+                            $scope.checkWallet();
 
                             console.log('Bought ' + boughtItem.getName(true) + ' _id = ' + boughtItem._id);
                         }

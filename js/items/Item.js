@@ -121,27 +121,23 @@
 
         Item.colorUp = function(coppers) {
 
-            var numGold = parseInt(coppers / 100, 10);
-            coppers -= numGold * 100;
-
-            var numSilver = parseInt(coppers / 10, 10);
-            coppers -= numSilver * 10;
+            var value = Value.colorUp(coppers);
 
             var moneyBags = [];
 
-            if (numGold > 0)
+            if (value.gold > 0)
             {
-                moneyBags.push(new Item({ name: 'gold piece', stackable: { type: 'gold', plural: 'gold pieces', amount: numGold }, attributes: ['gold'], weight: 0.1 }));
+                moneyBags.push(new Item({ name: 'gold piece', stackable: { type: 'gold', plural: 'gold pieces', amount: value.gold }, attributes: ['gold'], weight: 0.1 }));
             }
 
-            if (numSilver > 0)
+            if (value.silver > 0)
             {
-                moneyBags.push(new Item({ name: 'silver piece', stackable: { type: 'silver', plural: 'silver pieces', amount: numSilver }, attributes: ['silver'], weight: 0.1 }));
+                moneyBags.push(new Item({ name: 'silver piece', stackable: { type: 'silver', plural: 'silver pieces', amount: value.silver }, attributes: ['silver'], weight: 0.1 }));
             }
             
-            if (coppers > 0)
+            if (value.copper > 0)
             {
-                moneyBags.push(new Item({ name: 'copper piece', stackable: { type: 'copper', plural: 'copper pieces', amount: coppers }, attributes: ['copper'], weight: 0.1 }));
+                moneyBags.push(new Item({ name: 'copper piece', stackable: { type: 'copper', plural: 'copper pieces', amount: value.copper }, attributes: ['copper'], weight: 0.1 }));
             }                            
 
             return moneyBags;

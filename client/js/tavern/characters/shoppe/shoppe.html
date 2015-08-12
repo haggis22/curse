@@ -23,6 +23,13 @@
             color: gold;
             font-weight: bold;
         }
+        
+        .too-expensive
+        {
+            cursor: normal;
+            color: #777;
+            font-weight: normal;
+        }
 
     </style>
 
@@ -48,7 +55,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="weapon in shoppe.weapons" class="buy-link" ng-click="buy(weapon)">
+                        <tr ng-repeat="weapon in shoppe.weapons" ng-class="{ 'too-expensive': weapon.value.getCoppers() > cash, 'buy-link': weapn.value.getCoppers <= cash }" ng-click="buy(weapon)">
                             <td align="left">{{ weapon.getName(null) | capFirst }}</td>
                             <td align="left">{{ weapon.value | coins }}</td>
                         </tr>
