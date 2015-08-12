@@ -91,7 +91,7 @@ router.post('/:characterID/:itemID', function (req, res) {
 
                 // the character does not have enough money
                 //                return res.status(400).json({ error: character.getName(true) + ' does not have enough money to purchase ' + item.getName(true) }).end();
-                return res.status(200).json({ error: payResult.message }).end();
+                return res.status(200).json(payResult).end();
             }
 
         });

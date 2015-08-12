@@ -62,6 +62,8 @@
             $scope.buy = function(item)
             {
 
+                $scope.shoppeError = null;
+
                 shoppeService.purchase.buy({ characterID: $scope.character._id, itemID: item._id }, 
 
                     function(response) {
@@ -76,7 +78,7 @@
                         }
                         else
                         {
-                            console.error(response.message);
+                            $scope.shoppeError = response.message;
                         }
 
 
