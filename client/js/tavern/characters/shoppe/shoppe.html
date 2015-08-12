@@ -34,6 +34,8 @@
     </style>
 
     <div ng-if="shoppeError" class="error" style="margin-bottom: 10px;">{{ shoppeError }}</div>
+    <div>Cash: {{ cash }}</div>
+
 
     <div style="float: left;">
 
@@ -55,9 +57,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="weapon in shoppe.weapons" ng-class="{ 'too-expensive': weapon.value.getCoppers() > cash, 'buy-link': weapn.value.getCoppers <= cash }" ng-click="buy(weapon)">
-                            <td align="left">{{ weapon.getName(null) | capFirst }}</td>
-                            <td align="left">{{ weapon.value | coins }}</td>
+                        <tr ng-repeat="item in shoppe.weapons" ng-class="{ 'too-expensive': item.value.getCoppers() > cash, 'buy-link': item.value.getCoppers() <= cash }" ng-click="buy(item)">
+                            <td align="left">{{ item.getName(null) | capFirst }}</td>
+                            <td align="left">{{ item.value | coins }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -77,9 +79,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="armour in shoppe.armour" class="buy-link" ng-click="buy(armour)">
-                            <td align="left">{{ armour.name | capFirst }}</td>
-                            <td align="left">{{ armour.value | coins }}</td>
+                        <tr ng-repeat="item in shoppe.armour" ng-class="{ 'too-expensive': item.value.getCoppers() > cash, 'buy-link': item.value.getCoppers() <= cash }" ng-click="buy(item)">
+                            <td align="left">{{ item.getName(null) | capFirst }}</td>
+                            <td align="left">{{ item.value | coins }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -103,9 +105,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="potion in shoppe.potions" class="buy-link" ng-click="buy(potion)">
-                            <td align="left">{{ potion.name | capFirst }}</td>
-                            <td align="left">{{ potion.value | coins }}</td>
+                        <tr ng-repeat="item in shoppe.potions" ng-class="{ 'too-expensive': item.value.getCoppers() > cash, 'buy-link': item.value.getCoppers() <= cash }" ng-click="buy(item)">
+                            <td align="left">{{ item.getName(null) | capFirst }}</td>
+                            <td align="left">{{ item.value | coins }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -129,8 +131,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="item in shoppe.items" class="buy-link" ng-click="buy(item)">
-                            <td align="left">{{ item.name | capFirst }}</td>
+                        <tr ng-repeat="item in shoppe.items" ng-class="{ 'too-expensive': item.value.getCoppers() > cash, 'buy-link': item.value.getCoppers() <= cash }" ng-click="buy(item)">
+                            <td align="left">{{ item.getName(null) | capFirst }}</td>
                             <td align="left">{{ item.value | coins }}</td>
                         </tr>
                     </tbody>
