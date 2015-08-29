@@ -3,30 +3,25 @@
 (function(app) {
 
 
-	app.controller('tavern.charactersController', ['$scope', '$rootScope', '$state', 'errorService', 'characterService', 'Creature', 'Sex',
+	app.controller('tavern.charactersController', ['$scope', '$rootScope', '$state', 'errorService', 'characterService', 'Creature', 'Sex', 'playerService',
 
-		function($scope, $rootScope, $state, errorService, characterService, Creature, Sex) {
+		function($scope, $rootScope, $state, errorService, characterService, Creature, Sex, playerService) {
 			
             $scope.Sex = Sex;
+            $scope.playerService = playerService;
 
-            $scope.characters = null;
-            
             $scope.pullCharacters = function() {
                 
-                $scope.characters = [];
-
                 characterService.characters.query({ id: null },
+
 
                     function(response) {
 
-                        var list = [];
                         response.forEach(function(character) {
 
-                            list.push(new Creature(character));
+                            playerService.addPlayer(new Creature(character));
 
                         });
-
-                        $scope.characters = list;
 
                     },
                     function(error) {

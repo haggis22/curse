@@ -3,8 +3,8 @@
 (function(app) {
 
 
-	app.controller('tavern.shoppeController', ['$scope', '$rootScope', '$state', 'errorService', 'shoppeService', 'ItemFactory', 
-		function($scope, $rootScope, $state, errorService, shoppeService, ItemFactory) {
+	app.controller('tavern.shoppeController', ['$scope', '$rootScope', '$state', 'errorService', 'shoppeService', 'ItemFactory', 'Creature',
+		function($scope, $rootScope, $state, errorService, shoppeService, ItemFactory, Creature) {
 			
             $scope.shoppe = null;
 
@@ -58,17 +58,9 @@
 
             $scope.pullShoppe();
     
-            $scope.checkWallet = function() {
-                $scope.cash = $scope.character? $scope.character.countMoney() : 0;
+            $scope.cash = function() {
+                return $scope.character? $scope.character.countMoney() : 0;
             };
-
-            $scope.checkWallet();
-
-            $scope.$watch('character', function(newChar) {
-
-                $scope.checkWallet();
-
-            });
 
 
             $scope.buy = function(item)
@@ -87,12 +79,8 @@
 
                         if (response.success)
                         {
+                            $scope.character = new Creature(response.character);
                             var boughtItem = ItemFactory.createItem(response.item);
-                            $scope.character.addItem(boughtItem);
-
-                            // TODO: take his money (or possibly just reload the character?)
-                            $scope.checkWallet();
-
                             console.log('Bought ' + boughtItem.getName(true) + ' _id = ' + boughtItem._id);
                         }
                         else

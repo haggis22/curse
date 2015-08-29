@@ -7,7 +7,7 @@
 
         var Campaign = function (campaign) {
 
-            this.id = campaign._id;
+            this._id = campaign._id;
             this.name = campaign.name;
             this.state = campaign.state;
             this.updated = campaign.updated;

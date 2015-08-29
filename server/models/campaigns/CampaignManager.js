@@ -75,7 +75,7 @@ CampaignManager.create = function (campaign, callback) {
 
         console.info('campaign saved successfully');
 
-        return callback(null, 'Campaign ' + campaign.id + ' saved successfully');
+        return callback(null, 'Campaign ' + campaign._id + ' saved successfully');
 
     });
 
@@ -86,7 +86,7 @@ CampaignManager.update = function (campaign, callback) {
 
     var collection = db.get('campaigns');
 
-    collection.update({ _id: campaign.id }, campaign, function (err, doc) {
+    collection.update({ _id: campaign._id }, campaign, function (err, doc) {
 
         if (err) {
             // it failed - return an error
@@ -96,7 +96,7 @@ CampaignManager.update = function (campaign, callback) {
 
         console.info('campaign saved successfully');
 
-        return callback(null, 'Campaign ' + campaign.id + ' saved successfully');
+        return callback(null, 'Campaign ' + campaign._id + ' saved successfully');
 
     });
 

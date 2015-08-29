@@ -11,14 +11,20 @@
                 <tr>
                     <td>Name:</td>
                     <td>
-                        <input type="text" name="name" ng-model="campaign.name" required ng-class="{ 'field-error': submitted && campaignForm.name.$invalid }" />
+                        <input type="text" 
+                                name="name" 
+                                ng-model="campaign.name" 
+                                required 
+                                ng-class="{ 'field-error': submitted && campaignForm.name.$invalid }" 
+                                enter-action="saveCampaign(campaignForm.$valid)"
+                                />
                     </td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
                     <td colspan="2">
-                        <button type="button" ui-sref="tavern.campaigns">Cancel</button>
+                        <button type="button" ui-sref="campaigns">Cancel</button>
                         <button type="button" ng-click="saveCampaign(campaignForm.$valid)">Save</button>
                     </td>
                 </tr>

@@ -3,18 +3,28 @@
 (function(app) {
 
 
-	app.controller('campaignsController', ['$scope', '$rootScope', '$state', 'errorService', 'campaignService',
-		function($scope, $rootScope, $state, errorService, campaignService) {
+	app.controller('campaignsController', ['$scope', '$rootScope', '$state', 'errorService', 'campaignService', 'Campaign',
+		function($scope, $rootScope, $state, errorService, campaignService, Campaign) {
 			
             $scope.campaigns = null;
             
             $scope.pullCampaigns = function() {
                 
+                $scope.campaigns = [];
+
                 campaignService.query({ id: null },
 
                     function(response) {
 
-                        $scope.campaigns = response;
+                        var campaigns = [];
+
+                        response.forEach(function(campaign) {
+
+                            campaigns.push(new Campaign(campaign));
+
+                        });
+
+                        $scope.campaigns = campaigns;
 
                     },
                     function(error) {
@@ -35,7 +45,7 @@
                     return;
                 }
 
-                campaignService.delete({ id: campaign.id },
+                campaignService.delete({ id: campaign._id },
 
                     function(response) {
 

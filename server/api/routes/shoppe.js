@@ -75,7 +75,7 @@ router.post('/:characterID/:itemID', function (req, res) {
                         }
 
                         // we added the item!
-                        return res.status(200).json({ success: true, item: item, message: character.getName(true) + ' bought ' + item.getName(true) });
+                        return res.status(200).json({ success: true, character: character, item: item, message: character.getName(true) + ' bought ' + item.getName(true) });
 
                     });
 

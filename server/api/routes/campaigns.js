@@ -9,13 +9,13 @@ var CampaignManager = require(__dirname + '/../../models/campaigns/CampaignManag
 
 router.get('/', function (req, res) {
 
-    var callback = function (err, characters) {
+    var callback = function (err, campaigns) {
 
         if (err) {
             return res.status(500).send(err).end();
         }
         else {
-            return res.json(characters);
+            return res.json(campaigns);
         }
 
     };

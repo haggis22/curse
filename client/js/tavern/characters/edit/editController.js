@@ -3,11 +3,14 @@
 (function(app) {
 
 
-	app.controller('tavern.editController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'skillService', 'Creature', 'Sex',
-		function($scope, $rootScope, $state, $timeout, errorService, characterService, skillService, Creature, Sex) {
+	app.controller('tavern.editController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'playerService', 'skillService', 'Creature', 'Sex',
+		function($scope, $rootScope, $state, $timeout, errorService, characterService, playerService, skillService, Creature, Sex) {
 			
             $scope.Creature = Creature;
             $scope.Sex = Sex;
+            $scope.playerService = playerService;
+
+            $scope.character = playerService.getCurrentPlayer();
 
             $scope.availableSpecies = [ 'dwarf', 'elf', 'hobbit', 'human' ];
 
@@ -44,7 +47,7 @@
 
             $scope.isNewCharacter = function() {
 
-                return $scope.characterID == null || $scope.characterID == '';
+                return $scope.character == null || $scope.character._id == null;
 
             };
 

@@ -14,7 +14,10 @@
             
             $scope.pullCharacters = function() {
                 
+                debugger;
+
                 playerService.characterClient().query(
+
                     function(response) {
 
                         $scope.characters = response;

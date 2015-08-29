@@ -2,90 +2,61 @@
 
 (function(app) {
 
-	app.service('playerService', [ '$resource', 'Player', 'diceService',
+	app.service('playerService', [ 'Creature', 
 
-		function($resource, Player, diceService) {
+		function(Creature) {
 
-			this.players = [];
+            var players = {};
+            var currentPlayerID = null;
 
-            this.currentPlayer = null;
+            this.getPlayers = function() {
 
-            this.newPlayer = function()
-            {
-                var player = new Player();
-                this.players.push(player);
-                return player;
-            };
+                var array = [];
 
-            this.hasPlayers = function()
-            {
-                if ((this.players == null) || (this.players.length == 0) || (this.players[0].str == 0))
+                for (var prop in players)
                 {
-                    return false;
-                }
-
-                return true;
-            };
-
-            this.numLivingPlayers = function()
-            {
-                var count = 0;
-                for (var p=0; p < this.players.length; p++)
-                {
-                    if (this.players[p].isAlive())
+                    if (players.hasOwnProperty(prop))
                     {
-                        count++;
+                        array.push(players[prop]);
                     }
                 }
+                return array;
 
-                return count;
-            }
-
-
-            this.allDead = function()
-            {
-                for (var p=0; p < this.players.length; p++)
-                {
-                    if (this.players[p].isAlive())
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
             };
 
-            this.randomLivingPlayer = function() 
-            {
-                var livers = [];
+            this.addPlayer = function(creature) { 
 
-                for (var p=0; p < this.players.length; p++)
+                if (creature == null || creature._id == null)
                 {
-                    if (this.players[p].isAlive())
-                    {
-                        livers.push(this.players[p]);
-                    }
+                    return;
                 }
 
-                if (livers.length == 0)
+                players[creature._id] = creature;
+            
+            };
+
+            this.setCurrentPlayerID = function(playerID) 
+            {
+                currentPlayerID = playerID;
+            };
+
+            this.getCurrentPlayerID = function()
+            {
+                return currentPlayerID;
+            };
+
+            this.getCurrentPlayer = function() {
+
+                if (currentPlayerID == null || !players.hasOwnProperty(currentPlayerID))
                 {
                     return null;
                 }
 
-                return livers[diceService.rollDie(0, livers.length - 1)];
+                return players[currentPlayerID]
+
             };
 
-            this.characterClient = function()
-            {
-                return $resource('/api/characters/:name');
-/*
-                    return $resource('http://z-10929:8081/tath/job/results/:submissionHash', { submissionHash: '@submissionHash' }, {
-                        'query': { method: 'GET', headers: { 'session': viewService.getToken() } },
-                        'delete': { method: 'DELETE', headers: { 'session': viewService.getToken() } }
-                    });
-*/
-            
-            };
+
 
 
 		}
