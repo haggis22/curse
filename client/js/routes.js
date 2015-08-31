@@ -67,10 +67,14 @@
             .state('campaign.tavern.characters.single', {
                 url: "/:characterID",
                 templateUrl: "js/tavern/characters/single/single.html?v=" + (new Date()).getTime(),
-                controller: ['$state', '$stateParams', 'playerService', 
-                    function ($state, $stateParams, playerService) {
+                controller: ['$scope', '$state', '$stateParams', 
+                    function ($scope, $state, $stateParams) {
 
-                        playerService.setCurrentPlayerID($stateParams.characterID);
+                        $scope.characterID = null;
+                        if ($stateParams.characterID && $stateParams.characterID.length > 0)
+                        {
+                            $scope.characterID = $stateParams.characterID;
+                        }
 
                         // if only asking for the root path, then forward to the default
                         if ($state.is('campaign.tavern.characters.single')) {
@@ -81,10 +85,7 @@
             })
             .state('campaign.tavern.characters.single.edit', {
                 url: "/edit",
-                templateUrl: "js/tavern/characters/edit/edit.html?v=" + (new Date()).getTime(),
-                controller: function($scope, $stateParams) {
-                    $scope.characterID = $stateParams.characterID;
-                }
+                templateUrl: "js/tavern/characters/edit/edit.html?v=" + (new Date()).getTime()
             })
             .state('campaign.tavern.characters.single.gear', {
                 url: "/gear",

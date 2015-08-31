@@ -10,7 +10,8 @@
             $scope.Sex = Sex;
             $scope.playerService = playerService;
 
-            $scope.character = playerService.getCurrentPlayer();
+            // calls the method in tavern.singleController
+            $scope.pullCharacter($scope.characterID);
 
             $scope.availableSpecies = [ 'dwarf', 'elf', 'hobbit', 'human' ];
 
@@ -64,11 +65,8 @@
 
                     function(response) {
                         
-                        console.log('Create character response = ' + response);
-                        $scope.character = response;
-                        $scope.characterID = response._id;
-
-//                        $state.go('tavern.characters', {}, { reload: true });
+                        // basically reload the page, using the newly-created ID as part of the URL
+                        $state.go('campaign.tavern.characters.single.edit', { characterID: response._id }, { reload: true });
 
                     },
                     function(error) {
@@ -91,7 +89,7 @@
 
                     function(response) {
                         
-                        $state.go('tavern.characters', {}, { reload: true });
+                        $state.go('campaign.tavern.characters', {}, { reload: true });
 
                     },
                     function(error) {

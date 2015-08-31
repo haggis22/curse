@@ -8,20 +8,19 @@
 
             $scope.Sex = Sex;
 			
-            $scope.pullCharacter = function() {
+            $scope.pullCharacter = function(id) {
                 
-                if (($scope.characterID == null) || ($scope.characterID == ''))
+                if (id == null)
                 {
                     $scope.character = {};
                     return;
                 }                        
 
-                characterService.characters.get({ id: $scope.characterID },
+                characterService.characters.get({ id: id },
 
                     function(response) {
 
                         $scope.character = new Creature(response);
-                        // $scope.character = response;
 
                     },
                     function(error) {
@@ -32,7 +31,7 @@
 
             };
 
-            $scope.pullCharacter();
+            $scope.pullCharacter($scope.characterID);
         
         }   // end outer function
 	

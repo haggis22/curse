@@ -6,6 +6,9 @@
 	app.controller('tavern.shoppeController', ['$scope', '$rootScope', '$state', 'errorService', 'shoppeService', 'ItemFactory', 'Creature',
 		function($scope, $rootScope, $state, errorService, shoppeService, ItemFactory, Creature) {
 			
+            // calls the method in tavern.singleController
+            $scope.pullCharacter($scope.characterID);
+
             $scope.shoppe = null;
 
             $scope.pullShoppe = function() {

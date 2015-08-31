@@ -5,30 +5,9 @@
 
 	app.controller('tavern.gearController', ['$scope', '$rootScope', '$state', 'errorService', 'shoppeService', 
 		function($scope, $rootScope, $state, errorService, shoppeService) {
-			
-/*
-            $scope.shoppe = null;
 
-            $scope.pullShoppe = function() {
-
-                shoppeService.get({}, 
-                    
-                    function(response) {
-
-                        $scope.shoppe = response;
-
-                    },
-                    function(error) {
-
-                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not fetch shoppe", error) });
-
-                    });
-
-            };
-
-            $scope.pullShoppe();
-*/
-    
+            // calls the method in tavern.singleController
+            $scope.pullCharacter($scope.characterID);
 
         }   // end controller function
 

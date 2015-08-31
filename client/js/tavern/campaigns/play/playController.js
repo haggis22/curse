@@ -6,7 +6,6 @@
 	app.controller('campaign.playController', ['$scope', '$rootScope', '$state', 'errorService', 'campaignService',
 		function($scope, $rootScope, $state, errorService, campaignService) {
 			
-/*
             $scope.pullCampaign = function() {
                 
                 campaignService.get({ id: $scope.campaignID },
@@ -25,7 +24,6 @@
             };
 
             $scope.pullCampaign();
-*/
 
         }   // end outer function
 
