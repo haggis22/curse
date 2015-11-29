@@ -21,14 +21,14 @@ CampaignManager.fetchAll = function (callback) {
 
     var collection = db.get('campaigns');
 
-    var myCampaigns = [];
-
     collection.find({}, {}, function (err, result) {
 
         if (err) {
             logger.error('Could not load campaigns from database: ' + err);
             return callback(err, null);
         }
+
+        var myCampaigns = [];
 
         for (var r = 0; r < result.length; r++) {
             myCampaigns.push(new Campaign(result[r]));

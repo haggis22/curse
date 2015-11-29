@@ -17,6 +17,6 @@ router.use('/characters', require(__dirname + '/characters'));
 router.use('/campaigns', require(__dirname + '/campaigns'));
 router.use('/skills', require(__dirname + '/skills'));
 router.use('/shoppe', require(__dirname + '/shoppe'));
-
+router.use('/users', require(__dirname + '/users'));
 
 module.exports = router;

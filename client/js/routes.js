@@ -5,9 +5,14 @@
 	app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 			
 		// for any unmatched URL, redirect to main
-		$urlRouterProvider.otherwise("/campaigns");
+		$urlRouterProvider.otherwise("/login");
 		
 		$stateProvider
+
+            .state('login', { 
+                url: "/login",
+                templateUrl: "js/users/login/login.html?v=" + (new Date()).getTime()
+            })
             .state('campaigns', {
                 url: "/campaigns",
                 templateUrl: "js/tavern/campaigns/campaigns.html?v=" + (new Date()).getTime()

@@ -1,0 +1,11 @@
+﻿Collections
+=============
+campaigns
+characters
+items
+shoppe
+skills
+
+
+characters - all the character objects
+skills 

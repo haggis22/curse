@@ -15,7 +15,8 @@
     "express": "^4.12.4",
     "log4js": "^0.6.25",
     "mongodb": "*",
-    "monk": "*"
+    "monk": "*",
+    "node-uuid": "^1.4.7"
   },
   "private": true
 }
