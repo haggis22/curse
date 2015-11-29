@@ -1,6 +1,8 @@
 <div ng-controller="loginController">
 
     <h2>Login</h2>
+    <div>Current user: {{ userService.session.username }}</div>
+    <div>Session hash: {{ userService.session.session }}</div>
 
     <div>
 

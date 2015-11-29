@@ -14,6 +14,7 @@ var monk = require('monk');
 var db = monk(config.db);
 
 var User = require(__dirname + '/../../../js/users/User.js');
+var Session = require(__dirname + '/../../../js/users/Session.js');
 
 var UserManager = function () {
 };
@@ -60,22 +61,19 @@ UserManager.fetchBySession = function (session, callback) {
 
 UserManager.login = function (username, password, callback) {
 
-    UserManager.fetchByUsername(username, function(err, user) {
+    UserManager.fetchByUsername(username, function (err, user) {
 
-        if (err)
-        {
+        if (err) {
             return callback(err, null);
         }
 
-        if (user == null)
-        {
+        if (user == null) {
             // Couldn't find a user with that username, but we don't want 
             // to tell them whether it is a wrong user or password
             return callback(null, null);
         }
 
-        if (user.password !== password)
-        {
+        if (user.password !== password) {
             // the password is wrong, but we don't want 
             // to tell them whether it is a wrong user or password
             return callback(null, null);
@@ -84,24 +82,24 @@ UserManager.login = function (username, password, callback) {
         // now generate their session id and save it
         user.session = uuid.v4();
 
-        UserManager.update(user, function(err) {
+        UserManager.update(user, function (err) {
 
-            if (err)
-            {
+            if (err) {
                 logger.error('Could not assign session to logged-in user: ' + err);
                 return callback(err, null);
             }
 
             // if we made it here then the user is valid and is now logged in
-            return callback(null, user);
+            // Create a session from their user object
+            var session = new Session(user);
+            return callback(null, session);
 
         });
 
 
     });
-    
-};
 
+};
 
 
 UserManager.create = function (user, callback) {

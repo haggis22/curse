@@ -6,6 +6,7 @@ log4js.configure(__dirname + '/../../log4js_config.json', {});
 var logger = log4js.getLogger('curse');
 
 var UserManager = require(__dirname + '/../../models/users/UserManager');
+var Session = require(__dirname + '/../../../js/users/Session');
 
 router.post('/login', function (req, res) {
 
@@ -23,22 +24,36 @@ router.post('/login', function (req, res) {
 
     };
 
-    UserManager.login(username, password, function (err, user) {
+    UserManager.login(username, password, function (err, session) {
 
         if (err) {
             return res.status(500).send(err).end();
         }
 
-        if (user == null) {
+        if (session == null) {
             // no system error, but login failed
-            return res.status(401).send(null).end();
+            return res.status(401).send({ error: 'Invalid username or password' }).end();
         }
 
-        // return the newly-created session
-        return res.status(200).send(user.session).end();
+        // return the newly-created user session data
+        return res.status(200).send(session).end();
 
     });
 
+
+});
+
+
+router.get('/session', function (req, res) {
+
+    if (req.user) {
+
+        var session = new Session(req.user);
+        return res.status(200).send(session).end();
+
+    }
+
+    return res.status(200).send(null).end();
 
 });
 

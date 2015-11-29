@@ -6,7 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="common/css/common.css" />
 	<link rel="stylesheet" type="text/css" href="css/curse.css" />
 </head>
-<body ng-app="CurseApp">
+<body ng-app="CurseApp" ng-controller="curseController">
 
     <error-message error="error"></error-message>
 
@@ -27,6 +27,7 @@
 	<script src="js/app.js"></script>
 	<script src="js/routes.js?v=1"></script>
 
+    <script src="js/users/Session.js"></script>
 
 	<script src="js/factories/maps/Direction.js"></script>
 	<script src="js/factories/maps/Exit.js"></script>
@@ -54,6 +55,7 @@
 	<script src="js/factories/combat/effects/Venom.js"></script>
 	<script src="js/factories/combat/effects/Paralysis.js"></script>
 
+    <script src="js/controllers/curseController.js"></script>
 
     <script src="js/controllers/monsterController.js"></script>
 	<script src="js/controllers/rollupController.js"></script>

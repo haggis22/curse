@@ -27,11 +27,12 @@
                     if (errorObject.data) {
 
                         response.responseCode = errorObject.data["error_code"];
-                        if (errorObject.data["error_message"] != null) {
-                            response.errors.push(errorObject.data["error_message"]);
+
+                        if (errorObject.data.error_message != null) {
+                            response.errors.push(errorObject.data.error_message);
                         }
-                        if (errorObject.data["error"] != null) {
-                            response.errors.push(errorObject.data["error"]);
+                        if (errorObject.data.error != null) {
+                            response.errors.push(errorObject.data.error);
                         }
 
                     }
