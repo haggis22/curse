@@ -46,6 +46,8 @@
 
             this.hands = creature.hands == null ? 2 : creature.hands;
 
+            this.userID = creature.userID;
+
 
         };
 

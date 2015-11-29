@@ -43,7 +43,8 @@ router.get('/', function (req, res) {
 
     };
 
-    CharacterManager.fetchAll(callback);
+    console.log('req.user = ' + JSON.stringify(req.user));
+    CharacterManager.fetchByUser(req.user, callback);
 
 });
 
@@ -81,7 +82,7 @@ router.post('/', function (req, res) {
 
     }
 
-    CharacterManager.create(character, callback);
+    CharacterManager.create(req.user, character, callback);
 
 });
 

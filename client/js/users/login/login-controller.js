@@ -9,7 +9,6 @@
             $scope.login = function() {
 
                 console.log('I am attempting to log in');
-
                 
                 userService.login.submit({ username: $scope.username, password: $scope.password },
 
@@ -21,7 +20,7 @@
                     },
                     function(error) {
 
-                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not log in", error) });
+                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Login Failed", error) });
 
                     });
 

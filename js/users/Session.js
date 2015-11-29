@@ -8,7 +8,7 @@
         var Session = function (session) {
 
             this.username = session.username;
-            this.session = session.session;
+            this.sessionHash = session.sessionHash;
 
         };
 

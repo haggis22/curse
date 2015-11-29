@@ -11,7 +11,7 @@
             this.username = user.username;
             this.password = user.password;
             this.updated = user.updated;
-            this.session = user.session;
+            this.sessionHash = user.sessionHash;
 
         };
 

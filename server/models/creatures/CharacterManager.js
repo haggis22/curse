@@ -23,13 +23,21 @@ var CharacterManager = function () {
 
 };
 
-CharacterManager.fetchAll = function (callback) {
+CharacterManager.fetchByUser = function (user, callback) {
 
     var collection = db.get('characters');
 
     var myCharacters = [];
 
-    collection.find({}, {}, function (err, result) {
+    // we're not going to find any characters for a NULL user, so dump out now
+    if (user == null) {
+        return callback(null, myCharacters);
+    }
+
+    console.log('CharacterManager.fetchByUser for user.ID ' + user._id);
+
+    collection.find({ userID: user._id }, {}, function (err, result) {
+    // collection.find({}, {}, function (err, result) {
 
         if (err) {
             logger.error('Could not load characters from database: ' + err);
@@ -38,7 +46,7 @@ CharacterManager.fetchAll = function (callback) {
 
         for (var r = 0; r < result.length; r++) {
             myCharacters.push(new Creature(result[r]));
-        }
+        }   
 
         return callback(null, myCharacters);
     });
@@ -134,9 +142,11 @@ CharacterManager.rollCharacter = function (character) {
 };
 
 
-CharacterManager.create = function (character, callback) {
+CharacterManager.create = function (user, character, callback) {
 
     var newCharacter = new Creature(character);
+    debugger;
+    newCharacter.userID = user._id;
 
     CharacterManager.rollCharacter(newCharacter);
 

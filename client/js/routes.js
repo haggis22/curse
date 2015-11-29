@@ -3,7 +3,7 @@
 (function(app) {
 
 	app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-			
+
 		// for any unmatched URL, redirect to main
 		$urlRouterProvider.otherwise("/login");
 		

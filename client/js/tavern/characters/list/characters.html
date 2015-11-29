@@ -11,16 +11,18 @@
                         <th align="left">Name</th>
                         <th align="left">Species</th>
                         <th>Sex</th>
+                        <th>User</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="character in playerService.getPlayers() | orderBy:'name'">
                         <td>
-                            <a ui-sref="campaign.tavern.characters.single({ characterID: character._id })">{{ character.getName(true) }}</a>
+                            <a ui-sref="tavern.characters.single({ characterID: character._id })">{{ character.getName(true) }}</a>
                             <!-- <span ng-show="character.updated" class="updateTime"> ({{ character.updated | date:'dd-MM-yyyy HH:mm:ss' }})</span> -->
                         </td>
                         <td>{{ character.species }}</td>
                         <td align="center">{{ Sex.getSexAbbr(character.sex) }}</td>
+                        <td align="center">{{ character.userID }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -28,7 +30,7 @@
     </div>
 
     <div style="margin-top: 15px;">
-        <button type="button" ui-sref="campaign.tavern.characters.single({ characterID: null })">Create character</button>
+        <button type="button" ui-sref="tavern.characters.single({ characterID: null })">Create character</button>
     </div>
 
     <div ui-view style="margin-top: 15px;"></div>

@@ -2,11 +2,19 @@
 
 (function(app) {
 
-	app.controller('curseController', [ '$scope', '$rootScope', '$state', 'errorService', 'userService', 'Session',
+	app.controller('curseController', [ '$scope', '$rootScope', '$state', 'errorService', 'userService', 'Session', 'constants', '$cookies',
 
-		function($scope, $rootScope, $state, errorService, userService, Session) {
+		function($scope, $rootScope, $state, errorService, userService, Session, constants, $cookies) {
 
             $scope.userService = userService;
+
+            console.log('userService.isReady() = ' + userService.isReady());
+
+            if (userService.isReady())
+            {
+                console.log('Sending to login');
+                $state.go('login');
+            }
 
             $scope.checkSession = function () {
 
@@ -33,7 +41,7 @@
                     },
                     function (error) {
 
-                        userService.setSession(null);
+                        // userService.setSession(null);
                         $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not load user session", error) });
 
                     }
@@ -50,7 +58,7 @@
 
             };
 
-            $scope.$on('session-change', function (event, args) {
+            $scope.$on(constants.events.SESSION_CHANGE, function (event, args) {
 
                 if (args.session)
                 {

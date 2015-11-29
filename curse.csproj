@@ -84,10 +84,10 @@
     <Content Include="client\images\yuan-ti1.jpg" />
     <Content Include="client\images\yuan-ti2.jpg" />
     <Content Include="client\images\zombie.png" />
-    <Content Include="client\js\angularjs\1.3.14\angular.min.js" />
-    <Content Include="client\js\angularjs\1.3.14\angular-resource.min.js" />
     <Content Include="client\js\angularjs\1.4.0\angular-resource.min.js" />
     <Content Include="client\js\angularjs\1.4.0\angular.min.js" />
+    <Content Include="client\js\angularjs\1.4.0\angular-cookies.min.js" />
+    <None Include="client\js\angularjs\1.4.0\angular-cookies.min.js.map" />
     <Content Include="client\js\app.js" />
     <Content Include="client\common\common.js" />
     <Content Include="client\common\css\common.css" />
@@ -96,6 +96,7 @@
     <Content Include="client\common\partials\ajax-loader.html" />
     <Content Include="client\common\partials\error-message.html" />
     <Content Include="client\js\controllers\curseController.js" />
+    <Content Include="js\Constants.js" />
     <Content Include="client\js\factories\creatures\Stat.js" />
     <Content Include="client\js\filters\coins.js" />
     <Content Include="client\js\users\login\login-controller.js" />
@@ -187,7 +188,6 @@
     <Content Include="js\users\Session.js" />
     <Content Include="js\users\User.js" />
     <Content Include="server\api\routes\users.js" />
-    <Content Include="server\models\creatures\MonsterManager.js" />
     <Content Include="server\models\users\UserManager.js" />
     <Content Include="sql\shoppe.sql" />
     <None Include="client\js\angularjs\1.4.0\angular-resource.min.js.map" />
@@ -225,8 +225,6 @@
   <ItemGroup>
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
-    <None Include="client\js\angularjs\1.3.14\angular.min.js.map" />
-    <None Include="client\js\angularjs\1.3.14\angular-resource.min.js.map" />
     <None Include="package.json" />
   </ItemGroup>
   <ItemGroup>

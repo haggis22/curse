@@ -3,9 +3,9 @@
 (function(app) {
 
 
-	app.controller('tavern.charactersController', ['$scope', '$rootScope', '$state', 'errorService', 'characterService', 'Creature', 'Sex', 'playerService',
+	app.controller('tavern.charactersController', ['$scope', '$rootScope', '$state', 'errorService', 'characterService', 'Creature', 'Sex', 'playerService', '$cookies',
 
-		function($scope, $rootScope, $state, errorService, characterService, Creature, Sex, playerService) {
+		function($scope, $rootScope, $state, errorService, characterService, Creature, Sex, playerService, $cookies) {
 			
             $scope.Sex = Sex;
             $scope.playerService = playerService;

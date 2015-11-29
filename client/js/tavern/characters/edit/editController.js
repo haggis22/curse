@@ -66,7 +66,7 @@
                     function(response) {
                         
                         // basically reload the page, using the newly-created ID as part of the URL
-                        $state.go('campaign.tavern.characters.single.edit', { characterID: response._id }, { reload: true });
+                        $state.go('tavern.characters.single.edit', { characterID: response._id }, { reload: true });
 
                     },
                     function(error) {
@@ -89,7 +89,7 @@
 
                     function(response) {
                         
-                        $state.go('campaign.tavern.characters', {}, { reload: true });
+                        $state.go('tavern.characters', {}, { reload: true });
 
                     },
                     function(error) {

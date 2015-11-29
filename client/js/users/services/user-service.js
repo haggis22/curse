@@ -2,36 +2,37 @@
 
 (function(app) {
 
-	app.service('userService', [ '$resource', '$rootScope',
+	app.service('userService', [ '$resource', '$rootScope', '$cookies', 'constants',
 
-		function($resource, $rootScope) {
+		function($resource, $rootScope, $cookies, constants) {
 
-            var cookieName = 'session';
-            var previousSession = localStorage.getItem(cookieName);
+            var previousSession = $cookies.get(constants.cookies.SESSION);
 
             return {
             
-                SESSION_COOKIE: cookieName,
-
                 previousSession: previousSession,
                 currentSession: null,
 
                 setSession: function(session) {
 
+                    console.log('setting session to ' + JSON.stringify(session));
+
                     if (session == null)
                     {
-                        localStorage.removeItem(cookieName);
+                        $cookies.remove(constants.cookies.SESSION);
                     }
                     else
                     {
                         // save the session UUID for next time
-                        localStorage.setItem(cookieName, session.session);
+                        var expiresDate = new Date();
+                        expiresDate.setFullYear(expiresDate.getFullYear() + 1);
+                        $cookies.put(constants.cookies.SESSION, session.sessionHash, { expires: expiresDate });
                     }
 
                     this.currentSession = session;
                     this.previousSession = null;
-                    console.log('broadcasting session: ' + JSON.stringify(session));
-                    $rootScope.$broadcast('session-change', { session: session });
+
+                    $rootScope.$broadcast(constants.events.SESSION_CHANGE, { session: session });
 
                 },
 
@@ -50,10 +51,7 @@
                 }),
 
                 session: $resource('/api/users/session', {}, {
-                    'check': {
-                        method: 'GET',
-                        headers: { 'session': previousSession }
-                    }
+                    'check': { method: 'GET' }
 
                 })
 

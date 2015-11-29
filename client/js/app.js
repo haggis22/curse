@@ -2,7 +2,7 @@
 
 (function() {
 
-	angular.module('CurseApp', ['ui.router', 'ngResource', 'dshell.common' ]);
+	angular.module('CurseApp', ['ui.router', 'ngResource', 'ngCookies', 'dshell.common' ]);
 	
 }) (angular);
 	

@@ -5,6 +5,7 @@ var log4js = require('log4js');
 log4js.configure(__dirname + '/../../log4js_config.json', {});
 var logger = log4js.getLogger('curse');
 
+var constants = require(__dirname + '/../../../js/Constants');
 var UserManager = require(__dirname + '/../../models/users/UserManager');
 
 
@@ -24,12 +25,22 @@ router.use(function (req, res, next) {
 
         // logger.info('IP ' + req.ip + ' ' + req.url + ' using TATH token ' + token + ' for session ' + req.get('session'));
 
+
+        logger.debug(req.method + ' ' + req.url + ', user: ' + JSON.stringify(user));
+
         req.user = user;
         next();
     };
 
-    var sessionHash = req.get('session') || null;
-    UserManager.fetchBySession(sessionHash, callback);
+    var sessionHash = null;
+
+    if (req.cookies && req.cookies[constants.cookies.SESSION]) {
+        sessionHash = req.cookies[constants.cookies.SESSION];
+    }
+
+    console.log(req.url + ', sessionHash = ' + sessionHash);
+
+    return UserManager.fetchBySession(sessionHash, callback);
 
 });
 

@@ -47,14 +47,21 @@ UserManager.fetch = function (query, callback) {
 
 UserManager.fetchByUsername = function (username, callback) {
 
+    if (username === null) {
+        return callback(null, null);
+    }
     return UserManager.fetch({ username: username }, callback);
 
 };
 
 
-UserManager.fetchBySession = function (session, callback) {
+UserManager.fetchBySession = function (sessionHash, callback) {
 
-    return UserManager.fetch({ session: session }, callback);
+    if (sessionHash === null) {
+        return callback(null, null);
+    }
+
+    return UserManager.fetch({ sessionHash: sessionHash }, callback);
 
 };
 
@@ -80,7 +87,7 @@ UserManager.login = function (username, password, callback) {
         }
 
         // now generate their session id and save it
-        user.session = uuid.v4();
+        user.sessionHash = uuid.v4();
 
         UserManager.update(user, function (err) {
 
