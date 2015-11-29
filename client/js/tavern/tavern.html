@@ -1,6 +1,15 @@
 <div ng-controller="tavernController">
 
-    <h2>The Anchor Tavern</h2>
+    <div class="title-bar">
+        <div class="game-title">The Anchor Tavern</div>
+        <div class="current-user">{{ userService.currentSession.username }}</div>
+        <div style="clear: both;"></div>
+    </div>
+
+    <div class="m-tabs" style="margin-top: 15px;">
+        <a ui-sref-active="active" ui-sref="tavern.characters">Characters</a>
+        <a ui-sref-active="active" ui-sref="tavern.campaigns">Campaigns</a>
+    </div>
 
     <div ui-view style="padding-left: 20px;"></div>
 

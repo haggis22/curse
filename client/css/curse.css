@@ -1,19 +1,33 @@
 body
 {
     font-size: 11pt;
-    font-family: CelticHand, Arial
+    font-family: CelticHand, Arial;
+    background-color: #fdfcdc;
 }
 
 input, select, button
 {
     font-size: 11pt;
-    font-family: CelticHand, Arial
+    font-family: CelticHand, Arial;
+}
+
+.title-bar
+{
+    line-height: 1.5;
+    font-weight: bold;
 }
 
 .game-title
 {
-    font-size: 1.2em;
-    font-weight: bold;
+    float: left;
+    font-size: 20px;
+}
+
+.current-user
+{
+    float: right;
+    margin-right: 30px;
+    font-size: 16px;
 }
 
 .game-view
@@ -330,7 +344,7 @@ div.m-tabs:after
 
 div.m-tabs > a 
 {
-    background-color: #fff;
+    /* background-color: #fff; */
     border: 1px solid #ccc;
     border-bottom-width: 0px;
     -webkit-border-radius: 3px 3px 0px 0px;
@@ -353,7 +367,11 @@ div.m-tabs > a:hover
 div.m-tabs > a.active 
 {
     border-color: #999;
+/*
     color: #333;
+*/
+    background-color: saddlebrown;
+    color: #fff;
     font-weight: bold;
     padding-bottom: 5px;
     margin-top: -1px;

@@ -2,9 +2,11 @@
 
 (function(app) {
 
-	app.controller('curseController', [ '$scope', '$rootScope', 'errorService', 'userService', 'Session',
+	app.controller('curseController', [ '$scope', '$rootScope', '$state', 'errorService', 'userService', 'Session',
 
-		function($scope, $rootScope, errorService, userService, Session) {
+		function($scope, $rootScope, $state, errorService, userService, Session) {
+
+            $scope.userService = userService;
 
             $scope.checkSession = function () {
 
@@ -21,18 +23,17 @@
                         if (response == null)
                         {
                             // unknown session
-                            userService.clearSession();
+                            userService.setSession(null);
                         }
                         else
                         {
-                            var session = new Session(response);
-                            userService.setSession(session);
+                            userService.setSession(new Session(response));
                         }
 
                     },
                     function (error) {
 
-                        // viewService.clearSession();
+                        userService.setSession(null);
                         $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not load user session", error) });
 
                     }
@@ -43,7 +44,24 @@
 
             $scope.checkSession();
 	
+            $scope.logout = function() {
+
+                userService.setSession(null);
+
+            };
+
+            $scope.$on('session-change', function (event, args) {
+
+                if (args.session)
+                {
+                    return $state.go('tavern');
+                }
+
+                $state.go('login');
+
+            });
 		
+
 		}  // outer function
 
 	]);			

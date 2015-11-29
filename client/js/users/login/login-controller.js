@@ -6,8 +6,6 @@
 
 		function($scope, $rootScope, $state, errorService, userService, Session) {
 			
-            $scope.userService = userService;
-
             $scope.login = function() {
 
                 console.log('I am attempting to log in');
