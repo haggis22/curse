@@ -46,7 +46,7 @@
                     return this.previousSession === null;
                 },
 
-                login: $resource('/api/users/login', { username: '@username', password: '@password' }, {
+                login: $resource('/api/users/login', {}, {
                     submit: { method: 'POST' }
                 }),
 

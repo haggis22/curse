@@ -10,7 +10,7 @@
 
                 console.log('I am attempting to log in');
                 
-                userService.login.submit({ username: $scope.username, password: $scope.password },
+                userService.login.submit({}, { username: $scope.username, password: $scope.password },
 
                     function(response) {
 
