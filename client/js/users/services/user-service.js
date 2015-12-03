@@ -38,12 +38,17 @@
 
                 isLoggedIn: function()
                 {
-                    return this.currentSession !== null;
+                    return this.currentSession != null;
                 },
 
-                isReady: function()
+                hasPreviousSession: function()
                 {
-                    return this.previousSession === null;
+                    return this.previousSession != null;
+                },
+
+                isDefinitelyNotLoggedIn: function()
+                {
+                    return !(this.isLoggedIn() || this.hasPreviousSession());
                 },
 
                 login: $resource('/api/users/login', {}, {

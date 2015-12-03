@@ -6,19 +6,12 @@
 
 		function($scope, $rootScope, $state, errorService, userService, Session, constants, $cookies) {
 
+
             $scope.userService = userService;
-
-            console.log('userService.isReady() = ' + userService.isReady());
-
-            if (userService.isReady())
-            {
-                console.log('Sending to login');
-                $state.go('login');
-            }
 
             $scope.checkSession = function () {
 
-                if (userService.isReady()) {
+                if (!userService.hasPreviousSession()) {
 
                     // either there was no previous token, or it has already been resolved.  Nothing to do here.
                     return;
