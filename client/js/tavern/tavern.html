@@ -2,7 +2,10 @@
 
     <div class="title-bar">
         <div class="game-title">The Anchor Tavern</div>
-        <div class="current-user" ng-click="logout()">{{ userService.currentSession.username }}</div>
+        <div class="div-current-user" ng-show="userService.currentSession">
+            Logged In:
+            <span class="current-user" ng-click="logout()">{{ userService.currentSession.username }}</span>
+        </div>
         <div style="clear: both;"></div>
     </div>
 

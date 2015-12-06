@@ -23,11 +23,21 @@ input, select, button
     font-size: 20px;
 }
 
-.current-user
+.div-current-user
 {
     float: right;
     margin-right: 30px;
     font-size: 16px;
+}    
+
+.current-user
+{
+}
+
+.current-user:hover
+{
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .game-view
