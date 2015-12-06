@@ -1,7 +1,7 @@
 <div ng-show="error.display" class="popup error-popup">
     <div ng-click="close()" class="popup-close">[ X ]</div>
     <div class="error">{{ error.header }}</div>
-    <div style="font-size: 0.9em; margin-top: 10px;">
+    <div style="font-size: 0.9em; margin-top: 10px; display: none;">
         <div ng-show="error.httpStatusCode"><span style="display: inline-block; width: 100px; font-weight: bold;">HTTP Code:</span>{{ error.httpStatusCode }}</div>
         <div ng-show="error.responseCode"><span style="display: inline-block; width: 100px; font-weight: bold;">Error Code:</span>{{ error.responseCode }} <span ng-show="error.errorCodeText">({{ error.errorCodeText }})</span></div>
     </div>
