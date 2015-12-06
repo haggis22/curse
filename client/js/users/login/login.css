@@ -1,0 +1,35 @@
+div.login
+{
+    width: 400px;
+    margin: auto;
+    padding: 15px;
+    border: 2px solid #000;
+    background-color: goldenrod;
+}
+
+.login-row
+{
+    margin: 5px;
+}
+
+.login-label
+{
+    display: inline-block;
+    width: 100px;
+}
+
+.login-input
+{
+    display: inline-block;
+    width: 200px;
+}
+
+.login-input input
+{
+    width: 150px;
+}
+
+.login-button
+{
+    text-align: center;
+}

@@ -439,7 +439,7 @@ fieldset > legend
     padding: 4px;
 }
 
-fieldset.character
+fieldset.tavern
 {
     background-color: burlywood;
 }
@@ -461,5 +461,12 @@ table.datatable > thead > tr > th
 }
 
 
-
+.danny-align
+{
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
 

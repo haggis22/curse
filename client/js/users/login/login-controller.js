@@ -26,6 +26,8 @@
 
             };
 
+            $scope.loginReady = true;
+
         }  // outer function
 
 	]);			
