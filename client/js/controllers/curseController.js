@@ -53,12 +53,21 @@
 
             $scope.$on(constants.events.SESSION_CHANGE, function (event, args) {
 
-                if (args.session)
+                // if the session is empty then send them to the login screen
+                if (!args.session)
+                {
+                    return $state.go('login');
+                }
+
+                // they are on the login screen and have just logged in, then send them to the tavern
+                if ($state.is('login') && (args.session))
                 {
                     return $state.go('tavern');
                 }
 
-                $state.go('login');
+                // otherwise they have auto-logged in, so just leave them where they are
+                return;
+
 
             });
 		
