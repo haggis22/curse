@@ -2,7 +2,7 @@
 
     <div ng-show="playerService.getPlayers().length == 0">You have no saved characters.</div>
     <div ng-show="playerService.getPlayers().length > 0">
-        <fieldset class="character" style="margin-top: 15px; width: 300px; padding: 15px 10px;">
+        <fieldset class="tavern character" style="margin-top: 15px; width: 300px; padding: 15px 10px;">
             <legend>Characters</legend>
 
             <table class="datatable" style="width: 100%;">
@@ -11,7 +11,6 @@
                         <th align="left">Name</th>
                         <th align="left">Species</th>
                         <th>Sex</th>
-                        <th>User</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -22,7 +21,6 @@
                         </td>
                         <td>{{ character.species }}</td>
                         <td align="center">{{ Sex.getSexAbbr(character.sex) }}</td>
-                        <td align="center">{{ character.userID }}</td>
                     </tr>
                 </tbody>
             </table>
