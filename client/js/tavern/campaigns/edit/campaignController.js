@@ -45,7 +45,7 @@
                     function(response) {
                         
                         console.log(response.message);
-                        $state.go('campaigns', {}, { reload: true });
+                        $state.go('tavern.campaigns', {}, { reload: true });
 
                     },
                     function(error) {
@@ -64,7 +64,7 @@
                     function(response) {
                         
                         console.log(response.message);
-                        $state.go('campaigns', {}, { reload: true });
+                        $state.go('tavern.campaigns', {}, { reload: true });
 
                     },
                     function(error) {

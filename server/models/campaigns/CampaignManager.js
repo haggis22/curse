@@ -17,11 +17,11 @@ var CampaignManager = function () {
 
 };
 
-CampaignManager.fetchAll = function (callback) {
+CampaignManager.fetchAll = function (user, callback) {
 
     var collection = db.get('campaigns');
 
-    collection.find({}, {}, function (err, result) {
+    collection.find({ userID: user._id }, {}, function (err, result) {
 
         if (err) {
             logger.error('Could not load campaigns from database: ' + err);
@@ -39,7 +39,7 @@ CampaignManager.fetchAll = function (callback) {
 
 };
 
-CampaignManager.fetchByID = function (id, callback) {
+CampaignManager.fetchByID = function (user, id, callback) {
 
     var collection = db.get('campaigns');
 
@@ -51,17 +51,38 @@ CampaignManager.fetchByID = function (id, callback) {
         }
 
         if (result.length == 0) {
-            logger.error('Could not find record with id ' + id);
-            return callback('Unknown ID ' + id, null);
+
+            // no error, but no campaign, either
+            logger.warn('Could not find record with id ' + id);
+            return callback(null, null);
         }
 
-        return callback(null, new Campaign(result[0]));
+        var campaign = new Campaign(result[0]);
+
+        debugger;
+
+        if (!campaign.userID.equals(user._id)) {
+            logger.error('Tried to access campaign ' + campaign._id + ' with the wrong user ' + user._id);
+            return callback({ error: 'Not the owner' }, null);
+        }
+
+        return callback(null, campaign);
     });
 
 };
 
 
-CampaignManager.create = function (campaign, callback) {
+CampaignManager.create = function (user, campaign, callback) {
+
+    campaign = new Campaign(campaign);
+
+    // create a new ID for the campaign
+    campaign._id = '123456789012';
+
+    // set the owner
+    campaign.userID = user._id;
+
+    campaign.updated = new Date();
 
     var collection = db.get('campaigns');
 
@@ -75,14 +96,18 @@ CampaignManager.create = function (campaign, callback) {
 
         console.info('campaign saved successfully');
 
-        return callback(null, 'Campaign ' + campaign._id + ' saved successfully');
+        var campaign = new Campaign(doc);
+
+        return callback(null, campaign);
 
     });
 
 
 };
 
-CampaignManager.update = function (campaign, callback) {
+CampaignManager.update = function (user, campaign, callback) {
+
+    campaign.updated = new Date();
 
     var collection = db.get('campaigns');
 

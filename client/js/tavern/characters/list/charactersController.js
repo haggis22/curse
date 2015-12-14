@@ -14,7 +14,6 @@
                 
                 characterService.characters.query({ id: null },
 
-
                     function(response) {
 
                         response.forEach(function(character) {

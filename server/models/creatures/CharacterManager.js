@@ -23,6 +23,33 @@ var CharacterManager = function () {
 
 };
 
+
+CharacterManager.fetchByID = function (user, id, callback) {
+
+    var collection = db.get('characters');
+
+    debugger;
+
+    collection.find({ _id: id, userID: user._id }, function (err, result) {
+
+        if (err) {
+            logger.error('Could not load character from database: ' + err);
+            return callback(err, null);
+        }
+
+        if (result.length == 0) {
+            logger.error('Could not find record with id ' + id + '. Possibly the wrong user?');
+            return callback({ error: 'Unknown character' }, null);
+        }
+
+        var character = new Creature(result[0]);
+
+        return callback(null, character);
+    });
+
+};     // fetchByID
+
+
 CharacterManager.fetchByUser = function (user, callback) {
 
     var collection = db.get('characters');
@@ -51,53 +78,11 @@ CharacterManager.fetchByUser = function (user, callback) {
         return callback(null, myCharacters);
     });
 
-};
+};   // fetchByUser
 
 
-CharacterManager.fetchByID = function (id, callback) {
-
-    var collection = db.get('characters');
-
-    collection.find({ _id: id }, function (err, result) {
-
-        if (err) {
-            logger.error('Could not load character from database: ' + err);
-            return callback(err, null);
-        }
-
-        if (result.length == 0) {
-            logger.error('Could not find record with id ' + id);
-            // return callback(new Error('Unknown ID ' + id), null);
-            // no error, but no character, either
-            return callback(null, null);
-        }
-
-        return callback(null, new Creature(result[0]));
-    });
-
-};
-
-CharacterManager.reroll = function (characterID, callback) {
-
-    var myCallback = function (err, character) {
-
-        if (err) {
-            logger.error('Could not load character for re-roll: ' + err);
-            return callback(err, null);
-        }
-
-        CharacterManager.rollCharacter(character);
-        return CharacterManager.update(character, callback);
-
-    };
-
-    CharacterManager.fetchByID(characterID, myCallback);
-
-};
-
-
-function setStat(value) {
-
+function setStat(value) 
+{
     return { value: value, max: value, adjust: 0 };
 
 };
@@ -142,10 +127,10 @@ CharacterManager.rollCharacter = function (character) {
 };
 
 
+
 CharacterManager.create = function (user, character, callback) {
 
     var newCharacter = new Creature(character);
-    debugger;
     newCharacter.userID = user._id;
 
     CharacterManager.rollCharacter(newCharacter);
@@ -164,19 +149,113 @@ CharacterManager.create = function (user, character, callback) {
 
         console.info('character saved successfully with id ' + doc._id);
 
-        return CharacterManager.fetchByID(doc._id, callback);
+        return CharacterManager.fetchByID(user, doc._id, callback);
 
     });
-
 
 };
 
 
-CharacterManager.update = function (character, callback) {
+CharacterManager.reroll = function (user, characterID, callback) {
+
+    var myCallback = function (err, character) {
+
+        if (err) {
+            logger.error('Could not load character for re-roll: ' + err);
+            return callback(err, null);
+        }
+
+        CharacterManager.rollCharacter(character);
+        // return CharacterManager.update(character, callback);
+
+    };
+
+    CharacterManager.fetchByID(user, characterID, myCallback);
+
+};
+
+
+CharacterManager.saveStats = function (user, character, callback) {
 
     // first, validate that the character's stat adjustments are legal
     // We need to pull the existing character
-    CharacterManager.fetchByID(character._id, function (err, oldCharacter) {
+    CharacterManager.fetchByID(user, character._id, function (err, oldCharacter) {
+
+        if (err) {
+            // it failed - return an error
+            logger.error('Could not verify character update: ' + err);
+            return callback(err, null);
+        }
+
+        // add up the number of points
+        var totalUpdates = 0;
+        for (var prop in character.stats) {
+
+            // only count upwards adjustments - we don't want anyone lowering a stat so that they
+            // can raise another
+            if ((character.stats.hasOwnProperty(prop)) && (character.stats[prop].adjust > 0)) {
+                totalUpdates += character.stats[prop].adjust;
+            }
+        }
+
+        if (totalUpdates > 0) {
+
+            if (totalUpdates > oldCharacter.bonus.stats) {
+                logger.error('Character ' + character._id + ' tried to add ' + totalUpdates + ' worth of stats, but only has ' + oldCharacter.bonus.stats + ' available!');
+                return callback(new Error('Allocated more stat points than are available'), null);
+            }
+
+            // passed validation, add the points to the stats and maxstats, and remove them from the bonus
+            for (var prop in character.stats) {
+                if ((character.stats.hasOwnProperty(prop)) && (oldCharacter.stats.hasOwnProperty(prop))) {
+                    character.stats[prop].value = oldCharacter.stats[prop].value + character.stats[prop].adjust;
+                    character.stats[prop].max = oldCharacter.stats[prop].value + character.stats[prop].adjust;
+
+                    // clear out the adjustment
+                    character.stats[prop].adjust = 0;
+                }
+            }
+
+            character.bonus.stats = oldCharacter.bonus.stats - totalUpdates;
+
+            CharacterManager.update(character._id, { "bonus.stats": character.bonus.stats, "stats": character.stats }, function(err, result) {
+
+                if (err)
+                {
+                    logger.err('Could not save stats: ' + err);
+                    return callback(err, null);
+                }
+
+                if (result)
+                {
+                    return callback(null, character);
+                }
+
+                return callback(new Error('Save stats failed'), null);
+
+            });
+
+
+        }
+        else {
+
+            // there wasn't really anything to do, so we're going to report success
+            return callback(null, character);
+
+        }
+
+
+
+    });  // oldCharacter.fetch callback
+
+
+};
+
+CharacterManager.updateOld = function (user, character, callback) {
+
+    // first, validate that the character's stat adjustments are legal
+    // We need to pull the existing character
+    CharacterManager.fetchByID(user, character._id, function (err, oldCharacter) {
 
         if (err) {
             // it failed - return an error
@@ -228,7 +307,7 @@ CharacterManager.update = function (character, callback) {
                 if (!oldCharacter.skills.hasOwnProperty(prop)) {
                     // it's a new skill, so count its level as well as adjustments
                     totalSkillUpdates += character.skills[prop].value;
-                 }
+                }
 
                 // only count upwards adjustments - we don't want anyone lowering a stat so that they can raise another
                 totalSkillUpdates += Math.max(0, character.skills[prop].adjust);
@@ -288,22 +367,6 @@ CharacterManager.update = function (character, callback) {
             }
 
 
-            // Passed all validation, now save the character!
-            character.updated = new Date();
-
-            var collection = db.get('characters');
-
-            collection.update({ _id: character._id }, character, function (err, doc) {
-
-                if (err) {
-                    // it failed - return an error
-                    logger.error('Could not update character: ' + err);
-                    return callback(err, null);
-                }
-
-                return callback(null, character);
-
-            });   // collection.update callback
 
         });  // SkillManager.fetchAll callback
 
@@ -313,26 +376,29 @@ CharacterManager.update = function (character, callback) {
 };
 
 
-CharacterManager.savePack = function (character, callback) {
+CharacterManager.update = function (characterID, newValues, callback) {
 
-    // now save the character
-    character.updated = new Date();
+    newValues.updated = new Date();
 
     var collection = db.get('characters');
 
-    collection.update({ _id: character._id }, { $set: { 'pack': character.pack } }, function (err, doc) {
+    collection.update({ _id: characterID }, { $set: newValues }, function (err, doc) {
 
         if (err) {
             // it failed - return an error
             logger.error('Could not update character: ' + err);
-            return callback(err, null);
+            return callback(err, false);
         }
 
-        return callback(null, character);
+        // It worked!
+        return callback(null, true);
 
     });   // collection.update callback
 
-};
+
+
+}
+
 
 
 

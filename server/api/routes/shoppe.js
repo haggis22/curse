@@ -34,14 +34,10 @@ router.post('/:characterID/:itemID', function (req, res) {
     console.log('character: ' + characterID);
     console.log('item id: ' + itemID);
 
-    CharacterManager.fetchByID(characterID, function (err, character) {
+    CharacterManager.fetchByID(req.user, characterID, function (err, character) {
 
         if (err) {
             return res.status(500).send(err).end();
-        }
-
-        if (character == null) {
-            return res.status(400).send({ error: "Could not find character" }).end();
         }
 
         // now fetch the item
@@ -68,7 +64,7 @@ router.post('/:characterID/:itemID', function (req, res) {
                 var addResult = character.addItem(item);
                 if (addResult.success) {
 
-                    CharacterManager.savePack(character, function (err, newChar) {
+                    CharacterManager.update(character, function (err, newChar) {
 
                         if (err) {
                             return res.status(500).send(err).end();
@@ -77,7 +73,7 @@ router.post('/:characterID/:itemID', function (req, res) {
                         // we added the item!
                         return res.status(200).json({ success: true, character: character, item: item, message: character.getName(true) + ' bought ' + item.getName(true) });
 
-                    });
+                    });   // CharacterManager.update callback
 
                 }
                 else {

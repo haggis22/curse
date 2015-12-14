@@ -96,6 +96,11 @@
     <Content Include="client\common\partials\ajax-loader.html" />
     <Content Include="client\common\partials\error-message.html" />
     <Content Include="client\js\controllers\curseController.js" />
+    <Content Include="client\js\tavern\characters\edit\skills.html" />
+    <Content Include="client\js\tavern\characters\edit\skillsController.js" />
+    <Content Include="client\js\tavern\characters\edit\edit.html" />
+    <Content Include="client\js\tavern\characters\edit\editController.js" />
+    <Content Include="client\js\users\login\login.css" />
     <Content Include="js\Constants.js" />
     <Content Include="client\js\factories\creatures\Stat.js" />
     <Content Include="client\js\filters\coins.js" />
@@ -120,8 +125,8 @@
     <Content Include="client\js\tavern\characters\single\single.html" />
     <Content Include="client\js\tavern\characters\shoppe\shoppe.html" />
     <Content Include="client\js\tavern\characters\shoppe\shoppeController.js" />
-    <Content Include="client\js\tavern\characters\edit\edit.html" />
-    <Content Include="client\js\tavern\characters\edit\editController.js" />
+    <Content Include="client\js\tavern\characters\create\create.html" />
+    <Content Include="client\js\tavern\characters\create\createController.js" />
     <Content Include="client\js\tavern\tavernController.js" />
     <Content Include="client\js\controllers\dungeonController.js" />
     <Content Include="client\js\controllers\monsterController.js" />

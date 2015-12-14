@@ -1,0 +1,39 @@
+<div ng-controller="tavern.createController">
+
+    <form name="characterForm" novalidate>
+
+        <div style="float: left;">
+
+            <fieldset class="tavern character">
+                <legend>Create</legend>
+                <div class="bio">
+                    <div class="label">Name:</div>
+                    <div class="value">
+                        <input type="text" name="name" ng-model="characterService.current.name" required ng-class="{ 'field-error': submitted && characterForm.name.$invalid }" />
+                    </div>
+                </div>
+                <div class="bio">
+                    <div class="label">Species:</div>
+                    <div class="value">
+                        <select name="species" ng-model="characterService.current.species" ng-options="species | capFirst for species in availableSpecies" required ng-class="{ 'field-error': submitted && characterForm.species.$invalid }"></select>
+                    </div>
+                </div>
+                <div class="bio">
+                    <div class="label">Sex:</div>
+                    <div class="value" ng-class="{ 'field-error': submitted && characterForm.sex.$invalid }" style="padding: 2px;">
+                        <label><input type="radio" name="sex" ng-model="characterService.current.sex" ng-value="Sex.FEMALE" required /> {{ Sex.getSex(Sex.FEMALE) }}</label>
+                        <label><input type="radio" name="sex" ng-model="characterService.current.sex" ng-value="Sex.MALE" required /> {{ Sex.getSex(Sex.MALE) }}</label>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 10px;">
+                    <button type="button" ui-sref="tavern.characters.list">Cancel</button>
+                    <button type="button" ng-click="createCharacter(characterForm.$valid)">Save</button>
+                </div>
+            </fieldset>
+
+        </div>
+
+
+    </form>
+
+</div>

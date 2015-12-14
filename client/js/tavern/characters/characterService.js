@@ -9,13 +9,16 @@
             return {
             
                 characters: $resource('/api/characters/:id', {}, {
-                    create: { method: 'POST' },
-                    update: { method: 'PUT' }
+                    create: { method: 'POST' }
                 }),
 
-                rollup: $resource('/api/characters/rollup/:id', { id: '@id' }, {
+                stats: $resource('/api/characters/:id/stats'),
+
+                rollup: $resource('/api/characters/rollup/:id', {}, {
                     reroll: { method: 'POST' }
-                })
+                }),
+
+                current: null
             
             };
 

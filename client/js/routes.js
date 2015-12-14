@@ -63,9 +63,17 @@
                     }
                 ]
             })
+            .state('tavern.characters.single.create', {
+                url: "/create",
+                templateUrl: "js/tavern/characters/create/create.html?v=" + (new Date()).getTime()
+            })
             .state('tavern.characters.single.edit', {
                 url: "/edit",
                 templateUrl: "js/tavern/characters/edit/edit.html?v=" + (new Date()).getTime()
+            })
+            .state('tavern.characters.single.skills', {
+                url: "/edit",
+                templateUrl: "js/tavern/characters/edit/skills.html?v=" + (new Date()).getTime()
             })
             .state('tavern.characters.single.gear', {
                 url: "/gear",

@@ -14,15 +14,22 @@
         
     </style>
 
-    <div class="header-name">{{ character.name }}</div>
-    <div class="header-species" style="margin-top: 5px;">{{ Sex.getSex(character.sex) }} {{ character.species }}</div>
+    <div ng-hide="isNewCharacter()">
+        
+        <div>
+            <div class="header-name">{{ characterService.current.name }}</div>
+            <div class="header-species" style="margin-top: 5px;">{{ Sex.getSex(characterService.current.sex) }} {{ characterService.current.species }}</div>
+            <div style="margin-top: 10px;"><button type="button" ui-sref="tavern.characters.list">Done</button></div>
+        </div>
 
-    <div class="m-tabs" style="margin-top: 15px;">
-        <a ui-sref-active="active" ui-sref="tavern.characters.single.edit">Edit</a>
-        <a ui-sref-active="active" ui-sref="tavern.characters.single.gear">Equipment</a>
-        <a ui-sref-active="active" ui-sref="tavern.characters.single.shoppe">Shoppe</a>
+        <div class="m-tabs" style="margin-top: 15px;">
+            <a ui-sref-active="active" ui-sref="tavern.characters.single.edit">Stats</a>
+            <a ui-sref-active="active" ui-sref="tavern.characters.single.skills">Skills</a>
+            <a ui-sref-active="active" ui-sref="tavern.characters.single.gear">Equipment</a>
+            <a ui-sref-active="active" ui-sref="tavern.characters.single.shoppe">Shoppe</a>
+        </div>
     </div>
 
-    <div ui-view style="padding-left: 20px;"></div>
+    <div ui-view></div>
 
 </div>

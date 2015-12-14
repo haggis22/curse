@@ -471,12 +471,7 @@ table.datatable > thead > tr > th
 }
 
 
-.danny-align
+.stat-adjuster
 {
-    position: relative;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+    cursor: pointer;
 }
-

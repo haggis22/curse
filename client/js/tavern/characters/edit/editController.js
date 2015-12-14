@@ -3,123 +3,31 @@
 (function(app) {
 
 
-	app.controller('tavern.editController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'playerService', 'skillService', 'Creature', 'Sex',
-		function($scope, $rootScope, $state, $timeout, errorService, characterService, playerService, skillService, Creature, Sex) {
+	app.controller('tavern.editController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'skillService', 'Creature', 'Sex', 'Stat',
+		function($scope, $rootScope, $state, $timeout, errorService, characterService, skillService, Creature, Sex, Stat) {
 			
             $scope.Creature = Creature;
-            $scope.Sex = Sex;
-            $scope.playerService = playerService;
+            $scope.Stat = Stat;
 
-            // calls the method in tavern.singleController
-            $scope.pullCharacter($scope.characterID);
+            $scope.saveStats = function() {
 
-            $scope.availableSpecies = [ 'dwarf', 'elf', 'hobbit', 'human' ];
-
-            $scope.statArray = [
-                { prop: 'str', name: 'Strength' },
-                { prop: 'dex', name: 'Dexterity' },
-                { prop: 'int', name: 'Intelligence' },
-                { prop: 'pie', name: 'Piety' }
-            ];
-
-            $scope.availableSkills = [];
-
-            $scope.pullSkills = function() {
-
-                $scope.availableSkills.length = 0;
-
-                skillService.query({}, 
-                    
-                    function(response) {
-
-                        $scope.availableSkills = response;
-
-                    },
-                    function(error) {
-
-                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not fetch skills", error) });
-
-                    });
-
-            };
-
-            $scope.pullSkills();
-
-
-            $scope.isNewCharacter = function() {
-
-                return $scope.character == null || $scope.character._id == null;
-
-            };
-
-            $scope.gotoTab = function(tabName) 
-            {
-                $scope.showTab = tabName;
-            };
-
-            $scope.gotoTab('stats');
-
-            $scope.createCharacter = function() {
-
-                characterService.characters.create({}, $scope.character,
+                characterService.stats.save({ id: characterService.current._id }, characterService.current,
 
                     function(response) {
                         
-                        // basically reload the page, using the newly-created ID as part of the URL
-                        $state.go('tavern.characters.single.edit', { characterID: response._id }, { reload: true });
+                        // $state.go('tavern.characters', {}, { reload: true });
+                        console.log('saveStats succeeded');
 
                     },
                     function(error) {
 
                         console.log(error);
-                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not create character", error) });
+                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not save stats", error) });
 
                     });
 
             };
 
-            $scope.updateCharacter = function() {
-
-                var request =
-                {
-                    character: $scope.character
-                };
-
-                characterService.characters.update({ id: $scope.characterID }, request,
-
-                    function(response) {
-                        
-                        $state.go('tavern.characters', {}, { reload: true });
-
-                    },
-                    function(error) {
-
-                        console.log(error);
-                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not update character", error) });
-
-                    });
-
-            };
-
-            $scope.saveCharacter = function(isValid) {
-
-                $scope.submitted = true;
-            
-                if (!isValid)
-                {
-                    return;
-                }
-
-                if ($scope.isNewCharacter())
-                {
-                    $scope.createCharacter();
-                }
-                else
-                {
-                    $scope.updateCharacter();
-                }
-
-            }
 
             $scope.rerollCharacter = function() {
 
@@ -128,12 +36,12 @@
                     return;
                 }
 
-                characterService.rollup.reroll({ id: $scope.characterID }, 
+                characterService.rollup.reroll({ id: characterService.current._id }, 
 
-                    function(response) {
+                    function(character) {
                         
                         // show the updated character stats
-                        $scope.character = response;
+                        characterService.current = character;
 
                         // show the success message for a bit
                         $scope.showUpdated = true;
@@ -151,159 +59,24 @@
 
             $scope.getStatValue = function(mapName, key)
             {
-                if ($scope.character == null || !$scope.character.hasOwnProperty(mapName) || !$scope.character[mapName].hasOwnProperty(key))
+                if (characterService.current == null || !characterService.current.hasOwnProperty(mapName) || !characterService.current[mapName].hasOwnProperty(key))
                 {
                     return 0;
                 }
 
-                return $scope.character[mapName][key].value + $scope.character[mapName][key].adjust;
+                return characterService.current[mapName][key].value + characterService.current[mapName][key].adjust;
             };
 
             $scope.raiseStat = function(stat)
             {
-                $scope.character.stats[stat].adjust++;
-                $scope.character.bonus.stats--;
+                characterService.current.stats[stat].adjust++;
+                characterService.current.bonus.stats--;
             };
 
             $scope.lowerStat = function(stat)
             {
-                $scope.character.stats[stat].adjust--;
-                $scope.character.bonus.stats++;
-            };
-
-            $scope.hasAnySkills = function()
-            {
-                if ($scope.character == null)
-                {
-                    return false;
-                }
-
-                for (var prop in $scope.character.skills)
-                {
-                    if ($scope.character.skills.hasOwnProperty(prop))
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            };
-
-            $scope.showPotentialSkill = function(skill)
-            {
-                if (($scope.character == null) || (skill == null))
-                {
-                    return false;
-                }
-
-                if (Creature.prototype.hasSkill($scope.character, skill.name))
-                {
-                    return false;
-                }
-
-                // if the skill doesn't have any reqs at all, or only stats pre-reqs, then always show it
-                if ((!skill.prereqs) || (!skill.prereqs.skills))
-                {
-                    return true;
-                }
-
-                for (var prop in skill.prereqs.skills)
-                {
-                    if (skill.prereqs.skills.hasOwnProperty(prop))
-                    {
-                        // if they don't even have level 1 in the skill, then don't show the sub-skill
-                        if ($scope.getStatValue('skills', prop) == 0)
-                        {
-                            return false;
-                        }
-                    }
-                }
-
-                return true;
-            };
-
-
-            $scope.hasPreReqs = function(reqs, mapName)
-            {
-                for (var prop in reqs)
-                {
-                    if (reqs.hasOwnProperty(prop))
-                    {
-                        // getStatValue will return 0 if the character does not have that stat at all
-                        if ($scope.getStatValue(mapName, prop) < parseInt(reqs[prop], 10))
-                        {
-                            return false;
-                        }
-
-                    }
-                    
-                }  // for each pre-req
-
-                return true;
-            }
-
-
-            // if the character is short of the necessary value in any of
-            // the skill minimums, then he can't acquire this skill yet
-            $scope.skillEligible = function(skill) 
-            {
-                if (($scope.character == null) || (skill == null))
-                {
-                    return false;
-                }
-
-                if (!skill.prereqs)
-                {
-                    return true;
-                }
-
-                return $scope.hasPreReqs(skill.prereqs.stats, 'stats') && $scope.hasPreReqs(skill.prereqs.skills, 'skills');
-
-            };
-
-            $scope.addSkill = function(skill) {
-
-                $scope.skillError = null;
-
-                if (!$scope.skillEligible(skill))
-                {
-                    $scope.skillError = "You are not eligible for the " + skill.name + " skill.";
-                    return;
-                }
-
-                if ($scope.character.bonus.skills < 1)
-                {
-                    $scope.skillError = "You have no skill points to allocate.";
-                    return;
-                }
-
-                var mySkill = 
-                {
-                    name: skill.name,
-                    value: 1,
-                    max: 1,
-                    adjust: 0
-                };
-
-                // take a point from his skills allocation
-                $scope.character.bonus.skills--;
-
-                $scope.character.skills[skill.name] = mySkill;
-
-
-            };
-
-
-            $scope.raiseSkill = function(skillName)
-            {
-                $scope.character.skills[skillName].adjust++;
-                $scope.character.bonus.skills--;
-            };
-
-            $scope.lowerSkill = function(skillName)
-            {
-                $scope.character.skills[skillName].adjust--;
-                $scope.character.bonus.skills++;
+                characterService.current.stats[stat].adjust--;
+                characterService.current.bonus.stats++;
             };
 
         }

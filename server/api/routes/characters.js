@@ -12,20 +12,18 @@ var Owl = require(__dirname + '/../../../client/js/test/owl.js');
 
 router.post('/rollup/:characterID', function (req, res) {
 
-    var characterID = req.params.characterID;
-
-    var callback = function (err, character) {
+    CharacterManager.reroll(req.user, req.params.characterID, function (err, character) {
 
         if (err) {
-            return res.status(500).json({ error: err }).end();
+
+            logger.error('Could not re-roll character', err);
+            return res.status(500).json({ error: 'Could not re-roll character' }).end();
         }
         else {
             return res.json(character);
         }
 
-    }
-
-    CharacterManager.reroll(characterID, callback);
+    });
 
 });
 
@@ -63,10 +61,12 @@ router.get('/:characterID', function (req, res) {
 
     };
 
-    CharacterManager.fetchByID(characterID, callback);
+    CharacterManager.fetchByID(req.user, characterID, callback);
 
 });
 
+
+// Creates a brand-new character
 router.post('/', function (req, res) {
 
     var character = req.body;
@@ -87,16 +87,17 @@ router.post('/', function (req, res) {
 });
 
 
-router.put('/:characterID', function (req, res) {
+// validates and saves the stat changes requested by the client
+router.post('/:characterID/stats', function (req, res) {
 
     var characterID = req.params.characterID;
-    var request = req.body;
-    var character = request.character;
+    var character = req.body;
 
     var callback = function (err, character) {
 
         if (err) {
-            return res.status(500).json({ error: err.message }).end();
+            logger.error('Could not save stats', err);
+            return res.status(500).json({ error: 'System error' }).end();
         }
         else {
             return res.json({ character: character });
@@ -104,7 +105,7 @@ router.put('/:characterID', function (req, res) {
 
     }
 
-    CharacterManager.update(character, callback);
+    CharacterManager.saveStats(req.user, character, callback);
 
 });
 

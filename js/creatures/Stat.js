@@ -17,7 +17,12 @@
             }
         };
 
-        Stat.stats = ['str', 'dex', 'int', 'pie'];
+        Stat.stats = [
+            { prop: 'str', name: 'Strength' },
+            { prop: 'dex', name: 'Dexterity' },
+            { prop: 'int', name: 'Intelligence' },
+            { prop: 'pie', name: 'Piety' }
+        ];
 
         Stat.statsOrDefault = function (otherStats) {
 
@@ -25,7 +30,7 @@
 
             Stat.stats.forEach(function (stat) {
 
-                myStats[stat] = otherStats == null ? new Stat(null) : new Stat(otherStats[stat]);
+                myStats[stat.prop] = (otherStats == null ? new Stat(null) : new Stat(otherStats[stat.prop]));
 
             });
 

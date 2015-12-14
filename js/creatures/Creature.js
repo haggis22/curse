@@ -48,6 +48,8 @@
 
             this.userID = creature.userID;
 
+            this.campaignID = creature.campaignID;
+            this.locationID = creature.locationID;
 
         };
 

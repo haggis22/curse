@@ -9,15 +9,12 @@
 
             this._id = campaign._id;
             this.name = campaign.name;
-            this.state = campaign.state;
+
             this.updated = campaign.updated;
+            this.userID = campaign.userID;
+            this.characters = campaign.characters || [];
+            this.locationID = campaign.locationID;
 
-        };
-
-        Campaign.prototype.State =
-        {
-            TAVERN: 1,
-            ADVENTURE: 2
         };
 
         return Campaign;
