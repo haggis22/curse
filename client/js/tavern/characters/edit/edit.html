@@ -23,7 +23,7 @@
 
             <div ng-repeat="stat in Stat.stats" class="stat">
                 <div class="label">{{ stat.name }}:</div>
-                <div class="value">{{ getStatValue('stats', stat.prop) }}</div>
+                <div class="value">{{ characterService.current.getStatValue('stats', stat.prop) }}</div>
                 <img ng-show="characterService.current.bonus.stats > 0" src="/images/up-arrow.png" ng-click="raiseStat(stat.prop)" class="stat-adjuster" /> 
                 <img ng-hide="characterService.current.bonus.stats > 0" src="/images/up-arrow-disabled.png" /> 
 

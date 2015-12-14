@@ -3,24 +3,10 @@
 (function(app) {
 
 
-	app.controller('tavern.skillsController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'playerService', 'skillService', 'Creature', 'Sex',
-		function($scope, $rootScope, $state, $timeout, errorService, characterService, playerService, skillService, Creature, Sex) {
+	app.controller('tavern.skillsController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'skillService', 'Creature', 
+		function($scope, $rootScope, $state, $timeout, errorService, characterService, skillService, Creature) {
 			
             $scope.Creature = Creature;
-            $scope.Sex = Sex;
-            $scope.playerService = playerService;
-
-            // calls the method in tavern.singleController
-            $scope.pullCharacter($scope.characterID);
-
-            $scope.availableSpecies = [ 'dwarf', 'elf', 'hobbit', 'human' ];
-
-            $scope.statArray = [
-                { prop: 'str', name: 'Strength' },
-                { prop: 'dex', name: 'Dexterity' },
-                { prop: 'int', name: 'Intelligence' },
-                { prop: 'pie', name: 'Piety' }
-            ];
 
             $scope.availableSkills = [];
 
@@ -46,105 +32,15 @@
             $scope.pullSkills();
 
 
-
-            $scope.gotoTab = function(tabName) 
-            {
-                $scope.showTab = tabName;
-            };
-
-            $scope.gotoTab('stats');
-
-            $scope.createCharacter = function() {
-
-                characterService.characters.create({}, $scope.character,
-
-                    function(response) {
-                        
-                        // basically reload the page, using the newly-created ID as part of the URL
-                        $state.go('tavern.characters.single.edit', { characterID: response._id }, { reload: true });
-
-                    },
-                    function(error) {
-
-                        console.log(error);
-                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not create character", error) });
-
-                    });
-
-            };
-
-            $scope.updateCharacter = function() {
-
-                var request =
-                {
-                    character: $scope.character
-                };
-
-                characterService.characters.update({ id: $scope.characterID }, request,
-
-                    function(response) {
-                        
-                        $state.go('tavern.characters', {}, { reload: true });
-
-                    },
-                    function(error) {
-
-                        console.log(error);
-                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not update character", error) });
-
-                    });
-
-            };
-
-
-            $scope.getStatValue = function(mapName, key)
-            {
-                if ($scope.character == null || !$scope.character.hasOwnProperty(mapName) || !$scope.character[mapName].hasOwnProperty(key))
-                {
-                    return 0;
-                }
-
-                return $scope.character[mapName][key].value + $scope.character[mapName][key].adjust;
-            };
-
-            $scope.raiseStat = function(stat)
-            {
-                $scope.character.stats[stat].adjust++;
-                $scope.character.bonus.stats--;
-            };
-
-            $scope.lowerStat = function(stat)
-            {
-                $scope.character.stats[stat].adjust--;
-                $scope.character.bonus.stats++;
-            };
-
-            $scope.hasAnySkills = function()
-            {
-                if ($scope.character == null)
-                {
-                    return false;
-                }
-
-                for (var prop in $scope.character.skills)
-                {
-                    if ($scope.character.skills.hasOwnProperty(prop))
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            };
-
             $scope.showPotentialSkill = function(skill)
             {
-                if (($scope.character == null) || (skill == null))
+                if ((characterService.current == null) || (skill == null))
                 {
                     return false;
                 }
 
-                if (Creature.prototype.hasSkill($scope.character, skill.name))
+                // check to see whether the character already has the skill in question
+                if (characterService.current.getSkill(skill.name))
                 {
                     return false;
                 }
@@ -159,8 +55,8 @@
                 {
                     if (skill.prereqs.skills.hasOwnProperty(prop))
                     {
-                        // if they don't even have level 1 in the skill, then don't show the sub-skill
-                        if ($scope.getStatValue('skills', prop) == 0)
+                        // if they don't even have level 1 in the skill, then don't show this sub-skill
+                        if (characterService.current.getSkillLevel(prop) == 0)
                         {
                             return false;
                         }
@@ -171,6 +67,7 @@
             };
 
 
+            // this can check both stat and skill pre-requisites
             $scope.hasPreReqs = function(reqs, mapName)
             {
                 for (var prop in reqs)
@@ -178,7 +75,7 @@
                     if (reqs.hasOwnProperty(prop))
                     {
                         // getStatValue will return 0 if the character does not have that stat at all
-                        if ($scope.getStatValue(mapName, prop) < parseInt(reqs[prop], 10))
+                        if (characterService.current.getStatValue(mapName, prop) < parseInt(reqs[prop], 10))
                         {
                             return false;
                         }
@@ -195,7 +92,7 @@
             // the skill minimums, then he can't acquire this skill yet
             $scope.skillEligible = function(skill) 
             {
-                if (($scope.character == null) || (skill == null))
+                if ((characterService.current == null) || (skill == null))
                 {
                     return false;
                 }
@@ -219,7 +116,7 @@
                     return;
                 }
 
-                if ($scope.character.bonus.skills < 1)
+                if (characterService.current.bonus.skills < 1)
                 {
                     $scope.skillError = "You have no skill points to allocate.";
                     return;
@@ -234,9 +131,9 @@
                 };
 
                 // take a point from his skills allocation
-                $scope.character.bonus.skills--;
+                characterService.current.bonus.skills--;
 
-                $scope.character.skills[skill.name] = mySkill;
+                characterService.current.skills[skill.name] = mySkill;
 
 
             };
@@ -244,15 +141,41 @@
 
             $scope.raiseSkill = function(skillName)
             {
-                $scope.character.skills[skillName].adjust++;
-                $scope.character.bonus.skills--;
+                characterService.current.skills[skillName].adjust++;
+                characterService.current.bonus.skills--;
             };
 
             $scope.lowerSkill = function(skillName)
             {
-                $scope.character.skills[skillName].adjust--;
-                $scope.character.bonus.skills++;
+                characterService.current.skills[skillName].adjust--;
+                characterService.current.bonus.skills++;
             };
+
+
+            $scope.saveSkills = function() {
+
+                characterService.skills.save({ id: characterService.current._id }, characterService.current,
+
+                    function(response) {
+                        
+                        $scope.showUpdateSuccess();
+
+                    },
+                    function(error) {
+
+                        console.log(error);
+                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not save skills", error) });
+
+                    });
+
+            };
+
+            $scope.showUpdateSuccess = function() {
+                // show the success message for a bit
+                $scope.showUpdated = true;
+                $timeout(function() { $scope.showUpdated = false; }, 1500);
+            };
+
 
         }
 

@@ -3,8 +3,8 @@
 (function(app) {
 
 
-	app.controller('tavern.editController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'skillService', 'Creature', 'Sex', 'Stat',
-		function($scope, $rootScope, $state, $timeout, errorService, characterService, skillService, Creature, Sex, Stat) {
+	app.controller('tavern.editController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'Creature', 'Stat',
+		function($scope, $rootScope, $state, $timeout, errorService, characterService, Creature, Stat) {
 			
             $scope.Creature = Creature;
             $scope.Stat = Stat;
@@ -15,8 +15,7 @@
 
                     function(response) {
                         
-                        // $state.go('tavern.characters', {}, { reload: true });
-                        console.log('saveStats succeeded');
+                        $scope.showUpdateSuccess();
 
                     },
                     function(error) {
@@ -26,6 +25,12 @@
 
                     });
 
+            };
+
+            $scope.showUpdateSuccess = function() {
+                // show the success message for a bit
+                $scope.showUpdated = true;
+                $timeout(function() { $scope.showUpdated = false; }, 1500);
             };
 
 
@@ -42,10 +47,7 @@
                         
                         // show the updated character stats
                         characterService.current = character;
-
-                        // show the success message for a bit
-                        $scope.showUpdated = true;
-                        $timeout(function() { $scope.showUpdated = false; }, 2000);
+                        $scope.showUpdateSuccess();
 
                     },
                     function(error) {
@@ -55,16 +57,6 @@
 
                     });
             
-            };
-
-            $scope.getStatValue = function(mapName, key)
-            {
-                if (characterService.current == null || !characterService.current.hasOwnProperty(mapName) || !characterService.current[mapName].hasOwnProperty(key))
-                {
-                    return 0;
-                }
-
-                return characterService.current[mapName][key].value + characterService.current[mapName][key].adjust;
             };
 
             $scope.raiseStat = function(stat)

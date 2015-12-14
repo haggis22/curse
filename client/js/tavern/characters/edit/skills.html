@@ -1,171 +1,95 @@
 <div ng-controller="tavern.skillsController">
 
-    <style type="text/css"">
-
-        .stat-adjuster
-        {
-            cursor: pointer;
-        }
-
-        .skill-eligible
-        {
-            cursor: pointer;
-        }
+    <style type="text/css">
+    
+    fieldset.skills-editor
+    {
+        width: 300px;
+    }
+    
+    .skill-eligible
+    {
+        cursor: pointer;
+    }
         
-        .skill-ineligible
-        {
-            color: #999;
-        }
-        
+    .skill-ineligible
+    {
+        color: #999;
+    }    
+    
     </style>
 
-    <form name="characterForm" novalidate>
+    <fieldset ng-hide="isNewCharacter()" class="tavern character skills-editor">
+        <legend>Skills</legend>
 
-    <div class="header">Edit Character</div> 
+        <div class="stat" style="margin-top: 7px;">
+            <div class="label">Allocation:</div>
+            <div class="value">{{ characterService.current.bonus.skills }}</div>
+        </div>
+
+        <hr />
+
+        <div style="margin-top: 10px;">
+            <div ng-show="characterService.current.hasSkills()">
+                <table class="datatable">
+                    <thead>
+                        <tr>
+                            <th align="left">Skill</th>
+                            <th align="center">Level</th>
+                            <th align="center">Adjust</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="skill in characterService.current.skills">
+                            <td style="width: 120px;">{{ skill.name | capFirst }}</td>
+                            <td align="center" style="width: 50px;">{{ characterService.current.getStatValue('skills', skill.name) | number: 0 }}</td>
+                            <td align="center" style="width: 60px;">
+                                <img ng-show="characterService.current.bonus.skills > 0" src="/images/up-arrow.png" ng-click="raiseSkill(skill.name)" class="stat-adjuster" /> 
+                                <img ng-hide="characterService.current.bonus.skills > 0" src="/images/up-arrow-disabled.png" /> 
+                                <img ng-show="skill.adjust > 0" src="/images/down-arrow.png" ng-click="lowerSkill(skill.name)" class="stat-adjuster" /> 
+                                <img ng-hide="skill.adjust > 0" src="/images/down-arrow-disabled.png" /> 
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div ng-hide="characterService.current.hasSkills()">No skills selected</div>
+        </div>
+
+        <hr />
 
         <div style="margin-top: 10px;">
 
-            <div style="float: left;">
+            <table class="datatable" width="100%">
+                <thead>
+                    <tr>
+                        <th align="left">Skill</th>
+                        <th align="left">Prerequisites</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="skill in availableSkills" ng-if="showPotentialSkill(skill)" class="skill" 
+                            ng-class="{ 'skill-ineligible': !skillEligible(skill), 'skill-eligible': skillEligible(skill) }" 
+                            ng-click="addSkill(skill)">
+                        <td>{{ skill.name | capFirst }}</td>
+                        <td>
+                            <span ng-repeat="(key, value) in skill.prereqs.stats"><span ng-show="$index > 0">, </span>{{ key }}: {{ value|number:0 }}</span>
+                            <span ng-repeat="(key, value) in skill.prereqs.skills"><span ng-show="$index > 0">, </span>{{ key }}: {{ value|number:0 }}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-                <fieldset class="tavern character">
-                    <legend>Basics</legend>
-                    <div class="bio" ng-show="false">
-                        <div class="label">ID:</div>
-                        <div class="value">{{ character._id }}</div>
-                    </div>
-                    <div class="bio">
-                        <div class="label">Name:</div>
-                        <div class="value"><input type="text" name="name" ng-model="character.name" required ng-class="{ 'field-error': submitted && characterForm.name.$invalid }" /></div>
-                    </div>
-                    <div class="bio">
-                        <div class="label">Species:</div>
-                        <div class="value"><select name="species" ng-model="character.species" ng-options="species | capFirst for species in availableSpecies" required ng-class="{ 'field-error': submitted && characterForm.species.$invalid }"></select></div>
-                    </div>
-                    <div class="bio">
-                        <div class="label">Sex:</div>
-                        <div class="value" ng-class="{ 'field-error': submitted && characterForm.sex.$invalid }" style="padding: 2px;">
-                            <label><input type="radio" name="sex" ng-model="character.sex" ng-value="Sex.FEMALE" required /> {{ Sex.getSex(Sex.FEMALE) }}</label>
-                            <label><input type="radio" name="sex" ng-model="character.sex" ng-value="Sex.MALE" required /> {{ Sex.getSex(Sex.MALE) }}</label>
-                        </div>
-                    </div>
-                    <div style="text-align: center; margin-top: 10px;">
-                        <button type="button" ui-sref="tavern.characters.list">Done</button>
-                        <button type="button" ng-click="saveCharacter(characterForm.$valid)">Save</button>
-                    </div>
-                </fieldset>
-
-                <fieldset ng-hide="isNewCharacter()" class="tavern character" style="margin-top: 15px;">
-                    <legend>Stats</legend>
-
-                    <div class="stat" style="margin-top: 7px;">
-                        <div class="label">Allocation:</div>
-                        <div class="value">{{ character.bonus.stats }}</div>
-                    </div>
-
-                    <hr />
-
-                    <div>
-
-                        <div ng-repeat="stat in statArray" class="stat">
-                            <div class="label">{{ stat.name }}:</div>
-                            <div class="value">{{ getStatValue('stats', stat.prop) }}</div>
-                            <img ng-show="character.bonus.stats > 0" src="/images/up-arrow.png" ng-click="raiseStat(stat.prop)" class="stat-adjuster" /> 
-                            <img ng-hide="character.bonus.stats > 0" src="/images/up-arrow-disabled.png" /> 
-
-                            <img ng-show="character.stats[stat.prop].adjust > 0" src="/images/down-arrow.png" ng-click="lowerStat(stat.prop)" class="stat-adjuster" /> 
-                            <img ng-hide="character.stats[stat.prop].adjust > 0" src="/images/down-arrow-disabled.png" /> 
-                        </div>
-                    </div>
-
-                    <hr />
-
-                    <div class="stat">
-                        <div class="label">Health:</div>
-                        <div class="value">{{ character.health.value | number:0 }}</div>
-                    </div>
-
-                </fieldset>
-
-            </div>
-
-            <div style="float: left; margin-left: 10px; width: 300px;">
-
-                <fieldset ng-hide="isNewCharacter()" class="tavern character">
-                    <legend>Skills</legend>
-
-                    <div class="stat" style="margin-top: 7px;">
-                        <div class="label">Allocation:</div>
-                        <div class="value">{{ character.bonus.skills }}</div>
-                    </div>
-
-                    <hr />
-
-                    <div style="margin-top: 10px;">
-                        <div ng-show="hasAnySkills()">
-                            <table class="datatable">
-                                <thead>
-                                    <tr>
-                                        <th align="left">Skill</th>
-                                        <th align="center">Level</th>
-                                        <th align="center">Adjust</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="skill in character.skills">
-                                        <td style="width: 120px;">{{ skill.name | capFirst }}</td>
-                                        <td align="center" style="width: 50px;">{{ getStatValue('skills', skill.name) | number: 0 }}</td>
-                                        <td align="center" style="width: 60px;">
-                                            <img ng-show="character.bonus.skills > 0" src="/images/up-arrow.png" ng-click="raiseSkill(skill.name)" class="stat-adjuster" /> 
-                                            <img ng-hide="character.bonus.skills > 0" src="/images/up-arrow-disabled.png" /> 
-                                            <img ng-show="skill.adjust > 0" src="/images/down-arrow.png" ng-click="lowerSkill(skill.name)" class="stat-adjuster" /> 
-                                            <img ng-hide="skill.adjust > 0" src="/images/down-arrow-disabled.png" /> 
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <div ng-hide="hasAnySkills()">No skills selected</div>
-                    </div>
-
-                    <hr />
-
-                    <div style="margin-top: 10px;">
-
-                        <table class="datatable">
-                            <thead>
-                                <tr>
-                                    <th align="left">Skill</th>
-                                    <th align="left">Prerequisites</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="skill in availableSkills" ng-if="showPotentialSkill(skill)" class="skill" 
-                                        ng-class="{ 'skill-ineligible': !skillEligible(skill), 'skill-eligible': skillEligible(skill) }" 
-                                        ng-click="addSkill(skill)">
-                                    <td>{{ skill.name | capFirst }}</td>
-                                    <td>
-                                        <span ng-repeat="(key, value) in skill.prereqs.stats"><span ng-show="$index > 0">, </span>{{ key }}: {{ value|number:0 }}</span>
-                                        <span ng-repeat="(key, value) in skill.prereqs.skills"><span ng-show="$index > 0">, </span>{{ key }}: {{ value|number:0 }}</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div ng-show="skillError" style="margin-top: 10px;" class="error">{{ skillError }}</div>
-
-                    </div>
-
-                </fieldset>
-
-            </div>
-
-            <div style="clear: both;">
-            </div>
-
+            <div ng-show="skillError" style="margin-top: 10px;" class="error">{{ skillError }}</div>
 
         </div>
-    </form>
+
+        <div style="text-align: center; margin-top: 10px;">
+            <button type="button" ng-click="saveSkills()">Save</button>
+        </div>
+
+    </fieldset>
 
     <div ng-show="showUpdated" class="response-message" style="margin-top: 15px; margin-left: 5px;">Character Updated</div>
 

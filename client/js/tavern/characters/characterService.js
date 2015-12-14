@@ -14,6 +14,8 @@
 
                 stats: $resource('/api/characters/:id/stats'),
 
+                skills: $resource('/api/characters/:id/skills'),
+
                 rollup: $resource('/api/characters/rollup/:id', {}, {
                     reroll: { method: 'POST' }
                 }),

@@ -57,15 +57,6 @@
         Creature.prototype =
         {
 
-            hasSkill: function (creature, skillName) {
-                if ((creature == null) || (creature.skills == null)) {
-                    return false;
-                }
-
-                return creature.skills.hasOwnProperty(skillName);
-
-            },
-
             getName: function (useDefiniteArticle) {
                 return this.name;
             },
@@ -507,6 +498,17 @@
 
 
                 }
+
+            },
+
+            getStatValue: function(mapName, key)
+            {
+                if (!this.hasOwnProperty(mapName) || !this[mapName].hasOwnProperty(key))
+                {
+                    return 0;
+                }
+
+                return this[mapName][key].value + this[mapName][key].adjust;
 
             }
 

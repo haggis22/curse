@@ -109,4 +109,27 @@ router.post('/:characterID/stats', function (req, res) {
 
 });
 
+// validates and saves the stat changes requested by the client
+router.post('/:characterID/skills', function (req, res) {
+
+    var characterID = req.params.characterID;
+    var character = req.body;
+
+    var callback = function (err, character) {
+
+        if (err) {
+            logger.error('Could not save skills', err);
+            return res.status(500).json({ error: 'System error' }).end();
+        }
+        else {
+            return res.json({ character: character });
+        }
+
+    }
+
+    CharacterManager.saveSkills(req.user, character, callback);
+
+});
+
+
 module.exports = router;
