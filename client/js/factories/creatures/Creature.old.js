@@ -362,9 +362,6 @@
                     return false;
                 },
 
-                    
-
-
                 getSkill: function(skillName)
                 {
                     if (this.skills.hasOwnProperty(skillName))

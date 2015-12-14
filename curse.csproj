@@ -147,7 +147,7 @@
     <Content Include="client\js\factories\combat\WeaponAttack.js" />
     <Content Include="client\js\factories\creatures\BodyPart.js" />
     <Content Include="client\js\factories\creatures\BodyShape.js" />
-    <Content Include="client\js\factories\creatures\Creature.js" />
+    <Content Include="client\js\factories\creatures\Creature.old.js" />
     <Content Include="client\js\factories\creatures\Monster.js" />
     <Content Include="client\js\factories\creatures\MonsterType.js" />
     <Content Include="client\js\factories\creatures\Player.js" />
