@@ -8,6 +8,9 @@ var logger = log4js.getLogger('curse');
 var ShoppeManager = require(__dirname + '/../../models/shoppe/ShoppeManager');
 var CharacterManager = require(__dirname + '/../../models/creatures/CharacterManager');
 
+var Shoppe = require(__dirname + '/../../../js/shoppe/Shoppe');
+
+
 router.get('/', function (req, res) {
 
     ShoppeManager.fetch(function (err, shoppe) {
@@ -55,23 +58,33 @@ router.post('/:characterID/:itemID', function (req, res) {
             logger.debug('Item costs ' + cost + ' copper pieces');
             logger.debug(character.getName(true) + ' has ' + money + ' copper pieces!');
 
-            var payResult = character.payMoney(cost);
+            var payResult = Shoppe.prototype.buyItem(character, item);
+
+            console.log('Buy result: ' + JSON.stringify(payResult));
 
             if (payResult.success) {
 
                 // the character successfully buys the item!
+                // First, clear the item's ID so that it gets a new one assigned automatically
+                item._id = null;
+
                 // add the item to his pack
                 var addResult = character.addItem(item);
+
                 if (addResult.success) {
 
-                    CharacterManager.update(character, function (err, newChar) {
+                    CharacterManager.updatePack(character, function (err, result) {
 
                         if (err) {
-                            return res.status(500).send(err).end();
+                            logger.err('Could not save pack: ' + err);
+                            return res.status(500).send({ error: 'Could not buy item' }).end();
                         }
 
-                        // we added the item!
-                        return res.status(200).json({ success: true, character: character, item: item, message: character.getName(true) + ' bought ' + item.getName(true) });
+                        if (result) {
+                            return res.status(200).json({ success: true, message: character.getName(true) + ' bought ' + item.getName(true) });
+                        }
+
+                        return res.status(500).send({ error: 'Save pack failed' }).end();
 
                     });   // CharacterManager.update callback
 

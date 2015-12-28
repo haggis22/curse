@@ -3,12 +3,9 @@
 (function(app) {
 
 
-	app.controller('tavern.shoppeController', ['$scope', '$rootScope', '$state', 'errorService', 'shoppeService', 'ItemFactory', 'Creature',
-		function($scope, $rootScope, $state, errorService, shoppeService, ItemFactory, Creature) {
+	app.controller('tavern.shoppeController', ['$scope', '$rootScope', '$state', 'errorService', 'characterService', 'shoppeService', 'ItemFactory', 'Creature', 'Shoppe',
+		function($scope, $rootScope, $state, errorService, characterService, shoppeService, ItemFactory, Creature, Shoppe) {
 			
-            // calls the method in tavern.singleController
-            $scope.pullCharacter($scope.characterID);
-
             $scope.shoppe = null;
 
             $scope.pullShoppe = function() {
@@ -61,14 +58,10 @@
 
             $scope.pullShoppe();
     
-            $scope.cash = function() {
-                return $scope.character? $scope.character.countMoney() : 0;
-            };
-
 
             $scope.buy = function(item)
             {
-                if (item.value.getCoppers() > $scope.character.countMoney())
+                if (!characterService.current.canAfford(item))
                 {
                     console.debug('Not enough money');
                     return;
@@ -76,15 +69,17 @@
 
                 $scope.shoppeError = null;
 
-                shoppeService.purchase.buy({ characterID: $scope.character._id, itemID: item._id }, 
+                shoppeService.purchase.buy({ characterID: characterService.current._id, itemID: item._id }, 
 
                     function(response) {
 
                         if (response.success)
                         {
-                            $scope.character = new Creature(response.character);
-                            var boughtItem = ItemFactory.createItem(response.item);
-                            console.log('Bought ' + boughtItem.getName(true) + ' _id = ' + boughtItem._id);
+                            var result = Shoppe.prototype.buyItem(characterService.current, item);
+                            if (result.success)
+                            {
+                                console.log('Bought ' + result.item.getName(true) + ' _id = ' + result.item._id);
+                            }
                         }
                         else
                         {

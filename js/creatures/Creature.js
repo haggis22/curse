@@ -264,60 +264,14 @@
 
             },
 
-            payMoney: function(coppersOwed) {
+            canAfford: function(item) {
 
-                var myTotal = this.countMoney();
-                if (coppersOwed > myTotal)
+                if (item == null || item.value == null)
                 {
-                    return { success: false, message: this.getName(true) + ' does not have enough money' };
+                    return false;
                 }
 
-                if (coppersOwed == 0)
-                {
-                    return { success: true };
-                }
-
-                if (coppersOwed < 0)
-                {
-                    return { success: false, message: 'Cannot pay a negative amount' };
-                }
-
-                // put all his money in a pile...
-                var cash = {};
-
-                // make sure that "this" refers to this creature, and not the item
-                Value.denominations.forEach(function(denom) { 
-
-                    var stack = Item.prototype.findItemsOfStackableType(denom, this.pack);
-                    if (stack != null)
-                    {
-                        // ...track it separately...
-                        cash[denom] = stack;
-                    }
-                
-                }, this);
-
-                // ...and take it out of his pack
-                for (var prop in cash)
-                {
-                    if (cash.hasOwnProperty(prop))
-                    {
-                        var dropResult = this.dropItem(cash[prop], cash[prop].stackable.amount);
-                    }
-                
-                }
-
-                var changeAmount = myTotal - coppersOwed;
-
-                var changeBags = Item.colorUp(changeAmount);
-
-                for (var m=0; m < changeBags.length; m++) {
-
-                    this.addItem(changeBags[m]);
-                }
-
-                return { success: true }
-
+                return this.countMoney() >= item.value.getCoppers();
             },
 
             isShape: function (shapeArray) {

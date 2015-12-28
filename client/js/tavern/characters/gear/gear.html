@@ -18,19 +18,19 @@
         {
             width: 100px;
         }
+        
+        fieldset.gear .item
+        {
+            margin: 5px 0;
+        }
 
     </style>
 
     <div style="float: left;">
 
         <fieldset class="gear">
-            <legend>Equipment</legend>
         
-            <div style="margin-top: 10px;">
-                <ul>
-                    <li ng-repeat="item in character.getItems()">{{ item.getName() | capFirst }}</li>
-                </ul>
-            </div>
+            <div class="item" ng-repeat="item in characterService.current.getItems()">{{ item.getName() | capFirst }}</div>
 
         </fieldset>    
 

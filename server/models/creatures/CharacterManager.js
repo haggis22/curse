@@ -391,6 +391,12 @@ CharacterManager.update = function (characterID, newValues, callback) {
 
 }
 
+CharacterManager.updatePack = function (character, callback) {
+
+    return CharacterManager.update(character._id, { pack: character.pack }, callback);
+
+}
+
 
 
 
