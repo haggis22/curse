@@ -139,6 +139,7 @@
                 // if it's not stackable, or the creature doesn't already have a similar item, then just add
                 // it to the pack
                 this.pack.push(item);
+
                 return { success: true };
 
             },

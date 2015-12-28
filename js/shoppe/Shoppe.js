@@ -99,6 +99,9 @@
                 creature.addItem(changeBags[m]);
             }
 
+            // add the item to his pack
+            var addResult = creature.addItem(item);
+
             return { success: true, item: item }
 
         };

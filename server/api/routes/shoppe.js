@@ -58,6 +58,9 @@ router.post('/:characterID/:itemID', function (req, res) {
             logger.debug('Item costs ' + cost + ' copper pieces');
             logger.debug(character.getName(true) + ' has ' + money + ' copper pieces!');
 
+            // First, clear the item's ID so that it gets a new one assigned automatically
+            item._id = null;
+
             var payResult = Shoppe.prototype.buyItem(character, item);
 
             console.log('Buy result: ' + JSON.stringify(payResult));
@@ -65,35 +68,20 @@ router.post('/:characterID/:itemID', function (req, res) {
             if (payResult.success) {
 
                 // the character successfully buys the item!
-                // First, clear the item's ID so that it gets a new one assigned automatically
-                item._id = null;
+                CharacterManager.updatePack(character, function (err, result) {
 
-                // add the item to his pack
-                var addResult = character.addItem(item);
+                    if (err) {
+                        logger.err('Could not save pack: ' + err);
+                        return res.status(500).send({ error: 'Could not buy item' }).end();
+                    }
 
-                if (addResult.success) {
+                    if (result) {
+                        return res.status(200).json({ success: true, message: character.getName(true) + ' bought ' + item.getName(true) });
+                    }
 
-                    CharacterManager.updatePack(character, function (err, result) {
+                    return res.status(500).send({ error: 'Save pack failed' }).end();
 
-                        if (err) {
-                            logger.err('Could not save pack: ' + err);
-                            return res.status(500).send({ error: 'Could not buy item' }).end();
-                        }
-
-                        if (result) {
-                            return res.status(200).json({ success: true, message: character.getName(true) + ' bought ' + item.getName(true) });
-                        }
-
-                        return res.status(500).send({ error: 'Save pack failed' }).end();
-
-                    });   // CharacterManager.update callback
-
-                }
-                else {
-
-                    // this will be a not-successful result object
-                    return res.status(200).json(addResult);
-                }
+                });   // CharacterManager.update callback
 
             }
             else {
