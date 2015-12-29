@@ -79,7 +79,7 @@ router.post('/:characterID/:itemID', function (req, res) {
                     }
 
                     if (result) {
-                        return res.status(200).json({ success: true, message: character.getName(true) + ' bought ' + item.getName(true), pack: character.pack });
+                        return res.status(200).json({ success: true, message: character.getName(true) + ' bought ' + item.getName(true), pack: character.pack, item: item });
                     }
 
                     return res.status(500).send({ error: 'Save pack failed' }).end();

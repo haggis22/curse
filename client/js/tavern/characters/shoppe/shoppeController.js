@@ -75,11 +75,14 @@
 
                         if (response.success)
                         {
-                            var result = Shoppe.prototype.buyItem(characterService.current, item);
-                            if (result.success)
-                            {
-                                console.log('Bought ' + result.item.getName(true) + ' _id = ' + result.item._id);
-                            }
+                            // update the character's pack
+                            // characterService.current.pack = response.pack;
+                            characterService.current.clearPack();
+                            response.pack.forEach(function(packItem) { 
+                                characterService.current.addItem(ItemFactory.createItem(packItem));
+                            });
+                            var boughtItem = ItemFactory.createItem(response.item);
+                            console.log('Bought ' + boughtItem.getName(true) + ' _id = ' + boughtItem._id);
                         }
                         else
                         {
