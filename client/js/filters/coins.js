@@ -6,7 +6,7 @@
     
         function(Value) {
 
-            return function (amount) {
+            return function (amount, isCost) {
 
                 if (amount == null)
                 {
@@ -40,9 +40,9 @@
                     and = ' / ';
                 }
 
-                if (string == '')
+                if (string == '') 
                 {
-                    string = 'free';
+                    string = isCost ? 'free' : 'none';
                 }
 
                 return string;

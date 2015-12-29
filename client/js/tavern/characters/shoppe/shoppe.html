@@ -70,7 +70,7 @@
                     <tbody>
                         <tr ng-repeat="item in shoppe.weapons" ng-class="{ 'too-expensive': !characterService.current.canAfford(item), 'buy-link': characterService.current.canAfford(item) }" ng-click="buy(item)">
                             <td align="left">{{ item.getName(null) | capFirst }}</td>
-                            <td align="left">{{ item.value | coins }}</td>
+                            <td align="left">{{ item.value | coins:true }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -92,7 +92,7 @@
                     <tbody>
                         <tr ng-repeat="item in shoppe.armour" ng-class="{ 'too-expensive': !characterService.current.canAfford(item), 'buy-link': characterService.current.canAfford(item) }" ng-click="buy(item)">
                             <td align="left">{{ item.getName(null) | capFirst }}</td>
-                            <td align="left">{{ item.value | coins }}</td>
+                            <td align="left">{{ item.value | coins:true }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -118,7 +118,7 @@
                     <tbody>
                         <tr ng-repeat="item in shoppe.potions" ng-class="{ 'too-expensive': !characterService.current.canAfford(item), 'buy-link': characterService.current.canAfford(item) }" ng-click="buy(item)">
                             <td align="left">{{ item.getName(null) | capFirst }}</td>
-                            <td align="left">{{ item.value | coins }}</td>
+                            <td align="left">{{ item.value | coins:true }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -144,7 +144,7 @@
                     <tbody>
                         <tr ng-repeat="item in shoppe.items" ng-class="{ 'too-expensive': !characterService.current.canAfford(item), 'buy-link': characterService.current.canAfford(item) }" ng-click="buy(item)">
                             <td align="left">{{ item.getName(null) | capFirst }}</td>
-                            <td align="left">{{ item.value | coins }}</td>
+                            <td align="left">{{ item.value | coins:true }}</td>
                         </tr>
                     </tbody>
                 </table>
