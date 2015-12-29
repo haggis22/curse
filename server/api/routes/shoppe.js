@@ -5,10 +5,13 @@ var log4js = require('log4js');
 log4js.configure(__dirname + '/../../log4js_config.json', {});
 var logger = log4js.getLogger('curse');
 
+var ObjectID = require('mongodb').ObjectID;
+
 var ShoppeManager = require(__dirname + '/../../models/shoppe/ShoppeManager');
 var CharacterManager = require(__dirname + '/../../models/creatures/CharacterManager');
 
 var Shoppe = require(__dirname + '/../../../js/shoppe/Shoppe');
+
 
 
 router.get('/', function (req, res) {
@@ -58,8 +61,8 @@ router.post('/:characterID/:itemID', function (req, res) {
             logger.debug('Item costs ' + cost + ' copper pieces');
             logger.debug(character.getName(true) + ' has ' + money + ' copper pieces!');
 
-            // First, clear the item's ID so that it gets a new one assigned automatically
-            item._id = null;
+            // The item is not going to be a primary key, so it won't have its own ObjectID created automatically
+            item._id = new ObjectID();
 
             var payResult = Shoppe.prototype.buyItem(character, item);
 
@@ -76,7 +79,7 @@ router.post('/:characterID/:itemID', function (req, res) {
                     }
 
                     if (result) {
-                        return res.status(200).json({ success: true, message: character.getName(true) + ' bought ' + item.getName(true) });
+                        return res.status(200).json({ success: true, message: character.getName(true) + ' bought ' + item.getName(true), pack: character.pack });
                     }
 
                     return res.status(500).send({ error: 'Save pack failed' }).end();

@@ -248,7 +248,7 @@ div.image
 	background-color: #f00;
 }
 
-.exit:hover, .item:hover, .lootable:hover, .attackable:hover
+.exit:hover, .lootable:hover, .attackable:hover
 {
 	text-decoration: underline;
 	cursor: pointer;

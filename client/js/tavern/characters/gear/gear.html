@@ -23,14 +23,38 @@
         {
             margin: 5px 0;
         }
+        
+        fieldset.gear .item > .weight
+        {
+            font-size: 0.75em;
+            font-style: italic;
+        }
+        
+        fieldset.gear .no-gear
+        {
+            font-style: italic;
+            margin: 10px 0;
+        }
 
     </style>
 
-    <div style="float: left;">
+    <div>
 
         <fieldset class="gear">
+
+            <legend>Encumbrance: {{ characterService.current.getEncumbrance() | number:0 }} #</legend>
         
-            <div class="item" ng-repeat="item in characterService.current.getItems()">{{ item.getName() | capFirst }}</div>
+            <div ng-show="characterService.current.hasAnything()">
+                <div class="item" ng-repeat="item in characterService.current.getItems()">
+                    {{ item.getName() | capFirst }}
+                    <span class="weight" ng-show="item.weight > 0">({{ item.weight | number:0 }} #)</span>
+                </div>
+            </div>
+
+            <div ng-hide="characterService.current.hasAnything()" class="no-gear">
+                You are not carrying anything.
+            </div>
+
 
         </fieldset>    
 
