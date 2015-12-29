@@ -1,36 +1,57 @@
 <div ng-controller="campaignsController">
 
-    <div ng-show="campaigns.length == 0">You have no saved campaigns.</div>
+    <div class="modules">
+        <div ng-show="modules.length == 0">There are no available modules.</div>
 
-    <div ng-show="campaigns.length > 0">
-        <fieldset class="tavern campaigns" style="margin-top: 15px; width: 300px; padding: 15px 10px;">
-            <legend>Campaigns</legend>
+        <div ng-show="modules.length > 0">
+            <fieldset class="tavern modules" style="margin-top: 15px; width: 300px; padding: 15px 10px;">
+                <legend>Modules</legend>
 
-            <table class="datatable" style="width: 100%;">
-                <thead>
-                    <tr>
-                        <th align="left">Name</th>
-                        <th align="left">Updated</th>
-                        <th align="center">Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="campaign in campaigns | orderBy:'name'">
-                        <td>
-                            <a ui-sref="tavern.campaigns.edit({ campaignID: campaign._id })">{{ campaign.name }}</a>
-                        </td>
-                        <td class="updateTime">{{ campaign.updated | date:'yyyy-MM-dd HH:mm:ss' }}</td>
-                        <td align="center"><img src="/images/delete.png" class="icon-link" title="Delete campaign" ng-click="deleteCampaign(campaign)" /></td>
-                    </tr>
-                </tbody>
-            </table>
-        </fieldset>
+                <table class="datatable" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th align="left">Name</th>
+                            <th align="left">Create Campaign</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="module in modules | orderBy:'name'">
+                            <td>{{ module.name }}</td>
+                            <td><button ng-click="startCampaign(module)">Start</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+        </div>
     </div>
 
+    <div class="campaigns">
+        <div ng-show="campaigns.length == 0">You have no saved campaigns.</div>
 
+        <div ng-show="campaigns.length > 0">
+            <fieldset class="tavern campaigns" style="margin-top: 15px; width: 300px; padding: 15px 10px;">
+                <legend>Campaigns</legend>
 
-    <div style="margin-top: 15px;">
-        <button type="button" ui-sref="tavern.campaigns.edit({ campaignID: null })">Create campaign</button>
+                <table class="datatable" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th align="left">Name</th>
+                            <th align="left">Updated</th>
+                            <th align="center">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="campaign in campaigns | orderBy:'name'">
+                            <td>
+                                <a ui-sref="tavern.campaigns.edit({ campaignID: campaign._id })">{{ campaign.name }}</a>
+                            </td>
+                            <td class="updateTime">{{ campaign.updated | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+                            <td align="center"><img src="/images/delete.png" class="icon-link" title="Delete campaign" ng-click="deleteCampaign(campaign)" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+        </div>
     </div>
 
     <div ui-view style="margin-top: 15px;"></div>

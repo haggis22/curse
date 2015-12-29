@@ -17,6 +17,55 @@ var CampaignManager = function () {
 
 };
 
+CampaignManager.fetchModules = function (user, callback) {
+
+    var collection = db.get('campaigns');
+
+    collection.find({ userID: Campaign.prototype.MODULE }, {}, function (err, result) {
+
+        if (err) {
+            logger.error('Could not load campaigns from database: ' + err);
+            return callback(err, null);
+        }
+
+        var myCampaigns = [];
+
+        for (var r = 0; r < result.length; r++) {
+            myCampaigns.push(new Campaign(result[r]));
+        }
+
+        return callback(null, myCampaigns);
+    });
+
+};
+
+CampaignManager.fetchModule = function (user, id, callback) {
+
+    var collection = db.get('campaigns');
+
+    collection.find({ _id: id, userID: Campaign.prototype.MODULE }, function (err, result) {
+
+        if (err) {
+            logger.error('Could not load module from database: ' + err);
+            return callback(err, null);
+        }
+
+        if (result.length == 0) {
+
+            // no error, but no module, either
+            logger.warn('Could not find module with id ' + id);
+            return callback(null, null);
+        }
+
+        var module = new Campaign(result[0]);
+
+        return callback(null, module);
+    });
+
+};
+
+
+
 CampaignManager.fetchAll = function (user, callback) {
 
     var collection = db.get('campaigns');
@@ -74,14 +123,6 @@ CampaignManager.fetchByID = function (user, id, callback) {
 
 CampaignManager.create = function (user, campaign, callback) {
 
-    campaign = new Campaign(campaign);
-
-    // create a new ID for the campaign
-    campaign._id = '123456789012';
-
-    // set the owner
-    campaign.userID = user._id;
-
     campaign.updated = new Date();
 
     var collection = db.get('campaigns');
@@ -105,23 +146,64 @@ CampaignManager.create = function (user, campaign, callback) {
 
 };
 
-CampaignManager.update = function (user, campaign, callback) {
+CampaignManager.updateValues = function (user, campaign, callback) {
 
-    campaign.updated = new Date();
+    // first, validate that the campaign's adjustments are legal
+    // We need to pull the existing campaign
+    CampaignManager.fetchByID(user, campaign._id, function (err, oldCampaign) {
+
+        if (err) {
+            // it failed - return an error
+            logger.error('Could not verify campaign update: ' + err);
+            return callback(err, null);
+        }
+
+        if (oldCampaign == null)
+        {
+            logger.warn('Could not verify campaign with id ' + campaign._id + ' for user ' + user._id);
+            return callback(new Error('Could not verify campaign owner'), null);
+        }
+
+        var newValues = { name: campaign.name };
+
+        return CampaignManager.update(campaign._id, newValues, function(updateErr, result) {
+
+            if (err)
+            {
+                logger.err('Could not update campaign: ' + err);
+                return callback(err, null);
+            }
+
+            if (result)
+            {
+                return callback(null, campaign);
+            }
+
+            return callback(new Error('Save campaign failed'), null);
+
+        });
+
+    });
+
+
+};
+
+
+CampaignManager.update = function (campaignID, newValues, callback) {
+
+    newValues.updated = new Date();
 
     var collection = db.get('campaigns');
 
-    collection.update({ _id: campaign._id }, campaign, function (err, doc) {
+    collection.update({ _id: campaignID }, { $set: newValues }, function (err, doc) {
 
         if (err) {
             // it failed - return an error
             logger.error('Could not update campaign: ' + err);
-            return callback(err, null);
+            return callback(err, false);
         }
 
-        console.info('campaign saved successfully');
-
-        return callback(null, 'Campaign ' + campaign._id + ' saved successfully');
+        return callback(null, true);
 
     });
 

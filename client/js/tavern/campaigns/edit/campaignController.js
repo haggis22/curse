@@ -20,7 +20,7 @@
                     return;
                 }                        
 
-                campaignService.get({ id: $scope.campaignID },
+                campaignService.campaigns.get({ id: $scope.campaignID },
 
                     function(response) {
 
@@ -40,7 +40,7 @@
 
             $scope.createCampaign = function() {
 
-                campaignService.create({}, $scope.campaign,
+                campaignService.campaigns.create({}, $scope.campaign,
 
                     function(response) {
                         
@@ -57,14 +57,28 @@
 
             };
 
-            $scope.updateCampaign = function() {
+            $scope.updateCampaign = function(isValid) {
 
-                campaignService.update({ id: $scope.campaignID }, $scope.campaign,
+                $scope.submitted = true;
+            
+                if (!isValid)
+                {
+                    return;
+                }
+
+                campaignService.campaigns.update({ id: $scope.campaignID }, $scope.campaign,
 
                     function(response) {
                         
-                        console.log(response.message);
-                        $state.go('tavern.campaigns', {}, { reload: true });
+                        if (response)
+                        {
+                            console.log('Campaign saved successfully');
+                            $state.go('tavern.campaigns', {}, { reload: true });
+                        }
+                        else
+                        {
+                            console.warn('Campaign save FAILED!');
+                        }
 
                     },
                     function(error) {
@@ -75,26 +89,6 @@
                     });
 
             };
-
-            $scope.saveCampaign = function(isValid) {
-
-                $scope.submitted = true;
-            
-                if (!isValid)
-                {
-                    return;
-                }
-
-                if ($scope.campaignID)
-                {
-                    $scope.updateCampaign();
-                }
-                else
-                {
-                    $scope.createCampaign();
-                }
-
-            }
 
         }
 

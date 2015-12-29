@@ -17,6 +17,8 @@
 
         };
 
+        Campaign.prototype.MODULE = 'module';
+
         return Campaign;
 
     };

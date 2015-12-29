@@ -6,10 +6,19 @@
 
 		function($resource) {
 
-            return $resource('/api/campaigns/:id', {}, {
-                create: { method: 'POST' },
-                update: { method: 'PUT' }
-            });
+            return {
+
+                modules: $resource('/api/campaigns/modules'),
+
+                moduleStart: $resource('/api/campaigns/start/:id', { id: '@id' }, {
+                                start: { method: 'POST' }
+                            }),
+
+                campaigns: $resource('/api/campaigns/:id', {}, {
+                                update: { method: 'PUT' }
+                            })
+
+            };
 
 		}
 

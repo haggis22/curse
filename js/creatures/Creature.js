@@ -3,7 +3,7 @@
 (function(isNode, isAngular) {
 
     // This wrappers function returns the contents of the module, with dependencies
-    var CreatureModule = function (Stat, Sex, Item, Value) {
+    var CreatureModule = function (Stat, Sex, ItemFactory, Value) {
 
         var Creature = function (creature) {
 
@@ -24,7 +24,7 @@
                 // pass in "this" as the second parameter so that this.addItem refers to the Creature rather than the item itself in the forEach
                 creature.pack.forEach(function (item) {
 
-                    this.addItem(new Item(item));
+                    this.addItem(ItemFactory.createItem(item));
 
                 }, this);
             }
@@ -171,7 +171,7 @@
                                 remainingItems.push(this.pack[i]);
 
                                 // re-create the item as the amount dropped
-                                droppedItem = new Item(item);
+                                droppedItem = ItemFactory.createItem(item);
                                 droppedItem.stackable.amount = amount;
                                 droppedItem.equipped = false;
                             }
@@ -477,14 +477,14 @@
     {
         // AngularJS module definition
         angular.module('CurseApp').
-            factory('Creature', ['Stat', 'Sex', 'Item', 'Value', CreatureModule]);
+            factory('Creature', ['Stat', 'Sex', 'ItemFactory', 'Value', CreatureModule]);
 
     } else if (isNode) {
         // NodeJS module definition
         module.exports = CreatureModule(
             require(__dirname + '/Stat'),
             require(__dirname + '/Sex'),
-            require(__dirname + '/../items/Item'),
+            require(__dirname + '/../items/ItemFactory'),
             require(__dirname + '/../items/Value')
         );
     }

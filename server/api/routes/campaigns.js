@@ -9,6 +9,59 @@ var CampaignManager = require(__dirname + '/../../models/campaigns/CampaignManag
 var Campaign = require(__dirname + '/../../../js/campaigns/Campaign.js');
 
 
+router.get('/modules', function (req, res) {
+
+    CampaignManager.fetchModules(req.user, function(err, campaigns) { 
+
+        if (err) {
+            return res.status(500).send({ error: 'Could not fetch modules' }).end();
+        }
+        else {
+            return res.json(campaigns);
+        }
+    
+    });
+
+});
+
+router.post('/start/:moduleID', function (req, res) {
+
+    CampaignManager.fetchModule(req.user, req.params.moduleID, function(err, module) {
+
+        if (err) {
+            return res.status(500).send({ error: 'Could not load module' }).end();
+        }
+        else if (module == null)
+        {
+            return res.status(400).send({ error: 'Unknown module' }).end();
+        }
+
+        // create a copy of the module for this user
+        var campaign = new Campaign(module);
+        
+        // remove its ObjectID so that it gets a new one assigned
+        delete campaign._id;
+
+        // make the user the owner of the campaign
+        campaign.userID = req.user._id;
+
+        CampaignManager.create(req.user, campaign, function(err, newCampaign) {
+
+            if (err)
+            {
+                return res.status(500).send({ error: 'Could not create campaign' }).end();
+            }
+
+            return res.json(newCampaign);
+
+
+        });
+   
+    });
+
+});
+
+
 router.get('/', function (req, res) {
 
     CampaignManager.fetchAll(req.user, function(err, campaigns) { 
@@ -42,40 +95,23 @@ router.get('/:campaignID', function (req, res) {
 
 });
 
-router.post('/', function (req, res) {
-
-    var campaign = new Campaign(req.body);
-    
-    CampaignManager.create(req.user, campaign, function(err, campaign) {
-
-        if (err) {
-            return res.status(500).json({ error: 'Could not create campaign' }).end();
-        }
-        else {
-            return res.json({ campaign: campaign });
-        }
-    
-    });
-
-});
-
 
 router.put('/:campaignID', function (req, res) {
 
     var campaign = new Campaign(req.body);
 
-    var callback = function (err, message) {
+    var callback = function (err, result) {
 
         if (err) {
             return res.status(500).json({ error: err }).end();
         }
         else {
-            return res.json({ message: message });
+            return res.json(result);
         }
 
     }
 
-    CampaignManager.update(req.user, campaign, callback);
+    CampaignManager.updateValues(req.user, campaign, callback);
 
 });
 
