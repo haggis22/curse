@@ -1,7 +1,7 @@
 <div ng-controller="tavern.charactersController">
 
-    <div ng-show="playerService.getPlayers().length == 0">You have no saved characters.</div>
-    <div ng-show="playerService.getPlayers().length > 0">
+    <div ng-show="characterService.getCharacters().length == 0">You have no saved characters.</div>
+    <div ng-show="characterService.getCharacters().length > 0">
         <fieldset class="tavern character" style="margin-top: 15px; width: 300px; padding: 15px 10px;">
             <legend>Characters</legend>
 
@@ -14,12 +14,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="character in playerService.getPlayers() | orderBy:'name'">
+                    <tr ng-repeat="character in characterService.getCharacters() | orderBy:'name'">
                         <td>
                             <a ui-sref="tavern.characters.single({ characterID: character._id })">{{ character.getName(true) }}</a>
                             <!-- <span ng-show="character.updated" class="updateTime"> ({{ character.updated | date:'dd-MM-yyyy HH:mm:ss' }})</span> -->
                         </td>
-                        <td>{{ character.species }}</td>
+                        <td><a ui-sref="tavern.characters.single({ characterID: character._id })">{{ character.species }}</a></td>
                         <td align="center">{{ Sex.getSexAbbr(character.sex) }}</td>
                     </tr>
                 </tbody>

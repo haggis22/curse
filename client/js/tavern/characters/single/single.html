@@ -17,9 +17,23 @@
     <div ng-hide="isNewCharacter()">
         
         <div>
-            <div class="header-name">{{ characterService.current.name }}</div>
+            <div class="header-name">
+                {{ characterService.current.name }}
+                <span ng-show="showUpdated" class="response-message" style="margin-left: 15px;">Character Updated</span>
+            
+            </div>
             <div class="header-species" style="margin-top: 5px;">{{ Sex.getSex(characterService.current.sex) }} {{ characterService.current.species }}</div>
+
             <div style="margin-top: 10px;"><button type="button" ui-sref="tavern.characters.list">Done</button></div>
+
+            <div style="margin-top: 10px;">
+                <button type="button" ng-click="rerollCharacter()">Re-roll Character</button>
+            </div>
+            <div style="margin-top: 10px;">
+                <button type="button" ng-click="deleteCharacter()">Delete Character</button>
+            </div>
+
+
         </div>
 
         <div class="m-tabs" style="margin-top: 15px;">

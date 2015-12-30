@@ -2,16 +2,15 @@
 
     "use strict";
 
-    app.controller('tavern.createController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'playerService', 'skillService', 'Creature', 'Sex',
+    app.controller('tavern.createController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'skillService', 'Creature', 'Sex',
 
-		function ($scope, $rootScope, $state, $timeout, errorService, characterService, playerService, skillService, Creature, Sex) {
+		function ($scope, $rootScope, $state, $timeout, errorService, characterService, skillService, Creature, Sex) {
 
 		    // set up a brand-new character
 		    characterService.current = {};
 
 		    $scope.Creature = Creature;
 		    $scope.Sex = Sex;
-		    $scope.playerService = playerService;
 
 		    $scope.availableSpecies = ['dwarf', 'elf', 'hobbit', 'human'];
 
@@ -29,12 +28,12 @@
 		            return;
 		        }
 
-		        characterService.characters.create({}, $scope.character,
+		        characterService.characters.create({}, characterService.current,
 
                     function (character) {
 
                         // basically reload the page, using the newly-created ID as part of the URL
-                        $state.go('tavern.characters.single.edit', { characterID: response._id }, { reload: true });
+                        $state.go('tavern.characters.single.edit', { characterID: character._id }, { reload: true });
 
                     },
                     function (error) {

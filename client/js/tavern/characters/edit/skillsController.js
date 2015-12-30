@@ -170,14 +170,7 @@
 
             };
 
-            $scope.showUpdateSuccess = function() {
-                // show the success message for a bit
-                $scope.showUpdated = true;
-                $timeout(function() { $scope.showUpdated = false; }, 1500);
-            };
-
-
-        }
+        }  // outer function
 
 	]);			
 	

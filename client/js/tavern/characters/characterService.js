@@ -6,22 +6,51 @@
 
 		function($resource) {
 
-            return {
-            
-                characters: $resource('/api/characters/:id', {}, {
-                    create: { method: 'POST' }
-                }),
+            this.characters = $resource('/api/characters/:id', {}, {
+                create: { method: 'POST' }
+            });
 
-                stats: $resource('/api/characters/:id/stats'),
+            this.stats = $resource('/api/characters/:id/stats');
 
-                skills: $resource('/api/characters/:id/skills'),
+            this.skills = $resource('/api/characters/:id/skills');
 
-                rollup: $resource('/api/characters/rollup/:id', {}, {
+            this.rollup = $resource('/api/characters/rollup/:id', { id: '@id' }, {
                     reroll: { method: 'POST' }
-                }),
+            });
 
-                current: null
-            
+            this.current = null;
+
+            this.all = {};
+
+            this.clear = function() {
+                this.all = {};
+            };
+
+            this.add = function(character) {
+
+                if (character == null || character._id == null)
+                {
+                    return;
+                }
+
+                this.all[character._id] = character;
+
+            };
+
+            this.getCharacters = function() {
+
+                var array = [];
+
+                for (var prop in this.all)
+                {
+                    if (this.all.hasOwnProperty(prop))
+                    {
+                        array.push(this.all[prop]);
+                    }
+                }
+
+                return array;
+
             };
 
 		}

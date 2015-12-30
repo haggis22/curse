@@ -10,27 +10,10 @@ var CharacterManager = require(__dirname + '/../../models/creatures/CharacterMan
 var Owl = require(__dirname + '/../../../client/js/test/owl.js');
 
 
-router.post('/rollup/:characterID', function (req, res) {
-
-    CharacterManager.reroll(req.user, req.params.characterID, function (err, character) {
-
-        if (err) {
-
-            logger.error('Could not re-roll character', err);
-            return res.status(500).json({ error: 'Could not re-roll character' }).end();
-        }
-        else {
-            return res.json(character);
-        }
-
-    });
-
-});
-
-
+// returns all characters for the given user
 router.get('/', function (req, res) {
 
-    var callback = function (err, characters) {
+    CharacterManager.fetchByUser(req.user, function (err, characters) {
 
         if (err) {
             return res.status(500).send(err).end();
@@ -39,13 +22,53 @@ router.get('/', function (req, res) {
             return res.json(characters);
         }
 
-    };
+    });
 
-    console.log('req.user = ' + JSON.stringify(req.user));
-    CharacterManager.fetchByUser(req.user, callback);
 
 });
 
+// Creates a brand-new character
+router.post('/', function (req, res) {
+
+    var character = req.body;
+
+    CharacterManager.create(req.user, character, function (err, character) {
+
+        if (err) {
+            return res.status(500).json({ error: err }).end();
+        }
+        else {
+            return res.json(character);
+        }
+
+    });
+
+
+});
+
+
+
+// re-rolls an existing character
+router.post('/rollup/:characterID', function (req, res) {
+
+    CharacterManager.reroll(req.user, req.params.characterID, function (err, result) {
+
+        if (err) {
+
+            logger.error('Could not re-roll character', err);
+            return res.status(500).json({ error: 'Could not re-roll character' }).end();
+        }
+        else {
+
+            return res.json(result);
+        }
+
+    });
+
+});
+
+
+// fetches a given character from the database
 router.get('/:characterID', function (req, res) {
 
     var characterID = req.params.characterID;
@@ -66,25 +89,25 @@ router.get('/:characterID', function (req, res) {
 });
 
 
-// Creates a brand-new character
-router.post('/', function (req, res) {
+// deletes the specified character from the database permanently
+router.delete('/:characterID', function (req, res) {
 
-    var character = req.body;
-
-    var callback = function (err, result) {
+    CharacterManager.delete(req.user, req.params.characterID, function (err, result) {
 
         if (err) {
-            return res.status(500).json({ error: err }).end();
+
+            logger.error('Could not delete character', err);
+            return res.status(500).json({ error: 'Could not delete character' }).end();
         }
         else {
+
             return res.json(result);
         }
 
-    }
-
-    CharacterManager.create(req.user, character, callback);
+    });
 
 });
+
 
 
 // validates and saves the stat changes requested by the client

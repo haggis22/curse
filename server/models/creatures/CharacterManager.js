@@ -17,7 +17,7 @@ var dice = require(__dirname + '/../../core/Dice');
 var Creature = require(__dirname + '/../../../js/creatures/Creature');
 
 var SkillManager = require(__dirname + '/../skills/SkillManager');
-var Item = require(__dirname + '/../../../js/items/Item');
+var ItemFactory = require(__dirname + '/../../../js/items/ItemFactory');
 
 var CharacterManager = function () {
 
@@ -120,10 +120,6 @@ CharacterManager.rollCharacter = function (character) {
         skills: 10
     };
 
-    character.pack = [];
-
-    character.addItem(new Item({ name: 'gold piece', stackable: { type: 'gold', plural: 'gold pieces', amount: 50 }, attributes: ['gold'], weight: 0.1 }));
-
 };
 
 
@@ -134,6 +130,10 @@ CharacterManager.create = function (user, character, callback) {
     newCharacter.userID = user._id;
 
     CharacterManager.rollCharacter(newCharacter);
+
+    // create his pack and give him some gold
+    newCharacter.pack = [];
+    newCharacter.addItem(ItemFactory.createItem({ name: 'gold piece', stackable: { type: 'gold', plural: 'gold pieces', amount: 50 }, attributes: ['gold'], weight: 0.1 }));
 
     newCharacter.updated = new Date();
 
@@ -158,7 +158,7 @@ CharacterManager.create = function (user, character, callback) {
 
 CharacterManager.reroll = function (user, characterID, callback) {
 
-    var myCallback = function (err, character) {
+    CharacterManager.fetchByID(user, characterID, function (err, character) {
 
         if (err) {
             logger.error('Could not load character for re-roll: ' + err);
@@ -166,13 +166,43 @@ CharacterManager.reroll = function (user, characterID, callback) {
         }
 
         CharacterManager.rollCharacter(character);
-        // return CharacterManager.update(character, callback);
+        
+        return CharacterManager.update(character._id, { stats: character.stats, health: character.health, bonus: character.bonus }, callback);
 
-    };
+    });
 
-    CharacterManager.fetchByID(user, characterID, myCallback);
 
 };
+
+CharacterManager.delete = function (user, characterID, callback) {
+
+    CharacterManager.fetchByID(user, characterID, function (err, character) {
+
+        if (err) {
+            logger.error('Could not load character for deletion: ' + err);
+            return callback(err, null);
+        }
+
+        var collection = db.get('characters');
+
+        collection.remove({ _id: characterID }, function (err, doc) {
+
+            if (err) {
+                // it failed - return an error
+                logger.error('Could not delete character: ' + err);
+                return callback(err, false);
+            }
+
+            // It worked!
+            return callback(null, true);
+
+        });   // collection.remove callback
+
+    });
+
+
+};
+
 
 
 CharacterManager.saveStats = function (user, character, callback) {
