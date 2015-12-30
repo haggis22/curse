@@ -3,7 +3,7 @@
 (function(isNode, isAngular) {
 
     // This wrappers function returns the contents of the module, with dependencies
-    var CreatureModule = function (Stat, Sex, ItemFactory, Value) {
+    var CreatureModule = function (Stat, Sex, ItemFactory, Item, Value) {
 
         var Creature = function (creature) {
 
@@ -477,7 +477,7 @@
     {
         // AngularJS module definition
         angular.module('CurseApp').
-            factory('Creature', ['Stat', 'Sex', 'ItemFactory', 'Value', CreatureModule]);
+            factory('Creature', ['Stat', 'Sex', 'ItemFactory', 'Item', 'Value', CreatureModule]);
 
     } else if (isNode) {
         // NodeJS module definition
@@ -485,6 +485,7 @@
             require(__dirname + '/Stat'),
             require(__dirname + '/Sex'),
             require(__dirname + '/../items/ItemFactory'),
+            require(__dirname + '/../items/Item'),
             require(__dirname + '/../items/Value')
         );
     }
