@@ -1,21 +1,16 @@
-<div ng-controller="tavern.singleController">
+<div ng-controller="tavern.bioController">
 
     <style type="text/css">
-        
-        .header-name
-        {
-            font-size: 14pt;
-        }
-        
-        .header-species
-        {
-            font-size: 10pt;
-        }
-        
+    
+    fieldset.stats-editor
+    {
+        width: 200px;
+    }
+    
     </style>
 
-    <div ng-hide="isNewCharacter()">
-        
+    <fieldset class="tavern character stats-editor">
+
         <div>
             <div class="header-name">
                 {{ characterService.current.name }}
@@ -33,17 +28,9 @@
                 <button type="button" ng-click="deleteCharacter()">Delete Character</button>
             </div>
 
-
         </div>
 
-        <div class="m-tabs" style="margin-top: 15px;">
-            <a ui-sref-active="active" ui-sref="tavern.characters.single.edit">Stats</a>
-            <a ui-sref-active="active" ui-sref="tavern.characters.single.skills">Skills</a>
-            <a ui-sref-active="active" ui-sref="tavern.characters.single.gear">Equipment</a>
-            <a ui-sref-active="active" ui-sref="tavern.characters.single.shoppe">Shoppe</a>
-        </div>
-    </div>
 
-    <div ui-view></div>
+    </fieldset>
 
 </div>

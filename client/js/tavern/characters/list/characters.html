@@ -16,10 +16,10 @@
                 <tbody>
                     <tr ng-repeat="character in characterService.getCharacters() | orderBy:'name'">
                         <td>
-                            <a ui-sref="tavern.characters.single({ characterID: character._id })">{{ character.getName(true) }}</a>
+                            <a ui-sref="tavern.characters.edit({ characterID: character._id })">{{ character.getName(true) }}</a>
                             <!-- <span ng-show="character.updated" class="updateTime"> ({{ character.updated | date:'dd-MM-yyyy HH:mm:ss' }})</span> -->
                         </td>
-                        <td><a ui-sref="tavern.characters.single({ characterID: character._id })">{{ character.species }}</a></td>
+                        <td><a ui-sref="tavern.characters.edit({ characterID: character._id })">{{ character.species }}</a></td>
                         <td align="center">{{ Sex.getSexAbbr(character.sex) }}</td>
                     </tr>
                 </tbody>
@@ -28,7 +28,7 @@
     </div>
 
     <div style="margin-top: 15px;">
-        <button type="button" ui-sref="tavern.characters.single.create">Create character</button>
+        <button type="button" ui-sref="tavern.characters.create">Create character</button>
     </div>
 
     <div ui-view style="margin-top: 15px;"></div>

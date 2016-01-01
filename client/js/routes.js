@@ -44,9 +44,13 @@
                 url: "/",
                 templateUrl: "js/tavern/characters/list/characters.html?v=" + (new Date()).getTime()
             })
-            .state('tavern.characters.single', {
+            .state('tavern.characters.create', {
+                url: "/create",
+                templateUrl: "js/tavern/characters/create/create.html?v=" + (new Date()).getTime()
+            })
+            .state('tavern.characters.edit', {
                 url: "/:characterID",
-                templateUrl: "js/tavern/characters/single/single.html?v=" + (new Date()).getTime(),
+                templateUrl: "js/tavern/characters/edit/edit.html?v=" + (new Date()).getTime(),
                 controller: ['$scope', '$state', '$stateParams', 
                     function ($scope, $state, $stateParams) {
 
@@ -57,31 +61,31 @@
                         }
 
                         // if only asking for the root path, then forward to the default
-                        if ($state.is('tavern.characters.single')) {
-                            $state.go('tavern.characters.single.edit');
+                        if ($state.is('tavern.characters.edit')) {
+                            $state.go('tavern.characters.edit.stats');
                         }
                     }
                 ]
             })
-            .state('tavern.characters.single.create', {
-                url: "/create",
-                templateUrl: "js/tavern/characters/create/create.html?v=" + (new Date()).getTime()
+            .state('tavern.characters.edit.bio', {
+                url: "/bio",
+                templateUrl: "js/tavern/characters/edit/bio/bio.html?v=" + (new Date()).getTime()
             })
-            .state('tavern.characters.single.edit', {
-                url: "/edit",
-                templateUrl: "js/tavern/characters/edit/edit.html?v=" + (new Date()).getTime()
+            .state('tavern.characters.edit.stats', {
+                url: "/stats",
+                templateUrl: "js/tavern/characters/edit/stats/stats.html?v=" + (new Date()).getTime()
             })
-            .state('tavern.characters.single.skills', {
+            .state('tavern.characters.edit.skills', {
                 url: "/skills",
-                templateUrl: "js/tavern/characters/edit/skills.html?v=" + (new Date()).getTime()
+                templateUrl: "js/tavern/characters/edit/skills/skills.html?v=" + (new Date()).getTime()
             })
-            .state('tavern.characters.single.gear', {
+            .state('tavern.characters.edit.gear', {
                 url: "/gear",
-                templateUrl: "js/tavern/characters/gear/gear.html?v=" + (new Date()).getTime()
+                templateUrl: "js/tavern/characters/edit/gear/gear.html?v=" + (new Date()).getTime()
             })
-            .state('tavern.characters.single.shoppe', {
+            .state('tavern.characters.edit.shoppe', {
                 url: "/shoppe",
-                templateUrl: "js/tavern/characters/shoppe/shoppe.html?v=" + (new Date()).getTime()
+                templateUrl: "js/tavern/characters/edit/shoppe/shoppe.html?v=" + (new Date()).getTime()
             })
 
 

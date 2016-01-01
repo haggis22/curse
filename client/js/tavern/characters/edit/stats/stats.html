@@ -1,0 +1,48 @@
+<div ng-controller="tavern.statsController">
+
+    <style type="text/css">
+    
+    fieldset.stats-editor
+    {
+        width: 200px;
+    }
+    
+    </style>
+
+    <fieldset class="tavern character stats-editor">
+<!--                    <legend>Stats</legend>  -->
+
+        <div class="stat" style="margin-top: 7px;">
+            <div class="label">Allocation:</div>
+            <div class="value">{{ characterService.current.bonus.stats }}</div>
+        </div>
+
+        <hr />
+
+        <div>
+
+            <div ng-repeat="stat in Stat.stats" class="stat">
+                <div class="label">{{ stat.name }}:</div>
+                <div class="value">{{ characterService.current.getStatValue('stats', stat.prop) }}</div>
+                <img ng-show="characterService.current.bonus.stats > 0" src="/images/up-arrow.png" ng-click="raiseStat(stat.prop)" class="stat-adjuster" /> 
+                <img ng-hide="characterService.current.bonus.stats > 0" src="/images/up-arrow-disabled.png" /> 
+
+                <img ng-show="characterService.current.stats[stat.prop].adjust > 0" src="/images/down-arrow.png" ng-click="lowerStat(stat.prop)" class="stat-adjuster" /> 
+                <img ng-hide="characterService.current.stats[stat.prop].adjust > 0" src="/images/down-arrow-disabled.png" /> 
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="stat">
+            <div class="label">Health:</div>
+            <div class="value">{{ characterService.current.health.value | number:0 }}</div>
+        </div>
+
+        <div style="text-align: center; margin-top: 10px;">
+            <button type="button" ng-click="saveStats()">Save</button>
+        </div>
+
+    </fieldset>
+
+</div>

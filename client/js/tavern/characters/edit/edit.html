@@ -1,46 +1,96 @@
 <div ng-controller="tavern.editController">
 
     <style type="text/css">
-    
-    fieldset.stats-editor
-    {
-        width: 200px;
-    }
-    
+        
+        fieldset.editor
+        {
+            width: 900px;
+        }
+
+        .bio
+        {
+            float: left;
+            width: 180px;
+            display: inline-block;
+            border-right: 1px solid #666;
+        }
+
+        .bio .name
+        {
+            font-size: 14pt;
+        }
+
+        .bio .species,
+        .bio .sex
+        {
+            margin-top: 5px;
+        }
+        
+        .bio .label
+        {
+            width: 3em;
+            display: inline-block;
+        }
+        
+        .bio.value
+        {
+            display: inline-block;
+            background-color: pink;
+        }
+        
+        
+        .menu
+        {
+            float: left;
+            margin-left: 20px;
+        }
+            
+        
     </style>
 
-    <fieldset class="tavern character stats-editor">
-<!--                    <legend>Stats</legend>  -->
+    <div>
+        << <a ui-sref="tavern.characters.list">Return to characters</a>
+    </div>
 
-        <div class="stat" style="margin-top: 7px;">
-            <div class="label">Allocation:</div>
-            <div class="value">{{ characterService.current.bonus.stats }}</div>
-        </div>
+    <fieldset class="tavern character editor" style="margin-top: 15px;">
 
-        <hr />
+        <div class="bio">
 
-        <div>
-
-            <div ng-repeat="stat in Stat.stats" class="stat">
-                <div class="label">{{ stat.name }}:</div>
-                <div class="value">{{ characterService.current.getStatValue('stats', stat.prop) }}</div>
-                <img ng-show="characterService.current.bonus.stats > 0" src="/images/up-arrow.png" ng-click="raiseStat(stat.prop)" class="stat-adjuster" /> 
-                <img ng-hide="characterService.current.bonus.stats > 0" src="/images/up-arrow-disabled.png" /> 
-
-                <img ng-show="characterService.current.stats[stat.prop].adjust > 0" src="/images/down-arrow.png" ng-click="lowerStat(stat.prop)" class="stat-adjuster" /> 
-                <img ng-hide="characterService.current.stats[stat.prop].adjust > 0" src="/images/down-arrow-disabled.png" /> 
+            <div class="name">
+                {{ characterService.current.name }}
+                <span ng-show="showUpdated" class="response-message" style="margin-left: 15px;">Character Updated</span>
+            
             </div>
-        </div>
 
-        <hr />
+            <div class="species">
+                <span class="label">Race:</span>
+                <span class="value">{{ characterService.current.species  }}</span>
+            </div>
 
-        <div class="stat">
-            <div class="label">Health:</div>
-            <div class="value">{{ characterService.current.health.value | number:0 }}</div>
-        </div>
+            <div class="sex">
+                <span class="label">Sex:</span>
+                <span class="value">{{ Sex.getSex(characterService.current.sex)  }}</span>
+            </div>
 
-        <div style="text-align: center; margin-top: 10px;">
-            <button type="button" ng-click="saveStats()">Save</button>
+
+            <div style="margin-top: 10px;">
+                <button type="button" ng-click="rerollCharacter()">Re-roll Character</button>
+            </div>
+            <div style="margin-top: 10px;">
+                <button type="button" ng-click="deleteCharacter()">Delete Character</button>
+            </div>
+
+        </div><!-- class = bio -->
+
+        <div class="menu">
+            <div class="m-tabs" style="margin-top: 15px;">
+                <a ui-sref-active="active" ui-sref="tavern.characters.edit.stats">Stats</a>
+                <a ui-sref-active="active" ui-sref="tavern.characters.edit.skills">Skills</a>
+                <a ui-sref-active="active" ui-sref="tavern.characters.edit.gear">Equipment</a>
+                <a ui-sref-active="active" ui-sref="tavern.characters.edit.shoppe">Shoppe</a>
+            </div>
+
+            <div style="width: 300px;" ui-view></div>
         </div>
 
     </fieldset>
