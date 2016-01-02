@@ -50,7 +50,7 @@
     <div class="money-pouch">Money: {{ characterService.current.countMoney() | coins }}</div>
 
     <div class="m-tabs">
-        <a ng-repeat="type in shoppeTypes" ng-click="setDisplay(type)" ng-class="{ 'active': type == display }">{{ type.category | capFirst }}</a>
+        <a ng-repeat="type in shoppeService.itemTypes" ng-click="shoppeService.setDisplay(type)" ng-class="{ 'active': type == shoppeService.display }">{{ type.category | capFirst }}</a>
     </div>
 
     <div style="margin-top: 15px;">

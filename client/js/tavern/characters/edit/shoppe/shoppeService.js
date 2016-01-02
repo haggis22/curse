@@ -6,6 +6,13 @@
 
 		function($resource) {
 
+            var types = [
+                    { category: 'weapons', itemName: 'weapon' },
+                    { category: 'armour', itemName: 'armour' },
+                    { category: 'potions', itemName: 'potion' },
+                    { category: 'general', itemName: 'item' }
+                ];
+
             return {
 
                 shoppe: $resource('/api/shoppe/'),
@@ -14,8 +21,15 @@
                     
                     buy: { method: 'POST' }
 
-                })
+                }),
 
+                itemTypes: types,
+
+                display: types[0],
+
+                setDisplay: function(type) {
+                    this.display = type;
+                }
 
             };
 

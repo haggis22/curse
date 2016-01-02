@@ -7,20 +7,7 @@
 		function($scope, $rootScope, $state, errorService, characterService, shoppeService, ItemFactory, Creature, Shoppe) {
 			
             $scope.shoppe = null;
-
-            $scope.shoppeTypes = 
-            [
-                { category: 'weapons', itemName: 'weapon' },
-                { category: 'armour', itemName: 'armour' },
-                { category: 'potions', itemName: 'potion' },
-                { category: 'general', itemName: 'item' }
-            ];
-
-            $scope.setDisplay = function(type) {
-                $scope.display = type;
-            };
-
-            $scope.setDisplay($scope.shoppeTypes[0]);
+            $scope.shoppeService = shoppeService;
 
             $scope.getDisplayItems = function() {
 
@@ -29,7 +16,7 @@
                     return [];
                 }
 
-                switch ($scope.display.category)
+                switch (shoppeService.display.category)
                 {
                     case 'weapons':
                         return $scope.shoppe.weapons;
