@@ -6,6 +6,8 @@
 
 		function ($scope, $rootScope, $state, $timeout, errorService, characterService, skillService, Creature, Sex) {
 
+		    $scope.characterService = characterService;
+
 		    // set up a brand-new character
 		    characterService.current = {};
 

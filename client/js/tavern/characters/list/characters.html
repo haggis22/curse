@@ -18,7 +18,7 @@
                             <a ui-sref="tavern.characters.edit({ characterID: character._id })">{{ character.getName(true) }}</a>
                             <!-- <span ng-show="character.updated" class="updateTime"> ({{ character.updated | date:'dd-MM-yyyy HH:mm:ss' }})</span> -->
                         </td>
-                        <td><a ui-sref="tavern.characters.edit({ characterID: character._id })">{{ character.species }}</a></td>
+                        <td>{{ character.species }}</td>
                         <td align="center">{{ Sex.getSexAbbr(character.sex) }}</td>
                     </tr>
                 </tbody>
