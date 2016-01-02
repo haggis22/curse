@@ -1,24 +1,48 @@
-<div ng-controller="tavern.createController">
+<div ng-controller="tavern.createController" id="create-character">
+
+    <style type="text/css">
+
+        #create-character .name,
+        #create-character .species,
+        #create-character .sex
+        {
+            margin-top: 5px;
+        }
+    
+        #create-character .label
+        {
+            width: 4em;
+            display: inline-block;
+        }
+        
+        #create-character .value
+        {
+            display: inline-block;
+        }
+        
+
+    </style>    
 
     <form name="characterForm" novalidate>
 
         <div style="float: left;">
 
             <fieldset class="tavern character">
-                <legend>Create</legend>
-                <div class="bio">
+                <legend>Create Character</legend>
+                
+                <div class="name">
                     <div class="label">Name:</div>
                     <div class="value">
-                        <input type="text" name="name" ng-model="characterService.current.name" required ng-class="{ 'field-error': submitted && characterForm.name.$invalid }" />
+                        <input type="text" name="name" ng-model="characterService.current.name" required ng-class="{ 'field-error': submitted && characterForm.name.$invalid }" focus-me="true" />
                     </div>
                 </div>
-                <div class="bio">
+                <div class="species">
                     <div class="label">Species:</div>
                     <div class="value">
                         <select name="species" ng-model="characterService.current.species" ng-options="species | capFirst for species in availableSpecies" required ng-class="{ 'field-error': submitted && characterForm.species.$invalid }"></select>
                     </div>
                 </div>
-                <div class="bio">
+                <div class="sex">
                     <div class="label">Sex:</div>
                     <div class="value" ng-class="{ 'field-error': submitted && characterForm.sex.$invalid }" style="padding: 2px;">
                         <label><input type="radio" name="sex" ng-model="characterService.current.sex" ng-value="Sex.FEMALE" required /> {{ Sex.getSex(Sex.FEMALE) }}</label>
