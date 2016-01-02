@@ -1,36 +1,110 @@
-<div ng-controller="campaign.editController">
+<div ng-controller="campaign.editController" class="campaign">
 
-    <form name="campaignForm" novalidate>
-        <table class="form-table" style="width: 300px;">
-            <thead>
-                <tr>
-                    <th colspan="2">{{ isNewCampaign() ? 'Create' : 'Edit' }} Campaign</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Name:</td>
-                    <td>
-                        <input type="text" 
-                                name="name" 
-                                ng-model="campaign.name" 
-                                required 
-                                ng-class="{ 'field-error': submitted && campaignForm.name.$invalid }" 
-                                enter-action="saveCampaign(campaignForm.$valid)"
-                                />
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="2">
-                        <button type="button" ui-sref="tavern.campaigns">Cancel</button>
-                        <button type="button" ng-click="updateCampaign(campaignForm.$valid)">Save</button>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
 
-    </form>
+    <style type="text/css">
+    
+        fieldset.campaign
+        {
+            margin-top: 15px;
+            width: 800px;
+            height: 300px;
+            padding: 0;
+        }
+    
+        .campaign .info
+        {
+            display: inline-block;
+            float: left;
+            width: 160px;
+            height: 280px;
+            border-right: 1px solid #666;
+            padding: 10px;
+            
+        }
+
+        .campaign .info .name
+        {
+            font-size: 14pt;
+        }
+
+        .campaign .info .label
+        {
+            width: 3em;
+            display: inline-block;
+        }
+        
+        .campaign .info .value
+        {
+            display: inline-block;
+        }
+        
+        .campaign .info .updated
+        {
+            margin-top: 10px;
+            font-weight: bold;
+            color: Green;
+        }
+        
+        .campaign .panes
+        {
+            float: left;
+            width: 380px;
+            height: 280px;
+            margin-left: 10px;
+            padding: 5px;
+        }
+    
+        .campaign fieldset.characters
+        {
+            margin-top: 15px;
+            width: 300px;
+            height: 300px;
+        }
+
+        .campaign fieldset.characters .title
+        {
+            font-size: 14pt;
+        }
+
+        .campaign fieldset.characters .character
+        {
+            margin-top: 5px;
+        }
+
+
+    
+    </style>
+
+    <div style="margin-top: 15px;">
+       &lt;&lt; <a ui-sref="tavern.campaigns">Return to campaigns</a>
+    </div>
+
+    <fieldset class="tavern campaign">
+    
+        <div class="info">
+        
+            <div class="name">{{ campaign.name }}</div>
+
+        </div>
+
+    </fieldset>
+
+    <fieldset class="tavern characters">
+    
+        <div class="title">Available Characters</div>
+        <hr />
+
+        <div ng-show="availableCharacters.length == 0">You have no saved characters.</div>
+        <div ng-show="availableCharacters.length > 0">
+
+            <div class="character" ng-repeat="character in (availableCharacters = characterService.getCharacters() | filter:checkAvailability | orderBy:'name')">
+                {{ character.getName(true) }}
+            </div>
+
+        </div>
+
+
+    </fieldset>
+
 
 </div>

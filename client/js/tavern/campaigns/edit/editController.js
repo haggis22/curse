@@ -3,9 +3,11 @@
 (function(app) {
 
 
-	app.controller('campaign.editController', ['$scope', '$rootScope', '$state', 'errorService', 'campaignService',
-		function($scope, $rootScope, $state, errorService, campaignService) {
+	app.controller('campaign.editController', ['$scope', '$rootScope', '$state', 'errorService', 'campaignService', 'characterService',
+		function($scope, $rootScope, $state, errorService, campaignService, characterService) {
 			
+            $scope.characterService = characterService;
+
             $scope.isNewCampaign = function() {
 
                 return $scope.campaignID == null || $scope.campaignID.length == 0;
@@ -37,26 +39,12 @@
 
             $scope.pullCampaign();
 
-
-            $scope.createCampaign = function() {
-
-                campaignService.campaigns.create({}, $scope.campaign,
-
-                    function(response) {
-                        
-                        console.log(response.message);
-                        $state.go('tavern.campaigns', {}, { reload: true });
-
-                    },
-                    function(error) {
-
-                        console.log(error);
-                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not create campaign", error) });
-
-                    });
-
+            $scope.checkAvailability = function(character)
+            {
+                return character.campaignID == null;
             };
 
+/*
             $scope.updateCampaign = function(isValid) {
 
                 $scope.submitted = true;
@@ -88,7 +76,9 @@
 
                     });
 
-            };
+            };  // updateCampaign
+*/
+
 
         }
 

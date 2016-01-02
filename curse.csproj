@@ -96,8 +96,6 @@
     <Content Include="client\common\partials\ajax-loader.html" />
     <Content Include="client\common\partials\error-message.html" />
     <Content Include="client\js\controllers\curseController.js" />
-    <Content Include="client\js\tavern\characters\edit\bio\bio.html" />
-    <Content Include="client\js\tavern\characters\edit\bio\bioController.js" />
     <Content Include="client\js\tavern\characters\edit\stats\stats.html" />
     <Content Include="client\js\tavern\characters\edit\stats\statsController.js" />
     <Content Include="client\js\tavern\characters\edit\skills\skills.html" />
@@ -114,8 +112,8 @@
     <Content Include="client\js\tavern\campaigns\play\playController.js" />
     <Content Include="client\js\tavern\characters\edit\shoppe\shoppeService.js" />
     <Content Include="client\js\tavern\campaigns\campaigns.html" />
-    <Content Include="client\js\tavern\campaigns\edit\campaign.html" />
-    <Content Include="client\js\tavern\campaigns\edit\campaignController.js" />
+    <Content Include="client\js\tavern\campaigns\edit\edit.html" />
+    <Content Include="client\js\tavern\campaigns\edit\editController.js" />
     <Content Include="client\js\controllers\combatController.js" />
     <Content Include="client\js\tavern\campaigns\campaignsController.js" />
     <Content Include="client\js\tavern\characters\edit\gear\gear.html" />

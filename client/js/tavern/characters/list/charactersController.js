@@ -14,6 +14,8 @@
                 
                 characterService.clear();
 
+                console.debug('pulling characters');
+
                 characterService.characters.query({ id: null },
 
                     function(response) {
