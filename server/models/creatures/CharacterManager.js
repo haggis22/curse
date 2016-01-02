@@ -120,6 +120,9 @@ CharacterManager.rollCharacter = function (character) {
         skills: 10
     };
 
+    // remove any skills they might have built up
+    character.skills = {};
+
 };
 
 
@@ -167,7 +170,7 @@ CharacterManager.reroll = function (user, characterID, callback) {
 
         CharacterManager.rollCharacter(character);
         
-        return CharacterManager.update(character._id, { stats: character.stats, health: character.health, bonus: character.bonus }, callback);
+        return CharacterManager.update(character._id, { stats: character.stats, health: character.health, bonus: character.bonus, skills: character.skills }, callback);
 
     });
 
