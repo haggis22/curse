@@ -67,10 +67,6 @@
                     }
                 ]
             })
-            .state('tavern.characters.edit.bio', {
-                url: "/bio",
-                templateUrl: "js/tavern/characters/edit/bio/bio.html?v=" + (new Date()).getTime()
-            })
             .state('tavern.characters.edit.stats', {
                 url: "/stats",
                 templateUrl: "js/tavern/characters/edit/stats/stats.html?v=" + (new Date()).getTime()
