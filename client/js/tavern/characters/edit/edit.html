@@ -1,18 +1,38 @@
-<div ng-controller="tavern.editController">
+<div ng-controller="tavern.editController" class="character-edit">
 
     <style type="text/css">
         
-        fieldset.editor
+        .character-edit .menu .m-tabs
         {
-            width: 900px;
+            margin-left: 200px;
+            margin-bottom: 0;
+            border-bottom: none;
         }
-
+        
+        .menu
+        {
+            margin-top: 15px;
+            margin-bottom: 0;
+        }
+        
+        
+        .character
+        {
+            margin-top: 0;
+            width: 800px;
+            height: 500px;
+            padding: 0;
+        }
+        
         .bio
         {
-            float: left;
-            width: 180px;
             display: inline-block;
+            float: left;
+            width: 160px;
+            height: 480px;
             border-right: 1px solid #666;
+            padding: 10px;
+            
         }
 
         .bio .name
@@ -32,34 +52,48 @@
             display: inline-block;
         }
         
-        .bio.value
+        .bio .value
         {
             display: inline-block;
-            background-color: pink;
         }
         
+        .bio .updated
+        {
+            margin-top: 10px;
+            font-weight: bold;
+            color: Green;
+        }
         
-        .menu
+        .panes
         {
             float: left;
-            margin-left: 20px;
+            width: 380px;
+            height: 480px;
+            margin-left: 10px;
+            padding: 5px;
         }
-            
         
     </style>
 
-    <div>
-        << <a ui-sref="tavern.characters.list">Return to characters</a>
+    <div style="margin-top: 15px;">
+       &lt;&lt; <a ui-sref="tavern.characters.list">Return to characters</a>
     </div>
 
-    <fieldset class="tavern character editor" style="margin-top: 15px;">
+    <div class="menu">
+        <div class="m-tabs">
+            <a ui-sref-active="active" ui-sref="tavern.characters.edit.stats">Stats</a>
+            <a ui-sref-active="active" ui-sref="tavern.characters.edit.skills">Skills</a>
+            <a ui-sref-active="active" ui-sref="tavern.characters.edit.gear">Equipment</a>
+            <a ui-sref-active="active" ui-sref="tavern.characters.edit.shoppe">Shoppe</a>
+        </div>
+    </div>
+
+    <fieldset class="tavern character">
 
         <div class="bio">
 
             <div class="name">
                 {{ characterService.current.name }}
-                <span ng-show="showUpdated" class="response-message" style="margin-left: 15px;">Character Updated</span>
-            
             </div>
 
             <div class="species">
@@ -80,19 +114,17 @@
                 <button type="button" ng-click="deleteCharacter()">Delete Character</button>
             </div>
 
+            <div ng-show="showUpdated" class="updated">Character Updated</div>
+
+
         </div><!-- class = bio -->
 
-        <div class="menu">
-            <div class="m-tabs" style="margin-top: 15px;">
-                <a ui-sref-active="active" ui-sref="tavern.characters.edit.stats">Stats</a>
-                <a ui-sref-active="active" ui-sref="tavern.characters.edit.skills">Skills</a>
-                <a ui-sref-active="active" ui-sref="tavern.characters.edit.gear">Equipment</a>
-                <a ui-sref-active="active" ui-sref="tavern.characters.edit.shoppe">Shoppe</a>
-            </div>
+        <div class="panes" ui-view></div>
 
-            <div style="width: 300px;" ui-view></div>
-        </div>
+        <div style="clear: both;">&nbsp;</div>
 
     </fieldset>
+
+
 
 </div>

@@ -1,63 +1,64 @@
-<div ng-controller="tavern.gearController">
+<div ng-controller="tavern.gearController" class="gear">
 
     <style type="text/css">
         
-        fieldset.gear
+        .gear
         {
-            width: 300px;
-            background-color: burlywood;
-            min-height: 300px;
         }
 
-        fieldset.gear table.datatable thead tr th:first-child
+        .gear table.datatable thead tr th:first-child
         {
             width: 200px;
         }
         
-        fieldset.gear table.datatable thead tr th:last-child
+        .gear table.datatable thead tr th:last-child
         {
             width: 100px;
         }
         
-        fieldset.gear .item
+        .gear .item
         {
             margin: 5px 0;
         }
         
-        fieldset.gear .item > .weight
+        .gear .item > .weight
         {
             font-size: 0.75em;
             font-style: italic;
         }
         
-        fieldset.gear .no-gear
+        .gear .no-gear
         {
             font-style: italic;
             margin: 10px 0;
         }
+        
+        .gear .ecumbrance
+        {
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        .gear .items
+        {
+            margin-top: 10px;
+        }
 
     </style>
 
-    <div>
-
-        <fieldset class="gear">
-
-            <legend>Encumbrance: {{ characterService.current.getEncumbrance() | number:0 }} #</legend>
+    <div class="ecumbrance">Encumbrance: {{ characterService.current.getEncumbrance() | number:0 }} #</div>
         
-            <div ng-show="characterService.current.hasAnything()">
-                <div class="item" ng-repeat="item in characterService.current.getItems()">
-                    {{ item.getName() | capFirst }}
-                    <span class="weight" ng-show="item.weight > 0">({{ item.weight | number:0 }} #)</span>
-                </div>
-            </div>
+    <hr />
 
-            <div ng-hide="characterService.current.hasAnything()" class="no-gear">
-                You are not carrying anything.
-            </div>
+    <div ng-show="characterService.current.hasAnything()">
+        <div class="item" ng-repeat="item in characterService.current.getItems()">
+            {{ item.getName() | capFirst }}
+            <span class="weight" ng-show="item.weight > 0">({{ item.weight | number:0 }} #)</span>
+        </div>
+    </div>
 
-
-        </fieldset>    
-
+    <div ng-hide="characterService.current.hasAnything()" class="no-gear">
+        You are not carrying anything.
     </div>
 
 </div>
