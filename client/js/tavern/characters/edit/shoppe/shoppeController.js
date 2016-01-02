@@ -8,6 +8,47 @@
 			
             $scope.shoppe = null;
 
+            $scope.shoppeTypes = 
+            [
+                { category: 'weapons', itemName: 'weapon' },
+                { category: 'armour', itemName: 'armour' },
+                { category: 'potions', itemName: 'potion' },
+                { category: 'general', itemName: 'item' }
+            ];
+
+            $scope.setDisplay = function(type) {
+                $scope.display = type;
+            };
+
+            $scope.setDisplay($scope.shoppeTypes[0]);
+
+            $scope.getDisplayItems = function() {
+
+                if (!$scope.shoppe)
+                {
+                    return [];
+                }
+
+                switch ($scope.display.category)
+                {
+                    case 'weapons':
+                        return $scope.shoppe.weapons;
+
+                    case 'armour':
+                        return $scope.shoppe.armour;
+
+                    case 'potions':
+                        return $scope.shoppe.potions;
+
+                    case 'general':
+                        return $scope.shoppe.items;
+                
+                }  // switch
+
+                return [];
+
+            };
+
             $scope.pullShoppe = function() {
 
                 shoppeService.shoppe.get({}, 

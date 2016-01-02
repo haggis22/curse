@@ -1,10 +1,10 @@
-<div ng-controller="tavern.shoppeController">
+<div ng-controller="tavern.shoppeController" class="shoppe">
 
     <style type="text/css">
         
-        fieldset.shoppe
+        .shoppe .m-tabs
         {
-            background-color: lightsteelblue;
+            margin-top: 10px;
         }
 
         fieldset.shoppe table.datatable thead tr th:first-child
@@ -33,126 +33,41 @@
         
         .money-pouch
         {
-            padding: 10px;
-            background-color: burlywood;
-            border: 1px solid #000;
-            display: inline-block;
-            margin-bottom: 15px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        .shoppe-display
+        {
+            background: lightsteelblue;
+            width: 400px;
         }
 
     </style>
 
     <div ng-if="shoppeError" class="error" style="margin-bottom: 10px;">{{ shoppeError }}</div>
-    <div>
-        <div class="money-pouch">Money: {{ characterService.current.countMoney() | coins }}</div>
+
+    <div class="money-pouch">Money: {{ characterService.current.countMoney() | coins }}</div>
+
+    <div class="m-tabs">
+        <a ng-repeat="type in shoppeTypes" ng-click="setDisplay(type)" ng-class="{ 'active': type == display }">{{ type.category | capFirst }}</a>
     </div>
 
-
-    <div style="float: left;">
-
-        <fieldset class="shoppe">
-            <legend>Weapons</legend>
-        
-            <div style="margin-top: 15px;">
-                <table class="datatable">
-                    <thead>
-                        <tr>
-                            <th colspan="2">{{ shoppe.weapons.length | number }} weapons</th>
-                        </tr>
-                    </thead>
-
-                    <thead>
-                        <tr>
-                            <th align="left" style="width: 150px;">Weapon</th>
-                            <th align="left">Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="item in shoppe.weapons" ng-class="{ 'too-expensive': !characterService.current.canAfford(item), 'buy-link': characterService.current.canAfford(item) }" ng-click="buy(item)">
-                            <td align="left">{{ item.getName(null) | capFirst }}</td>
-                            <td align="left">{{ item.value | coins:true }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-        </fieldset>    
-
-        <fieldset class="shoppe" style="margin-top: 15px;">
-            <legend>Armour</legend>
-        
-            <div style="margin-top: 15px;">
-                <table class="datatable">
-                    <thead>
-                        <tr>
-                            <th align="left" style="width: 150px;">Armour</th>
-                            <th align="left">Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="item in shoppe.armour" ng-class="{ 'too-expensive': !characterService.current.canAfford(item), 'buy-link': characterService.current.canAfford(item) }" ng-click="buy(item)">
-                            <td align="left">{{ item.getName(null) | capFirst }}</td>
-                            <td align="left">{{ item.value | coins:true }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-        </fieldset>    
-
+    <div style="margin-top: 15px;">
+        <table class="datatable shoppe-display">
+            <thead>
+                <tr>
+                    <th align="left" style="width: 150px;">{{ display.itemName | capFirst }}</th>
+                    <th align="left">Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in getDisplayItems()" ng-class="{ 'too-expensive': !characterService.current.canAfford(item), 'buy-link': characterService.current.canAfford(item) }" ng-click="buy(item)">
+                    <td align="left">{{ item.getName(null) | capFirst }}</td>
+                    <td align="left">{{ item.value | coins:true }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-
-    <div style="float: left; margin-left: 20px;">
-
-        <fieldset class="shoppe">
-            <legend>Potions</legend>
-        
-            <div style="margin-top: 15px;">
-                <table class="datatable">
-                    <thead>
-                        <tr>
-                            <th align="left" style="width: 150px;">Potion</th>
-                            <th align="left">Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="item in shoppe.potions" ng-class="{ 'too-expensive': !characterService.current.canAfford(item), 'buy-link': characterService.current.canAfford(item) }" ng-click="buy(item)">
-                            <td align="left">{{ item.getName(null) | capFirst }}</td>
-                            <td align="left">{{ item.value | coins:true }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-        </fieldset>    
-
-    </div>
-
-    <div style="float: left; margin-left: 20px;">
-
-        <fieldset class="shoppe">
-            <legend>General Items</legend>
-        
-            <div style="margin-top: 15px;">
-                <table class="datatable">
-                    <thead>
-                        <tr>
-                            <th align="left" style="width: 150px;">Item</th>
-                            <th align="left">Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="item in shoppe.items" ng-class="{ 'too-expensive': !characterService.current.canAfford(item), 'buy-link': characterService.current.canAfford(item) }" ng-click="buy(item)">
-                            <td align="left">{{ item.getName(null) | capFirst }}</td>
-                            <td align="left">{{ item.value | coins:true }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-        </fieldset>    
-
-    </div>
-
 
 </div>
