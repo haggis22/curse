@@ -37,10 +37,27 @@
             margin-top: 5px;
         }
         
-        .shoppe-display
+        #shoppe-display
         {
             background: lightsteelblue;
             width: 400px;
+        }
+        
+        #shoppe-display .name
+        {
+            text-align: left;
+        }
+        
+        #shoppe-display .weight
+        {
+            text-align: right;
+            width: 60px;
+        }
+
+        #shoppe-display .cost
+        {
+            text-align: right;
+            width: 100px;
         }
 
     </style>
@@ -54,17 +71,19 @@
     </div>
 
     <div style="margin-top: 15px;">
-        <table class="datatable shoppe-display">
+        <table id="shoppe-display" class="datatable">
             <thead>
                 <tr>
-                    <th align="left" style="width: 150px;">{{ display.itemName | capFirst }}</th>
-                    <th align="left">Cost</th>
+                    <th class="name">{{ shoppeService.display.itemName | capFirst }}</th>
+                    <th class="weight">Weight</th>
+                    <th class="cost">Cost</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="item in getDisplayItems()" ng-class="{ 'too-expensive': !characterService.current.canAfford(item), 'buy-link': characterService.current.canAfford(item) }" ng-click="buy(item)">
-                    <td align="left">{{ item.getName(null) | capFirst }}</td>
-                    <td align="left">{{ item.value | coins:true }}</td>
+                    <td class="name">{{ item.getName(null) | capFirst }}</td>
+                    <td class="weight">{{ item.weight | number:0 }} #</td>
+                    <td class="cost">{{ item.value | coins:true }}</td>
                 </tr>
             </tbody>
         </table>
