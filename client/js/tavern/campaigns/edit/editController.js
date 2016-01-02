@@ -3,7 +3,7 @@
 (function(app) {
 
 
-	app.controller('campaignController', ['$scope', '$rootScope', '$state', 'errorService', 'campaignService',
+	app.controller('campaign.editController', ['$scope', '$rootScope', '$state', 'errorService', 'campaignService',
 		function($scope, $rootScope, $state, errorService, campaignService) {
 			
             $scope.isNewCampaign = function() {

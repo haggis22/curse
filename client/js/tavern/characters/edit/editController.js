@@ -3,7 +3,7 @@
 (function(app) {
 
 
-	app.controller('tavern.editController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'skillService', 'Creature', 'Sex',
+	app.controller('character.editController', ['$scope', '$rootScope', '$state', '$timeout', 'errorService', 'characterService', 'skillService', 'Creature', 'Sex',
 		function($scope, $rootScope, $state, $timeout, errorService, characterService, skillService, Creature, Sex) {
 
             $scope.Sex = Sex;

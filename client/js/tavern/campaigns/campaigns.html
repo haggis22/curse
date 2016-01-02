@@ -43,7 +43,7 @@
                     <tbody>
                         <tr ng-repeat="campaign in campaigns | orderBy:'name'">
                             <td>
-                                <a ui-sref="tavern.campaigns.edit({ campaignID: campaign._id })">{{ campaign.name }}</a>
+                                <a ui-sref="tavern.campaign({ campaignID: campaign._id })">{{ campaign.name }}</a>
                             </td>
                             <td class="updateTime">{{ campaign.updated | date:'yyyy-MM-dd HH:mm:ss' }}</td>
                             <td align="center"><img src="/images/delete.png" class="icon-link" title="Delete campaign" ng-click="deleteCampaign(campaign)" /></td>

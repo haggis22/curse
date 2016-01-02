@@ -90,7 +90,15 @@
                 url: "/campaigns",
                 templateUrl: "js/tavern/campaigns/campaigns.html?v=" + (new Date()).getTime()
             })
-            .state('tavern.campaigns.edit', {
+            .state('tavern.campaign', {
+                url: "/campaign/:campaignID",
+                templateUrl: "js/tavern/campaigns/edit/edit.html?v=" + (new Date()).getTime(),
+                controller: function($scope, $stateParams) {
+                    $scope.campaignID = $stateParams.campaignID;
+                }
+            })
+/*
+            .state('tavern.campaign.edit', {
                 url: "/:campaignID",
                 templateUrl: "js/tavern/campaigns/edit/campaign.html?v=" + (new Date()).getTime(),
                 controller: function($scope, $stateParams) {
@@ -108,7 +116,7 @@
                                 }
                             ]
             })
-
+*/
 			.state('rollup', {
 				url: "/rollup",
 				templateUrl: "partials/rollup.html"
