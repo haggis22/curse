@@ -112,6 +112,7 @@ CampaignManager.fetchByID = function (user, id) {
 
         var campaign = new Campaign(result[0]);
 
+        // the campaign has no characters, so just dump out
         if (campaign.characters.length == 0)
         {
             return deferred.resolve(campaign);
@@ -119,10 +120,9 @@ CampaignManager.fetchByID = function (user, id) {
 
         var charArray = campaign.characters.map(function(charID) {
 
-            return CharacterManager.fetchByIDPromise(user, charID);
+            return CharacterManager.fetchByID(user, charID);
 
         });
-
 
         Q.all(charArray)
             .then(function(data) {
@@ -166,52 +166,13 @@ CampaignManager.create = function (user, campaign, callback) {
 
 };
 
-CampaignManager.updateValues = function (user, campaign, callback) {
-
-    // first, validate that the campaign's adjustments are legal
-    // We need to pull the existing campaign
-    CampaignManager.fetchByID(user, campaign._id, function (err, oldCampaign) {
-
-        if (err) {
-            // it failed - return an error
-            logger.error('Could not verify campaign update: ' + err);
-            return callback(err, null);
-        }
-
-        if (oldCampaign == null)
-        {
-            logger.warn('Could not verify campaign with id ' + campaign._id + ' for user ' + user._id);
-            return callback(new Error('Could not verify campaign owner'), null);
-        }
-
-        var newValues = { name: campaign.name };
-
-        return CampaignManager.update(campaign._id, newValues, function(updateErr, result) {
-
-            if (err)
-            {
-                logger.err('Could not update campaign: ' + err);
-                return callback(err, null);
-            }
-
-            if (result)
-            {
-                return callback(null, campaign);
-            }
-
-            return callback(new Error('Save campaign failed'), null);
-
-        });
-
-    });
 
 
-};
-
-
-CampaignManager.update = function (campaignID, newValues, callback) {
+CampaignManager.update = function (campaignID, newValues) {
 
     newValues.updated = new Date();
+
+    var deferred = Q.defer();
 
     var collection = db.get('campaigns');
 
@@ -220,12 +181,14 @@ CampaignManager.update = function (campaignID, newValues, callback) {
         if (err) {
             // it failed - return an error
             logger.error('Could not update campaign: ' + err);
-            return callback(err, false);
+            deferred.reject(new Error(err));
         }
 
-        return callback(null, true);
+        deferred.resolve(true);
 
     });
+
+    return deferred.promise;
 
 
 };
@@ -254,37 +217,31 @@ CampaignManager.delete = function (campaignID, callback) {
 
 CampaignManager.join = function(user, campaignID, characterID, callback) {
 
-    CampaignManager.fetchByID(user, campaignID, function(err, campaign) {
+    var deferred = Q.defer();
 
-        if (err) {
-            return callback(err, false);
-        }
+    var outerCampaign = null;
 
+    CampaignManager.fetchByID(user, campaignID)
+        
+        // add the campaign to the character
+        .then(function(campaign) {
+            outerCampaign = campaign;
+            return CharacterManager.joinCampaign(user, characterID, campaign._id);
+        })
         // add the character to this campaign
-        CharacterManager.joinCampaign(user, characterID, campaign._id, function(joinErr, character) {
+        .then(function(character) {
+            outerCampaign.characters.push(character._id);
+            return CampaignManager.update(outerCampaign._id, { characters: outerCampaign.characters });
+        })
+        // we're done
+        .then(function() {
+            deferred.resolve(true);
+        })
+        .catch(function(err) {
+            deferred.reject(new Error(err));
+        });
 
-            if (joinErr)
-            {
-                return callback(joinErr, false);
-            }
-
-            // update the campaign to include this character
-            campaign.characters.push(character._id);
-
-            CampaignManager.update(campaignID, { characters: campaign.characters }, function(saveErr, result) {
-
-                if (saveErr)
-                {
-                    return callback(saveErr, false);
-                }
-
-                return callback(null, true);
-
-            });   // CampaignManager.join
-
-        });  // CharacterManager.join
-
-    });
+    return deferred.promise;
 
 };
 

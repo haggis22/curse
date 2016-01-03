@@ -84,7 +84,6 @@
 
                     },
                     function(error) {
-
                         $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not add character to campaign", error) });
 
                     });

@@ -68,16 +68,15 @@ router.post('/start/:moduleID', function (req, res) {
 // adds a character to a campaign
 router.post('/add/:campaignID/:characterID', function (req, res) {
 
-    CampaignManager.join(req.user, req.params.campaignID, req.params.characterID, function(err, result) {
-
-        if (err)
-        {
+    CampaignManager.join(req.user, req.params.campaignID, req.params.characterID)
+    
+        .then(function(result) {
+            return res.status(200).send(result);
+        })
+        .catch(function(err) {
+            logger.error('Could not join campaign: ' + err);
             return res.status(500).send({ error: 'Could not join camapign' }).end();
-        }
-
-        return res.status(200).send(true);
-
-    });
+        });
 
 });
 
@@ -110,25 +109,6 @@ router.get('/:campaignID', function (req, res) {
 });
 
 
-router.put('/:campaignID', function (req, res) {
-
-    var campaign = new Campaign(req.body);
-
-    var callback = function (err, result) {
-
-        if (err) {
-            return res.status(500).json({ error: err }).end();
-        }
-        else {
-            return res.json(result);
-        }
-
-    }
-
-    CampaignManager.updateValues(req.user, campaign, callback);
-
-});
-
 router.delete('/:campaignID', function (req, res) {
 
     var campaignID = req.params.campaignID;
@@ -145,24 +125,6 @@ router.delete('/:campaignID', function (req, res) {
     }
 
     CampaignManager.delete(campaignID, callback);
-
-});
-
-
-router.put('/:campaignID/characters/:characterID', function(req, res) {
-
-    CampaignManager.fetchByID(req.user, req.params.campaignID, function(errCampaign, campaign) {
-    
-        if (errCampaign)
-        {
-            return res.status(500).send({ error: 'Could not load campaign' }).end();
-        }
-
-
-
-    });
-    
-
 
 });
 

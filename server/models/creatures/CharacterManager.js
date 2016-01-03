@@ -25,32 +25,9 @@ var CharacterManager = function () {
 };
 
 
-CharacterManager.fetchByID = function (user, id, callback) {
 
-    var collection = db.get('characters');
-
-    debugger;
-
-    collection.find({ _id: id, userID: user._id }, function (err, result) {
-
-        if (err) {
-            logger.error('Could not load character from database: ' + err);
-            return callback(err, null);
-        }
-
-        if (result.length == 0) {
-            logger.error('Could not find record with id ' + id + '. Possibly the wrong user?');
-            return callback({ error: 'Unknown character' }, null);
-        }
-
-        var character = new Creature(result[0]);
-
-        return callback(null, character);
-    });
-
-};     // fetchByID
-
-CharacterManager.fetchByIDPromise = function (user, id) {
+// Returns a promise to a character
+CharacterManager.fetchByID = function (user, id) {
 
     var deferred = Q.defer();
 
@@ -71,7 +48,7 @@ CharacterManager.fetchByIDPromise = function (user, id) {
 
     return deferred.promise;
 
-};     // fetchByIDPromise
+};     // fetchByID
 
 
 
@@ -455,41 +432,49 @@ CharacterManager.updatePack = function (character, callback) {
 
 }
 
-CharacterManager.joinCampaign = function(user, characterID, campaignID, callback) {
+CharacterManager.joinCampaign = function(user, characterID, campaignID) {
 
-    CharacterManager.fetchByID(user, characterID, function(err, character) {
-            
-        if (err) {
-            logger.error('Could not find character ' + characterID + ': ' + err);
-            return callback(err, null);
-        }
+    var deferred = Q.defer();
 
-        // Check to see whether the character already belongs to a campaign
-        if (character.campaignID)
-        {
-            if (character.campaignID == campaignID)
+    var promise = CharacterManager.fetchByID(user, characterID);
+
+    promise
+        .then(function(character) {
+
+            // Check to see whether the character already belongs to a campaign
+            debugger;
+
+            if (character.campaignID)
             {
-                return callback(new Error('Character is already in this campaign'), null);
-            }
+                if (character.campaignID == campaignID)
+                {
+                    return deferred.reject(new Error('Character is already in this campaign'));
+                }
 
-            return callback(new Error('Character is already in another campaign'), null);
-        } 
+                return deferred.reject(new Error('Character is already in another campaign'));
+            } 
 
-        // mark the character as being part of this campaign
-        CharacterManager.update(characterID, { campaignID: campaignID }, function(joinErr, result) {
+            // mark the character as being part of this campaign
+            CharacterManager.update(characterID, { campaignID: campaignID }, function(joinErr, result) {
 
-            if (joinErr)
-            {
-                logger.error('Character could not join campaign: ' + joinErr);
-                return callback(joinErr, null);
-            }
+                if (joinErr)
+                {
+                    logger.error('Character could not join campaign: ' + joinErr);
+                    deferred.reject(new Error(joinErr));
+                }
 
-            // it worked!
-            return callback(null, character);
+                // it worked!
+                deferred.resolve(character);
 
-        });  // CharacterManager.update
+            });  // CharacterManager.update
 
-    });  // CharacterManager.fetchByID
+
+        })
+        .catch(function(err) {
+            deferred.reject(new Error(err));
+        })
+
+    return deferred.promise;
 
 };
 
