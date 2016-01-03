@@ -9,8 +9,9 @@ var logger = log4js.getLogger('curse');
 var mongo = require('mongodb');
 var monk = require('monk');
 
-
 var db = monk(config.db);
+
+var Q = require('q');
 
 var dice = require(__dirname + '/../../core/Dice');
 
@@ -48,6 +49,30 @@ CharacterManager.fetchByID = function (user, id, callback) {
     });
 
 };     // fetchByID
+
+CharacterManager.fetchByIDPromise = function (user, id) {
+
+    var deferred = Q.defer();
+
+    var collection = db.get('characters');
+
+    collection.find({ _id: id, userID: user._id }, function (err, result) {
+
+        if (err) {
+            logger.error('Could not load character from database: ' + err);
+            deferred.reject(err);
+        }
+
+        var character = new Creature(result[0]);
+
+        deferred.resolve(character);
+
+    });
+
+    return deferred.promise;
+
+};     // fetchByIDPromise
+
 
 
 CharacterManager.fetchByUser = function (user, callback) {
@@ -429,6 +454,44 @@ CharacterManager.updatePack = function (character, callback) {
     return CharacterManager.update(character._id, { pack: character.pack }, callback);
 
 }
+
+CharacterManager.joinCampaign = function(user, characterID, campaignID, callback) {
+
+    CharacterManager.fetchByID(user, characterID, function(err, character) {
+            
+        if (err) {
+            logger.error('Could not find character ' + characterID + ': ' + err);
+            return callback(err, null);
+        }
+
+        // Check to see whether the character already belongs to a campaign
+        if (character.campaignID)
+        {
+            if (character.campaignID == campaignID)
+            {
+                return callback(new Error('Character is already in this campaign'), null);
+            }
+
+            return callback(new Error('Character is already in another campaign'), null);
+        } 
+
+        // mark the character as being part of this campaign
+        CharacterManager.update(characterID, { campaignID: campaignID }, function(joinErr, result) {
+
+            if (joinErr)
+            {
+                logger.error('Character could not join campaign: ' + joinErr);
+                return callback(joinErr, null);
+            }
+
+            // it worked!
+            return callback(null, character);
+
+        });  // CharacterManager.update
+
+    });  // CharacterManager.fetchByID
+
+};
 
 
 

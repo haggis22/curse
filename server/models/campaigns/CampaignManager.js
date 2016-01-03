@@ -11,7 +11,11 @@ var monk = require('monk');
 
 var db = monk(config.db);
 
+var Q = require('q');
+
 var Campaign = require(__dirname + '/../../../js/campaigns/Campaign.js');
+var CharacterManager = require(__dirname + '/../creatures/CharacterManager.js');
+
 
 var CampaignManager = function () {
 
@@ -92,7 +96,7 @@ CampaignManager.fetchByID = function (user, id, callback) {
 
     var collection = db.get('campaigns');
 
-    collection.find({ _id: id }, function (err, result) {
+    collection.find({ _id: id, userID: user._id }, function (err, result) {
 
         if (err) {
             logger.error('Could not load campaign from database: ' + err);
@@ -100,21 +104,19 @@ CampaignManager.fetchByID = function (user, id, callback) {
         }
 
         if (result.length == 0) {
-
             // no error, but no campaign, either
-            logger.warn('Could not find record with id ' + id);
-            return callback(null, null);
+            logger.warn('Could not find record with id ' + id + ' for user ' + user._id);
+            return callback(new Error('Unknown campaign', null));
         }
 
         var campaign = new Campaign(result[0]);
 
-        debugger;
-
+/*
         if (!campaign.userID.equals(user._id)) {
             logger.error('Tried to access campaign ' + campaign._id + ' with the wrong user ' + user._id);
             return callback({ error: 'Not the owner' }, null);
         }
-
+*/
         return callback(null, campaign);
     });
 
@@ -231,6 +233,42 @@ CampaignManager.delete = function (campaignID, callback) {
 
 };
 
+
+CampaignManager.join = function(user, campaignID, characterID, callback) {
+
+    CampaignManager.fetchByID(user, campaignID, function(err, campaign) {
+
+        if (err) {
+            return callback(err, false);
+        }
+
+        // add the character to this campaign
+        CharacterManager.joinCampaign(user, characterID, campaign._id, function(joinErr, character) {
+
+            if (joinErr)
+            {
+                return callback(joinErr, false);
+            }
+
+            // update the campaign to include this character
+            campaign.characters.push(character._id);
+
+            CampaignManager.update(campaignID, { characters: campaign.characters }, function(saveErr, result) {
+
+                if (saveErr)
+                {
+                    return callback(saveErr, false);
+                }
+
+                return callback(null, true);
+
+            });   // CampaignManager.join
+
+        });  // CharacterManager.join
+
+    });
+
+};
 
 
 module.exports = CampaignManager;

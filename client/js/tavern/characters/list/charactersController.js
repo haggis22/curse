@@ -14,8 +14,6 @@
                 
                 characterService.clear();
 
-                console.debug('pulling characters');
-
                 characterService.characters.query({ id: null },
 
                     function(response) {
@@ -36,11 +34,6 @@
             };
 
             $scope.pullCharacters();
-
-            $scope.reload = function() {
-
-                $scope.pullCharacters();
-            };
 
         }
 

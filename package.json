@@ -16,7 +16,8 @@
     "log4js": "^0.6.25",
     "mongodb": "*",
     "monk": "*",
-    "node-uuid": "^1.4.7"
+    "node-uuid": "^1.4.7",
+    "q": "^1.4.1"
   },
   "private": true
 }

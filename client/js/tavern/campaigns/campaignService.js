@@ -16,6 +16,10 @@
 
                 campaigns: $resource('/api/campaigns/:id', {}, {
                                 update: { method: 'PUT' }
+                            }),
+
+                characters: $resource('/api/campaigns/:action/:campaignID/:characterID', { action: '@action', campaignID: '@campaignID', characterID: '@characterID' }, {
+                                save: { method: 'POST' }
                             })
 
             };

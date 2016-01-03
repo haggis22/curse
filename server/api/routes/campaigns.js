@@ -5,6 +5,8 @@ var log4js = require('log4js');
 log4js.configure(__dirname + '/../../log4js_config.json', {});
 var logger = log4js.getLogger('curse');
 
+var Q = require('q');
+
 var CampaignManager = require(__dirname + '/../../models/campaigns/CampaignManager');
 var Campaign = require(__dirname + '/../../../js/campaigns/Campaign.js');
 
@@ -24,6 +26,7 @@ router.get('/modules', function (req, res) {
 
 });
 
+// Copies an existing module to create a new campaign for it
 router.post('/start/:moduleID', function (req, res) {
 
     CampaignManager.fetchModule(req.user, req.params.moduleID, function(err, module) {
@@ -62,6 +65,23 @@ router.post('/start/:moduleID', function (req, res) {
 });
 
 
+// adds a character to a campaign
+router.post('/add/:campaignID/:characterID', function (req, res) {
+
+    CampaignManager.join(req.user, req.params.campaignID, req.params.characterID, function(err, result) {
+
+        if (err)
+        {
+            return res.status(500).send({ error: 'Could not join camapign' }).end();
+        }
+
+        return res.status(200).send(true);
+
+    });
+
+});
+
+
 router.get('/', function (req, res) {
 
     CampaignManager.fetchAll(req.user, function(err, campaigns) { 
@@ -69,9 +89,8 @@ router.get('/', function (req, res) {
         if (err) {
             return res.status(500).send({ error: 'Could not fetch campaigns' }).end();
         }
-        else {
-            return res.json(campaigns);
-        }
+
+        return res.json(campaigns);
     
     });
 
@@ -93,6 +112,22 @@ router.get('/:campaignID', function (req, res) {
    
     });
 
+/*
+
+    var promise = CampaignManager.fetchByID(req.user, req.params.campaignID);
+
+    debugger;
+
+    promise
+        .then(function(campaign) {
+            return res.json(campaign).end();
+
+        })
+        .catch(function(err)
+        {
+            return res.status(500).send({ error: 'Could not load campaign' }).end();
+        });
+*/
 });
 
 

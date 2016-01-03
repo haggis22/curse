@@ -57,7 +57,7 @@
         .campaign fieldset.characters
         {
             margin-top: 15px;
-            width: 300px;
+            width: 280px;
             height: 300px;
         }
 
@@ -71,6 +71,19 @@
             margin-top: 5px;
         }
 
+        #recruits .name
+        {
+            width: 200px;
+            text-align: left;
+        }
+        
+        #recruits .join
+        {
+            width: 50px;
+            text-align: center;
+        }
+            
+        
 
     
     </style>
@@ -85,6 +98,10 @@
         
             <div class="name">{{ campaign.name }}</div>
 
+            <div class="current-characters">
+                <div ng-repeat="character in campaign.characters">{{ character }}</div>
+            </div>
+
         </div>
 
     </fieldset>
@@ -97,9 +114,15 @@
         <div ng-show="availableCharacters.length == 0">You have no saved characters.</div>
         <div ng-show="availableCharacters.length > 0">
 
-            <div class="character" ng-repeat="character in (availableCharacters = characterService.getCharacters() | filter:checkAvailability | orderBy:'name')">
-                {{ character.getName(true) }}
-            </div>
+            <table id="recruits" border="0">
+                <tbody>
+                    <tr class="character" ng-repeat="character in (availableCharacters = characterService.getCharacters() | filter:checkAvailability | orderBy:'name')">
+                        <td class="name">{{ character.getName(true) }}</td>
+                        <td class="join"><button type="button" ng-click="addCharacterToCampaign(character)">Join</button></td>
+                    </tr>
+                    
+                </tbody>
+            </table>
 
         </div>
 

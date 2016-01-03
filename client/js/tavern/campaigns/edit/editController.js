@@ -3,8 +3,8 @@
 (function(app) {
 
 
-	app.controller('campaign.editController', ['$scope', '$rootScope', '$state', 'errorService', 'campaignService', 'characterService',
-		function($scope, $rootScope, $state, errorService, campaignService, characterService) {
+	app.controller('campaign.editController', ['$scope', '$rootScope', '$state', 'errorService', 'campaignService', 'characterService', 'Creature',
+		function($scope, $rootScope, $state, errorService, campaignService, characterService, Creature) {
 			
             $scope.characterService = characterService;
 
@@ -39,9 +39,56 @@
 
             $scope.pullCampaign();
 
+
+            $scope.pullCharacters = function() {
+                
+                characterService.clear();
+
+                characterService.characters.query({ id: null },
+
+                    function(response) {
+
+                        response.forEach(function(character) {
+
+                            characterService.add(new Creature(character));
+
+                        });
+
+                    },
+                    function(error) {
+
+                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not fetch characters", error) });
+
+                    });
+
+            };
+
+            $scope.pullCharacters();
+
+
             $scope.checkAvailability = function(character)
             {
+                return true;
                 return character.campaignID == null;
+            };
+
+            $scope.addCharacterToCampaign = function(character)
+            {
+                campaignService.characters.save({ action: 'add', campaignID: $scope.campaign._id, characterID: character._id },
+
+                    function(response) {
+
+                        // update the page
+                        $scope.pullCampaign();
+                        $scope.pullCharacters();
+
+                    },
+                    function(error) {
+
+                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not add character to campaign", error) });
+
+                    });
+
             };
 
 /*
