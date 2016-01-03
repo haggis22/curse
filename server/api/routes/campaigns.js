@@ -111,20 +111,13 @@ router.get('/:campaignID', function (req, res) {
 
 router.delete('/:campaignID', function (req, res) {
 
-    var campaignID = req.params.campaignID;
-
-    var callback = function (err, message) {
-
-        if (err) {
-            return res.status(500).json({ error: err }).end();
-        }
-        else {
-            return res.json({ message: message });
-        }
-
-    }
-
-    CampaignManager.delete(campaignID, callback);
+    CampaignManager.delete(req.params.campaignID)
+        .then(function(result) {
+        return res.json(result).end();
+        })
+        .catch(function(err) {
+            return res.status(500).send({ error: 'Could not delete campaign' }).end();
+        });
 
 });
 

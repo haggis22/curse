@@ -174,46 +174,66 @@ CampaignManager.create = function (user, campaign, callback) {
 
 CampaignManager.update = function (campaignID, newValues) {
 
-    newValues.updated = new Date();
-
     var deferred = Q.defer();
 
-    var collection = db.get('campaigns');
+    try
+    {
+        newValues.updated = new Date();
 
-    collection.update({ _id: campaignID }, { $set: newValues }, function (err, doc) {
+        var collection = db.get('campaigns');
 
-        if (err) {
-            // it failed - return an error
-            logger.error('Could not update campaign: ' + err);
-            deferred.reject(new Error(err));
-        }
+        collection.update({ _id: campaignID }, { $set: newValues }, function (err, doc) {
 
-        deferred.resolve(true);
+            if (err) {
+                // it failed - return an error
+                logger.error('Could not update campaign: ' + err);
+                deferred.reject(new Error(err));
+            }
 
-    });
+            deferred.resolve(true);
+
+        });
+    }
+    catch (err) 
+    {
+        logger.error('Error in update: ' + err);
+        deferred.reject(new Error(err));
+    }
 
     return deferred.promise;
 
 
 };
 
-CampaignManager.delete = function (campaignID, callback) {
+CampaignManager.delete = function (campaignID) {
 
-    var collection = db.get('campaigns');
+    var deferred = Q.defer();
 
-    collection.remove({ _id: campaignID }, { justOne: true }, function (err, doc) {
+    try
+    {
 
-        if (err) {
-            // it failed - return an error
-            logger.error('Could not delete campaign: ' + err);
-            return callback(err, null);
-        }
+        var collection = db.get('campaigns');
 
-        console.info('campaign delete successfully');
+        collection.remove({ _id: campaignID }, { justOne: true }, function (err, doc) {
 
-        return callback(null, 'Campaign ' + campaignID + ' deleted successfully');
+            if (err) {
+                // it failed - return an error
+                logger.error('Could not delete campaign: ' + err);
+                return deferred.reject(new Error(err));
+            }
 
-    });
+            return deferred.resolve(true);
+
+        });
+
+    }
+    catch (err) 
+    {
+        logger.error('Error in delete: ' + err);
+        deferred.reject(new Error(err));
+    }
+
+    return deferred.promise;
 
 
 };
