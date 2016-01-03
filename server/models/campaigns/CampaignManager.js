@@ -92,33 +92,51 @@ CampaignManager.fetchAll = function (user, callback) {
 
 };
 
-CampaignManager.fetchByID = function (user, id, callback) {
+CampaignManager.fetchByID = function (user, id) {
 
     var collection = db.get('campaigns');
 
-    collection.find({ _id: id, userID: user._id }, function (err, result) {
+    var deferred = Q.defer();
 
-        if (err) {
-            logger.error('Could not load campaign from database: ' + err);
-            return callback(err, null);
+    collection.find({ _id: id, userID: user._id }, function(err, result) {
+
+        if (err)
+        {
+            return deferred.reject(new Error(err));
         }
 
-        if (result.length == 0) {
-            // no error, but no campaign, either
-            logger.warn('Could not find record with id ' + id + ' for user ' + user._id);
-            return callback(new Error('Unknown campaign', null));
+        if (result.length !== 1)
+        {
+            return deferred.reject(new Error('Campaign not found'));
         }
 
         var campaign = new Campaign(result[0]);
 
-/*
-        if (!campaign.userID.equals(user._id)) {
-            logger.error('Tried to access campaign ' + campaign._id + ' with the wrong user ' + user._id);
-            return callback({ error: 'Not the owner' }, null);
+        if (campaign.characters.length == 0)
+        {
+            return deferred.resolve(campaign);
         }
-*/
-        return callback(null, campaign);
+
+        var charArray = campaign.characters.map(function(charID) {
+
+            return CharacterManager.fetchByIDPromise(user, charID);
+
+        });
+
+
+        Q.all(charArray)
+            .then(function(data) {
+                campaign.charArray = data;
+                deferred.resolve(campaign);
+            });
+
+
     });
+
+    return deferred.promise;
+
+
+
 
 };
 

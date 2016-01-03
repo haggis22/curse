@@ -98,36 +98,15 @@ router.get('/', function (req, res) {
 
 router.get('/:campaignID', function (req, res) {
 
-    CampaignManager.fetchByID(req.user, req.params.campaignID, function(err, campaign) {
-
-        if (err) {
-            return res.status(500).send({ error: 'Could not load campaign' }).end();
-        }
-        else if (campaign == null)
-        {
-            return res.status(400).send({ error: 'Unknown campaign' }).end();
-        }
-
-        return res.json(campaign).end();
-   
-    });
-
-/*
-
-    var promise = CampaignManager.fetchByID(req.user, req.params.campaignID);
-
-    debugger;
-
-    promise
+    CampaignManager.fetchByID(req.user, req.params.campaignID)
+        
         .then(function(campaign) {
             return res.json(campaign).end();
-
         })
-        .catch(function(err)
-        {
+        .catch(function(err) {
             return res.status(500).send({ error: 'Could not load campaign' }).end();
         });
-*/
+
 });
 
 

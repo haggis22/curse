@@ -98,9 +98,10 @@
         
             <div class="name">{{ campaign.name }}</div>
 
-            <div class="current-characters">
-                <div ng-repeat="character in campaign.characters">{{ character }}</div>
+            <div class="current-characters" style="margin-top: 20px;">
+                <div ng-repeat="character in campaign.charArray">{{ character.name }}</div>
             </div>
+
 
         </div>
 
