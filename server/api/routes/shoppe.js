@@ -34,69 +34,68 @@ router.get('/', function (req, res) {
 // Method for a character to buy an item in the shoppe
 router.post('/:characterID/:itemID', function (req, res) {
 
-    var characterID = req.params.characterID;
     var itemID = req.params.itemID;
 
-    console.log('character: ' + characterID);
-    console.log('item id: ' + itemID);
+    CharacterManager.fetchByID(req.user, req.params.characterID)
 
-    CharacterManager.fetchByID(req.user, characterID, function (err, character) {
+        .then(function (character) {
 
-        if (err) {
-            return res.status(500).send(err).end();
-        }
+            // now fetch the item
+            ShoppeManager.fetchItem(itemID, function (err, item) {
 
-        // now fetch the item
-        ShoppeManager.fetchItem(itemID, function (err, item) {
+                if (err) {
+                    return res.status(500).send(err).end();
+                }
 
-            if (err) {
-                return res.status(500).send(err).end();
-            }
+                logger.debug('Found ' + item.getName(true) + ' in the shoppe!');
 
-            logger.debug('Found ' + item.getName(true) + ' in the shoppe!');
+                var cost = item.value.getCoppers();
+                var money = character.countMoney();
 
-            var cost = item.value.getCoppers();
-            var money = character.countMoney();
+                logger.debug('Item costs ' + cost + ' copper pieces');
+                logger.debug(character.getName(true) + ' has ' + money + ' copper pieces!');
 
-            logger.debug('Item costs ' + cost + ' copper pieces');
-            logger.debug(character.getName(true) + ' has ' + money + ' copper pieces!');
+                // The item is not going to be a primary key, so it won't have its own ObjectID created automatically
+                item._id = new ObjectID();
 
-            // The item is not going to be a primary key, so it won't have its own ObjectID created automatically
-            item._id = new ObjectID();
+                var payResult = Shoppe.prototype.buyItem(character, item);
 
-            var payResult = Shoppe.prototype.buyItem(character, item);
+                console.log('Buy result: ' + JSON.stringify(payResult));
 
-            console.log('Buy result: ' + JSON.stringify(payResult));
+                if (payResult.success) {
 
-            if (payResult.success) {
+                    // the character successfully buys the item!
+                    CharacterManager.updatePack(character, function (err, result) {
 
-                // the character successfully buys the item!
-                CharacterManager.updatePack(character, function (err, result) {
+                        if (err) {
+                            logger.err('Could not save pack: ' + err);
+                            return res.status(500).send({ error: 'Could not buy item' }).end();
+                        }
 
-                    if (err) {
-                        logger.err('Could not save pack: ' + err);
-                        return res.status(500).send({ error: 'Could not buy item' }).end();
-                    }
+                        if (result) {
+                            return res.status(200).json({ success: true, message: character.getName(true) + ' bought ' + item.getName(true), pack: character.pack, item: item });
+                        }
 
-                    if (result) {
-                        return res.status(200).json({ success: true, message: character.getName(true) + ' bought ' + item.getName(true), pack: character.pack, item: item });
-                    }
+                        return res.status(500).send({ error: 'Save pack failed' }).end();
 
-                    return res.status(500).send({ error: 'Save pack failed' }).end();
+                    });   // CharacterManager.update callback
 
-                });   // CharacterManager.update callback
+                }
+                else {
 
-            }
-            else {
+                    // the character does not have enough money
+                    //                return res.status(400).json({ error: character.getName(true) + ' does not have enough money to purchase ' + item.getName(true) }).end();
+                    return res.status(200).json(payResult).end();
+                }
 
-                // the character does not have enough money
-                //                return res.status(400).json({ error: character.getName(true) + ' does not have enough money to purchase ' + item.getName(true) }).end();
-                return res.status(200).json(payResult).end();
-            }
+            });
 
+
+        })
+        .catch(function(err) {
+            return res.status(500).send({ error: 'Purchase failed' }).end();
         });
 
-    });
 
 });
 

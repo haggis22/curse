@@ -11,6 +11,8 @@ var monk = require('monk');
 
 var db = monk(config.db);
 
+var Q = require('q');
+
 var Skill = require(__dirname + '/../../../js/skills/Skill.js');
 
 
@@ -18,27 +20,39 @@ var SkillManager = function () {
 
 };
 
-SkillManager.fetchAll = function (callback) {
+SkillManager.fetchAll = function () {
 
-    var collection = db.get('skills');
+    var deferred = Q.defer();
 
-    collection.find({}, {}, function (err, result) {
+    try
+    {
+        var collection = db.get('skills');
 
-        if (err) {
-            logger.error('Could not load skills from database: ' + err);
-            return callback(err, null);
-        }
+        collection.find({}, {}, function (err, result) {
 
-        var mySkills = {};
+            if (err) {
+                logger.error('Could not load skills from database: ' + err);
+                return deferred.reject(new Error(err));
+            }
 
-        for (var r = 0; r < result.length; r++) {
+            var mySkills = {};
 
-            // put it in the object with its name as the key
-            mySkills[result[r].name] = result[r];
-        }
+            for (var r = 0; r < result.length; r++) {
 
-        return callback(null, mySkills);
-    });
+                // put it in the object with its name as the key
+                mySkills[result[r].name] = result[r];
+            }
+
+            return deferred.resolve(mySkills);
+
+        });
+    }
+    catch(err) {
+        logger.error('Error in fetchAll: ' + err);
+        deferred.reject(new Error(err));
+    }
+
+    return deferred.promise;
 
 };
 

@@ -9,12 +9,8 @@ var SkillManager = require(__dirname + '/../../models/skills/SkillManager');
 
 router.get('/', function (req, res) {
 
-    var callback = function (err, skillsMap) {
-
-        if (err) {
-            return res.status(500).send(err).end();
-        }
-        else {
+    SkillManager.fetchAll()
+        .then(function(skillsMap) {
 
             // convert the map into an array
             var skillsArray = [];
@@ -27,30 +23,11 @@ router.get('/', function (req, res) {
             skillsArray.sort(function (a, b) { return ((a.name < b.name) ? -1 : ((a.name > b.name) ? 1 : 0)); });
 
             return res.json(skillsArray);
-        }
 
-    };
-
-    SkillManager.fetchAll(callback);
-
-});
-
-router.get('/:skillID', function (req, res) {
-
-    var skillID = req.params.skillID;
-
-    var callback = function (err, skill) {
-
-        if (err) {
+        })
+        .catch(function(err) {
             return res.status(500).send(err).end();
-        }
-        else {
-            return res.json(skill).end();
-        }
-
-    };
-
-    SkillManager.fetchByID(campaignID, callback);
+        });
 
 });
 

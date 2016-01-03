@@ -32,17 +32,14 @@ router.post('/', function (req, res) {
 
     var character = req.body;
 
-    CharacterManager.create(req.user, character, function (err, character) {
+    CharacterManager.create(req.user, character)
 
-        if (err) {
-            return res.status(500).json({ error: err }).end();
-        }
-        else {
+        .then(function(character) {
             return res.json(character);
-        }
-
-    });
-
+        })
+        .catch(function(err) {
+            return res.status(500).json({ error: err }).end();
+        });            
 
 });
 
@@ -51,19 +48,14 @@ router.post('/', function (req, res) {
 // re-rolls an existing character
 router.post('/rollup/:characterID', function (req, res) {
 
-    CharacterManager.reroll(req.user, req.params.characterID, function (err, result) {
-
-        if (err) {
-
+    CharacterManager.reroll(req.user, req.params.characterID)
+        .then(function(result) {
+            return res.json(result);
+        })
+        .catch(function(err) {
             logger.error('Could not re-roll character', err);
             return res.status(500).json({ error: 'Could not re-roll character' }).end();
-        }
-        else {
-
-            return res.json(result);
-        }
-
-    });
+        });
 
 });
 
@@ -71,20 +63,15 @@ router.post('/rollup/:characterID', function (req, res) {
 // fetches a given character from the database
 router.get('/:characterID', function (req, res) {
 
-    var characterID = req.params.characterID;
-
-    var callback = function (err, character) {
-
-        if (err) {
-            return res.status(500).send(err).end();
-        }
-        else {
+    CharacterManager.fetchByID(req.user, req.params.characterID)
+        
+        .then(function(character) {
             return res.json(character).end();
-        }
+        })
+        .catch(function(err) {
+            return res.status(500).send({ error: 'Could not load character' }).end();
+        });
 
-    };
-
-    CharacterManager.fetchByID(req.user, characterID, callback);
 
 });
 
@@ -92,19 +79,15 @@ router.get('/:characterID', function (req, res) {
 // deletes the specified character from the database permanently
 router.delete('/:characterID', function (req, res) {
 
-    CharacterManager.delete(req.user, req.params.characterID, function (err, result) {
+    CharacterManager.delete(req.user, req.params.characterID)
 
-        if (err) {
-
+        .then(function(result) {
+            return res.json(result);
+        })
+        .catch(function(err) {
             logger.error('Could not delete character', err);
             return res.status(500).json({ error: 'Could not delete character' }).end();
-        }
-        else {
-
-            return res.json(result);
-        }
-
-    });
+        });
 
 });
 
@@ -116,21 +99,16 @@ router.post('/:characterID/stats', function (req, res) {
     var characterID = req.params.characterID;
     var character = req.body;
 
-    var callback = function (err, character) {
-
-        if (err) {
-            logger.error('Could not save stats', err);
-            return res.status(500).json({ error: 'System error' }).end();
-        }
-        else {
-            return res.json({ character: character });
-        }
-
-    }
-
-    CharacterManager.saveStats(req.user, character, callback);
+    CharacterManager.saveStats(req.user, character)
+        .then(function(result) {
+            return res.json(result);
+        })
+        .catch(function(err) { 
+            return res.status(500).json({ error: 'Could not save stats' }).end();
+        });
 
 });
+
 
 // validates and saves the stat changes requested by the client
 router.post('/:characterID/skills', function (req, res) {
@@ -138,19 +116,13 @@ router.post('/:characterID/skills', function (req, res) {
     var characterID = req.params.characterID;
     var character = req.body;
 
-    var callback = function (err, character) {
-
-        if (err) {
-            logger.error('Could not save skills', err);
-            return res.status(500).json({ error: 'System error' }).end();
-        }
-        else {
-            return res.json({ character: character });
-        }
-
-    }
-
-    CharacterManager.saveSkills(req.user, character, callback);
+    CharacterManager.saveSkills(req.user, character)
+        .then(function(result) {
+            return res.json(result);
+        })
+        .catch(function(err) { 
+            return res.status(500).json({ error: 'Could not save skills' }).end();
+        });
 
 });
 

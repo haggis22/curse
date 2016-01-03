@@ -112,12 +112,12 @@
         <div class="title">Available Characters</div>
         <hr />
 
-        <div ng-show="availableCharacters.length == 0">You have no saved characters.</div>
+        <div ng-show="availableCharacters.length == 0">You have no available characters.</div>
         <div ng-show="availableCharacters.length > 0">
 
             <table id="recruits" border="0">
                 <tbody>
-                    <tr class="character" ng-repeat="character in (availableCharacters = characterService.getCharacters() | filter:checkAvailability | orderBy:'name')">
+                    <tr class="character" ng-repeat="character in (availableCharacters = (characterService.getCharacters() | filter:checkAvailability)) | orderBy:'name'">
                         <td class="name">{{ character.getName(true) }}</td>
                         <td class="join"><button type="button" ng-click="addCharacterToCampaign(character)">Join</button></td>
                     </tr>

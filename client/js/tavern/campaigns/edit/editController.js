@@ -68,7 +68,6 @@
 
             $scope.checkAvailability = function(character)
             {
-                return true;
                 return character.campaignID == null;
             };
 

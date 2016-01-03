@@ -118,18 +118,22 @@ CampaignManager.fetchByID = function (user, id) {
             return deferred.resolve(campaign);
         }
 
+        // this converts the array of string characterIDs to an array of promises
         var charArray = campaign.characters.map(function(charID) {
 
             return CharacterManager.fetchByID(user, charID);
 
         });
 
+        // once all the promises are resolved then we put them in a special array in the campaign and resolve it
         Q.all(charArray)
             .then(function(data) {
                 campaign.charArray = data;
                 deferred.resolve(campaign);
+            })
+            .catch(function(err) {
+                deferred.reject(new Error(err));
             });
-
 
     });
 
