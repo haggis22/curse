@@ -241,54 +241,25 @@ CampaignManager.delete = function (campaignID) {
 
 CampaignManager.join = function(user, campaignID, characterID, callback) {
 
-    var deferred = Q.defer();
+    // fetch the character and the campaign
+    return Q.all([CharacterManager.fetchByID(user, characterID), CampaignManager.fetchByID(user, campaignID)])
 
-    var fetchPromises = [];
-
-    var deferredCharacter = Q.defer();
-    fetchPromises.push(deferredCharacter.promise);
-
-    var deferredCampaign = Q.defer();
-    fetchPromises.push(deferredCampaign.promise);
-
-    CharacterManager.fetchByID(user, characterID)
-        .then(function(character) {
-            deferredCharacter.resolve(character);
-        })
-        .catch(function(err) {
-            deferredCharacter.reject(err);
-        });
-
-    CampaignManager.fetchByID(user, campaignID)
-        .then(function(campaign) {
-            deferredCampaign.resolve(campaign);
-        })
-        .catch(function(err) {
-            deferredCampaign.reject(err);
-        });
-
-    Q.all(fetchPromises)
-        .then(function(data) {
-
-            var character = data[0];
-            var campaign = data[1];
+        .spread(function(character, campaign) {
 
             var updatePromises = [];
 
             // add the character to the campaign
             campaign.characters.push(character._id);
-            updatePromises.push(CampaignManager.update(campaign._id, { characters: campaign.characters }));
-            updatePromises.push(CharacterManager.joinCampaign(character, campaign));
+            
+            return Q.all([ CampaignManager.update(campaign._id, { characters: campaign.characters }), CharacterManager.joinCampaign(character, campaign) ])
+
+                .then(function(results) {
+
+                    return true;
+
+                });
 
         })
-        .then(function(results) {
-            deferred.resolve(true);
-        })
-        .catch(function(err) {
-            deferred.reject(err);
-        });
-
-    return deferred.promise;
 
 };
 

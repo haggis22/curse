@@ -103,9 +103,9 @@ router.get('/:campaignID', function (req, res) {
             return res.json(campaign).end();
         })
         .catch(function(err) {
-            return res.status(500).send({ error: 'Could not load campaign' }).end();
+            return res.status(500).send({ error: 'Could not load campaign: ' + err }).end();
         });
-
+    
 });
 
 
