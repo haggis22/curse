@@ -243,26 +243,49 @@ CampaignManager.join = function(user, campaignID, characterID, callback) {
 
     var deferred = Q.defer();
 
-    var outerCampaign = null;
+    var fetchPromises = [];
+
+    var deferredCharacter = Q.defer();
+    fetchPromises.push(deferredCharacter.promise);
+
+    var deferredCampaign = Q.defer();
+    fetchPromises.push(deferredCampaign.promise);
+
+    CharacterManager.fetchByID(user, characterID)
+        .then(function(character) {
+            deferredCharacter.resolve(character);
+        })
+        .catch(function(err) {
+            deferredCharacter.reject(err);
+        });
 
     CampaignManager.fetchByID(user, campaignID)
-        
-        // add the campaign to the character
         .then(function(campaign) {
-            outerCampaign = campaign;
-            return CharacterManager.joinCampaign(user, characterID, campaign._id);
+            deferredCampaign.resolve(campaign);
         })
-        // add the character to this campaign
-        .then(function(character) {
-            outerCampaign.characters.push(character._id);
-            return CampaignManager.update(outerCampaign._id, { characters: outerCampaign.characters });
+        .catch(function(err) {
+            deferredCampaign.reject(err);
+        });
+
+    Q.all(fetchPromises)
+        .then(function(data) {
+
+            var character = data[0];
+            var campaign = data[1];
+
+            var updatePromises = [];
+
+            // add the character to the campaign
+            campaign.characters.push(character._id);
+            updatePromises.push(CampaignManager.update(campaign._id, { characters: campaign.characters }));
+            updatePromises.push(CharacterManager.joinCampaign(character, campaign));
+
         })
-        // we're done
-        .then(function() {
+        .then(function(results) {
             deferred.resolve(true);
         })
         .catch(function(err) {
-            deferred.reject(new Error(err));
+            deferred.reject(err);
         });
 
     return deferred.promise;

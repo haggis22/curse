@@ -465,47 +465,30 @@ CharacterManager.updatePack = function (character) {
 
 }
 
-CharacterManager.joinCampaign = function(user, characterID, campaignID) {
+CharacterManager.joinCampaign = function(character, campaign) {
 
     var deferred = Q.defer();
 
-    var promise = CharacterManager.fetchByID(user, characterID);
+    // Check to see whether the character already belongs to a campaign
+    if (character.campaignID)
+    {
+        if (character.campaignID == campaign._id)
+        {
+            return deferred.reject(new Error('Character is already in this campaign'));
+        }
 
-    promise
-        .then(function(character) {
+        return deferred.reject(new Error('Character is already in another campaign'));
+    } 
 
-            // Check to see whether the character already belongs to a campaign
-            debugger;
-
-            if (character.campaignID)
-            {
-                if (character.campaignID == campaignID)
-                {
-                    return deferred.reject(new Error('Character is already in this campaign'));
-                }
-
-                return deferred.reject(new Error('Character is already in another campaign'));
-            } 
-
-            // mark the character as being part of this campaign
-            CharacterManager.update(characterID, { campaignID: campaignID }, function(joinErr, result) {
-
-                if (joinErr)
-                {
-                    logger.error('Character could not join campaign: ' + joinErr);
-                    deferred.reject(new Error(joinErr));
-                }
-
-                // it worked!
-                deferred.resolve(character);
-
-            });  // CharacterManager.update
-
-
+    // mark the character as being part of this campaign
+    CharacterManager.update(character._id, { campaignID: campaign._id })
+        .then(function(result) {
+            deferred.resolve(true);
         })
-        .catch(function(err) {
-            deferred.reject(new Error(err));
-        })
+        .catch(function(err) { 
+            logger.error('Character could not join campaign: ' + err);
+            deferred.reject(err);
+        });
 
     return deferred.promise;
 
