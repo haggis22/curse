@@ -97,26 +97,6 @@
                     $scope.campaignID = $stateParams.campaignID;
                 }
             })
-/*
-            .state('tavern.campaign.edit', {
-                url: "/:campaignID",
-                templateUrl: "js/tavern/campaigns/edit/campaign.html?v=" + (new Date()).getTime(),
-                controller: function($scope, $stateParams) {
-                    $scope.campaignID = $stateParams.campaignID;
-                }
-            })
-            .state('tavern.campaign', {
-                url: "/campaign/:campaignID",
-                templateUrl: "js/tavern/campaigns/play/play.html?v=" + (new Date()).getTime(),
-                controller: ['$state', '$scope', '$stateParams',
-                                function($state, $scope, $stateParams) {
-                                    $scope.campaignID = $stateParams.campaignID;
-
-
-                                }
-                            ]
-            })
-*/
 			.state('rollup', {
 				url: "/rollup",
 				templateUrl: "partials/rollup.html"
