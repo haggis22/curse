@@ -13,17 +13,15 @@ var Campaign = require(__dirname + '/../../../js/campaigns/Campaign.js');
 
 router.get('/modules', function (req, res) {
 
-    CampaignManager.fetchModules(req.user, function(err, campaigns) { 
-
-        if (err) {
-            return res.status(500).send({ error: 'Could not fetch modules' }).end();
-        }
-        else {
+    CampaignManager.fetchModules(req.user)
+        
+        .then(function(campaigns) {
             return res.json(campaigns);
-        }
+        })
+        .catch(function(err) {
+            return res.status(500).send({ error: 'Could not fetch modules' }).end();
+        });
     
-    });
-
 });
 
 // Copies an existing module to create a new campaign for it

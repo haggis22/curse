@@ -73,7 +73,7 @@ CharacterManager.fetchByUser = function (user) {
         }
 
         // turn the array of results to an array of Characters
-        deferred.resolve(result.map(function(row) { return new Creature(row); }));
+        return deferred.resolve(result.map(function(row) { return new Creature(row); }));
 
     });
 

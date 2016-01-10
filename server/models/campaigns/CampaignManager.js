@@ -21,7 +21,16 @@ var CampaignManager = function () {
 
 };
 
-CampaignManager.fetchModules = function (user, callback) {
+// returns a promise to an array of modules
+CampaignManager.fetchModules = function (user) {
+
+    // we're not going to find any modules for a NULL user, so dump out now
+    if (user == null)
+    {
+        return Q.resolve([]);
+    }
+
+    var deferred = Q.defer();
 
     var collection = db.get('campaigns');
 
@@ -29,17 +38,15 @@ CampaignManager.fetchModules = function (user, callback) {
 
         if (err) {
             logger.error('Could not load campaigns from database: ' + err);
-            return callback(err, null);
+            return deferred.reject(err);
         }
 
-        var myCampaigns = [];
+        // turn the array of results to an array of Campaigns (modules)
+        return deferred.resolve(result.map(function(row) { return new Campaign(row); }));
 
-        for (var r = 0; r < result.length; r++) {
-            myCampaigns.push(new Campaign(result[r]));
-        }
-
-        return callback(null, myCampaigns);
     });
+
+    return deferred.promise;
 
 };
 
