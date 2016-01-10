@@ -13,13 +13,17 @@ var monk = require('monk');
 
 var db = monk(config.db);
 
+var Q = require('q');
+
 var User = require(__dirname + '/../../../js/users/User.js');
 var Session = require(__dirname + '/../../../js/users/Session.js');
 
 var UserManager = function () {
 };
 
-UserManager.fetch = function (query, callback) {
+UserManager.fetch = function (query) {
+
+    var deferred = Q.defer();
 
     var collection = db.get('users');
 
@@ -27,89 +31,84 @@ UserManager.fetch = function (query, callback) {
 
         if (err) {
             logger.error('Could not load user from database for query ' + JSON.stringify(query) + ': ' + err);
-            return callback(err, null);
+            return deferred.reject(err);
         }
 
         if (result.length === 0) {
             // did not find a user with that username, but we don't want 
             // to tell them whether it is a wrong user or password
-            return callback(null, null);
+            return deferred.resolve(null);
         }
 
-        var user = new User(result[0]);
-
-        return callback(null, user);
+        return deferred.resolve(new User(result[0]));
 
     });
 
+    return deferred.promise;
+
 };
 
 
-UserManager.fetchByUsername = function (username, callback) {
+UserManager.fetchByUsername = function (username) {
 
+    // null username will mean NULL user
     if (username === null) {
-        return callback(null, null);
+        return Q.resolve(null);
     }
-    return UserManager.fetch({ username: username }, callback);
+
+    return UserManager.fetch({ username: username });
 
 };
 
 
-UserManager.fetchBySession = function (sessionHash, callback) {
+UserManager.fetchBySession = function (sessionHash) {
 
+    // null hash will mean NULL user
     if (sessionHash === null) {
-        return callback(null, null);
+        return Q.resolve(null);
     }
 
-    return UserManager.fetch({ sessionHash: sessionHash }, callback);
+    return UserManager.fetch({ sessionHash: sessionHash });
 
 };
 
 
-UserManager.login = function (username, password, callback) {
+UserManager.login = function (username, password) {
 
-    UserManager.fetchByUsername(username, function (err, user) {
+    return UserManager.fetchByUsername(username)
 
-        if (err) {
-            return callback(err, null);
-        }
+        .then(function (user) {
 
-        if (user == null) {
-            // Couldn't find a user with that username, but we don't want 
-            // to tell them whether it is a wrong user or password
-            return callback(null, null);
-        }
-
-        if (user.password !== password) {
-            // the password is wrong, but we don't want 
-            // to tell them whether it is a wrong user or password
-            return callback(null, null);
-        }
-
-        // now generate their session id and save it
-        user.sessionHash = uuid.v4();
-
-        UserManager.update(user, function (err) {
-
-            if (err) {
-                logger.error('Could not assign session to logged-in user: ' + err);
-                return callback(err, null);
+            // We don't want to tell them whether it is a wrong user or password
+            if (user == null || user.password != password)
+            {
+                return null;
             }
 
-            // if we made it here then the user is valid and is now logged in
-            // Create a session from their user object
-            var session = new Session(user);
-            return callback(null, session);
+            // now generate their session id and save it
+            user.sessionHash = uuid.v4();
+
+            return [user, UserManager.update(user)];
+        })
+        .spread(function(user, result) {
+            
+            if (result)
+            {
+                return new Session(user);
+            }
+            else
+            {
+                return null;
+            }
 
         });
 
-
-    });
-
 };
 
 
-UserManager.create = function (user, callback) {
+UserManager.create = function (user) {
+
+    var deferred = Q.defer();
 
     user.updated = new Date();
 
@@ -121,20 +120,21 @@ UserManager.create = function (user, callback) {
 
             // it failed - return an error
             logger.error('Could not create user: ' + err);
-            return callback(err, null);
+            return deferred.reject(err);
         }
 
-        logger.info('User created successfully: ' + JSON.stringify(user));
-
-        // pass the user back on a successful save
-        return callback(null, user);
+        return deferred.resolve({ success: true });
 
     });
 
+    return deferred.promise;
 
 };
 
-UserManager.update = function (user, callback) {
+
+UserManager.update = function (user) {
+
+    var deferred = Q.defer();
 
     user.updated = new Date();
 
@@ -145,14 +145,14 @@ UserManager.update = function (user, callback) {
         if (err) {
             // it failed - return an error
             logger.error('Could not update user: ' + err);
-            return callback(err, null);
+            return deferred.reject(err);
         }
 
-        logger.info('User updated successfully: ' + JSON.stringify(user));
-
-        return callback(null, user);
+        return deferred.resolve({ success: true });
 
     });
+
+    return deferred.promise;
 
 
 };

@@ -10,36 +10,17 @@ var Session = require(__dirname + '/../../../js/users/Session');
 
 router.post('/login', function (req, res) {
 
-    var username = req.body.username;
-    var password = req.body.password;
+    UserManager.login(req.body.username, req.body.password)
 
-    var callback = function (err, users) {
+        .then(function (session) {
 
-        if (err) {
-            return res.status(500).send(err).end();
-        }
-        else {
-            return res.json(campaigns);
-        }
+            // return the newly-created user session data
+            return res.send(session).end();
 
-    };
-
-    UserManager.login(username, password, function (err, session) {
-
-        if (err) {
-            return res.status(500).send(err).end();
-        }
-
-        if (session == null) {
-            // no system error, but login failed
-            return res.status(401).send({ error: 'Invalid username or password' }).end();
-        }
-
-        // return the newly-created user session data
-        return res.status(200).send(session).end();
-
-    });
-
+        })
+        .catch(function(err) {
+            return res.status(500).send('Could not log in').end();
+        });
 
 });
 

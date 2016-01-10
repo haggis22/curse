@@ -13,34 +13,25 @@ var UserManager = require(__dirname + '/../../models/users/UserManager');
 // Exceptions: logging in
 router.use(function (req, res, next) {
 
-    // logger.debug(req.method + ' ' + req.url + ', requesting IP: ' + req.ip);
-
-    var callback = function (err, user) {
-
-        if (err) {
-
-            logger.error('Could not validate user session: ' + err);
-            return res.status(500).json({ error: 'Session error' });
-        }
-
-        // logger.info('IP ' + req.ip + ' ' + req.url + ' using TATH token ' + token + ' for session ' + req.get('session'));
-
-
-        // logger.debug(req.method + ' ' + req.url + ', user: ' + JSON.stringify(user));
-
-        req.user = user;
-        next();
-    };
-
     var sessionHash = null;
 
     if (req.cookies && req.cookies[constants.cookies.SESSION]) {
         sessionHash = req.cookies[constants.cookies.SESSION];
     }
 
-    // console.log(req.url + ', sessionHash = ' + sessionHash);
+    UserManager.fetchBySession(sessionHash)
 
-    return UserManager.fetchBySession(sessionHash, callback);
+        .then(function (user) {
+
+            req.user = user;
+            return next();
+
+        })
+        .catch(function(err) {
+            logger.error('Could not validate user session: ' + err);
+            return res.status(500).json({ error: 'Session error' });
+        });
+
 
 });
 
