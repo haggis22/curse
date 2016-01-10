@@ -13,7 +13,7 @@ var UserManager = require(__dirname + '/../../models/users/UserManager');
 // Exceptions: logging in
 router.use(function (req, res, next) {
 
-    logger.debug(req.method + ' ' + req.url + ', requesting IP: ' + req.ip);
+    // logger.debug(req.method + ' ' + req.url + ', requesting IP: ' + req.ip);
 
     var callback = function (err, user) {
 
@@ -26,7 +26,7 @@ router.use(function (req, res, next) {
         // logger.info('IP ' + req.ip + ' ' + req.url + ' using TATH token ' + token + ' for session ' + req.get('session'));
 
 
-        logger.debug(req.method + ' ' + req.url + ', user: ' + JSON.stringify(user));
+        // logger.debug(req.method + ' ' + req.url + ', user: ' + JSON.stringify(user));
 
         req.user = user;
         next();
@@ -38,7 +38,7 @@ router.use(function (req, res, next) {
         sessionHash = req.cookies[constants.cookies.SESSION];
     }
 
-    console.log(req.url + ', sessionHash = ' + sessionHash);
+    // console.log(req.url + ', sessionHash = ' + sessionHash);
 
     return UserManager.fetchBySession(sessionHash, callback);
 

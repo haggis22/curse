@@ -50,31 +50,62 @@ CampaignManager.fetchModules = function (user) {
 
 };
 
-CampaignManager.fetchModule = function (user, id, callback) {
+CampaignManager.fetchModule = function (id) {
+
+    var deferred = Q.defer();
 
     var collection = db.get('campaigns');
 
     collection.find({ _id: id, userID: Campaign.prototype.MODULE }, function (err, result) {
 
+        logger.info('error: ' + err + ', result: ' + result + ', isArray: ' + Array.isArray(result));
+
         if (err) {
             logger.error('Could not load module from database: ' + err);
-            return callback(err, null);
+            return deferred.reject(err);
         }
 
         if (result.length == 0) {
 
             // no error, but no module, either
             logger.warn('Could not find module with id ' + id);
-            return callback(null, null);
+            return deferred.resolve(null);
         }
 
-        var module = new Campaign(result[0]);
-
-        return callback(null, module);
+        return deferred.resolve(new Campaign(result[0]));
+    
     });
+
+    return deferred.promise;
 
 };
 
+
+CampaignManager.startCampaign = function(user, moduleID) {
+
+    return CampaignManager.fetchModule(moduleID)
+
+        .then(function(module) {
+            
+            if (module == null)
+            {
+                return Q.resolve({ success: false, message: 'Could not find module ' + moduleID });
+            }
+
+            // create a copy of the module for this user
+            var campaign = new Campaign(module);
+        
+            // remove its ObjectID so that it gets a new one assigned
+            delete campaign._id;
+
+            // make the user the owner of the campaign
+            campaign.userID = user._id;
+
+            return CampaignManager.create(campaign);
+
+        });
+
+};
 
 
 CampaignManager.fetchAll = function (user, callback) {
@@ -136,10 +167,10 @@ CampaignManager.fetchByID = function (user, id) {
         Q.all(charArray)
             .then(function(data) {
                 campaign.charArray = data;
-                deferred.resolve(campaign);
+                return deferred.resolve(campaign);
             })
             .catch(function(err) {
-                deferred.reject(new Error(err));
+                return deferred.reject(new Error(err));
             });
 
     });
@@ -152,7 +183,11 @@ CampaignManager.fetchByID = function (user, id) {
 };
 
 
-CampaignManager.create = function (user, campaign, callback) {
+CampaignManager.create = function (campaign) {
+
+    logger.debug('Inserting a new campaign: ' + campaign.name);
+
+    var deferred = Q.defer();
 
     campaign.updated = new Date();
 
@@ -161,18 +196,15 @@ CampaignManager.create = function (user, campaign, callback) {
     collection.insert(campaign, function (err, doc) {
 
         if (err) {
-            // it failed - return an error
             logger.error('Could not create campaign: ' + err);
-            return callback(err, null);
+            return deferred.reject(err);
         }
 
-        console.info('campaign saved successfully');
-
-        var campaign = new Campaign(doc);
-
-        return callback(null, campaign);
+        return deferred.resolve({ success: true });
 
     });
+
+    return deferred.promise;
 
 
 };

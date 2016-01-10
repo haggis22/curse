@@ -27,38 +27,14 @@ router.get('/modules', function (req, res) {
 // Copies an existing module to create a new campaign for it
 router.post('/start/:moduleID', function (req, res) {
 
-    CampaignManager.fetchModule(req.user, req.params.moduleID, function(err, module) {
+    CampaignManager.startCampaign(req.user, req.params.moduleID)
 
-        if (err) {
-            return res.status(500).send({ error: 'Could not load module' }).end();
-        }
-        else if (module == null)
-        {
-            return res.status(400).send({ error: 'Unknown module' }).end();
-        }
-
-        // create a copy of the module for this user
-        var campaign = new Campaign(module);
-        
-        // remove its ObjectID so that it gets a new one assigned
-        delete campaign._id;
-
-        // make the user the owner of the campaign
-        campaign.userID = req.user._id;
-
-        CampaignManager.create(req.user, campaign, function(err, newCampaign) {
-
-            if (err)
-            {
-                return res.status(500).send({ error: 'Could not create campaign' }).end();
-            }
-
-            return res.json(newCampaign);
-
-
+        .then(function(result) {
+            return res.json(result);
+        })
+        .catch(function(err) {
+            return res.status(500).send({ error: 'System error' }).end();
         });
-   
-    });
 
 });
 
