@@ -91,7 +91,7 @@
             {
                 if (!characterService.current.canAfford(item))
                 {
-                    console.debug('Not enough money');
+                    $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not buy " + item.getName(true), "Not enough money") });
                     return;
                 }
 
