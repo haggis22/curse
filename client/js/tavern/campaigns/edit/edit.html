@@ -103,12 +103,16 @@
         
             <div class="name">{{ campaign.name }}</div>
 
-            <div class="current-characters" style="margin-top: 20px;">
-                <div ng-repeat="character in campaign.charArray">
-                    <span class="party-member">{{ character.name }}</span>
-                    <span class="droppable" ng-click="removeCharacterFromCampaign(character)">[X]</span>
-                </div>
-            </div>
+            <table class="current-characters" style="margin-top: 20px;">
+                <tbody>
+                    <tr ng-repeat="character in campaign.charArray">
+                        <td class="party-member">{{ character.name }}</td>
+                        <td><button type="button" ng-click="removeCharacterFromCampaign(character)">Leave</button></td>
+                        <!-- <span class="droppable" ng-click="removeCharacterFromCampaign(character)">[X]</span> -->
+                    </tr>
+
+                </tbody>
+            </table>
 
         </div>
 

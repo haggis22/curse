@@ -41,7 +41,6 @@ CharacterManager.fetchByID = function (user, id) {
         }
 
         var character = new Creature(result[0]);
-
         deferred.resolve(character);
 
     });

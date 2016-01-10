@@ -276,7 +276,6 @@ CampaignManager.quit = function(user, campaignID, characterID, callback) {
             var newCharacters = [];
             for (var c=0; c < campaign.characters.length; c++)
             {
-                debugger;
                 if (campaign.characters[c].toString() != character._id.toString())
                 {
                     newCharacters.push(campaign.characters[c]);
