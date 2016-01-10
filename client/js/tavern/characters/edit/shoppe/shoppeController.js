@@ -101,22 +101,7 @@
 
                     function(response) {
 
-                        if (response.success)
-                        {
-                            // update the character's pack
-                            // characterService.current.pack = response.pack;
-                            characterService.current.clearPack();
-                            response.pack.forEach(function(packItem) { 
-                                characterService.current.addItem(ItemFactory.createItem(packItem));
-                            });
-                            var boughtItem = ItemFactory.createItem(response.item);
-                            console.log('Bought ' + boughtItem.getName(true) + ' _id = ' + boughtItem._id);
-                        }
-                        else
-                        {
-                            $scope.shoppeError = response.message;
-                        }
-
+                        $scope.pullCharacter(characterService.current._id);
 
                     },
                     function(error) {

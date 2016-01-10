@@ -172,17 +172,17 @@ CampaignManager.create = function (user, campaign, callback) {
 
 
 
-CampaignManager.update = function (campaignID, newValues) {
+CampaignManager.update = function (campaignID, campaign) {
 
     var deferred = Q.defer();
 
     try
     {
-        newValues.updated = new Date();
+        campaign.updated = new Date();
 
         var collection = db.get('campaigns');
 
-        collection.update({ _id: campaignID }, { $set: newValues }, function (err, doc) {
+        collection.update({ _id: campaignID }, campaign, function (err, doc) {
 
             if (err) {
                 // it failed - return an error
@@ -251,7 +251,7 @@ CampaignManager.join = function(user, campaignID, characterID, callback) {
             // add the character to the campaign
             campaign.characters.push(character._id);
             
-            return Q.all([ CampaignManager.update(campaign._id, { characters: campaign.characters }), CharacterManager.joinCampaign(character, campaign) ])
+            return Q.all([ CampaignManager.update(campaign._id, campaign), CharacterManager.joinCampaign(character, campaign) ])
 
                 .then(function(results) {
 
@@ -284,7 +284,7 @@ CampaignManager.quit = function(user, campaignID, characterID, callback) {
 
             campaign.characters = newCharacters;
 
-            return Q.all([ CampaignManager.update(campaign._id, { characters: campaign.characters }), CharacterManager.quitCampaign(character, campaign) ])
+            return Q.all([ CampaignManager.update(campaign._id, campaign), CharacterManager.quitCampaign(character, campaign) ])
 
                 .then(function(results) {
 

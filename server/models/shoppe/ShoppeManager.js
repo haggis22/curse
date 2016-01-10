@@ -8,6 +8,7 @@ var logger = log4js.getLogger('curse');
 
 var mongo = require('mongodb');
 var monk = require('monk');
+var ObjectID = require('mongodb').ObjectID;
 
 var db = monk(config.db);
 
@@ -15,6 +16,8 @@ var Q = require('q');
 
 var Shoppe = require(__dirname + '/../../../js/shoppe/Shoppe');
 var ItemFactory = require(__dirname + '/../../../js/items/ItemFactory');
+
+var CharacterManager = require(__dirname + '/../creatures/CharacterManager');
 
 var ShoppeManager = function () {
 
@@ -96,6 +99,58 @@ ShoppeManager.fetchItem = function (itemID) {
 
 };            // fetchItem
 
+
+ShoppeManager.buy = function (user, characterID, itemID) {
+
+    logger.debug('In ShoppeManager.buy');
+
+    return Q.all([ CharacterManager.fetchByID(user, characterID), ShoppeManager.fetchItem(itemID) ])
+
+        .spread(function (character, item) {
+
+            var cost = item.value.getCoppers();
+            var money = character.countMoney();
+
+            logger.debug('Item costs ' + cost + ' copper pieces');
+            logger.debug(character.getName(true) + ' has ' + money + ' copper pieces!');
+
+            // The item is not going to be a primary key, so it won't have its own ObjectID created automatically
+            item._id = new ObjectID();
+
+            logger.info('Is about to buy');
+
+            var payResult = Shoppe.prototype.buyItem(character, item);
+
+            logger.info('payResult = ' + JSON.stringify(payResult));
+
+            if (payResult.success) {
+
+                // the character successfully buys the item!
+                return CharacterManager.updatePack(character)
+
+                    .then(function(result) {
+                                
+                        return result;
+
+                    })
+                    .catch(function(err) {
+                        logger.err('Could not save pack: ' + err);
+                        throw err;
+                    });
+
+            }
+            else {
+
+                throw new Error('Could not buy: ' + payResult.message);
+            }
+
+        })
+        .catch(function(err) {
+            throw err;
+        });
+
+
+};
 
 
 module.exports = ShoppeManager;
