@@ -30,9 +30,8 @@ router.get('/', function (req, res) {
 // Creates a brand-new character
 router.post('/', function (req, res) {
 
-    var character = req.body;
-
-    CharacterManager.create(req.user, character)
+    // the character is posted in the body of the request
+    CharacterManager.create(req.user, req.body)
 
         .then(function(character) {
             return res.json(character);
@@ -49,6 +48,7 @@ router.post('/', function (req, res) {
 router.post('/rollup/:characterID', function (req, res) {
 
     CharacterManager.reroll(req.user, req.params.characterID)
+
         .then(function(result) {
             return res.json(result);
         })
@@ -96,10 +96,9 @@ router.delete('/:characterID', function (req, res) {
 // validates and saves the stat changes requested by the client
 router.post('/:characterID/stats', function (req, res) {
 
-    var characterID = req.params.characterID;
-    var character = req.body;
+    // the character is posted in the body of the request
+    CharacterManager.saveStats(req.user, req.body)
 
-    CharacterManager.saveStats(req.user, character)
         .then(function(result) {
             return res.json(result);
         })
@@ -113,10 +112,9 @@ router.post('/:characterID/stats', function (req, res) {
 // validates and saves the stat changes requested by the client
 router.post('/:characterID/skills', function (req, res) {
 
-    var characterID = req.params.characterID;
-    var character = req.body;
+    // the character is posted in the body of the request
+    CharacterManager.saveSkills(req.user, req.body)
 
-    CharacterManager.saveSkills(req.user, character)
         .then(function(result) {
             return res.json(result);
         })
