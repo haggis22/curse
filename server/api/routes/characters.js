@@ -13,17 +13,14 @@ var Owl = require(__dirname + '/../../../client/js/test/owl.js');
 // returns all characters for the given user
 router.get('/', function (req, res) {
 
-    CharacterManager.fetchByUser(req.user, function (err, characters) {
+    CharacterManager.fetchByUser(req.user)
 
-        if (err) {
-            return res.status(500).send(err).end();
-        }
-        else {
+        .then(function(characters) {
             return res.json(characters);
-        }
-
-    });
-
+        })
+        .catch(function(err) {
+            return res.status(500).send({ error: 'System error' }).end();
+        });
 
 });
 

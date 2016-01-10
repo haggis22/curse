@@ -51,33 +51,33 @@ CharacterManager.fetchByID = function (user, id) {
 
 
 
-CharacterManager.fetchByUser = function (user, callback) {
+// Returns a promise to an array of characters
+CharacterManager.fetchByUser = function (user) {
+
+    // we're not going to find any characters for a NULL user, so dump out now
+    if (user == null) {
+        return Q.resolve([]);
+    }
+
+    var deferred = Q.defer();
 
     var collection = db.get('characters');
 
     var myCharacters = [];
 
-    // we're not going to find any characters for a NULL user, so dump out now
-    if (user == null) {
-        return callback(null, myCharacters);
-    }
-
-    console.log('CharacterManager.fetchByUser for user.ID ' + user._id);
-
     collection.find({ userID: user._id }, {}, function (err, result) {
-    // collection.find({}, {}, function (err, result) {
 
         if (err) {
             logger.error('Could not load characters from database: ' + err);
-            return callback(err, null);
+            return deferred.reject(err);
         }
 
-        for (var r = 0; r < result.length; r++) {
-            myCharacters.push(new Creature(result[r]));
-        }   
+        // turn the array of results to an array of Characters
+        deferred.resolve(result.map(function(row) { return new Creature(row); }));
 
-        return callback(null, myCharacters);
     });
+
+    return deferred.promise;
 
 };   // fetchByUser
 
