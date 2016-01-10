@@ -72,15 +72,15 @@ router.post('/remove/:campaignID/:characterID', function (req, res) {
 
 router.get('/', function (req, res) {
 
-    CampaignManager.fetchAll(req.user, function(err, campaigns) { 
+    CampaignManager.fetchAll(req.user)
 
-        if (err) {
+        .then(function(campaigns) {
+            return res.json(campaigns);
+        })
+        .catch(function(err) {
+            logger.error('Could not fetch campaigns: ' + err);
             return res.status(500).send({ error: 'Could not fetch campaigns' }).end();
-        }
-
-        return res.json(campaigns);
-    
-    });
+        });
 
 });
 

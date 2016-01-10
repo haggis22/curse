@@ -108,25 +108,24 @@ CampaignManager.startCampaign = function(user, moduleID) {
 };
 
 
-CampaignManager.fetchAll = function (user, callback) {
+CampaignManager.fetchAll = function (user) {
 
+    var deferred = Q.defer();
+    
     var collection = db.get('campaigns');
 
     collection.find({ userID: user._id }, {}, function (err, result) {
 
         if (err) {
             logger.error('Could not load campaigns from database: ' + err);
-            return callback(err, null);
+            return deferred.reject(err);
         }
 
-        var myCampaigns = [];
+        return deferred.resolve(result.map(function(row) { return new Campaign(row); }));
 
-        for (var r = 0; r < result.length; r++) {
-            myCampaigns.push(new Campaign(result[r]));
-        }
-
-        return callback(null, myCampaigns);
     });
+
+    return deferred.promise;
 
 };
 
@@ -256,7 +255,7 @@ CampaignManager.delete = function (campaignID) {
 };
 
 
-CampaignManager.join = function(user, campaignID, characterID, callback) {
+CampaignManager.join = function(user, campaignID, characterID) {
 
     // fetch the character and the campaign
     return Q.all([CharacterManager.fetchByID(user, characterID), CampaignManager.fetchByID(user, campaignID)])
@@ -269,7 +268,7 @@ CampaignManager.join = function(user, campaignID, characterID, callback) {
 
 };
 
-CampaignManager.quit = function(user, campaignID, characterID, callback) {
+CampaignManager.quit = function(user, campaignID, characterID) {
 
     // fetch the character and the campaign
     return Q.all([CharacterManager.fetchByID(user, characterID), CampaignManager.fetchByID(user, campaignID)])
