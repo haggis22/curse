@@ -57,7 +57,9 @@ SkillManager.fetchAll = function () {
 };
 
 
-SkillManager.fetchByID = function (id, callback) {
+SkillManager.fetchByID = function (id) {
+
+    var deferred = Q.defer();
 
     var collection = db.get('skills');
 
@@ -65,20 +67,24 @@ SkillManager.fetchByID = function (id, callback) {
 
         if (err) {
             logger.error('Could not load skills from database: ' + err);
-            return callback(err, null);
+            return deferred.reject(err);
         }
 
         if (result.length == 0) {
             logger.error('Could not find record with id ' + id);
-            return callback(new Error('Unknown ID ' + id), null);
+            return deferred.resolve(null);
         }
 
-        return callback(null, new Skill(result[0]));
+        return deferred.resolve(new Skill(result[0]));
     });
+
+    return deferred.promise;
 
 };
 
-SkillManager.fetchByName = function (name, callback) {
+SkillManager.fetchByName = function (name) {
+
+    var deferred = Q.defer();
 
     var collection = db.get('skills');
 
@@ -86,21 +92,25 @@ SkillManager.fetchByName = function (name, callback) {
 
         if (err) {
             logger.error('Could not load skill with name ' + name + ' from database: ' + err);
-            return callback(err, null);
+            return deferred.reject(err);
         }
 
         if (result.length == 0) {
             logger.error('Could not find skills with name ' + name);
-            return callback(new Error('Unknown Skill named ' + name), null);
+            return deferred.resolve(null);
         }
 
-        return callback(null, new Skill(result[0]));
+        return deferred.resolve(new Skill(result[0]));
     });
+
+    return deferred.promise;
 
 };
 
 
-SkillManager.create = function (skill, callback) {
+SkillManager.create = function (skill) {
+
+    var deferred = Q.defer();
 
     var collection = db.get('skills');
 
@@ -109,19 +119,21 @@ SkillManager.create = function (skill, callback) {
         if (err) {
             // it failed - return an error
             logger.error('Could not create skill: ' + err);
-            return callback(err, null);
+            return deferred.reject(err);
         }
 
-        console.info('skill saved successfully');
-
-        return callback(null, { skill: skill });
+        return deferred.resolve({ success: true });
 
     });
+
+    return deferred.promise;
 
 
 };
 
-SkillManager.delete = function (skillID, callback) {
+SkillManager.delete = function (skillID) {
+
+    var deferred = Q.defer();
 
     var collection = db.get('skills');
 
@@ -130,15 +142,14 @@ SkillManager.delete = function (skillID, callback) {
         if (err) {
             // it failed - return an error
             logger.error('Could not delete skill: ' + err);
-            return callback(err, null);
+            return deferred.reject(err);
         }
 
-        console.info('skill deleted successfully');
-
-        return callback(null, 'Skill ' + skillID + ' deleted successfully');
+        return deferred.resolve({ success: true });
 
     });
 
+    return deferred.promise;
 
 };
 
