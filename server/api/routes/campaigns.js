@@ -80,6 +80,21 @@ router.post('/add/:campaignID/:characterID', function (req, res) {
 
 });
 
+// removes a character from a campaign
+router.post('/remove/:campaignID/:characterID', function (req, res) {
+
+    CampaignManager.quit(req.user, req.params.campaignID, req.params.characterID)
+    
+        .then(function(result) {
+            return res.status(200).send(result);
+        })
+        .catch(function(err) {
+            logger.error('Could not leave campaign: ' + err);
+            return res.status(500).send({ error: 'Could not leave camapign' }).end();
+        });
+
+});
+
 
 router.get('/', function (req, res) {
 

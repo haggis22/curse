@@ -474,10 +474,10 @@ CharacterManager.joinCampaign = function(character, campaign) {
     {
         if (character.campaignID == campaign._id)
         {
-            return deferred.reject(new Error('Character is already in this campaign'));
+            deferred.reject(new Error('Character is already in this campaign'));
         }
 
-        return deferred.reject(new Error('Character is already in another campaign'));
+        deferred.reject(new Error('Character is already in another campaign'));
     } 
 
     // mark the character as being part of this campaign
@@ -494,6 +494,29 @@ CharacterManager.joinCampaign = function(character, campaign) {
 
 };
 
+CharacterManager.quitCampaign = function(character, campaign) {
+
+    var deferred = Q.defer();
+
+    // Check to see whether the character already belongs to a campaign
+    if (!character.campaignID || (character.campaignID.toString() != campaign._id.toString()))
+    {
+        deferred.reject(new Error('Character is not in this campaign'));
+    } 
+
+    // mark the character as not being in a campaign
+    CharacterManager.update(character._id, { campaignID: null })
+        .then(function(result) {
+            deferred.resolve(true);
+        })
+        .catch(function(err) { 
+            logger.error('Character could not quit campaign: ' + err);
+            deferred.reject(err);
+        });
+
+    return deferred.promise;
+
+};
 
 
 

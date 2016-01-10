@@ -89,6 +89,24 @@
 
             };
 
+            $scope.removeCharacterFromCampaign = function(character)
+            {
+                campaignService.characters.save({ action: 'remove', campaignID: $scope.campaign._id, characterID: character._id },
+
+                    function(response) {
+
+                        // update the page
+                        $scope.pullCampaign();
+                        $scope.pullCharacters();
+
+                    },
+                    function(error) {
+                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not remove character to campaign", error) });
+
+                    });
+
+            };
+
 /*
             $scope.updateCampaign = function(isValid) {
 

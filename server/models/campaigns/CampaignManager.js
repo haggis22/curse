@@ -263,5 +263,39 @@ CampaignManager.join = function(user, campaignID, characterID, callback) {
 
 };
 
+CampaignManager.quit = function(user, campaignID, characterID, callback) {
+
+    // fetch the character and the campaign
+    return Q.all([CharacterManager.fetchByID(user, characterID), CampaignManager.fetchByID(user, campaignID)])
+
+        .spread(function(character, campaign) {
+
+            var updatePromises = [];
+
+            // remove the character from the array of characters in the campaign
+            var newCharacters = [];
+            for (var c=0; c < campaign.characters.length; c++)
+            {
+                debugger;
+                if (campaign.characters[c].toString() != character._id.toString())
+                {
+                    newCharacters.push(campaign.characters[c]);
+                }
+            }
+
+            campaign.characters = newCharacters;
+
+            return Q.all([ CampaignManager.update(campaign._id, { characters: campaign.characters }), CharacterManager.quitCampaign(character, campaign) ])
+
+                .then(function(results) {
+
+                    return true;
+
+                });
+
+        })
+
+};
+
 
 module.exports = CampaignManager;
