@@ -102,17 +102,21 @@
         <div class="info">
         
             <div class="name">{{ campaign.name }}</div>
+            <hr />
 
-            <table class="current-characters" style="margin-top: 20px;">
-                <tbody>
-                    <tr ng-repeat="character in campaign.charArray">
-                        <td class="party-member">{{ character.name }}</td>
-                        <td><button type="button" ng-click="removeCharacterFromCampaign(character)">Leave</button></td>
-                        <!-- <span class="droppable" ng-click="removeCharacterFromCampaign(character)">[X]</span> -->
-                    </tr>
+            <div ng-show="party.length == 0">The party has no members.</div>
+            <div ng-show="party.length > 0">
+                <table class="current-characters">
+                    <tbody>
+                        <tr ng-repeat="character in (party = (characterService.getCharacters() | filter:isInParty)) | orderBy:'name'">
+                            <td class="party-member">{{ character.name }}</td>
+                            <td><button type="button" ng-click="removeCharacterFromCampaign(character)">Leave</button></td>
+                            <!-- <span class="droppable" ng-click="removeCharacterFromCampaign(character)">[X]</span> -->
+                        </tr>
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
 
         </div>
 

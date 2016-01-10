@@ -130,6 +130,7 @@ CampaignManager.fetchAll = function (user, callback) {
 
 };
 
+// Fetches the campaign if the given user has access to it
 CampaignManager.fetchByID = function (user, id) {
 
     var collection = db.get('campaigns');
@@ -148,30 +149,7 @@ CampaignManager.fetchByID = function (user, id) {
             return deferred.reject(new Error('Campaign not found'));
         }
 
-        var campaign = new Campaign(result[0]);
-
-        // the campaign has no characters, so just dump out
-        if (campaign.characters.length == 0)
-        {
-            return deferred.resolve(campaign);
-        }
-
-        // this converts the array of string characterIDs to an array of promises
-        var charArray = campaign.characters.map(function(charID) {
-
-            return CharacterManager.fetchByID(user, charID);
-
-        });
-
-        // once all the promises are resolved then we put them in a special array in the campaign and resolve it
-        Q.all(charArray)
-            .then(function(data) {
-                campaign.charArray = data;
-                return deferred.resolve(campaign);
-            })
-            .catch(function(err) {
-                return deferred.reject(new Error(err));
-            });
+        return deferred.resolve(new Campaign(result[0]));
 
     });
 
@@ -285,20 +263,9 @@ CampaignManager.join = function(user, campaignID, characterID, callback) {
 
         .spread(function(character, campaign) {
 
-            var updatePromises = [];
+            return CharacterManager.joinCampaign(character, campaign);
 
-            // add the character to the campaign
-            campaign.characters.push(character._id);
-            
-            return Q.all([ CampaignManager.update(campaign._id, campaign), CharacterManager.joinCampaign(character, campaign) ])
-
-                .then(function(results) {
-
-                    return true;
-
-                });
-
-        })
+        });
 
 };
 
@@ -309,29 +276,8 @@ CampaignManager.quit = function(user, campaignID, characterID, callback) {
 
         .spread(function(character, campaign) {
 
-            var updatePromises = [];
-
-            // remove the character from the array of characters in the campaign
-            var newCharacters = [];
-            for (var c=0; c < campaign.characters.length; c++)
-            {
-                if (campaign.characters[c].toString() != character._id.toString())
-                {
-                    newCharacters.push(campaign.characters[c]);
-                }
-            }
-
-            campaign.characters = newCharacters;
-
-            return Q.all([ CampaignManager.update(campaign._id, campaign), CharacterManager.quitCampaign(character, campaign) ])
-
-                .then(function(results) {
-
-                    return true;
-
-                });
-
-        })
+            return CharacterManager.quitCampaign(character, campaign);
+        });
 
 };
 

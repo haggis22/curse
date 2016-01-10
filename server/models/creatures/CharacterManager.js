@@ -81,6 +81,37 @@ CharacterManager.fetchByUser = function (user) {
 
 };   // fetchByUser
 
+// Returns a promise to an array of characters that match the given campaign
+CharacterManager.fetchByCampaign = function (user, campaign) {
+
+    // we're not going to find any characters for a NULL user, so dump out now
+    if (user == null || campaign == null) {
+        return Q.resolve([]);
+    }
+
+    var deferred = Q.defer();
+
+    var collection = db.get('characters');
+
+    var myCharacters = [];
+
+    collection.find({ userID: user._id, campaignID: campaign._id }, {}, function (err, result) {
+
+        if (err) {
+            logger.error('Could not load characters from database for campaign ' + campaign._id + ': ' + err);
+            return deferred.reject(err);
+        }
+
+        // turn the array of results to an array of Characters
+        return deferred.resolve(result.map(function(row) { return new Creature(row); }));
+
+    });
+
+    return deferred.promise;
+
+};   // fetchByUser
+
+
 
 function setStat(value) 
 {

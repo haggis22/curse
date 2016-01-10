@@ -3,8 +3,8 @@
 (function(app) {
 
 
-	app.controller('campaign.editController', ['$scope', '$rootScope', '$state', 'errorService', 'campaignService', 'characterService', 'Creature',
-		function($scope, $rootScope, $state, errorService, campaignService, characterService, Creature) {
+	app.controller('campaign.editController', ['$scope', '$rootScope', '$state', '$q', 'errorService', 'campaignService', 'characterService', 'Creature',
+		function($scope, $rootScope, $state, $q, errorService, campaignService, characterService, Creature) {
 			
             $scope.characterService = characterService;
 
@@ -13,6 +13,7 @@
                 return $scope.campaignID == null || $scope.campaignID.length == 0;
 
             };
+
 
             $scope.pullCampaign = function() {
                 
@@ -65,6 +66,16 @@
 
             $scope.pullCharacters();
 
+
+            $scope.isInParty = function(character) 
+            {
+                if (!character || !$scope.campaign || !$scope.campaign._id)
+                {
+                    return false;
+                }
+
+                return character.campaignID == $scope.campaign._id;
+            };
 
             $scope.checkAvailability = function(character)
             {

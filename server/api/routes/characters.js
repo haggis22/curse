@@ -6,6 +6,7 @@ log4js.configure(__dirname + '/../../log4js_config.json', {});
 var logger = log4js.getLogger('curse');
 
 var CharacterManager = require(__dirname + '/../../models/creatures/CharacterManager');
+var CampaignManager = require(__dirname + '/../../models/campaigns/CampaignManager');
 
 var Owl = require(__dirname + '/../../../client/js/test/owl.js');
 
@@ -23,6 +24,23 @@ router.get('/', function (req, res) {
         });
 
 });
+
+// returns all characters for the given user's campaign
+router.get('/campaign/:campaignID', function (req, res) {
+
+    CampaignManager.fetchByID(req.user, req.params.campaignID)
+        .then(function(campaign) {
+            return CharacterManager.fetchByCampaign(req.user, campaign);
+        })
+        .then(function(characters) {
+            return res.json(characters);
+        })
+        .catch(function(err) {
+            return res.status(500).send({ error: 'System error' }).end();
+        });
+
+});
+
 
 // Creates a brand-new character
 router.post('/', function (req, res) {

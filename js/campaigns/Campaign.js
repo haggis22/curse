@@ -12,7 +12,6 @@
 
             this.updated = campaign.updated;
             this.userID = campaign.userID;
-            this.characters = campaign.characters || [];
             this.locationID = campaign.locationID;
 
         };
