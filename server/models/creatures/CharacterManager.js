@@ -228,7 +228,7 @@ CharacterManager.reroll = function (user, characterID) {
 
 };
 
-CharacterManager.delete = function (user, characterID, callback) {
+CharacterManager.delete = function (user, characterID) {
 
     var deferred = Q.defer();
 
@@ -248,9 +248,9 @@ CharacterManager.delete = function (user, characterID, callback) {
                     }
 
                     // It worked!
-                    return deferred.resolve(true);
+                    return deferred.resolve({ success: true });
 
-                });   // collection.remove callback
+                });   // collection.remove
 
             })
             .catch(function(err) {
@@ -314,7 +314,8 @@ CharacterManager.saveStats = function (user, character) {
 
                 CharacterManager.update(character._id, { "bonus.stats": character.bonus.stats, "stats": character.stats })
                     .then(function(result) {
-                        if (result)
+
+                        if (result.success)
                         {
                             return deferred.resolve(result);
                         }
@@ -330,7 +331,7 @@ CharacterManager.saveStats = function (user, character) {
             else {
 
                 // there wasn't really anything to do, so we're going to report success
-                return deferred.resolve(true);
+                return deferred.resolve({ success: true });
 
             }
 
@@ -395,6 +396,8 @@ CharacterManager.saveSkills = function (user, character) {
 
                 character.bonus.skills = oldCharacter.bonus.skills - totalSkillUpdates;
 
+
+
                 // now verify that the character has all the necessary pre-requisites
                 // First, fetch all skill data in one fell swoop
                 SkillManager.fetchAll()
@@ -419,7 +422,7 @@ CharacterManager.saveSkills = function (user, character) {
                         CharacterManager.update(character._id, { "bonus.skills": character.bonus.skills, "skills": character.skills })
                             .then(function(result) {
 
-                                if (result)
+                                if (result.success)
                                 {
                                     return deferred.resolve(result);
                                 }
@@ -439,7 +442,7 @@ CharacterManager.saveSkills = function (user, character) {
             }
             else {
                 // there wasn't really anything to do, so we're going to report success
-                return deferred.resolve(true);
+                return deferred.resolve({ success: true });
             }
 
         })
@@ -474,7 +477,7 @@ CharacterManager.update = function (characterID, newValues) {
             }
 
             // It worked!
-            return deferred.resolve(true);
+            return deferred.resolve({ success: true });
 
         });   // collection.update callback
 

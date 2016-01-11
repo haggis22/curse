@@ -68,7 +68,6 @@ ShoppeManager.fetchItem = function (itemID) {
 
         var item = {};
 
-        // find(query, options, callback)
         collection.find({ _id: itemID }, {}, function (err, result) {
 
             if (err) {

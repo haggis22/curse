@@ -92,7 +92,7 @@ UserManager.login = function (username, password) {
         })
         .spread(function(user, result) {
             
-            if (result)
+            if (result.success)
             {
                 return new Session(user);
             }
