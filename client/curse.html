@@ -35,10 +35,6 @@
 
     <script src="js/users/Session.js"></script>
 
-	<script src="js/factories/maps/Direction.js"></script>
-	<script src="js/factories/maps/Exit.js"></script>
-	<script src="js/factories/maps/Room.js"></script>
-
 	<script src="js/items/ItemFactory.js"></script>
 	<script src="js/items/Value.js"></script>
 	<script src="js/items/Item.js"></script>
@@ -49,6 +45,11 @@
 
 	<script src="js/shoppe/Shoppe.js"></script>
 
+
+<!--	
+    <script src="js/factories/maps/Direction.js"></script>
+	<script src="js/factories/maps/Exit.js"></script>
+	<script src="js/factories/maps/Room.js"></script>
 
 	<script src="js/factories/actions/Action.js"></script>
 	<script src="js/factories/actions/Attack.js"></script>
@@ -63,18 +64,21 @@
 
 	<script src="js/factories/combat/effects/Venom.js"></script>
 	<script src="js/factories/combat/effects/Paralysis.js"></script>
-
-    <script src="js/controllers/curseController.js"></script>
-
-    <script src="js/controllers/monsterController.js"></script>
-	<script src="js/controllers/rollupController.js"></script>
-	<script src="js/controllers/dungeonController.js"></script>
-	<script src="js/controllers/combatController.js"></script>
-
 	<script src="js/factories/skills/SkillType.js"></script>
     <script src="js/factories/skills/Skill.js"></script>
 
     <script src="js/factories/magic/SpellType.js"></script>
+
+
+	<script src="js/factories/creatures/Player.js"></script>
+	<script src="js/factories/creatures/Monster.js"></script>
+	<script src="js/factories/creatures/MonsterType.js"></script>
+
+    <script src="js/services/playerService.js"></script>
+
+-->
+
+
 
     <script src="js/users/services/user-service.js"></script>
     <script src="js/users/login/login-controller.js"></script>
@@ -86,16 +90,10 @@
 	<script src="js/creatures/BodyPart.js"></script>
 	<script src="js/creatures/BodyShape.js"></script>
 	<script src="js/creatures/Creature.js"></script>
-<!--
-	<script src="js/factories/creatures/Player.js"></script>
-	<script src="js/factories/creatures/Monster.js"></script>
-	<script src="js/factories/creatures/MonsterType.js"></script>
--->
 
 	<script src="js/services/diceService.js"></script>
 
 	<script src="js/services/gameService.js"></script>
-<!--	<script src="js/services/playerService.js"></script>  -->
 	<script src="js/services/monsterService.js"></script>
     <script src="js/services/treasureService.js"></script>
 	<script src="js/services/mapService.js"></script>
@@ -112,27 +110,28 @@
 	<script src="js/filters/floor.js"></script>
 	<script src="js/filters/coins.js"></script>
 
-	<script src="js/tavern/tavernController.js"></script>
-	<script src="js/tavern/characters/characterService.js"></script>
+	<script src="/curseController.js"></script>
 
+    <script src="js/tavern/tavernController.js"></script>
+
+    <!-- characters -->
+	<script src="js/tavern/characters/characterService.js"></script>
     <script src="js/tavern/characters/list/charactersController.js"></script>
     <script src="js/tavern/characters/create/createController.js"></script>
     <script src="js/tavern/characters/edit/editController.js"></script>
     <script src="js/tavern/characters/edit/stats/statsController.js"></script>
     <script src="js/tavern/characters/edit/skills/skillsController.js"></script>
-
     <script src="js/tavern/characters/edit/gear/gearController.js"></script>
-
     <script src="js/tavern/characters/edit/shoppe/shoppeController.js"></script>
     <script src="js/tavern/characters/edit/shoppe/shoppeService.js"></script>
 
-
-	<script src="js/tavern/campaigns/campaignService.js"></script>
+	<!-- campaigns -->
+    <script src="js/tavern/campaigns/campaignService.js"></script>
     <script src="js/tavern/campaigns/list/campaignsController.js"></script>
     <script src="js/tavern/campaigns/edit/editController.js"></script>
 
-    <script src="/js/test/owl.js"></script>
+	<script src="js/dungeon/dungeonController.js"></script>
 
-	
+
 </body>
 </html>

@@ -8,8 +8,6 @@ var logger = log4js.getLogger('curse');
 var CharacterManager = require(__dirname + '/../../models/creatures/CharacterManager');
 var CampaignManager = require(__dirname + '/../../models/campaigns/CampaignManager');
 
-var Owl = require(__dirname + '/../../../client/js/test/owl.js');
-
 
 // returns all characters for the given user
 router.get('/', function (req, res) {
@@ -29,6 +27,7 @@ router.get('/', function (req, res) {
 router.get('/campaign/:campaignID', function (req, res) {
 
     CampaignManager.fetchByID(req.user, req.params.campaignID)
+
         .then(function(campaign) {
             return CharacterManager.fetchByCampaign(req.user, campaign);
         })

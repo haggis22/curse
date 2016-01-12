@@ -108,21 +108,13 @@
                 }
             })
 
-			.state('rollup', {
-				url: "/rollup",
-				templateUrl: "partials/rollup.html"
-			})
 			.state('dungeon', {
-				url: "/dungeon",
-				templateUrl: "partials/dungeon.html"
-			})
-			.state('dungeon.combat', {
-				url: "/combat",
-				templateUrl: "partials/combat.html"
-			})
-			.state('monster', {
-				url: "/monster-manual",
-				templateUrl: "partials/monster-manual.html"
+				url: "/dungeon/:campaignID",
+				templateUrl: "js/dungeon/dungeon.html?v=" + (new Date()).getTime(),
+                controller: function($scope, $stateParams) {
+                    $scope.campaignID = $stateParams.campaignID;
+                }
+
 			})
 
 			

@@ -29,6 +29,12 @@
             display: none;
         }
 
+        .campaign-table .play
+        {
+            text-align: center;
+            width: 50px;
+        }
+
         .campaign-table .delete
         {
             text-align: center;
@@ -38,6 +44,9 @@
         .campaign-table .start
         {
             text-align: center;
+        }
+        
+        
         
     </style>
 
@@ -79,6 +88,7 @@
                             <th class="name">Name</th>
                             <th class="characters">Characters</th>
                             <th class="updated">Updated</th>
+                            <th class="play">Play</th>
                             <th class="delete">Delete</th>
                         </tr>
                     </thead>
@@ -93,6 +103,9 @@
                                 </div>
                             </td>
                             <td valign="top" class="updated">{{ campaign.updated | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+                            <td valign="top" class="play">
+                                <button ng-show="party.length > 0" ui-sref="dungeon({ campaignID: campaign._id })">Play</button>
+                            </td>
                             <td valign="top" class="delete">
                                 <img ng-hide="party.length > 0" src="/images/delete.png" class="icon-link" title="Delete campaign" ng-click="deleteCampaign(campaign)" />
                                 <img ng-show="party.length > 0" src="/images/delete-disabled.png" class="icon-link-disabled" title="Cannot delete a campaign with players" />

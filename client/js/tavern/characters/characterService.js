@@ -10,7 +10,7 @@
                 create: { method: 'POST' }
             });
 
-            this.byCampaign = $resource('/api/characters/campaign/campaignID', { campaignID: '@campaignID' });
+            this.byCampaign = $resource('/api/characters/campaign/:campaignID', { campaignID: '@campaignID' });
 
             this.stats = $resource('/api/characters/:id/stats');
 
