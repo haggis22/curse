@@ -11,6 +11,7 @@
             $scope.characterService = characterService;
 
             $scope.pullCharacters();
+            $scope.pullCampaigns();
 
         }
 

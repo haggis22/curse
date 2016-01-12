@@ -421,6 +421,7 @@ ul > li
 fieldset
 {
     border-radius: 10px;
+    display: inline-block;
 }
 
 fieldset > legend

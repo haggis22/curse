@@ -61,37 +61,6 @@
             };
 
 
-			
-            /* Code to pull the campaigns that the user is playing */
-            $scope.campaigns = null;
-            
-            $scope.pullCampaigns = function() {
-                
-                $scope.campaigns = [];
-
-                campaignService.campaigns.query({ id: null },
-
-                    function(response) {
-
-                        var campaigns = [];
-
-                        response.forEach(function(campaign) {
-
-                            campaigns.push(new Campaign(campaign));
-
-                        });
-
-                        $scope.campaigns = campaigns;
-
-                    },
-                    function(error) {
-
-                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not fetch campaigns", error) });
-
-                    });
-
-            };
-
             $scope.pullCampaigns();
 
 

@@ -9,6 +9,8 @@
             $scope.Sex = Sex;
             $scope.characterService = characterService;
 			
+            $scope.pullCampaigns();
+
             $scope.pullCharacter = function(id) {
                 
                 if (id == null)
@@ -96,7 +98,7 @@
             };
 
 
-        
+       
         }   // end outer function
 	
     ]);			

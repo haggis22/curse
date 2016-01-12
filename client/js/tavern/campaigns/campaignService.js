@@ -22,6 +22,7 @@
                                 save: { method: 'POST' }
                             }),
 
+                myCampaigns: null,
                 current: null
 
             };

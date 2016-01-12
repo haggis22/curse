@@ -40,6 +40,7 @@
             font-size: 14pt;
         }
 
+        .bio .campaign,
         .bio .species,
         .bio .sex
         {
@@ -94,6 +95,10 @@
 
             <div class="name">
                 {{ characterService.current.name }}
+            </div>
+
+            <div ng-show="getCampaignForCharacter(characterService.current)" class="campaign">
+                {{ getCampaignForCharacter(characterService.current).name  }}
             </div>
 
             <div class="species">

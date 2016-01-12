@@ -1,25 +1,55 @@
-<div ng-controller="tavern.charactersController">
+<div id="character-list" ng-controller="tavern.charactersController">
+
+    <style type="text/css">
+    
+    #character-list .name
+    {
+        width: 120px;
+        text-align: left;
+    }
+    
+    #character-list .species
+    {
+        width: 70px;
+        text-align: center;
+    }
+
+    #character-list .sex
+    {
+        width: 40px;
+        text-align: center;
+    }
+
+    #character-list .campaign
+    {
+        width: 150px;
+        text-align: left;
+    }
+    
+    </style>
 
     <div ng-show="characterService.getCharacters().length == 0">You have no saved characters.</div>
     <div ng-show="characterService.getCharacters().length > 0">
-        <fieldset class="tavern character" style="margin-top: 15px; width: 300px; padding: 15px 10px;">
+        <fieldset class="tavern character" style="margin-top: 15px; padding: 15px 10px;">
 
             <table class="datatable" style="width: 100%;">
                 <thead>
                     <tr>
-                        <th align="left">Name</th>
-                        <th align="left">Species</th>
-                        <th>Sex</th>
+                        <th class="name">Name</th>
+                        <th class=species">Species</th>
+                        <th class="sex">Sex</th>
+                        <th class="campaign">Campaign</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="character in characterService.getCharacters() | orderBy:'name'">
-                        <td>
+                        <td class="name">
                             <a ui-sref="tavern.characters.edit({ characterID: character._id })">{{ character.getName(true) }}</a>
                             <!-- <span ng-show="character.updated" class="updateTime"> ({{ character.updated | date:'dd-MM-yyyy HH:mm:ss' }})</span> -->
                         </td>
-                        <td>{{ character.species }}</td>
-                        <td align="center">{{ Sex.getSexAbbr(character.sex) }}</td>
+                        <td class="species">{{ character.species }}</td>
+                        <td class="sex">{{ Sex.getSexAbbr(character.sex) }}</td>
+                        <td class="campaign">{{ getCampaignForCharacter(character).name }}</td>
                     </tr>
                 </tbody>
             </table>
