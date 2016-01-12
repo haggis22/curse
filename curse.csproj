@@ -95,7 +95,11 @@
     <Content Include="client\common\directives\error-message.js" />
     <Content Include="client\common\partials\ajax-loader.html" />
     <Content Include="client\common\partials\error-message.html" />
-    <Content Include="client\js\controllers\curseController.js" />
+    <Content Include="client\curseController.js" />
+    <Content Include="client\js\dungeon\dungeon.html" />
+    <Content Include="client\js\dungeon\dungeonController.js" />
+    <Content Include="client\js\tavern\campaigns\list\campaigns.html" />
+    <Content Include="client\js\tavern\campaigns\list\campaignsController.js" />
     <Content Include="client\js\tavern\characters\edit\stats\stats.html" />
     <Content Include="client\js\tavern\characters\edit\stats\statsController.js" />
     <Content Include="client\js\tavern\characters\edit\skills\skills.html" />
@@ -111,11 +115,9 @@
     <Content Include="client\js\tavern\campaigns\play\play.html" />
     <Content Include="client\js\tavern\campaigns\play\playController.js" />
     <Content Include="client\js\tavern\characters\edit\shoppe\shoppeService.js" />
-    <Content Include="client\js\tavern\campaigns\campaigns.html" />
     <Content Include="client\js\tavern\campaigns\edit\edit.html" />
     <Content Include="client\js\tavern\campaigns\edit\editController.js" />
-    <Content Include="client\js\controllers\combatController.js" />
-    <Content Include="client\js\tavern\campaigns\campaignsController.js" />
+    <Content Include="client\js\controllers\combatController.old.js" />
     <Content Include="client\js\tavern\characters\edit\gear\gear.html" />
     <Content Include="client\js\tavern\characters\edit\gear\gearController.js" />
     <Content Include="client\js\tavern\characters\list\characters.html" />
@@ -128,9 +130,9 @@
     <Content Include="client\js\tavern\characters\create\create.html" />
     <Content Include="client\js\tavern\characters\create\createController.js" />
     <Content Include="client\js\tavern\tavernController.js" />
-    <Content Include="client\js\controllers\dungeonController.js" />
-    <Content Include="client\js\controllers\monsterController.js" />
-    <Content Include="client\js\controllers\rollupController.js" />
+    <Content Include="client\js\controllers\dungeonController.old.js" />
+    <Content Include="client\js\controllers\monsterController.old.js" />
+    <Content Include="client\js\controllers\rollupController.old.js" />
     <Content Include="client\js\directives\creatures\player-panel.js" />
     <Content Include="client\js\directives\enter-action.js" />
     <Content Include="client\js\directives\focus-me.js" />
@@ -181,7 +183,6 @@
     <Content Include="client\js\services\timeService.js" />
     <Content Include="client\js\services\treasureService.js" />
     <Content Include="client\js\angularjs\ui-router\angular-ui-router.js" />
-    <Content Include="client\js\test\owl.js" />
     <Content Include="client\partials\combat.html" />
     <Content Include="client\js\tavern\tavern.html" />
     <Content Include="client\partials\creatures\player-panel.html" />
