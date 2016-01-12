@@ -84,19 +84,30 @@
                 templateUrl: "js/tavern/characters/edit/shoppe/shoppe.html?v=" + (new Date()).getTime()
             })
 
-
-
             .state('tavern.campaigns', {
                 url: "/campaigns",
-                templateUrl: "js/tavern/campaigns/campaigns.html?v=" + (new Date()).getTime()
+                template: "<div ui-view></div>",
+                controller: ['$scope', '$state',
+                                function ($scope, $state) {
+                                    // if only asking for the root path, then forward to the default
+                                    if ($state.is('tavern.campaigns')) {
+                                        $state.go('tavern.campaigns.list');
+                                    }
+                                }
+                            ]
             })
-            .state('tavern.campaign', {
-                url: "/campaign/:campaignID",
+            .state('tavern.campaigns.list', {
+                url: "/",
+                templateUrl: "js/tavern/campaigns/list/campaigns.html?v=" + (new Date()).getTime()
+            })
+            .state('tavern.campaigns.edit', {
+                url: "/:campaignID",
                 templateUrl: "js/tavern/campaigns/edit/edit.html?v=" + (new Date()).getTime(),
                 controller: function($scope, $stateParams) {
                     $scope.campaignID = $stateParams.campaignID;
                 }
             })
+
 			.state('rollup', {
 				url: "/rollup",
 				templateUrl: "partials/rollup.html"

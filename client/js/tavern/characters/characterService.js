@@ -2,9 +2,9 @@
 
 (function(app) {
 
-	app.service('characterService', [ '$resource', 
+	app.service('characterService', [ '$resource', '$rootScope', 'errorService', 'Creature',
 
-		function($resource) {
+		function($resource, $rootScope, errorService, Creature) {
 
             this.characters = $resource('/api/characters/:id', {}, {
                 create: { method: 'POST' }
