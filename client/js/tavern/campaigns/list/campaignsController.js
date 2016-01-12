@@ -3,8 +3,8 @@
 (function(app) {
 
 
-	app.controller('campaignsController', ['$scope', '$rootScope', '$state', 'errorService', 'campaignService', 'Campaign',
-		function($scope, $rootScope, $state, errorService, campaignService, Campaign) {
+	app.controller('campaignsController', ['$scope', '$rootScope', '$state', 'errorService', 'campaignService', 'characterService', 'Campaign', 'Creature',
+		function($scope, $rootScope, $state, errorService, campaignService, characterService, Campaign, Creature) {
 
 
             /* Code to pull all the modules available to run */
@@ -120,6 +120,9 @@
 
 
             };
+
+
+            $scope.pullCharacters();
 
         }
 

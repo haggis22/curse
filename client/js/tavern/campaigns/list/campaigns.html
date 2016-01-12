@@ -9,19 +9,19 @@
             padding: 15px 10px;
         }
         
-        #campaign-table .name
+        .campaign-table .name
         {
             text-align: left;
             width: 100px;
         }
 
-        #campaign-table .characters
+        .campaign-table .characters
         {
             text-align: left;
             width: 100px;
         }
 
-        #campaign-table .updated
+        .campaign-table .updated
         {
             text-align: left;
             width: 120px;
@@ -29,11 +29,15 @@
             display: none;
         }
 
-        #campaign-table .delete
+        .campaign-table .delete
         {
             text-align: center;
             width: 30px;
         }
+        
+        .campaign-table .start
+        {
+            text-align: center;
         
     </style>
 
@@ -44,17 +48,17 @@
             <fieldset class="tavern modules" style="margin-top: 15px; width: 300px; padding: 15px 10px;">
                 <legend>Modules</legend>
 
-                <table class="datatable">
+                <table class="datatable campaign-table">
                     <thead>
                         <tr>
-                            <th align="left">Name</th>
-                            <th align="left">Create Campaign</th>
+                            <th class="name">Name</th>
+                            <th class="start">Create Campaign</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="module in modules | orderBy:'name'">
-                            <td>{{ module.name }}</td>
-                            <td><button ng-click="startCampaign(module)">Start</button></td>
+                            <td class="name">{{ module.name }}</td>
+                            <td class="start"><button ng-click="startCampaign(module)">Start</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -69,7 +73,7 @@
             <fieldset class="tavern">
                 <legend>Campaigns</legend>
 
-                <table id="campaign-table" class="datatable">
+                <table class="datatable campaign-table">
                     <thead>
                         <tr>
                             <th class="name">Name</th>
@@ -80,14 +84,19 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="campaign in campaigns | orderBy:'name'">
-                            <td class="name">
-                                <a ui-sref="tavern.campaign({ campaignID: campaign._id })">{{ campaign.name }}</a>
+                            <td valign="top" class="name">
+                                <a ui-sref="tavern.campaigns.edit({ campaignID: campaign._id })">{{ campaign.name }}</a>
                             </td>
-                            <td class="characters">
-                                {{ campaign.characters.length | number:0 }} character<span ng-hide="campaign.characters.length === 1">s</span>
+                            <td valign="top" class="characters">
+                                <div ng-repeat="character in (party = getCharactersInCampaign(campaign)) | orderBy:'name'">
+                                    {{ character.name | capFirst }}
+                                </div>
                             </td>
-                            <td class="updated">{{ campaign.updated | date:'yyyy-MM-dd HH:mm:ss' }}</td>
-                            <td class="delete"><img src="/images/delete.png" class="icon-link" title="Delete campaign" ng-click="deleteCampaign(campaign)" /></td>
+                            <td valign="top" class="updated">{{ campaign.updated | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+                            <td valign="top" class="delete">
+                                <img ng-hide="party.length > 0" src="/images/delete.png" class="icon-link" title="Delete campaign" ng-click="deleteCampaign(campaign)" />
+                                <img ng-show="party.length > 0" src="/images/delete-disabled.png" class="icon-link-disabled" title="Cannot delete a campaign with players" />
+                            </td>
                         </tr>
                     </tbody>
                 </table>

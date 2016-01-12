@@ -41,41 +41,8 @@
             $scope.pullCampaign();
 
 
-            $scope.pullCharacters = function() {
-                
-                characterService.clear();
-
-                characterService.characters.query({ id: null },
-
-                    function(response) {
-
-                        response.forEach(function(character) {
-
-                            characterService.add(new Creature(character));
-
-                        });
-
-                    },
-                    function(error) {
-
-                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not fetch characters", error) });
-
-                    });
-
-            };
-
             $scope.pullCharacters();
 
-
-            $scope.isInParty = function(character) 
-            {
-                if (!character || !$scope.campaign || !$scope.campaign._id)
-                {
-                    return false;
-                }
-
-                return character.campaignID == $scope.campaign._id;
-            };
 
             $scope.checkAvailability = function(character)
             {
@@ -135,7 +102,7 @@
                         if (response)
                         {
                             console.log('Campaign saved successfully');
-                            $state.go('tavern.campaigns', {}, { reload: true });
+                            $state.go('tavern.campaigns.list', {}, { reload: true });
                         }
                         else
                         {

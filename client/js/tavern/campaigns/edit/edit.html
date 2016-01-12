@@ -94,7 +94,7 @@
     </style>
 
     <div style="margin-top: 15px;">
-       &lt;&lt; <a ui-sref="tavern.campaigns">Return to campaigns</a>
+       &lt;&lt; <a ui-sref="tavern.campaigns.list">Return to campaigns</a>
     </div>
 
     <fieldset class="tavern campaign">
@@ -108,7 +108,7 @@
             <div ng-show="party.length > 0">
                 <table class="current-characters">
                     <tbody>
-                        <tr ng-repeat="character in (party = (characterService.getCharacters() | filter:isInParty)) | orderBy:'name'">
+                        <tr ng-repeat="character in (party = getCharactersInCampaign(campaign)) | orderBy:'name'">
                             <td class="party-member">{{ character.name }}</td>
                             <td><button type="button" ng-click="removeCharacterFromCampaign(character)">Leave</button></td>
                             <!-- <span class="droppable" ng-click="removeCharacterFromCampaign(character)">[X]</span> -->
