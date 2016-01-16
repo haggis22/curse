@@ -96,6 +96,7 @@
     <Content Include="client\common\partials\ajax-loader.html" />
     <Content Include="client\common\partials\error-message.html" />
     <Content Include="client\curseController.js" />
+    <Content Include="client\js\dungeon\dungeonService.js" />
     <Content Include="client\js\dungeon\dungeon.html" />
     <Content Include="client\js\dungeon\dungeonController.js" />
     <Content Include="client\js\tavern\campaigns\list\campaigns.html" />
@@ -190,10 +191,12 @@
     <Content Include="client\partials\monster-manual.html" />
     <Content Include="client\partials\rollup.html" />
     <Content Include="database\schema.txt" />
+    <Content Include="js\dungeons\Dungeon.js" />
     <Content Include="js\items\ItemFactory.js" />
     <Content Include="js\maps\Room.js" />
     <Content Include="js\users\Session.js" />
     <Content Include="js\users\User.js" />
+    <Content Include="server\api\routes\dungeons.js" />
     <Content Include="server\api\routes\users.js" />
     <Content Include="server\models\users\UserManager.js" />
     <Content Include="sql\shoppe.sql" />
