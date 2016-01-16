@@ -3,12 +3,11 @@
 (function(app) {
 
 
-	app.controller('dungeonController', ['$scope', '$rootScope', '$state', 'errorService', 'userService', 'characterService', 'campaignService', 'Creature',
+	app.controller('dungeonController', ['$scope', '$rootScope', '$state', 'errorService', 'userService', 'dungeonService', 'Dungeon',
 
-		function($scope, $rootScope, $state, errorService, userService, characterService, campaignService, Creature) {
+		function($scope, $rootScope, $state, errorService, userService, dungeonService, Dungeon) {
 
-            $scope.campaignService = campaignService;
-            $scope.characterService = characterService;
+            $scope.dungeonService = dungeonService;
 
             if (userService.isDefinitelyNotLoggedIn())
             {
@@ -17,59 +16,29 @@
             }
 
 
-            $scope.pullCampaign = function(campaignID) {
+            $scope.pullDungeon = function(campaignID) {
                 
                 if (campaignID == null)
                 {
                     return;
                 }
 
-                campaignService.campaigns.get({ id: $scope.campaignID },
+                dungeonService.dungeons.get({ campaignID: $scope.campaignID },
 
                     function(response) {
 
-                        campaignService.current = response;
+                        dungeonService.dungeon = new Dungeon(response);
 
                     },
                     function(error) {
 
-                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not fetch current campaign", error) });
+                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not fetch dungeon", error) });
 
                     });
 
             };
 
-            if (campaignService.current == null)
-            {
-                $scope.pullCampaign($scope.campaignID);
-            }
-
-            $scope.pullParty = function() {
-                
-                characterService.clear();
-
-                characterService.byCampaign.query({ campaignID: $scope.campaignID },
-
-                    function(response) {
-
-                        response.forEach(function(character) {
-
-                            characterService.add(new Creature(character));
-
-                        });
-
-                    },
-                    function(error) {
-
-                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not fetch party characters", error) });
-
-                    });
-
-            };
-
-            $scope.pullParty();
-
-
+            $scope.pullDungeon($scope.campaignID);
 
         }
 

@@ -1,7 +1,7 @@
 <div ng-controller="dungeonController">
 
     <div class="title-bar">
-        <div class="game-title">Campaign {{ campaignService.current.name }}</div>
+        <div class="game-title">Campaign {{ dungeonService.dungeon.campaign.name }}</div>
         <div class="div-current-user" ng-show="userService.currentSession">
             Logged In:
             <span class="current-user" ng-click="logout()">{{ userService.currentSession.username }}</span>
@@ -12,6 +12,8 @@
     <div>
         <div ng-repeat="character in characterService.getCharacters() | orderBy:'name'">{{ character.getName(true) | capFirst }}</div>
     </div>
+
+    <div>CampaignID: {{ dungeonService.dungeon.campaign._id }}</div>
 
     <div ui-view style="padding-left: 10px;"></div>
 
