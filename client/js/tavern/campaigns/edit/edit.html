@@ -47,7 +47,6 @@
         
         .campaign .panes
         {
-            float: left;
             width: 380px;
             height: 280px;
             margin-left: 10px;
@@ -97,53 +96,57 @@
        &lt;&lt; <a ui-sref="tavern.campaigns.list">Return to campaigns</a>
     </div>
 
-    <fieldset class="tavern campaign">
+    <div>
+        <fieldset class="tavern campaign">
     
-        <div class="info">
+            <div class="info">
         
-            <div class="name">{{ campaign.name }}</div>
-            <hr />
+                <div class="name">{{ campaign.name }}</div>
+                <hr />
 
-            <div ng-show="party.length == 0">The party has no members.</div>
-            <div ng-show="party.length > 0">
-                <table class="current-characters">
-                    <tbody>
-                        <tr ng-repeat="character in (party = getCharactersInCampaign(campaign)) | orderBy:'name'">
-                            <td class="party-member">{{ character.name }}</td>
-                            <td><button type="button" ng-click="removeCharacterFromCampaign(character)">Leave</button></td>
-                            <!-- <span class="droppable" ng-click="removeCharacterFromCampaign(character)">[X]</span> -->
-                        </tr>
+                <div ng-show="party.length == 0">The party has no members.</div>
+                <div ng-show="party.length > 0">
+                    <table class="current-characters">
+                        <tbody>
+                            <tr ng-repeat="character in (party = getCharactersInCampaign(campaign)) | orderBy:'name'">
+                                <td class="party-member">{{ character.name }}</td>
+                                <td><button type="button" ng-click="removeCharacterFromCampaign(character)">Leave</button></td>
+                                <!-- <span class="droppable" ng-click="removeCharacterFromCampaign(character)">[X]</span> -->
+                            </tr>
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
 
-        </div>
+        </fieldset>
+    </div>
 
-    </fieldset>
-
-    <fieldset class="tavern characters">
+    <div>
+        <fieldset class="tavern characters">
     
-        <div class="title">Available Characters</div>
-        <hr />
+            <div class="title">Available Characters</div>
+            <hr />
 
-        <div ng-show="availableCharacters.length == 0">You have no available characters.</div>
-        <div ng-show="availableCharacters.length > 0">
+            <div ng-show="availableCharacters.length == 0">You have no available characters.</div>
+            <div ng-show="availableCharacters.length > 0">
 
-            <table id="recruits" border="0">
-                <tbody>
-                    <tr class="character" ng-repeat="character in (availableCharacters = (characterService.getCharacters() | filter:checkAvailability)) | orderBy:'name'">
-                        <td class="name">{{ character.getName(true) }}</td>
-                        <td class="join"><button type="button" ng-click="addCharacterToCampaign(character)">Join</button></td>
-                    </tr>
+                <table id="recruits" border="0">
+                    <tbody>
+                        <tr class="character" ng-repeat="character in (availableCharacters = (characterService.getCharacters() | filter:checkAvailability)) | orderBy:'name'">
+                            <td class="name">{{ character.getName(true) }}</td>
+                            <td class="join"><button type="button" ng-click="addCharacterToCampaign(character)">Join</button></td>
+                        </tr>
                     
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
-        </div>
+            </div>
 
 
-    </fieldset>
+        </fieldset>
+    </div>
 
 
 </div>

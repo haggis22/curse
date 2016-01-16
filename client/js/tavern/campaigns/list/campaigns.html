@@ -2,13 +2,22 @@
 
     <style type="text/css">
     
-        .campaigns fieldset
+        div.campaigns
         {
             margin-top: 15px; 
+        }
+
+        .campaigns fieldset
+        {
             width: 300px; 
             padding: 15px 10px;
         }
         
+        table.campaign-table
+        {
+            width: 100%;
+        }
+                
         .campaign-table .name
         {
             text-align: left;
@@ -76,12 +85,14 @@
     </div>
 
     <div class="campaigns">
-        <div ng-show="campaigns.length == 0">You have no saved campaigns.</div>
 
-        <div ng-show="campaigns.length > 0">
-            <fieldset class="tavern">
-                <legend>Campaigns</legend>
+        <fieldset class="tavern">
 
+            <legend>Campaigns</legend>
+
+            <div ng-show="campaignService.myCampaigns.length == 0">You have no saved campaigns.</div>
+
+            <div ng-show="campaignService.myCampaigns.length > 0">
                 <table class="datatable campaign-table">
                     <thead>
                         <tr>
@@ -93,7 +104,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="campaign in campaigns | orderBy:'name'">
+                        <tr ng-repeat="campaign in campaignService.myCampaigns | orderBy:'name'">
                             <td valign="top" class="name">
                                 <a ui-sref="tavern.campaigns.edit({ campaignID: campaign._id })">{{ campaign.name }}</a>
                             </td>
@@ -101,10 +112,11 @@
                                 <div ng-repeat="character in (party = getCharactersInCampaign(campaign)) | orderBy:'name'">
                                     {{ character.name | capFirst }}
                                 </div>
+                                <div ng-show="party.length == 0">--</div>
                             </td>
                             <td valign="top" class="updated">{{ campaign.updated | date:'yyyy-MM-dd HH:mm:ss' }}</td>
                             <td valign="top" class="play">
-                                <button ng-show="party.length > 0" ui-sref="dungeon({ campaignID: campaign._id })">Play</button>
+                                <button ui-sref="dungeon({ campaignID: campaign._id })" ng-disabled="party.length == 0" ng-attr-title="{{ party.length > 0 ? 'Enter dungeon' : 'Need characters to join' }}">Play</button>
                             </td>
                             <td valign="top" class="delete">
                                 <img ng-hide="party.length > 0" src="/images/delete.png" class="icon-link" title="Delete campaign" ng-click="deleteCampaign(campaign)" />
@@ -113,8 +125,11 @@
                         </tr>
                     </tbody>
                 </table>
-            </fieldset>
-        </div>
+
+            </div><!-- has some campaigns -->
+
+        </fieldset>
+
     </div>
 
     <div ui-view style="margin-top: 15px;"></div>

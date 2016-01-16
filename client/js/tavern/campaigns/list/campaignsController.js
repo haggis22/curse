@@ -6,6 +6,7 @@
 	app.controller('campaignsController', ['$scope', '$rootScope', '$state', 'errorService', 'campaignService', 'characterService', 'Campaign', 'Creature',
 		function($scope, $rootScope, $state, errorService, campaignService, characterService, Campaign, Creature) {
 
+            $scope.campaignService = campaignService;
 
             /* Code to pull all the modules available to run */
             $scope.modules = null;
