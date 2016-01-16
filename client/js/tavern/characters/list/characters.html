@@ -49,7 +49,7 @@
                         </td>
                         <td class="species">{{ character.species }}</td>
                         <td class="sex">{{ Sex.getSexAbbr(character.sex) }}</td>
-                        <td class="campaign">{{ getCampaignForCharacter(character).name }}</td>
+                        <td class="campaign">{{ character.campaignID ? getCampaignForCharacter(character).name : '--' }}</td>
                     </tr>
                 </tbody>
             </table>
