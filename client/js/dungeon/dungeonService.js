@@ -10,7 +10,8 @@
 
                 dungeons: $resource('/api/dungeons/:campaignID', { campaignID: '@campaignID' }),
 
-                dungeon: null
+                dungeon: null,
+                character: null
 
             };
 

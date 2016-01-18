@@ -1,4 +1,6 @@
-<div ng-controller="dungeonController">
+<div ng-controller="dungeonController" class="dungeon">
+
+	<link rel="stylesheet" type="text/css" href="/js/dungeon/dungeon.css" />
 
     <div class="title-bar">
         <div class="game-title">Campaign {{ dungeonService.dungeon.campaign.name }}</div>
@@ -9,12 +11,8 @@
         <div style="clear: both;"></div>
     </div>
 
-    <div>
-        <div ng-repeat="character in characterService.getCharacters() | orderBy:'name'">{{ character.getName(true) | capFirst }}</div>
-    </div>
+    <hr />
 
-    <div>CampaignID: {{ dungeonService.dungeon.campaign._id }}</div>
-
-    <div ui-view style="padding-left: 10px;"></div>
+    <party-panel></party-panel>
 
 </div>

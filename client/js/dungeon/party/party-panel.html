@@ -1,0 +1,14 @@
+<div class="party-panel">
+
+	<link rel="stylesheet" type="text/css" href="/js/dungeon/party/party-panel.css" />
+
+    <div class="m-tabs" style="margin-top: 15px;">
+        <a ng-repeat="character in dungeonService.dungeon.party"
+            ng-class="{ 'active': character == dungeonService.character }" 
+            ng-click="showCharacter(character)"
+        >{{ character.name }}</a>
+    </div>
+
+    <character-panel ng-show="dungeonService.character"></character-panel>
+
+</div>

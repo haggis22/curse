@@ -11,19 +11,20 @@ var Campaign = require(__dirname + '/../../../js/campaigns/Campaign.js');
 var Dungeon = require(__dirname + '/../../../js/dungeons/Dungeon.js');
 
 var CampaignManager = require(__dirname + '/../../models/campaigns/CampaignManager');
+var CharacterManager = require(__dirname + '/../../models/creatures/CharacterManager');
 
 
 router.get('/:campaignID', function (req, res) {
 
-    console.log('hello');
-    debugger;
-
     CampaignManager.fetchByID(req.user, req.params.campaignID)
 
         .then(function(campaign) {
-
-            var dungeon = new Dungeon(null);
+            return [ campaign, CharacterManager.fetchByCampaign(req.user, campaign) ];
+        })
+        .spread(function(campaign, party) {
+            var dungeon = new Dungeon();
             dungeon.campaign = campaign;
+            dungeon.party = party;
 
             return res.json(dungeon);
         })

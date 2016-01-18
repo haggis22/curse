@@ -1,0 +1,27 @@
+<div id="character-panel">
+
+	<link rel="stylesheet" type="text/css" href="/js/dungeon/character/character-panel.css" />
+
+    <div class="bio">
+
+        <div class="species">
+            <span class="label">Race:</span>
+            <span class="value">{{ dungeonService.character.species  }}</span>
+        </div>
+
+        <div class="sex">
+            <span class="label">Sex:</span>
+            <span class="value">{{ Sex.getSex(dungeonService.character.sex)  }}</span>
+        </div>
+
+    </div><!-- class = bio -->
+
+    <div class="">
+        <div ng-repeat="stat in Stat.stats" class="stat">
+            <div class="label">{{ stat.name }}:</div>
+            <div class="value">{{ dungeonService.character.getStatValue('stats', stat.prop) }}</div>
+        </div>
+    </div>
+
+
+</div>

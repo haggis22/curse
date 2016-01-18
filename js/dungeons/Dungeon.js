@@ -3,16 +3,23 @@
 (function(isNode, isAngular) {
 
     // This wrappers function returns the contents of the module, with dependencies
-    var DungeonModule = function () {
+    var DungeonModule = function (Campaign, Creature) {
 
         var Dungeon = function (dungeon) {
 
             if (dungeon)
             {
-                this.campaign = dungeon.campaign;
+                this.campaign = new Campaign(dungeon.campaign);
                 this.room = dungeon.room;
-                this.party = dungeon.party;
+                if (dungeon.party)
+                {
+                    this.party = dungeon.party.map(function(character) { return new Creature(character); });
+                }
+
             }
+
+            // make sure the party is at least an empty array at the end of this
+            this.party = this.party || [];
 
         };
 
@@ -24,11 +31,14 @@
     {
         // AngularJS module definition
         angular.module('CurseApp').
-            factory('Dungeon', [DungeonModule]);
+            factory('Dungeon', ['Campaign', 'Creature', DungeonModule]);
 
     } else if (isNode) {
         // NodeJS module definition
-        module.exports = DungeonModule();
+        module.exports = DungeonModule(
+            require(__dirname + '/../campaigns/Campaign'),
+            require(__dirname + '/../creatures/Creature')
+        );
     }
 
 }) (typeof module !== 'undefined' && module.exports, typeof angular !== 'undefined'); 

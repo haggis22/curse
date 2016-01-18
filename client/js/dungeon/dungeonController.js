@@ -29,6 +29,12 @@
 
                         dungeonService.dungeon = new Dungeon(response);
 
+                        // set the current character to be the first one
+                        if (dungeonService.dungeon.party.length)
+                        {
+                            dungeonService.character = dungeonService.dungeon.party[0];
+                        }
+
                     },
                     function(error) {
 
