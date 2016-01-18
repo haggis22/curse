@@ -96,9 +96,16 @@
     <Content Include="client\common\partials\ajax-loader.html" />
     <Content Include="client\common\partials\error-message.html" />
     <Content Include="client\curseController.js" />
+    <Content Include="client\js\dungeon\character\character-panel.css" />
+    <Content Include="client\js\dungeon\character\character-panel.html" />
+    <Content Include="client\js\dungeon\character\characterPanelController.js" />
+    <Content Include="client\js\dungeon\dungeon.css" />
+    <Content Include="client\js\dungeon\party\party-panel.css" />
     <Content Include="client\js\dungeon\dungeonService.js" />
     <Content Include="client\js\dungeon\dungeon.html" />
     <Content Include="client\js\dungeon\dungeonController.js" />
+    <Content Include="client\js\dungeon\party\party-panel.html" />
+    <Content Include="client\js\dungeon\party\partyPanelController.js" />
     <Content Include="client\js\tavern\campaigns\list\campaigns.html" />
     <Content Include="client\js\tavern\campaigns\list\campaignsController.js" />
     <Content Include="client\js\tavern\characters\edit\stats\stats.html" />
