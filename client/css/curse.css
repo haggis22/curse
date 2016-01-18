@@ -1,3 +1,8 @@
+@font-face {
+    font-family: CelticHand;
+    src: url('/css/CelticHand.ttf');
+}
+
 body
 {
     font-size: 11pt;
