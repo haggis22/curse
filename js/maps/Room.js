@@ -9,11 +9,9 @@
 
             this._id = room._id;
             this.name = room.name;
+            this.prep = room.prep;
 
             this.updated = room.updated;
-            this.userID = room.userID;
-            this.characters = room.characters || [];
-            this.locationID = room.locationID;
 
         };
 

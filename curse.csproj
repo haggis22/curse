@@ -198,13 +198,15 @@
     <Content Include="client\partials\monster-manual.html" />
     <Content Include="client\partials\rollup.html" />
     <Content Include="database\schema.txt" />
-    <Content Include="js\dungeons\Dungeon.js" />
+    <Content Include="js\maps\Dungeon.js" />
     <Content Include="js\items\ItemFactory.js" />
     <Content Include="js\maps\Room.js" />
     <Content Include="js\users\Session.js" />
     <Content Include="js\users\User.js" />
     <Content Include="server\api\routes\dungeons.js" />
     <Content Include="server\api\routes\users.js" />
+    <Content Include="server\models\maps\DungeonManager.js" />
+    <Content Include="server\models\maps\RoomManager.js" />
     <Content Include="server\models\users\UserManager.js" />
     <Content Include="sql\shoppe.sql" />
     <None Include="client\js\angularjs\1.4.0\angular-resource.min.js.map" />

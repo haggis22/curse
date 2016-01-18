@@ -8,34 +8,24 @@
 
 #character-panel .bio
 {
-    display: inline-block;
-    float: left;
+/*
     width: 160px;
     height: 480px;
-    border-right: 1px solid #666;
-    padding: 10px;
-            
+*/
 }
 
-#character-panel .bio .name
-{
-    font-size: 14pt;
-}
-
-#character-panel .bio .campaign,
-#character-panel .bio .species,
 #character-panel .bio .sex
 {
     margin-top: 5px;
 }
         
-#character-panel .bio .label
+#character-panel .label
 {
-    width: 3em;
+    width: 6em;
     display: inline-block;
 }
         
-#character-panel .bio .value
+#character-panel .value
 {
     display: inline-block;
 }

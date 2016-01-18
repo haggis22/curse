@@ -171,18 +171,6 @@ input, select, button
 	margin-top: 15px;
 }
 
-.bio > .label
-{
-    display: inline-block;
-    width: 60px;
-}
-
-.bio > .value
-{
-    display: inline-block;
-    width: 200px;
-}
-
 .stat
 {
     margin-top: 5px;

@@ -188,7 +188,7 @@ CampaignManager.create = function (campaign) {
 
 
 
-CampaignManager.update = function (campaignID, campaign) {
+CampaignManager.update = function (campaign) {
 
     var deferred = Q.defer();
 
@@ -198,7 +198,7 @@ CampaignManager.update = function (campaignID, campaign) {
 
         var collection = db.get('campaigns');
 
-        collection.update({ _id: campaignID }, campaign, function (err, doc) {
+        collection.update({ _id: campaign._id }, campaign, function (err, doc) {
 
             if (err) {
                 // it failed - return an error
