@@ -33,33 +33,19 @@ DungeonManager.fetchByCampaign = function (user, campaignID) {
 
             if (campaign.locationID == null)
             {
-                logger.info('campaign locationID is null, so generating room');
-
-                return [ campaign, 
-                
-                    RoomManager.create() 
-                        .then(function(room) {
-                            logger.info('Room was created successfully, so updating campaign locationID');
-                            campaign.locationID = room._id;
-                            return [ room, CampaignManager.update(campaign) ];
-                        })
-                        .spread(function(room, campaign) {
-                            return room;
-                        })
-                        .catch(function(err) {
-                            throw new Error(err);
-                        })
-
-                ];
+                // This returns an array with both:
+                // 1. a campaign, since this one will have been updated to make the current location not null
+                // 2. the new room
+                return RoomManager.create(campaign);
             }
             else
             {
-                logger.info('Campaign locationID was not null, so fetching room');
-                return [ campaign, RoomManager.fetchByID(campaign.locationID) ];
+                return Q.all([ campaign, RoomManager.fetchByID(campaign, campaign.locationID) ]);
             }
+
         })
         .spread(function(campaign, room) {
-            return [ campaign, room, CharacterManager.fetchByCampaign(user, campaign) ];
+            return Q.all([ campaign, room, CharacterManager.fetchByCampaign(user, campaign) ]);
         })
         .spread(function(campaign, room, party) {
             var dungeon = new Dungeon();
@@ -77,6 +63,78 @@ DungeonManager.fetchByCampaign = function (user, campaignID) {
 };
 
 
+DungeonManager.takeExit = function (user, campaignID, exitID) {
+
+    logger.debug('In takeExit, campaignID: ' + campaignID + ', exitID: ' + exitID);
+
+    return CampaignManager.fetchByID(user, campaignID)
+
+        .then(function(campaign) {
+
+            return Q.all([ campaign, RoomManager.fetchByID(campaign, campaign.locationID) ]);
+
+        })
+        .spread(function(campaign, room) {
+
+            // TODO: Make sure the characters are allowed to leave right now - they might be in the middle of combat
+
+            // make sure this room has this exit
+            var exit = room.findExit(exitID);
+
+            if (exit == null)
+            {
+                throw new Error('Room does not have the specified exit');
+            }
+
+            if (exit.destination == null)
+            {
+
+                // this will return an array of campaign and a new room
+                return Q.all([ room, exit, RoomManager.create(campaign) ])
+                                
+                        .spread(function(oldRoom, oldExit, createRoomResultArray) {
+
+                            var campaign = createRoomResultArray[0];
+                            var newRoom = createRoomResultArray[1];
+
+                            // update the exit in the old room so that it points to the new room
+                            oldExit.destination = newRoom._id;
+
+                            // TODO: create an exit in the new room so that it points BACK to the old room
+
+                            return Q.all([ campaign, newRoom, RoomManager.update(oldRoom) ]);
+
+                        })
+                        .spread(function(campaign, newRoom, oldRoomUpdateResult) {
+                            return [ campaign, newRoom ];
+                        })
+                        .catch(function(err) {
+
+                            throw err;
+
+                        });
+            }
+
+            // otherwise, fetch the existing room
+            return Q.all([ campaign, RoomManager.fetchByID(campaign, room.exits[x].destination) ]);
+
+
+        })
+        .spread(function(campaign, nextRoom) {
+            campaign.locationID = nextRoom._id;
+
+            return CampaignManager.update(campaign);
+
+        })
+        .then(function(campaignUpdateResult) {
+            return campaignUpdateResult;
+        })
+        .catch(function(err) {
+            logger.error('Could not fetch dungeon for campaign ' + campaignID + ', userID: ' + user._id + ': ' + err);
+            throw err;
+        });
+
+};
 
 
 module.exports = DungeonManager;

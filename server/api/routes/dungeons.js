@@ -22,5 +22,18 @@ router.get('/:campaignID', function (req, res) {
 
 });
 
+router.post('/exit/:campaignID/:exitID', function (req, res) {
+
+    DungeonManager.takeExit(req.user, req.params.campaignID, req.params.exitID)
+
+        .then(function(result) {
+            return res.json(result);
+        })
+        .catch(function(err) {
+            return res.status(500).send({ error: 'System error' }).end();
+        });
+
+});
+
 
 module.exports = router;

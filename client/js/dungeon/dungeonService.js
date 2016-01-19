@@ -10,6 +10,11 @@
 
                 dungeons: $resource('/api/dungeons/:campaignID', { campaignID: '@campaignID' }),
 
+                exit: $resource('/api/dungeons/exit/:campaignID/:exitID', { campaignID: '@campaignID', exitID: '@exitID' }, {
+                    take: { method: 'POST' }
+                }),
+
+
                 dungeon: null,
                 character: null
 

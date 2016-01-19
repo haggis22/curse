@@ -7,12 +7,32 @@
 
         var Room = function (room) {
 
-            this._id = room._id;
-            this.name = room.name;
-            this.prep = room.prep;
-            this.exits = room.exits ? room.exits.map(function(exit) { return new Exit(exit); }) : [];
+            if (room)
+            {
+                this._id = room._id;
+                this.name = room.name;
+                this.prep = room.prep;
+                this.exits = room.exits ? room.exits.map(function(exit) { return new Exit(exit); }) : [];
+            }
 
-            this.updated = room.updated;
+            if (!this.exits)
+            {
+                this.exits = [];
+            }
+
+        };
+
+        Room.prototype.findExit = function(exitID)
+        {
+            for (var x=0; x < this.exits.length; x++)
+            {
+                if (this.exits[x]._id.toString() == exitID)
+                {
+                    return this.exits[x];
+                }
+            }
+
+            return null;
 
         };
 

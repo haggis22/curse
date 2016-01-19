@@ -8,6 +8,7 @@ var logger = log4js.getLogger('curse');
 
 var mongo = require('mongodb');
 var monk = require('monk');
+var ObjectID = require('mongodb').ObjectID;
 
 var db = monk(config.db);
 
@@ -19,6 +20,9 @@ var Exit = require(__dirname + '/../../../js/maps/Exit');
 var Room = require(__dirname + '/../../../js/maps/Room');
 
 var ItemFactory = require(__dirname + '/../../../js/items/ItemFactory');
+
+var CampaignManager = require(__dirname + '/../campaigns/CampaignManager');
+
 
 var RoomManager = function () {
 
@@ -39,13 +43,13 @@ var rooms =
 
 
 // Returns a promise to a room
-RoomManager.fetchByID = function (id) {
+RoomManager.fetchByID = function (campaign, roomID) {
 
     var deferred = Q.defer();
 
     var collection = db.get('rooms');
 
-    collection.find({ _id: id }, function (err, result) {
+    collection.find({ _id: roomID, campaignID: campaign._id }, function (err, result) {
 
         if (err) {
             logger.error('Could not load room from database: ' + err);
@@ -60,6 +64,7 @@ RoomManager.fetchByID = function (id) {
     return deferred.promise;
 
 };     // fetchByID
+
 
 function randomExit()
 {
@@ -89,57 +94,108 @@ function randomExit()
     
 }
 
-RoomManager.rollRoom = function()
+RoomManager.rollRoom = function(campaign)
 {
     var room = new Room(dice.randomElement(rooms));
+    room.campaignID = campaign._id;
+
     var numExits = dice.rollDie(1,2);
 
     for (var x=0; x < numExits; x++)
     {
         var exit = new Exit();
+        // since an exit is not a primary key, it will not get an automatic ID assigned to it, so 
+        // create on manually so that we can refer to it when taking an exit
+        exit._id = new ObjectID();
         exit.name = randomExit();
         exit.destination = null;
         room.exits.push(exit);
-
     }
 
-    return room;
+    return Q.resolve([ campaign, room ]);
 }
 
-RoomManager.create = function () {
+RoomManager.create = function (campaign) {
 
-    var deferred = Q.defer();
+    return RoomManager.rollRoom(campaign)
 
-    // this method is quick and synchronous
-    var room = RoomManager.rollRoom();
+        .spread(function(campaign, room) {
 
-    room.updated = new Date();
+            var deferred = Q.defer();
 
-    var collection = db.get('rooms');
+            room.updated = new Date();
 
-    collection.insert(room, function (err, doc) {
+            var collection = db.get('rooms');
 
-        if (err) {
-            // it failed - return an error
+            collection.insert(room, function (err, doc) {
+
+                if (err) {
+                    // it failed - return an error
+                    logger.error('Could not create room: ' + err);
+                    return deferred.reject(new Error(err));
+                }
+
+                // return the newly-created room
+                return deferred.resolve(new Room(doc));
+
+            });  // collection.insert
+
+            return Q.all([ campaign, deferred.promise ]);
+
+        })
+        .spread(function(campaign, room) {
+    
+            logger.info('Room was created successfully, so updating campaign locationID');
+            campaign.locationID = room._id;
+            return Q.all([ campaign, room, CampaignManager.update(campaign) ]);
+
+        })
+        .spread(function(campaign, room, campaignSavedResult) {
+
+            return Q.all([ campaign, room ]);
+
+        })
+        .catch(function(err)
+        {
             logger.error('Could not create room: ' + err);
-            return deferred.reject(new Error(err));
-        }
-
-        // fetch the newly-created room and use that to resolve/reject the outer promise
-        RoomManager.fetchByID(doc._id)
-            .then(function(room) {
-                return deferred.resolve(room);
-            })
-            .catch(function(err) {
-                return deferred.reject(new Error(err));
-            });
-
-    });
-
-    return deferred.promise;
+            throw err;
+        });
 
 };
 
+
+RoomManager.update = function (room) {
+
+    var deferred = Q.defer();
+
+    try
+    {
+        room.updated = new Date();
+
+        var collection = db.get('rooms');
+
+        collection.update({ _id: room._id }, room, function (err, doc) {
+
+            if (err) {
+                // it failed - return an error
+                logger.error('Could not update room: ' + err);
+                deferred.reject(new Error(err));
+            }
+
+            deferred.resolve(true);
+
+        });
+    }
+    catch (err) 
+    {
+        logger.error('Error in update: ' + err);
+        deferred.reject(new Error(err));
+    }
+
+    return deferred.promise;
+
+
+};
 
 
 

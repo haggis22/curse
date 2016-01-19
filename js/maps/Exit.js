@@ -9,6 +9,7 @@
 
             if (exit)
             {
+                this._id = exit._id;
                 this.name = exit.name;
 
                 // destination indicates the locationID of the room to which this exits leads

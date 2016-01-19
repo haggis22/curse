@@ -1,0 +1,14 @@
+<div id="room-panel">
+
+	<link rel="stylesheet" type="text/css" href="/js/dungeon/room/room-panel.css" />
+
+    <div class="room-description">You are {{ dungeonService.dungeon.room.prep }} {{ dungeonService.dungeon.room.name }}.</div>
+
+    <div class="exits">
+        You see:
+        <ul>
+            <li class="exit" ng-repeat="exit in dungeonService.dungeon.room.exits" ng-click="takeExit(exit)">{{ exit.name }}</li>
+        </ul>
+    </div>
+
+</div>

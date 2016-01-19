@@ -16,9 +16,9 @@
             }
 
 
-            $scope.pullDungeon = function(campaignID) {
+            $scope.pullDungeon = function() {
                 
-                if (campaignID == null)
+                if ($scope.campaignID == null)
                 {
                     return;
                 }
@@ -44,7 +44,15 @@
 
             };
 
-            $scope.pullDungeon($scope.campaignID);
+            $scope.pullDungeon();
+
+            
+            $scope.$on('refresh-dungeon', function (event, args) {
+
+                $scope.pullDungeon();
+
+            });
+
 
         }
 

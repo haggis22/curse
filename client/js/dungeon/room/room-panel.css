@@ -1,0 +1,28 @@
+#room-panel
+{
+    width: 1000px;
+    height: 400px;
+    padding: 10px;
+}
+
+#room-panel .room-description
+{
+    font-size: 18px;
+}
+
+#room-panel .exits
+{
+    margin-top: 10px;
+}
+
+#room-panel .exit
+{
+    margin-top: 5px;
+    margin-left: 15px;
+}
+
+#room-panel .exit:hover
+{
+	text-decoration: underline;
+	cursor: pointer;
+}

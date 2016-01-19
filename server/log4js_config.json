@@ -2,7 +2,7 @@
 	"appenders": [
 		{
 			"type": "dateFile",
-			"filename": "c:/git/curse/logs/curse.log",
+			"filename": "d:/desktop/danny/curse/logs/curse.log",
 			"pattern": "-yyyy-MM-dd",
 			"alwaysIncludePattern": false,
 			"category": "file_curse"
