@@ -14,6 +14,11 @@
     <hr />
 
     <div ng-show="dungeonService.dungeon.room">You are {{ dungeonService.dungeon.room.prep }} {{ dungeonService.dungeon.room.name }}.</div>
+    <div>
+        You see:
+
+        <div ng-repeat="exit in dungeonService.dungeon.room.exits">{{ exit.name }}</div>
+    </div>
 
     <party-panel></party-panel>
 

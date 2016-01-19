@@ -15,6 +15,7 @@ var Q = require('q');
 
 var dice = require(__dirname + '/../../core/Dice');
 
+var Exit = require(__dirname + '/../../../js/maps/Exit');
 var Room = require(__dirname + '/../../../js/maps/Room');
 
 var ItemFactory = require(__dirname + '/../../../js/items/ItemFactory');
@@ -60,10 +61,47 @@ RoomManager.fetchByID = function (id) {
 
 };     // fetchByID
 
+function randomExit()
+{
+    var rnd = Math.random();
+    if (rnd < 0.3)
+    {
+        return 'a door';
+    }
+    if (rnd < 0.5)
+    {
+        return 'a doorway';
+    }
+    if (rnd < 0.7)
+    {
+        return 'a hallway';
+    }
+    if (rnd < 0.8)
+    {
+        return 'a passage';
+    }
+    if (rnd < 0.9)
+    {
+        return 'a hall';
+    }
+                
+    return 'an exit';
+    
+}
 
 RoomManager.rollRoom = function()
 {
     var room = new Room(dice.randomElement(rooms));
+    var numExits = dice.rollDie(1,2);
+
+    for (var x=0; x < numExits; x++)
+    {
+        var exit = new Exit();
+        exit.name = randomExit();
+        exit.destination = null;
+        room.exits.push(exit);
+
+    }
 
     return room;
 }
