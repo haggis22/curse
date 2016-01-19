@@ -99,6 +99,9 @@
     <Content Include="client\js\dungeon\character\character-panel.css" />
     <Content Include="client\js\dungeon\character\character-panel.html" />
     <Content Include="client\js\dungeon\character\characterPanelController.js" />
+    <Content Include="client\js\dungeon\room\room-panel.css" />
+    <Content Include="client\js\dungeon\room\room-panel.html" />
+    <Content Include="client\js\dungeon\room\roomPanelController.js" />
     <Content Include="client\js\dungeon\dungeon.css" />
     <Content Include="client\js\dungeon\party\party-panel.css" />
     <Content Include="client\js\dungeon\dungeonService.js" />
