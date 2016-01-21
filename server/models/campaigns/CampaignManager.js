@@ -13,9 +13,9 @@ var db = monk(config.db);
 
 var Q = require('q');
 
-var Campaign = require(__dirname + '/../../../js/campaigns/Campaign.js');
-var CharacterManager = require(__dirname + '/../creatures/CharacterManager.js');
-var RoomManager = require(__dirname + '/../maps/RoomManager.js');
+var Campaign = require(__dirname + '/../../../js/campaigns/Campaign');
+var CharacterManager = require(__dirname + '/../creatures/CharacterManager');
+
 
 var CampaignManager = function () {
 
@@ -101,12 +101,6 @@ CampaignManager.startCampaign = function(user, moduleID) {
 
             // make the user the owner of the campaign
             campaign.userID = user._id;
-
-            // if the campaign has no starting point, then start it in the tavern 
-            if (campaign.locationID == null)
-            {
-                campaign.locationID = RoomManager.prototype.ID_TAVERN;
-            }
 
             return CampaignManager.create(campaign);
 

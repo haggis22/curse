@@ -31,7 +31,9 @@ DungeonManager.fetchByCampaign = function (user, campaignID) {
 
         .then(function(campaign) {
 
-            if (campaign.locationID == RoomManager.prototype.ID_TAVERN)
+            // TODO: check location for being the tavern and send the user back there
+
+            if (campaign.locationID == null)
             {
                 // This returns an array with both:
                 // 1. a campaign, since this one will have been updated to make the current location not null
@@ -56,7 +58,7 @@ DungeonManager.fetchByCampaign = function (user, campaignID) {
             return dungeon;
         })
         .catch(function(err) {
-            logger.error('Could not fetch dungeon for campaign ' + campaignID + ', userID: ' + user._id + ': ' + err + ', stack: ' + err.stack);
+            logger.error('Could not fetch dungeon for campaign ' + campaignID + ', userID: ' + user._id + '\n' + err.stack);
             throw err;
         });
 
@@ -114,11 +116,16 @@ DungeonManager.takeExit = function (user, campaignID, exitID) {
             }
 
             // otherwise, fetch the existing room
+            debugger;
+
             return Q.all([ campaign, RoomManager.fetchByID(campaign, exit.destination) ]);
 
 
         })
         .spread(function(campaign, nextRoom) {
+
+            debugger;
+
             campaign.locationID = nextRoom._id;
 
             return CampaignManager.update(campaign);
@@ -128,7 +135,7 @@ DungeonManager.takeExit = function (user, campaignID, exitID) {
             return campaignUpdateResult;
         })
         .catch(function(err) {
-            logger.error('Could not fetch dungeon for campaign ' + campaignID + ', userID: ' + user._id + ': ' + err + ', stack: ' + err.stack);
+            logger.error('Could not fetch dungeon for campaign ' + campaignID + ', userID: ' + user._id + '\n' + err.stack);
             throw err;
         });
 

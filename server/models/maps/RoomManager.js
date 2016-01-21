@@ -28,7 +28,7 @@ var RoomManager = function () {
 
 };
 
-RoomManager.prototype.ID_TAVERN = 'tavern';
+RoomManager.ID_TAVERN = 'tavern';
 
 
 var rooms = 
@@ -56,11 +56,17 @@ RoomManager.fetchByID = function (campaign, roomID) {
 
         if (err) {
             logger.error('Could not load room from database: ' + err);
-            deferred.reject(err);
+            return deferred.reject(err);
+        }
+
+        if (result.length == 0)
+        {
+            logger.warn('Could not find room ' + roomID + ' for campaign ' + campaign._id);
+            return deferred.reject(new Error('Could not find room in campaign'));
         }
 
         var room = new Room(result[0]);
-        deferred.resolve(room);
+        return deferred.resolve(room);
 
     });
 
@@ -109,9 +115,8 @@ function createExit(destinationID)
 
     exit.name = randomExitType();
     
-    // if the destination was not provided then set it to be null
-    exit.destination = destinationID ? destinationID : null;
-
+    exit.destination = destinationID;
+     
     return exit;
 
 }
@@ -139,6 +144,11 @@ RoomManager.rollRoom = function(campaign, oldRoomID)
 }
 
 RoomManager.create = function (campaign, oldRoomID) {
+
+    if (oldRoomID == null)
+    {
+        oldRoomID = RoomManager.ID_TAVERN;
+    }
 
     return RoomManager.rollRoom(campaign, oldRoomID)
 
@@ -170,6 +180,7 @@ RoomManager.create = function (campaign, oldRoomID) {
     
             logger.info('Room was created successfully, so updating campaign locationID');
             campaign.locationID = room._id;
+            debugger;
             return Q.all([ campaign, room, CampaignManager.update(campaign) ]);
 
         })

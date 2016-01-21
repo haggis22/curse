@@ -7,7 +7,7 @@
     <div class="exits">
         You see:
         <ul>
-            <li class="exit" ng-repeat="exit in dungeonService.dungeon.room.exits" ng-click="takeExit(exit)">{{ exit.name }}</li>
+            <li class="exit" ng-repeat="exit in dungeonService.dungeon.room.exits" ng-click="takeExit(exit)">{{ exit.name }} to {{ exit.destination }}</li>
         </ul>
     </div>
 
