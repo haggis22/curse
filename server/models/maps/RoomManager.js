@@ -28,6 +28,9 @@ var RoomManager = function () {
 
 };
 
+RoomManager.prototype.ID_TAVERN = 'tavern';
+
+
 var rooms = 
 [
 	{ name: 'library', prep: 'in a', frequency: 1 },
@@ -66,7 +69,7 @@ RoomManager.fetchByID = function (campaign, roomID) {
 };     // fetchByID
 
 
-function randomExit()
+function randomExitType()
 {
     var rnd = Math.random();
     if (rnd < 0.3)
@@ -94,30 +97,50 @@ function randomExit()
     
 }
 
-RoomManager.rollRoom = function(campaign)
+
+// creates a random exit pointing to the given destination
+function createExit(destinationID)
+{
+    var exit = new Exit();
+
+    // since an exit is not a primary key, it will not get an automatic ID assigned to it, so 
+    // create on manually so that we can refer to it when taking an exit
+    exit._id = new ObjectID();
+
+    exit.name = randomExitType();
+    
+    // if the destination was not provided then set it to be null
+    exit.destination = destinationID ? destinationID : null;
+
+    return exit;
+
+}
+
+
+RoomManager.rollRoom = function(campaign, oldRoomID)
 {
     var room = new Room(dice.randomElement(rooms));
+
+    debugger;
     room.campaignID = campaign._id;
 
     var numExits = dice.rollDie(1,2);
 
     for (var x=0; x < numExits; x++)
     {
-        var exit = new Exit();
-        // since an exit is not a primary key, it will not get an automatic ID assigned to it, so 
-        // create on manually so that we can refer to it when taking an exit
-        exit._id = new ObjectID();
-        exit.name = randomExit();
-        exit.destination = null;
-        room.exits.push(exit);
+        // create random exits that don't actually point anywhere yet
+        room.exits.push(createExit(null));
     }
+
+    // create an exit that points back to the old room
+    room.exits.push(createExit(oldRoomID));
 
     return Q.resolve([ campaign, room ]);
 }
 
-RoomManager.create = function (campaign) {
+RoomManager.create = function (campaign, oldRoomID) {
 
-    return RoomManager.rollRoom(campaign)
+    return RoomManager.rollRoom(campaign, oldRoomID)
 
         .spread(function(campaign, room) {
 
@@ -157,7 +180,7 @@ RoomManager.create = function (campaign) {
         })
         .catch(function(err)
         {
-            logger.error('Could not create room: ' + err);
+            logger.error('Could not create room: ' + err + '\nStack: ' + err.stack);
             throw err;
         });
 

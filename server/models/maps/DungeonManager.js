@@ -31,12 +31,12 @@ DungeonManager.fetchByCampaign = function (user, campaignID) {
 
         .then(function(campaign) {
 
-            if (campaign.locationID == null)
+            if (campaign.locationID == RoomManager.prototype.ID_TAVERN)
             {
                 // This returns an array with both:
                 // 1. a campaign, since this one will have been updated to make the current location not null
                 // 2. the new room
-                return RoomManager.create(campaign);
+                return RoomManager.create(campaign, campaign.locationID);
             }
             else
             {
@@ -56,7 +56,7 @@ DungeonManager.fetchByCampaign = function (user, campaignID) {
             return dungeon;
         })
         .catch(function(err) {
-            logger.error('Could not fetch dungeon for campaign ' + campaignID + ', userID: ' + user._id + ': ' + err);
+            logger.error('Could not fetch dungeon for campaign ' + campaignID + ', userID: ' + user._id + ': ' + err + ', stack: ' + err.stack);
             throw err;
         });
 
@@ -89,8 +89,8 @@ DungeonManager.takeExit = function (user, campaignID, exitID) {
             if (exit.destination == null)
             {
 
-                // this will return an array of campaign and a new room
-                return Q.all([ room, exit, RoomManager.create(campaign) ])
+                // this will return an array of campaign and a new room. It will also create a path back to this room
+                return Q.all([ room, exit, RoomManager.create(campaign, room._id) ])
                                 
                         .spread(function(oldRoom, oldExit, createRoomResultArray) {
 
@@ -99,8 +99,6 @@ DungeonManager.takeExit = function (user, campaignID, exitID) {
 
                             // update the exit in the old room so that it points to the new room
                             oldExit.destination = newRoom._id;
-
-                            // TODO: create an exit in the new room so that it points BACK to the old room
 
                             return Q.all([ campaign, newRoom, RoomManager.update(oldRoom) ]);
 
@@ -116,7 +114,7 @@ DungeonManager.takeExit = function (user, campaignID, exitID) {
             }
 
             // otherwise, fetch the existing room
-            return Q.all([ campaign, RoomManager.fetchByID(campaign, room.exits[x].destination) ]);
+            return Q.all([ campaign, RoomManager.fetchByID(campaign, exit.destination) ]);
 
 
         })
@@ -130,7 +128,7 @@ DungeonManager.takeExit = function (user, campaignID, exitID) {
             return campaignUpdateResult;
         })
         .catch(function(err) {
-            logger.error('Could not fetch dungeon for campaign ' + campaignID + ', userID: ' + user._id + ': ' + err);
+            logger.error('Could not fetch dungeon for campaign ' + campaignID + ', userID: ' + user._id + ': ' + err + ', stack: ' + err.stack);
             throw err;
         });
 
