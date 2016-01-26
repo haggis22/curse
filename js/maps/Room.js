@@ -12,6 +12,7 @@
                 this._id = room._id;
                 this.name = room.name;
                 this.prep = room.prep;
+                this.campaignID = room.campaignID;
                 this.exits = room.exits ? room.exits.map(function(exit) { return new Exit(exit); }) : [];
             }
 

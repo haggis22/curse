@@ -126,7 +126,6 @@ RoomManager.rollRoom = function(campaign, oldRoomID)
 {
     var room = new Room(dice.randomElement(rooms));
 
-    debugger;
     room.campaignID = campaign._id;
 
     var numExits = dice.rollDie(1,2);
@@ -180,7 +179,6 @@ RoomManager.create = function (campaign, oldRoomID) {
     
             logger.info('Room was created successfully, so updating campaign locationID');
             campaign.locationID = room._id;
-            debugger;
             return Q.all([ campaign, room, CampaignManager.update(campaign) ]);
 
         })
