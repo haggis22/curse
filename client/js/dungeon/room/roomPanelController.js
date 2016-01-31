@@ -21,9 +21,17 @@
 
                     function(result) {
 
-                        if (result)
+                        if (result.success)
                         {
-                            $rootScope.$broadcast('refresh-dungeon');
+
+                            if (result.room == 'tavern')
+                            {
+                                // there is no dungeon, so take the user back to the tavern
+                                return $state.go('tavern.campaigns');
+                            }
+
+                            return $rootScope.$broadcast('refresh-dungeon');
+
                         }
 
                     },

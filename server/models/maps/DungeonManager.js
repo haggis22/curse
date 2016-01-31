@@ -24,8 +24,30 @@ var DungeonManager = function () {
 
 };
 
+
+DungeonManager.moveToTavern = function(campaign)
+{
+
+    campaign.locationID = RoomManager.ID_TAVERN;
+
+    return CampaignManager.update(campaign)
+
+        .then(function(result) {
+
+            return RoomManager.ID_TAVERN;
+
+        })
+        .catch(function(err) { 
+
+            throw err;
+        });
+
+};
+
+
 DungeonManager.moveToRoom = function(campaign, roomID)
 {
+
     return RoomManager.fetchByID(campaign, roomID)
         
         .then(function(room) {
@@ -39,8 +61,10 @@ DungeonManager.moveToRoom = function(campaign, roomID)
 
             return Q.resolve(room);
 
-        })
+        });
+
 };
+
 
 DungeonManager.createStartRoom = function(campaign, currentLocationID) {
 
@@ -59,6 +83,7 @@ DungeonManager.createStartRoom = function(campaign, currentLocationID) {
         });
 
 };
+
 
 
 // returns a promise to an array of modules
@@ -113,6 +138,8 @@ DungeonManager.fetchByCampaign = function (user, campaignID) {
 };
 
 
+
+
 DungeonManager.takeExit = function (user, campaignID, exitID) {
 
     logger.debug('In takeExit, campaignID: ' + campaignID + ', exitID: ' + exitID);
@@ -136,48 +163,45 @@ DungeonManager.takeExit = function (user, campaignID, exitID) {
                 throw new Error('Room does not have the specified exit');
             }
 
-            if (exit.destination == null)
+            if (exit.destination == RoomManager.ID_TAVERN)
             {
-
-                // this will return an array of campaign and a new room. It will also create a path back to this room
-                return Q.all([ room, exit, RoomManager.create(campaign, room._id) ])
-                                
-                        .spread(function(oldRoom, oldExit, newRoom) {
-
-                            // update the exit in the old room so that it points to the new room
-                            oldExit.destination = newRoom._id;
-
-                            return Q.all([ campaign, newRoom, RoomManager.update(oldRoom) ]);
-
-                        })
-                        .spread(function(campaign, newRoom, oldRoomUpdateResult) {
-                            return [ campaign, newRoom ];
-                        })
-                        .catch(function(err) {
-
-                            throw err;
-
-                        });
+                logger.debug('Going to the tavern!');
+                return DungeonManager.moveToTavern(campaign);
             }
 
-            // otherwise, fetch the existing room
-            debugger;
+            if (exit.destination)
+            {
+                return DungeonManager.moveToRoom(campaign, exit.destination);
+            }
 
-            return Q.all([ campaign, RoomManager.fetchByID(campaign, exit.destination) ]);
+
+            return RoomManager.create(campaign, room._id)
+
+                .then(function(newRoom) {
+
+                    // update the exit in the old room so that it points to the new room
+                    exit.destination = newRoom._id;
+
+                    return Q.all([ newRoom, RoomManager.update(room) ]);
+
+                })
+                .spread(function(newRoom, oldRoomUpdateResult) {
+
+                    return DungeonManager.moveToRoom(campaign, newRoom._id);
+
+                })
+                .catch(function(err) {
+
+                    logger.error('Error in takeExit for null destination\n' + err.stack);
+                    throw err;
+                });
 
 
         })
-        .spread(function(campaign, nextRoom) {
+        .then(function(newRoom) {
 
-            debugger;
+            return { success: newRoom != null, room: newRoom };
 
-            campaign.locationID = nextRoom._id;
-
-            return CampaignManager.update(campaign);
-
-        })
-        .then(function(campaignUpdateResult) {
-            return campaignUpdateResult;
         })
         .catch(function(err) {
             logger.error('Could not fetch dungeon for campaign ' + campaignID + ', userID: ' + user._id + '\n' + err.stack);
