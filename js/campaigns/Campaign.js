@@ -13,6 +13,7 @@
             this.updated = campaign.updated;
             this.userID = campaign.userID;
             this.locationID = campaign.locationID;
+            this.startLocationID = campaign.startLocationID;
 
         };
 

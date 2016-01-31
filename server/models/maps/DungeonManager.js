@@ -24,6 +24,43 @@ var DungeonManager = function () {
 
 };
 
+DungeonManager.moveToRoom = function(campaign, roomID)
+{
+    return RoomManager.fetchByID(campaign, roomID)
+        
+        .then(function(room) {
+
+            campaign.locationID = room._id;
+
+            return Q.all([ room, CampaignManager.update(campaign) ]);
+
+        })
+        .spread(function(room, campaignUpdateResult) {
+
+            return Q.resolve(room);
+
+        })
+};
+
+DungeonManager.createStartRoom = function(campaign, currentLocationID) {
+
+    return RoomManager.create(campaign, currentLocationID)
+
+        .then(function(newRoom) {
+
+            campaign.startLocationID = newRoom._id;
+            return Q.all([ newRoom, CampaignManager.update(campaign) ]);
+
+        })
+        .spread(function(newRoom, campaignUpdateResult) {
+
+            return newRoom;
+
+        });
+
+};
+
+
 // returns a promise to an array of modules
 DungeonManager.fetchByCampaign = function (user, campaignID) {
 
@@ -31,25 +68,35 @@ DungeonManager.fetchByCampaign = function (user, campaignID) {
 
         .then(function(campaign) {
 
-            // TODO: check location for being the tavern and send the user back there
+            if (campaign.locationID == RoomManager.ID_TAVERN)
+            {
+                // move them from the tavern to the start location
+                if (campaign.startLocationID)
+                {
+                    return Q.all([ campaign, DungeonManager.moveToRoom(campaign, campaign.startLocationID) ]);
+                }
 
-            if (campaign.locationID == null)
-            {
-                // This returns an array with both:
-                // 1. a campaign, since this one will have been updated to make the current location not null
-                // 2. the new room
-                return RoomManager.create(campaign, campaign.locationID);
-            }
-            else
-            {
-                return Q.all([ campaign, RoomManager.fetchByID(campaign, campaign.locationID) ]);
-            }
+                // we need to create a starting room and then move to it
+                return DungeonManager.createStartRoom(campaign, campaign.startLocationID)
+                    
+                    .then(function(newRoom) { 
+
+                        return Q.all([ campaign, DungeonManager.moveToRoom(campaign, newRoom._id) ]);
+
+                    });
+
+            }   // end if in the tavern
+
+            // othwerwise just return the room they're in
+            return Q.all([ campaign, RoomManager.fetchByID(campaign, campaign.locationID) ]);
 
         })
         .spread(function(campaign, room) {
+
             return Q.all([ campaign, room, CharacterManager.fetchByCampaign(user, campaign) ]);
         })
         .spread(function(campaign, room, party) {
+
             var dungeon = new Dungeon();
             dungeon.campaign = campaign;
             dungeon.room = room;
@@ -58,6 +105,7 @@ DungeonManager.fetchByCampaign = function (user, campaignID) {
             return dungeon;
         })
         .catch(function(err) {
+            console.log('here X');
             logger.error('Could not fetch dungeon for campaign ' + campaignID + ', userID: ' + user._id + '\n' + err.stack);
             throw err;
         });
@@ -94,10 +142,7 @@ DungeonManager.takeExit = function (user, campaignID, exitID) {
                 // this will return an array of campaign and a new room. It will also create a path back to this room
                 return Q.all([ room, exit, RoomManager.create(campaign, room._id) ])
                                 
-                        .spread(function(oldRoom, oldExit, createRoomResultArray) {
-
-                            var campaign = createRoomResultArray[0];
-                            var newRoom = createRoomResultArray[1];
+                        .spread(function(oldRoom, oldExit, newRoom) {
 
                             // update the exit in the old room so that it points to the new room
                             oldExit.destination = newRoom._id;

@@ -28,6 +28,8 @@ var RoomManager = function () {
 
 };
 
+var COLLECTION = 'rooms';
+
 RoomManager.ID_TAVERN = 'tavern';
 
 
@@ -50,7 +52,7 @@ RoomManager.fetchByID = function (campaign, roomID) {
 
     var deferred = Q.defer();
 
-    var collection = db.get('rooms');
+    var collection = db.get(COLLECTION);
 
     collection.find({ _id: roomID, campaignID: campaign._id }, function (err, result) {
 
@@ -124,6 +126,8 @@ function createExit(destinationID)
 
 RoomManager.rollRoom = function(campaign, oldRoomID)
 {
+    logger.debug('In rollRoom for campaign ' + campaign._id + ', oldRoomID = ' + oldRoomID);
+
     var room = new Room(dice.randomElement(rooms));
 
     room.campaignID = campaign._id;
@@ -139,7 +143,9 @@ RoomManager.rollRoom = function(campaign, oldRoomID)
     // create an exit that points back to the old room
     room.exits.push(createExit(oldRoomID));
 
-    return Q.resolve([ campaign, room ]);
+    logger.debug('rollRoom complete!');
+
+    return Q.resolve(room);
 }
 
 RoomManager.create = function (campaign, oldRoomID) {
@@ -149,15 +155,21 @@ RoomManager.create = function (campaign, oldRoomID) {
         oldRoomID = RoomManager.ID_TAVERN;
     }
 
+    logger.debug('In RoomManager.create');
+
     return RoomManager.rollRoom(campaign, oldRoomID)
 
-        .spread(function(campaign, room) {
+        .then(function(room) {
+
+            logger.debug('RoomManager.create caught result of rollRoom');
 
             var deferred = Q.defer();
 
             room.updated = new Date();
 
-            var collection = db.get('rooms');
+            var collection = db.get(COLLECTION);
+
+            logger.debug('Inserting new room into collection');
 
             collection.insert(room, function (err, doc) {
 
@@ -168,23 +180,13 @@ RoomManager.create = function (campaign, oldRoomID) {
                 }
 
                 // return the newly-created room
+                logger.debug('Resolving newly-created room');
                 return deferred.resolve(new Room(doc));
 
             });  // collection.insert
 
-            return Q.all([ campaign, deferred.promise ]);
-
-        })
-        .spread(function(campaign, room) {
-    
-            logger.info('Room was created successfully, so updating campaign locationID');
-            campaign.locationID = room._id;
-            return Q.all([ campaign, room, CampaignManager.update(campaign) ]);
-
-        })
-        .spread(function(campaign, room, campaignSavedResult) {
-
-            return Q.all([ campaign, room ]);
+            logger.debug('Returning room promise');
+            return deferred.promise;
 
         })
         .catch(function(err)
@@ -204,7 +206,7 @@ RoomManager.update = function (room) {
     {
         room.updated = new Date();
 
-        var collection = db.get('rooms');
+        var collection = db.get(COLLECTION);
 
         collection.update({ _id: room._id }, room, function (err, doc) {
 
