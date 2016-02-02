@@ -3,7 +3,7 @@
 (function(isNode, isAngular) {
 
     // This wrappers function returns the contents of the module, with dependencies
-    var ShoppeModule = function (Value, ItemFactory) {
+    var ShoppeModule = function (Value, Item, ItemFactory) {
 
         var Shoppe = function (itemArray) {
 
@@ -13,6 +13,8 @@
         };
 
         Shoppe.prototype.buyItem = function(creature, item) {
+
+            debugger;
 
             if (creature == null)
             {
@@ -84,12 +86,13 @@
     {
         // AngularJS module definition
         angular.module('CurseApp').
-            factory('Shoppe', ['Value', 'Item', 'Weapon', 'Armour', 'Shield', 'Potion', ShoppeModule]);
+            factory('Shoppe', ['Value', 'Item', 'ItemFactory', ShoppeModule]);
 
     } else if (isNode) {
         // NodeJS module definition
         module.exports = ShoppeModule(
             require(__dirname + '/../items/Value'),
+            require(__dirname + '/../items/Item'),
             require(__dirname + '/../items/ItemFactory')
         );
     }
