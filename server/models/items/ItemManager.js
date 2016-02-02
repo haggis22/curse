@@ -22,16 +22,14 @@ var Room = require(__dirname + '/../../../js/maps/Room');
 var ItemFactory = require(__dirname + '/../../../js/items/ItemFactory');
 
 
-var RoomManager = function () {
+var ItemManager = function () {
 
 };
 
-var COLLECTION = 'rooms';
-
-RoomManager.ID_TAVERN = 'tavern';
+var COLLECTION = 'items';
 
 
-var rooms = 
+var items = 
 [
 	{ name: 'library', prep: 'in a', frequency: 1 },
 	{ name: 'guardroom', prep: 'in a', frequency: 2 },
