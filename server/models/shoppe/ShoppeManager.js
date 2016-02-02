@@ -140,11 +140,12 @@ ShoppeManager.buy = function (user, characterID, itemID) {
             }
             else {
 
-                throw new Error('Could not buy: ' + payResult.message);
+                throw new Error(payResult.message);
             }
 
         })
         .catch(function(err) {
+            logger.err('Could not buy:\n' + err.stack);
             throw err;
         });
 
