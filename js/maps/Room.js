@@ -3,7 +3,7 @@
 (function(isNode, isAngular) {
 
     // This wrappers function returns the contents of the module, with dependencies
-    var RoomModule = function (Exit) {
+    var RoomModule = function (Exit, ItemFactory) {
 
         var Room = function (room) {
 
@@ -14,11 +14,17 @@
                 this.prep = room.prep;
                 this.campaignID = room.campaignID;
                 this.exits = room.exits ? room.exits.map(function(exit) { return new Exit(exit); }) : [];
+                this.items = room.items ? room.items.maps(function(item) { return ItemFactory.createItem(item); }) : [];
             }
 
             if (!this.exits)
             {
                 this.exits = [];
+            }
+
+            if (!this.items)
+            {
+                this.items = [];
             }
 
         };
@@ -37,6 +43,20 @@
 
         };
 
+        Room.prototype.findItem = function(itemID)
+        {
+            for (var i=0; i < this.items.length; i++)
+            {
+                if (this.items[i]._id.toString() == itemID)
+                {
+                    return this.items[i];
+                }
+            }
+
+            return null;
+
+        };
+
         return Room;
 
     };
@@ -45,13 +65,14 @@
     {
         // AngularJS module definition
         angular.module('CurseApp').
-            factory('Room', ['Exit', RoomModule]);
+            factory('Room', ['Exit', 'ItemFactory', RoomModule]);
 
     } else if (isNode) {
         // NodeJS module definition
         module.exports = RoomModule
         (
-            require(__dirname + '/Exit')
+            require(__dirname + '/Exit'),
+            require(__dirname + '/../items/ItemFactory')
         );
     }
 
