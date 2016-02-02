@@ -3,43 +3,12 @@
 (function(isNode, isAngular) {
 
     // This wrappers function returns the contents of the module, with dependencies
-    var ShoppeModule = function (Value, Item, Weapon, Armour, Shield, Potion) {
+    var ShoppeModule = function (Value, ItemFactory) {
 
         var Shoppe = function (itemArray) {
 
-            this.items = [];
-
-            if (!itemArray || itemArray.length == 0) {
-                return;
-            }
-
-            itemArray.forEach(function (item) {
-
-                switch (item.type) {
-
-                    case "weapon":
-                        this.items.push(new Weapon(item));
-                        break;
-
-                    case "armour":
-                        this.items.push(new Armour(item));
-                        break;
-
-                    case "shield":
-                        this.items.push(new Shield(item));
-                        break;
-
-                    case "potion":
-                        this.items.push(new Potion(item));
-                        break;
-
-                    default:
-                        this.items.push(new Item(item));
-                        break;
-
-                }  // end switch
-
-            }, this);
+            // convert the array of Javascript objects to actual Item objects, or just an empty list if there are none
+            this.items = itemArray ? itemArray.map(function(item) { return ItemFactory.createItem(item); } ) : [];
 
         };
 
@@ -121,11 +90,7 @@
         // NodeJS module definition
         module.exports = ShoppeModule(
             require(__dirname + '/../items/Value'),
-            require(__dirname + '/../items/Item'),
-            require(__dirname + '/../items/Weapon'),
-            require(__dirname + '/../items/Armour'),
-            require(__dirname + '/../items/Shield'),
-            require(__dirname + '/../items/Potion')
+            require(__dirname + '/../items/ItemFactory')
         );
     }
 
