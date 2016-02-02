@@ -31,7 +31,7 @@ var COLLECTION = 'items';
 
 var items = 
 [
-	{ name: 'library', prep: 'in a', frequency: 1 },
+	{ name: 'book', prep: 'in a', frequency: 1 },
 	{ name: 'guardroom', prep: 'in a', frequency: 2 },
 	{ name: 'bedroom', prep: 'in a', frequency: 2 },
 	{ name: 'cave', prep: 'in a', frequency: 2 },
@@ -41,6 +41,31 @@ var items =
     { name: 'room with several tapestries hanging from the walls', prep: 'in a' , frequency: 0.5},
     { name: 'dining room', prep: 'in a' , frequency: 2}
 ];
+
+            this._id = item._id;
+            this.type = item.type;
+            this.name = item.name;
+            this.article = item.article == null ? 'a' : item.article;
+
+            this.frequency = item.frequency == null ? 1 : item.frequency;
+            this.equipped = false;
+
+            this.weight = item.weight == null ? 0 : item.weight;
+            this.hands = item.hands == null ? 0 : item.hands;
+
+            this.value = new Value(item.value);
+
+            this.attributes = item.attributes == null ? [] : item.attributes;
+
+            if (item.stackable) {
+                this.stackable =
+                {
+                    type: item.stackable.type,
+                    plural: item.stackable.plural,
+                    amount: item.stackable.amount
+                };
+            }
+
 
 
 // Returns a promise to a room
