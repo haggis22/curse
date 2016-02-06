@@ -27,7 +27,7 @@ router.post('/exit/:campaignID/:exitID', function (req, res) {
     DungeonManager.takeExit(req.user, req.params.campaignID, req.params.exitID)
 
         .then(function(result) {
-            logger.debug('Returning result ' + result);
+            logger.debug('Returning result ' + JSON.stringify(result));
             return res.json(result);
         })
         .catch(function(err) {

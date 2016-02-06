@@ -18,6 +18,8 @@
 
         Potion.prototype = Object.create(Item.prototype);
 
+        Potion.prototype.type = 'potion';
+
         Potion.EFFECTS =
         {
             HEAL: 1,

@@ -7,28 +7,31 @@
 
         var Item = function (item) {
 
-            this._id = item._id;
-            this.type = item.type;
-            this.name = item.name;
-            this.article = item.article == null ? 'a' : item.article;
+            if (item)
+            {
+                this._id = item._id;
+                this.type = item.type;
+                this.name = item.name;
+                this.article = item.article == null ? 'a' : item.article;
 
-            this.frequency = item.frequency == null ? 1 : item.frequency;
-            this.equipped = false;
+                this.frequency = item.frequency == null ? 1 : item.frequency;
+                this.equipped = false;
 
-            this.weight = item.weight == null ? 0 : item.weight;
-            this.hands = item.hands == null ? 0 : item.hands;
+                this.weight = item.weight == null ? 0 : item.weight;
+                this.hands = item.hands == null ? 0 : item.hands;
 
-            this.value = new Value(item.value);
+                this.value = new Value(item.value);
 
-            this.attributes = item.attributes == null ? [] : item.attributes;
+                this.attributes = item.attributes == null ? [] : item.attributes;
 
-            if (item.stackable) {
-                this.stackable =
-                {
-                    type: item.stackable.type,
-                    plural: item.stackable.plural,
-                    amount: item.stackable.amount
-                };
+                if (item.stackable) {
+                    this.stackable =
+                    {
+                        type: item.stackable.type,
+                        plural: item.stackable.plural,
+                        amount: item.stackable.amount
+                    };
+                }
             }
 
         };

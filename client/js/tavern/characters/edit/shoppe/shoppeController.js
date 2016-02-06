@@ -54,15 +54,15 @@
 
                             var itemObj = ItemFactory.createItem(item);
                             
-                            if ((item.isArmour) || (item.isShield))
+                            if ((itemObj.isArmour) || (itemObj.isShield))
                             {
                                 shop.armour.push(itemObj);
                             }
-                            else if (item.isWeapon)
+                            else if (itemObj.isWeapon)
                             {
                                 shop.weapons.push(itemObj);
                             }
-                            else if (item.isPotion)
+                            else if (itemObj.isPotion)
                             {
                                 shop.potions.push(itemObj);
                             }

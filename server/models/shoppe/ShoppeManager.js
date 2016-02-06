@@ -17,46 +17,39 @@ var Q = require('q');
 var Shoppe = require(__dirname + '/../../../js/shoppe/Shoppe');
 var ItemFactory = require(__dirname + '/../../../js/items/ItemFactory');
 
+var ItemManager = require(__dirname + '/../items/ItemManager');
 var CharacterManager = require(__dirname + '/../creatures/CharacterManager');
+
+var ItemTypeManager = require(__dirname + '/../items/ItemTypeManager');
 
 var ShoppeManager = function () {
 
 };
 
+
+var items = 
+[
+    'sword',
+    'bow',
+    'healing-potion',
+    'helm',
+    'buckler',
+    'book'
+];
+
+
 ShoppeManager.fetch = function () {
 
-    var deferred = Q.defer();
+    var itemPromises = items.map(function(item) { return ItemTypeManager.lookupItem(item); });
 
-    try {
+    return Q.all(itemPromises)
+        .then(function(items) {
 
-        var collection = db.get('shoppe');
-
-        var shoppe = {};
-
-        collection.find({}, {}, function (err, result) {
-
-            if (err) {
-                logger.error('Could not load shoppe from database: ' + err);
-                return deferred.reject(new Error(err));
-            }
-
-            if (result.length < 1) {
-                logger.warn('No error, but no shoppe found in database');
-                return deferred.resolve(new Shoppe());
-            }
-
-            return deferred.resolve(new Shoppe(result));
+            return new Shoppe(items);
         });
 
-    }
-    catch (err) {
-        logger.error('Error in fetch: ' + err);
-        deferred.reject(new Error(err));
-    }
-
-    return deferred.promise;
-
 };
+
 
 ShoppeManager.fetchItem = function (itemID) {
 

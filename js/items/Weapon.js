@@ -3,7 +3,7 @@
 (function(isNode, isAngular) {
 
     // This wrappers function returns the contents of the module, with dependencies
-    var WeaponModule = function (Item, BodyShape) {
+    var WeaponModule = function (Item) {
 
         var Weapon = function(weapon) {
 
@@ -11,33 +11,39 @@
 
             this.isWeapon = true;
 
-            if (typeof weapon.damage === 'number')
+            if (weapon)
             {
-                this.damage = { min: weapon.damage, max: weapon.damage };
-            }
-            else 
-            {
-                this.damage = weapon.damage;
-            }
+                if (typeof weapon.damage === 'number')
+                {
+                    this.damage = { min: weapon.damage, max: weapon.damage };
+                }
+                else 
+                {
+                    this.damage = weapon.damage;
+                }
 
-            if (weapon.skills == null)
-            {
-                this.skills = [];
+                if (weapon.skills == null)
+                {
+                    this.skills = [];
+                }
+                else
+                {
+                    this.skills = weapon.skills;
+                }
+
+                this.bonus = weapon.bonus == null ? [] : weapon.bonus;
+
+                this.damageAdjustments = weapon.damageAdjustments == null ? [] : weapon.damageAdjustments;
+
+                this.hands = weapon.hands == null ? 1 : weapon.hands;
+
             }
-            else
-            {
-                this.skills = weapon.skills;
-            }
-
-            this.bonus = weapon.bonus == null ? [] : weapon.bonus;
-
-            this.damageAdjustments = weapon.damageAdjustments == null ? [] : weapon.damageAdjustments;
-
-            this.hands = weapon.hands == null ? 1 : weapon.hands;
 
         };
 
         Weapon.prototype = Object.create(Item.prototype);
+
+        Weapon.prototype.type = 'weapon';
 
         Weapon.prototype.isReady = function (attack) {
 
@@ -122,7 +128,8 @@
 
         Weapon.prototype.isEquippableBy = function(creature)
         {
-            return creature.isShape([BodyShape.HUMANOID, BodyShape.WINGED_HUMANOID]) && creature.useWeapons;
+            return true;
+            // return creature.isShape([BodyShape.HUMANOID, BodyShape.WINGED_HUMANOID]) && creature.useWeapons;
         }
 
         Weapon.prototype.getSkills = function()
@@ -192,13 +199,13 @@
     {
         // AngularJS module definition
         angular.module('CurseApp').
-            factory('Weapon', ['Item', 'BodyShape', WeaponModule]);
+            factory('Weapon', ['Item', WeaponModule]);
 
     } else if (isNode) {
         // NodeJS module definition
         module.exports = WeaponModule(
-            require(__dirname + '/Item'),
-            require(__dirname + '/../creatures/BodyShape')
+            require(__dirname + '/Item')
+//            require(__dirname + '/../creatures/BodyShape')
         );
     }
 

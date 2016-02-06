@@ -22,236 +22,26 @@ var Room = require(__dirname + '/../../../js/maps/Room');
 var ItemFactory = require(__dirname + '/../../../js/items/ItemFactory');
 
 
-var ItemManager = function () {
+var ItemTypeManager = function () {
 
 };
 
 var COLLECTION = 'items';
 
-
-var items = 
-[
-	{ name: 'book', prep: 'in a', frequency: 1 },
-	{ name: 'guardroom', prep: 'in a', frequency: 2 },
-	{ name: 'bedroom', prep: 'in a', frequency: 2 },
-	{ name: 'cave', prep: 'in a', frequency: 2 },
-    { name: 'chapel', prep: 'in a', frequency: 1 },
-    { name: 'stone chamber', prep: 'in a', frequency: 1 },
-    { name: 'hall', prep: 'in a', frequency: 2 },
-    { name: 'room with several tapestries hanging from the walls', prep: 'in a' , frequency: 0.5},
-    { name: 'dining room', prep: 'in a' , frequency: 2}
-];
-
-            this._id = item._id;
-            this.type = item.type;
-            this.name = item.name;
-            this.article = item.article == null ? 'a' : item.article;
-
-            this.frequency = item.frequency == null ? 1 : item.frequency;
-            this.equipped = false;
-
-            this.weight = item.weight == null ? 0 : item.weight;
-            this.hands = item.hands == null ? 0 : item.hands;
-
-            this.value = new Value(item.value);
-
-            this.attributes = item.attributes == null ? [] : item.attributes;
-
-            if (item.stackable) {
-                this.stackable =
-                {
-                    type: item.stackable.type,
-                    plural: item.stackable.plural,
-                    amount: item.stackable.amount
-                };
-            }
-
-
-
-// Returns a promise to a room
-RoomManager.fetchByID = function (campaign, roomID) {
-
-    var deferred = Q.defer();
-
-    var collection = db.get(COLLECTION);
-
-    collection.find({ _id: roomID, campaignID: campaign._id }, function (err, result) {
-
-        if (err) {
-            logger.error('Could not load room from database: ' + err);
-            return deferred.reject(err);
-        }
-
-        if (result.length == 0)
-        {
-            logger.warn('Could not find room ' + roomID + ' for campaign ' + campaign._id);
-            return deferred.reject(new Error('Could not find room in campaign'));
-        }
-
-        var room = new Room(result[0]);
-        return deferred.resolve(room);
-
-    });
-
-    return deferred.promise;
-
-};     // fetchByID
-
-
-function randomExitType()
+var types = 
 {
-    var rnd = Math.random();
-    if (rnd < 0.3)
-    {
-        return 'a door';
-    }
-    if (rnd < 0.5)
-    {
-        return 'a doorway';
-    }
-    if (rnd < 0.7)
-    {
-        return 'a hallway';
-    }
-    if (rnd < 0.8)
-    {
-        return 'a passage';
-    }
-    if (rnd < 0.9)
-    {
-        return 'a hall';
-    }
-                
-    return 'an exit';
-    
-}
-
-
-// creates a random exit pointing to the given destination
-function createExit(destinationID)
-{
-    var exit = new Exit();
-
-    // since an exit is not a primary key, it will not get an automatic ID assigned to it, so 
-    // create on manually so that we can refer to it when taking an exit
-    exit._id = new ObjectID();
-
-    exit.name = randomExitType();
-    
-    exit.destination = destinationID;
-     
-    return exit;
-
-}
-
-
-RoomManager.rollRoom = function(campaign, oldRoomID)
-{
-    logger.debug('In rollRoom for campaign ' + campaign._id + ', oldRoomID = ' + oldRoomID);
-
-    var room = new Room(dice.randomElement(rooms));
-
-    room.campaignID = campaign._id;
-
-    var numExits = dice.rollDie(1,2);
-
-    for (var x=0; x < numExits; x++)
-    {
-        // create random exits that don't actually point anywhere yet
-        room.exits.push(createExit(null));
-    }
-
-    // create an exit that points back to the old room
-    room.exits.push(createExit(oldRoomID));
-
-    logger.debug('rollRoom complete!');
-
-    return Q.resolve(room);
-}
-
-RoomManager.create = function (campaign, oldRoomID) {
-
-    if (oldRoomID == null)
-    {
-        oldRoomID = RoomManager.ID_TAVERN;
-    }
-
-    logger.debug('In RoomManager.create');
-
-    return RoomManager.rollRoom(campaign, oldRoomID)
-
-        .then(function(room) {
-
-            logger.debug('RoomManager.create caught result of rollRoom');
-
-            var deferred = Q.defer();
-
-            room.updated = new Date();
-
-            var collection = db.get(COLLECTION);
-
-            logger.debug('Inserting new room into collection');
-
-            collection.insert(room, function (err, doc) {
-
-                if (err) {
-                    // it failed - return an error
-                    logger.error('Could not create room: ' + err);
-                    return deferred.reject(new Error(err));
-                }
-
-                // return the newly-created room
-                logger.debug('Resolving newly-created room');
-                return deferred.resolve(new Room(doc));
-
-            });  // collection.insert
-
-            logger.debug('Returning room promise');
-            return deferred.promise;
-
-        })
-        .catch(function(err)
-        {
-            logger.error('Could not create room: ' + err + '\nStack: ' + err.stack);
-            throw err;
-        });
-
-};
-
-
-RoomManager.update = function (room) {
-
-    var deferred = Q.defer();
-
-    try
-    {
-        room.updated = new Date();
-
-        var collection = db.get(COLLECTION);
-
-        collection.update({ _id: room._id }, room, function (err, doc) {
-
-            if (err) {
-                // it failed - return an error
-                logger.error('Could not update room: ' + err);
-                deferred.reject(new Error(err));
-            }
-
-            deferred.resolve(true);
-
-        });
-    }
-    catch (err) 
-    {
-        logger.error('Error in update: ' + err);
-        deferred.reject(new Error(err));
-    }
-
-    return deferred.promise;
-
-
+    'melee-weapon': { type: 'weapon', hands: 1, skill: 'melee' },
+    'sword': { base: 'melee-weapon', name: 'sword', article: 'a', weight: 10, value: 150000, attributes: [ 'steel' ], damage: { min: 3, max: 6 } },
+    'missile-weapon': { type: 'weapon', hands: 2, skill: 'missile' },
+    'bow': { base: 'missile-weapon', name: 'bow', article: 'a', weight: 3, value: 103000, attributes: [ 'wood' ], ammo: 'arrow' },
+    'healing-potion': { type: 'potion', name: 'healing-potion', article: 'a', weight: 3, effect: 1, damage: { min: 3, max: 6 } },
+    'helm': { type: 'armour', protects: 'head', damage: { min: 2, max: 3 }, weight: 7, value: 102000, attributes: [ 'steel' ] },
+    'shield': { type: 'shield', hands: 1, skill: 'shield' },
+    'buckler': { base: 'shield', name: 'buckler', article: 'a', weight: 8, value: 80005, damage: { min: 1, max: 2 } },
+    'book': { type: 'item', weight: 2 }
 };
 
 
 
-module.exports = RoomManager;
+
+module.exports = ItemTypeManager;

@@ -210,6 +210,7 @@
     <Content Include="server\api\routes\dungeons.js" />
     <Content Include="server\api\routes\users.js" />
     <Content Include="server\models\items\ItemManager.js" />
+    <Content Include="server\models\items\ItemTypeManager.js" />
     <Content Include="server\models\maps\DungeonManager.js" />
     <Content Include="server\models\maps\RoomManager.js" />
     <Content Include="server\models\users\UserManager.js" />
@@ -244,7 +245,7 @@
     <Content Include="js\items\Armour.js" />
     <Content Include="js\items\Item.js" />
     <Content Include="js\skills\Skill.js" />
-    <Content Include="server\server.js" />
+    <Content Include="server.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />

@@ -11,17 +11,22 @@
 
         ItemFactory.createItem = function(item) {
 
-            if ((item.isArmour) || (item.isShield))
+            if (item.type == Armour.prototype.type)
             {
                 return new Armour(item);
             }
-            
-            if (item.isWeapon)
+
+            if (item.type == Shield.prototype.type)
+            {
+                return new Shield(item);
+            }
+
+            if (item.type == Weapon.prototype.type)
             {
                 return new Weapon(item);
             }
-            
-            if (item.isPotion)
+
+            if (item.type == Potion.prototype.type)
             {
                 return new Potion(item);
             }

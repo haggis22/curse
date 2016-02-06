@@ -26,6 +26,8 @@
 
         Shield.prototype = Object.create(Item.prototype);
 
+        Shield.prototype.type = 'shield';
+
         Shield.prototype.use = function (creature) {
             // see how many hands free the character has
             var items = creature.getItems();

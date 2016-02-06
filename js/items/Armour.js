@@ -26,6 +26,8 @@
 
         Armour.prototype = Object.create(Item.prototype);
 
+        Armour.prototype.type == 'armour';
+
         Armour.prototype.use = function(creature)
         {
             // remove any other item the creature is using that protects the same
