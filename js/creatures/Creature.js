@@ -246,6 +246,10 @@
 
             countMoney: function () {
 
+                debugger;
+
+                return 10000;
+
                 var money = {};
 
                 // make sure that "this" refers to this creature, and not the item

@@ -8,6 +8,7 @@ var logger = log4js.getLogger('curse');
 
 var mongo = require('mongodb');
 var monk = require('monk');
+var ObjectID = require('mongodb').ObjectID;
 
 var db = monk(config.db);
 
@@ -18,12 +19,13 @@ var dice = require(__dirname + '/../../core/Dice');
 var Creature = require(__dirname + '/../../../js/creatures/Creature');
 
 var SkillManager = require(__dirname + '/../skills/SkillManager');
-var ItemFactory = require(__dirname + '/../../../js/items/ItemFactory');
+var ItemManager = require(__dirname + '/../items/ItemManager');
 
 var CharacterManager = function () {
 
 };
 
+var COLLECTION = 'characters';
 
 
 // Returns a promise to a character
@@ -31,7 +33,7 @@ CharacterManager.fetchByID = function (user, id) {
 
     var deferred = Q.defer();
 
-    var collection = db.get('characters');
+    var collection = db.get(COLLECTION);
 
     collection.find({ _id: id, userID: user._id }, function (err, result) {
 
@@ -61,7 +63,7 @@ CharacterManager.fetchByUser = function (user) {
 
     var deferred = Q.defer();
 
-    var collection = db.get('characters');
+    var collection = db.get(COLLECTION);
 
     var myCharacters = [];
 
@@ -91,7 +93,7 @@ CharacterManager.fetchByCampaign = function (user, campaign) {
 
     var deferred = Q.defer();
 
-    var collection = db.get('characters');
+    var collection = db.get(COLLECTION);
 
     var myCharacters = [];
 
@@ -158,10 +160,30 @@ CharacterManager.rollCharacter = function (character) {
 };
 
 
+function insert(user, character) {
+
+    character.updated = new Date();
+
+    var collection = db.get(COLLECTION);
+
+    return Q.ninvoke(collection, "insert", character)
+
+        .then(function(doc) {
+        
+            return CharacterManager.fetchByID(user, doc._id);
+
+        })
+        .catch(function(err) {
+            
+            logger.error('Error in insert: ' + err.stack);
+            throw err;
+
+        })
+
+}
+
 
 CharacterManager.create = function (user, character) {
-
-    var deferred = Q.defer();
 
     var newCharacter = new Creature(character);
     newCharacter.userID = user._id;
@@ -169,34 +191,17 @@ CharacterManager.create = function (user, character) {
     // this method is quick and synchronous
     CharacterManager.rollCharacter(newCharacter);
 
-    // create his pack and give him some gold
-    newCharacter.pack = [];
-    newCharacter.addItem(ItemFactory.createItem({ name: 'gold piece', stackable: { type: 'gold', plural: 'gold pieces', amount: 50 }, attributes: ['gold'], weight: 0.1 }));
+    // give him some gold to get him started
+    return ItemManager.lookupItem({ _id: new ObjectID(), name: 'gold piece', type: 'gold-piece', amount: 50 })
 
-    newCharacter.updated = new Date();
+        .then(function(item) {
 
-    var collection = db.get('characters');
+            newCharacter.addItem(item);
 
-    collection.insert(newCharacter, function (err, doc) {
+            return insert(user, newCharacter);
 
-        if (err) {
-            // it failed - return an error
-            logger.error('Could not create character: ' + err);
-            return deferred.reject(new Error(err));
-        }
+        });
 
-        // fetch his newly-created character and use that to resolve/reject the outer promise
-        CharacterManager.fetchByID(user, doc._id)
-            .then(function(character) {
-                return deferred.resolve(character);
-            })
-            .catch(function(err) {
-                return deferred.reject(new Error(err));
-            });
-
-    });
-
-    return deferred.promise;
 
 };
 
@@ -237,7 +242,7 @@ CharacterManager.delete = function (user, characterID) {
         CharacterManager.fetchByID(user, characterID)
             .then(function(character) {
 
-                var collection = db.get('characters');
+                var collection = db.get(COLLECTION);
 
                 collection.remove({ _id: characterID }, function (err, doc) {
 
@@ -466,7 +471,7 @@ CharacterManager.update = function (characterID, newValues) {
 
     try
     {
-        var collection = db.get('characters');
+        var collection = db.get(COLLECTION);
 
         collection.update({ _id: characterID }, { $set: newValues }, function (err, doc) {
 

@@ -14,7 +14,6 @@
                 this.name = item.name;
                 this.article = item.article == null ? 'a' : item.article;
 
-                this.frequency = item.frequency == null ? 1 : item.frequency;
                 this.equipped = false;
 
                 this.weight = item.weight == null ? 0 : item.weight;
@@ -24,14 +23,8 @@
 
                 this.attributes = item.attributes == null ? [] : item.attributes;
 
-                if (item.stackable) {
-                    this.stackable =
-                    {
-                        type: item.stackable.type,
-                        plural: item.stackable.plural,
-                        amount: item.stackable.amount
-                    };
-                }
+                this.plural = item.plural;
+                this.amount = item.amount;
             }
 
         };

@@ -33,23 +33,28 @@ var ItemManager = function () {
 };
 
 
-var types = 
+var types =
 {
-    'item': { article: 'a', type: 'item' },
+    'item': { article: 'a', type: 'item', amount: 1 },
     'weapon': { type: Weapon.prototype.type, hands: 1 },
     'melee-weapon': { base: 'weapon', skill: 'melee' },
-    'battle-axe': { base: 'melee-weapon', weight: 15, value: 2000, attributes: [ 'edged' ], damage: { min: 3, max: 8 } },
-    'sword': { base: 'melee-weapon', weight: 10, value: 1500, attributes: [ 'steel', 'edged' ], damage: { min: 3, max: 6 } },
+    'battle-axe': { base: 'melee-weapon', weight: 15, value: 2000, attributes: ['edged'], damage: { min: 3, max: 8} },
+    'sword': { base: 'melee-weapon', weight: 10, value: 1500, attributes: ['steel', 'edged'], damage: { min: 3, max: 6} },
     'missile-weapon': { base: 'weapon', hands: 2, skill: 'missile' },
-    'bow': { base: 'missile-weapon', weight: 3, value: 1030, attributes: [ 'wood' ], ammo: 'arrow' },
+    'bow': { base: 'missile-weapon', weight: 3, value: 1030, attributes: ['wood'], ammo: 'arrow' },
     'healing-potion': { type: Potion.prototype.type, weight: 3, effect: 1, damage: { min: 3, max: 6} },
     'helm': { type: Armour.prototype.type, protects: 'head', damage: { min: 2, max: 3 }, weight: 7, value: 1020, attributes: ['steel'] },
     'shield': { type: Shield.prototype.type, hands: 1, weight: 10, value: 1000, damage: { min: 1, max: 3 }, skill: 'shield' },
-    'buckler': { base: 'shield', weight: 8, value: 805, damage: { min: 1, max: 2 } },
-    'book': { weight: 2, value: 5 }
+    'buckler': { base: 'shield', weight: 8, value: 805, damage: { min: 1, max: 2} },
+    'book': { weight: 2, value: 5 },
+    'coin': { weight: 0.1 },
+    'gold-piece': { base: 'coin', value: 100, plural: 'gold pieces' },
+    'silver-piece': { base: 'coin', value: 10, plural: 'silver pieces' },
+    'copper-piece': { base: 'coin', value: 1, plural: 'copper pieces' }
 };
 
 
+// returns a promise to a complete Item object created by ItemFactory
 ItemManager.lookupItem = function (item) {
 
     if (!item || !item.type || !types.hasOwnProperty(item.type)) {
@@ -75,6 +80,7 @@ ItemManager.lookupItem = function (item) {
 
     var item =
     {
+        _id: item._id,
         name: item.name
     };
 

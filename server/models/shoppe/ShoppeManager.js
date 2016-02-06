@@ -58,59 +58,34 @@ ShoppeManager.fetch = function () {
 };
 
 
+
+// returns a fully-realized Item created by ItemManager.lookupItem
 ShoppeManager.fetchItem = function (itemID) {
 
-    var deferred = Q.defer();
+    var collection = db.get(COLLECTION);
 
-    try {
+    // this will return a promise to a single item
+    return Q.ninvoke(collection, "find", { _id: itemID }, {})
 
-        var collection = db.get('shoppe');
-
-        var item = {};
-
-        collection.find({ _id: itemID }, {}, function (err, result) {
-
-            if (err) {
-                logger.error('Could not load item from database: ' + err);
-                return deferred.reject(new Error(err));
-            }
-
-            if (result.length < 1) {
-                logger.warn('No error, but item not found in database');
-                return deferred.reject(new Error('Item not found'));
-            }
-
-            if (result.length > 1) {
-                logger.warn('Found multiple items in the database');
-                return deferred.reject(new Error('Multiple items found matching that ID'));
-            }
-
-            return deferred.resolve(ItemFactory.createItem(result[0]));
-        });
-
-    }
-    catch (err) {
-        logger.error('Error in fetchItem for item ' + itemID + ': ' + err);
-        deferred.reject(new Error(err));
-    }
-
-    return deferred.promise;
+        .then(ItemManager.lookupItem);
 
 };            // fetchItem
 
 
+
 ShoppeManager.buy = function (user, characterID, itemID) {
 
-    logger.debug('In ShoppeManager.buy');
+    logger.debug('In ShoppeManager.buy for itemID ' + itemID);
 
     return Q.all([ CharacterManager.fetchByID(user, characterID), ShoppeManager.fetchItem(itemID) ])
 
         .spread(function (character, item) {
 
-            var cost = item.value.getCoppers();
+            console.log('returned 2, item = ' + item);
+
             var money = character.countMoney();
 
-            logger.debug('Item costs ' + cost + ' copper pieces');
+            logger.debug('Item costs ' + item.value + ' copper pieces');
             logger.debug(character.getName(true) + ' has ' + money + ' copper pieces!');
 
             // The item is not going to be a primary key, so it won't have its own ObjectID created automatically

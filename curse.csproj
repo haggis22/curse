@@ -210,7 +210,6 @@
     <Content Include="server\api\routes\dungeons.js" />
     <Content Include="server\api\routes\users.js" />
     <Content Include="server\models\items\ItemManager.js" />
-    <Content Include="server\models\items\ItemTypeManager.js" />
     <Content Include="server\models\maps\DungeonManager.js" />
     <Content Include="server\models\maps\RoomManager.js" />
     <Content Include="server\models\users\UserManager.js" />
