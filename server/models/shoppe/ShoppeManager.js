@@ -17,10 +17,9 @@ var Q = require('q');
 var Shoppe = require(__dirname + '/../../../js/shoppe/Shoppe');
 var ItemFactory = require(__dirname + '/../../../js/items/ItemFactory');
 
-var ItemManager = require(__dirname + '/../items/ItemManager');
 var CharacterManager = require(__dirname + '/../creatures/CharacterManager');
 
-var ItemTypeManager = require(__dirname + '/../items/ItemTypeManager');
+var ItemManager = require(__dirname + '/../items/ItemManager');
 
 var ShoppeManager = function () {
 
@@ -40,7 +39,7 @@ var items =
 
 ShoppeManager.fetch = function () {
 
-    var itemPromises = items.map(function(item) { return ItemTypeManager.lookupItem(item); });
+    var itemPromises = items.map(function(item) { return ItemManager.lookupItem(item); });
 
     return Q.all(itemPromises)
         .then(function(items) {
