@@ -20,7 +20,7 @@
                 this.weight = item.weight == null ? 0 : item.weight;
                 this.hands = item.hands == null ? 0 : item.hands;
 
-                this.value = new Value(item.value);
+                this.value = item.value ? item.value : 0;
 
                 this.attributes = item.attributes == null ? [] : item.attributes;
 
