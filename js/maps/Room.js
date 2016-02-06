@@ -14,7 +14,7 @@
                 this.prep = room.prep;
                 this.campaignID = room.campaignID;
                 this.exits = room.exits ? room.exits.map(function(exit) { return new Exit(exit); }) : [];
-                this.items = room.items ? room.items.maps(function(item) { return ItemFactory.createItem(item); }) : [];
+                this.items = room.items ? room.items.map(function(item) { return ItemFactory.createItem(item); }) : [];
             }
 
             if (!this.exits)
