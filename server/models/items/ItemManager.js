@@ -38,26 +38,27 @@ var types =
     'item': { article: 'a', type: 'item' },
     'weapon': { type: Weapon.prototype.type, hands: 1 },
     'melee-weapon': { base: 'weapon', skill: 'melee' },
-    'sword': { base: 'melee-weapon', name: 'sword', weight: 10, value: 1500, attributes: [ 'steel' ], damage: { min: 3, max: 6 } },
+    'battle-axe': { base: 'melee-weapon', weight: 15, value: 2000, attributes: [ 'edged' ], damage: { min: 3, max: 8 } },
+    'sword': { base: 'melee-weapon', weight: 10, value: 1500, attributes: [ 'steel', 'edged' ], damage: { min: 3, max: 6 } },
     'missile-weapon': { base: 'weapon', hands: 2, skill: 'missile' },
-    'bow': { base: 'missile-weapon', name: 'bow', weight: 3, value: 1030, attributes: [ 'wood' ], ammo: 'arrow' },
-    'healing-potion': { type: Potion.prototype.type, name: 'healing potion', weight: 3, effect: 1, damage: { min: 3, max: 6} },
-    'helm': { type: Armour.prototype.type, name: 'helm', protects: 'head', damage: { min: 2, max: 3 }, weight: 7, value: 1020, attributes: ['steel'] },
-    'shield': { type: Shield.prototype.type, name: 'shield', hands: 1, skill: 'shield' },
-    'buckler': { base: 'shield', name: 'buckler', weight: 8, value: 805, damage: { min: 1, max: 2 } },
-    'book': { name: 'book', weight: 2 }
+    'bow': { base: 'missile-weapon', weight: 3, value: 1030, attributes: [ 'wood' ], ammo: 'arrow' },
+    'healing-potion': { type: Potion.prototype.type, weight: 3, effect: 1, damage: { min: 3, max: 6} },
+    'helm': { type: Armour.prototype.type, protects: 'head', damage: { min: 2, max: 3 }, weight: 7, value: 1020, attributes: ['steel'] },
+    'shield': { type: Shield.prototype.type, hands: 1, weight: 10, value: 1000, damage: { min: 1, max: 3 }, skill: 'shield' },
+    'buckler': { base: 'shield', weight: 8, value: 805, damage: { min: 1, max: 2 } },
+    'book': { weight: 2, value: 5 }
 };
 
 
-ItemManager.lookupItem = function (typeName) {
+ItemManager.lookupItem = function (item) {
 
-    if (!types.hasOwnProperty(typeName)) {
+    if (!item || !item.type || !types.hasOwnProperty(item.type)) {
         return Q.resolve(null);
     }
 
     var typeStack = [];
 
-    var type = types[typeName];
+    var type = types[item.type];
     while (type) {
 
         typeStack.push(type);
@@ -72,7 +73,10 @@ ItemManager.lookupItem = function (typeName) {
     // EVERYTHING inherits from item
     typeStack.push(types.item);
 
-    var item = {};
+    var item =
+    {
+        name: item.name
+    };
 
     type = typeStack.pop();
     while (type) {

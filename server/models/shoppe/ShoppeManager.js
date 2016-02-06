@@ -25,27 +25,35 @@ var ShoppeManager = function () {
 
 };
 
+var COLLECTION = 'shoppe';
 
-var items = 
-[
-    'sword',
-    'bow',
-    'healing-potion',
-    'helm',
-    'buckler',
-    'book'
-];
 
+
+// returns an array of promises to resolve items by type
+function loadItems(itemArray) {
+
+    return Q.all(itemArray.map(function(item) { return ItemManager.lookupItem(item); }));
+
+}
 
 ShoppeManager.fetch = function () {
 
-    var itemPromises = items.map(function(item) { return ItemManager.lookupItem(item); });
+    var collection = db.get(COLLECTION);
 
-    return Q.all(itemPromises)
+    return Q.ninvoke(collection, "find", {}, {})
+
+        .then(loadItems)
+
         .then(function(items) {
-
             return new Shoppe(items);
-        });
+
+        })
+        .catch(function(err) {
+            
+            logger.error('Error in fetch: ' + err.stack);
+            throw err;
+
+        })
 
 };
 
