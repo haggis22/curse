@@ -3,10 +3,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var log4js = require('log4js');
-log4js.configure(__dirname + '/log4js_config.json', {});
+log4js.configure(__dirname + '/server/log4js_config.json', {});
 var logger = log4js.getLogger('curse');
 
-var config = require('./config');
+var config = require(__dirname + '/server/config');
 
 var app = express();
 
@@ -20,13 +20,13 @@ app.get('/', function (req, res) {
 });
 
 
-app.use('/api', require('./api/routes/curseapi.js'));
+app.use('/api', require(__dirname + '/server/api/routes/curseapi.js'));
 
 // app.use('/', express.static(__dirname + './../client'));
 
-app.use('/js', express.static(__dirname + '/../js'));
+app.use('/js', express.static(__dirname + '/js'));
 
-app.use('/', express.static(__dirname + './../client'));
+app.use('/', express.static(__dirname + '/client'));
 
 app.use(function(err, req, res, next) {
     console.error(err.stack);
