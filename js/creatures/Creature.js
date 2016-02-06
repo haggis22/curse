@@ -272,7 +272,7 @@
                     return false;
                 }
 
-                return this.countMoney() >= item.value.getCoppers();
+                return this.countMoney() >= item.value;
             },
 
             isShape: function (shapeArray) {
