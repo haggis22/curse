@@ -189,31 +189,28 @@ ItemManager.colorUp = function (coppers) {
 
     return ItemManager.lookupItem({ type: 'gold-piece' })
 
-        .then(function(gold) {
+        .then(function (gold) {
 
-            if (amount.gold > 0)
-            {
+            if (amount.gold > 0) {
                 gold.amount = amount.gold;
                 bags.push(gold);
             }
 
             return ItemManager.lookupItem({ type: 'silver-piece' });
         })
-        .then(function(silver) {
+        .then(function (silver) {
 
-            if (amount.silver > 0)
-            {
+            if (amount.silver > 0) {
                 silver.amount = amount.silver;
                 bags.push(silver);
             }
 
             return ItemManager.lookupItem({ type: 'copper-piece' });
         })
-        .then(function(copper) {
+        .then(function (copper) {
 
-            if (amount.copper > 0)
-            {
-                coppre.amount = amount.copper;
+            if (amount.copper > 0) {
+                copper.amount = amount.copper;
                 bags.push(copper);
             }
 
