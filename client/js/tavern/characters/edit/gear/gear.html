@@ -53,7 +53,7 @@
     <div ng-show="characterService.current.hasAnything()">
         <div class="item" ng-repeat="item in characterService.current.getItems()">
             {{ item.getName() | capFirst }}
-            <span class="weight" ng-show="item.weight > 0">({{ item.weight | number:0 }} #)</span>
+            <span class="weight" ng-show="item.weight > 0">({{ item.getWeight() | number:0 }} #)</span>
         </div>
     </div>
 
