@@ -18,6 +18,7 @@ var Shoppe = require(__dirname + '/../../../js/shoppe/Shoppe');
 var ItemFactory = require(__dirname + '/../../../js/items/ItemFactory');
 
 var CharacterManager = require(__dirname + '/../creatures/CharacterManager');
+var CreatureManager = require(__dirname + '/../creatures/CreatureManager');
 
 var ItemManager = require(__dirname + '/../items/ItemManager');
 
@@ -67,7 +68,16 @@ ShoppeManager.fetchItem = function (itemID) {
     // this will return a promise to a single item
     return Q.ninvoke(collection, "find", { _id: itemID }, {})
 
-        .then(ItemManager.lookupItem);
+        .then(function(result) {
+
+            if (result.length == 0)
+            {
+                return Q.reject('Item not found');
+            }
+
+            return ItemManager.lookupItem(result[0]);
+
+        });
 
 };            // fetchItem
 
@@ -81,49 +91,27 @@ ShoppeManager.buy = function (user, characterID, itemID) {
 
         .spread(function (character, item) {
 
-            console.log('returned 2, item = ' + item);
+            logger.debug('Found character and item');
 
-            var money = character.countMoney();
-
-            logger.debug('Item costs ' + item.value + ' copper pieces');
-            logger.debug(character.getName(true) + ' has ' + money + ' copper pieces!');
-
-            // The item is not going to be a primary key, so it won't have its own ObjectID created automatically
-            item._id = new ObjectID();
-
-            logger.info('Is about to buy');
-
-            var payResult = Shoppe.prototype.buyItem(character, item);
-
-            logger.info('payResult = ' + JSON.stringify(payResult));
-
-            if (payResult.success) {
-
-                // the character successfully buys the item!
-                return CharacterManager.updatePack(character)
-
-                    .then(function(result) {
-                                
-                        return result;
-
-                    })
-                    .catch(function(err) {
-                        logger.err('Could not save pack: ' + err);
-                        throw err;
-                    });
-
-            }
-            else {
-
-                throw new Error(payResult.message);
-            }
+            return Q.all([ character, item, CreatureManager.pay(character, item.value) ]);
 
         })
-        .catch(function(err) {
-            logger.err('Could not buy:\n' + err.stack);
-            throw err;
-        });
+        .spread(function(character, item, payResult) {
 
+            logger.debug('Character paid for it');
+
+            var addResult = CreatureManager.addItem(character, item);
+            if (addResult)
+            {
+                // now save the character
+                return CharacterManager.updatePack(character);
+            }
+            else
+            {
+                return Q.reject(new Error(addResult.message));
+            }
+            
+        });
 
 };
 

@@ -24,7 +24,7 @@
                 // pass in "this" as the second parameter so that this.addItem refers to the Creature rather than the item itself in the forEach
                 creature.pack.forEach(function (item) {
 
-                    this.addItem(ItemFactory.createItem(item));
+                    this.pack.push(ItemFactory.createItem(item));
 
                 }, this);
             }
@@ -122,79 +122,6 @@
                 return this.str * 5;
             },
 
-            addItem: function (item) {
-                if (item.getWeight() + this.getEncumbrance() > this.getWeightAllowance()) {
-                    return { success: false, message: this.getName(true) + ' cannot carry that much.' };
-                }
-
-                if (item.stackable) {
-                    var existing = item.findItemsOfStackableType(item.stackable.type, this.pack);
-                    if (existing != null) {
-                        existing.stackable.amount += item.stackable.amount;
-                        return { success: true }
-                    }
-
-                }
-
-                // if it's not stackable, or the creature doesn't already have a similar item, then just add
-                // it to the pack
-                this.pack.push(item);
-
-                return { success: true };
-
-            },
-
-            dropItem: function (item, amount) {
-                
-                var droppedItem = null;
-
-                var remainingItems = [];
-
-                for (var i = 0; i < this.pack.length; i++) {
-                    if (this.pack[i] != item) {
-                        remainingItems.push(this.pack[i]);
-                    }
-                    else {
-                        if (this.pack[i].stackable) {
-                            if (amount == null) {
-                                amount = this.pack[i].stackable.amount;
-                            }
-
-                            if (this.pack[i].stackable.amount < amount) {
-                                return { success: false, message: this.getName(true) + ' does not have enough ' + this.pack[i].stackable.plural + ' to drop ' + amount };
-                            }
-
-                            if (this.pack[i].stackable.amount > amount) {
-                                // subtract the parameter amount from his total, and keep the rest in his pack
-                                this.pack[i].stackable.amount -= amount;
-                                // make sure he holds on to the remaining items
-                                remainingItems.push(this.pack[i]);
-
-                                // re-create the item as the amount dropped
-                                droppedItem = ItemFactory.createItem(item);
-                                droppedItem.stackable.amount = amount;
-                                droppedItem.equipped = false;
-                            }
-                            else {
-                                // drop the whole thing
-                                droppedItem = this.pack[i];
-                                droppedItem.equipped = false;
-                            }
-
-                        }
-                        else {
-                            // not stackable, so just drop it
-                            droppedItem = item;
-                            droppedItem.equipped = false;
-                        }
-
-                    }
-
-                }
-
-                this.pack = remainingItems;
-                return { success: true, item: droppedItem };
-            },
 
             checkArmour: function (part) {
                 for (var a = 0; a < this.pack.length; a++) {
@@ -246,26 +173,18 @@
 
             countMoney: function () {
 
-                debugger;
+                var total = 0;
 
-                return 10000;
+                this.pack.forEach(function(item) { 
 
-                var money = {};
-
-                // make sure that "this" refers to this creature, and not the item
-                Value.denominations.forEach(function(denom) {
-
-                    var stack = Item.prototype.findItemsOfStackableType(denom, this.pack);
-                    if (stack != null)
+                    if (item.isCoin)
                     {
-                        money[denom] = stack.stackable.amount;
+                        total += item.amount * item.value;
                     }
 
-                }, this);
+                });
 
-                var value = new Value(money);
-
-                return value.getCoppers();
+                return total;
 
             },
 

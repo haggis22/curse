@@ -201,6 +201,7 @@
     <Content Include="client\partials\monster-manual.html" />
     <Content Include="client\partials\rollup.html" />
     <Content Include="database\schema.txt" />
+    <Content Include="js\items\Coin.js" />
     <Content Include="js\maps\Exit.js" />
     <Content Include="js\maps\Dungeon.js" />
     <Content Include="js\items\ItemFactory.js" />
@@ -209,6 +210,7 @@
     <Content Include="js\users\User.js" />
     <Content Include="server\api\routes\dungeons.js" />
     <Content Include="server\api\routes\users.js" />
+    <Content Include="server\models\creatures\CreatureManager.js" />
     <Content Include="server\models\items\ItemManager.js" />
     <Content Include="server\models\maps\DungeonManager.js" />
     <Content Include="server\models\maps\RoomManager.js" />

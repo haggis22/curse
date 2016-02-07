@@ -21,6 +21,8 @@ var Creature = require(__dirname + '/../../../js/creatures/Creature');
 var SkillManager = require(__dirname + '/../skills/SkillManager');
 var ItemManager = require(__dirname + '/../items/ItemManager');
 
+var CreatureManager = require(__dirname + '/CreatureManager');
+
 var CharacterManager = function () {
 
 };
@@ -192,11 +194,11 @@ CharacterManager.create = function (user, character) {
     CharacterManager.rollCharacter(newCharacter);
 
     // give him some gold to get him started
-    return ItemManager.lookupItem({ _id: new ObjectID(), name: 'gold piece', type: 'gold-piece', amount: 50 })
+    return ItemManager.lookupItem({ _id: new ObjectID(), type: 'gold-piece', amount: 50 })
 
         .then(function(item) {
 
-            newCharacter.addItem(item);
+            var addResult = CreatureManager.addItem(newCharacter, item);
 
             return insert(user, newCharacter);
 

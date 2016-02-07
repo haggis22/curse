@@ -23,6 +23,7 @@
 
                 this.attributes = item.attributes == null ? [] : item.attributes;
 
+                this.stack = item.stack;
                 this.plural = item.plural;
                 this.amount = item.amount;
             }
@@ -30,14 +31,13 @@
         };
 
         Item.prototype.getName = function (useDefiniteArticle) {
-            var text = '';
 
-            if (this.stackable) {
-                if (this.stackable.amount == 1) {
+            if (this.plural) {
+                if (this.amount == 1) {
                     return (useDefiniteArticle ? 'the' : this.article) + ' ' + this.name;
                 }
 
-                return (useDefiniteArticle ? 'the' : '') + ' ' + this.stackable.amount + ' ' + this.stackable.plural;
+                return (useDefiniteArticle ? 'the' : '') + ' ' + this.amount + ' ' + this.plural;
             }
 
 
@@ -47,17 +47,18 @@
             }
 
             return this.name;
+
         };
 
 
         Item.prototype.getWeight = function()
         {
-            if (this.stackable)
-            {
-                return this.weight * this.stackable.amount;
-            }
+            return this.weight * this.amount;
+        };
 
-            return (this.weight ? this.weight : 0);
+        Item.prototype.isStackable = function() {
+
+            return this.stack != null;
 
         };
 
@@ -115,30 +116,6 @@
             return null;
         }
 
-        Item.colorUp = function(coppers) {
-
-            var value = Value.colorUp(coppers);
-
-            var moneyBags = [];
-
-            if (value.gold > 0)
-            {
-                moneyBags.push(new Item({ name: 'gold piece', stackable: { type: 'gold', plural: 'gold pieces', amount: value.gold }, attributes: ['gold'], weight: 0.1 }));
-            }
-
-            if (value.silver > 0)
-            {
-                moneyBags.push(new Item({ name: 'silver piece', stackable: { type: 'silver', plural: 'silver pieces', amount: value.silver }, attributes: ['silver'], weight: 0.1 }));
-            }
-            
-            if (value.copper > 0)
-            {
-                moneyBags.push(new Item({ name: 'copper piece', stackable: { type: 'copper', plural: 'copper pieces', amount: value.copper }, attributes: ['copper'], weight: 0.1 }));
-            }                            
-
-            return moneyBags;
-
-        };
             
         return Item;
 
