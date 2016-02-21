@@ -49,8 +49,9 @@ var types =
 {
     'A' : 
         [
-            { frequency: 50, item: { type: 'gold-piece' }, amount: { min: 5, max: 20 } },
-            { frequency: 50, item: { type: 'silver-piece' }, amount: { min: 5, max: 20} },
+            { frequency: 60, item: null },
+            { frequency: 10, item: { type: 'gold-piece' }, amount: { min: 5, max: 20} },
+            { frequency: 30, item: { type: 'silver-piece' }, amount: { min: 5, max: 20} },
 
         ]
 };
@@ -99,6 +100,12 @@ TreasureManager.randomTreasure = function (treasureType) {
 
     var treasure = dice.randomElement(types[treasureType]);
 
+    if (treasure.item == null) {
+
+        // treasure came up empty
+        console.log('treasure came up empty');
+        return Q.resolve(null);
+    }
 
     return ItemManager.lookupItem(treasure.item)
 
@@ -114,7 +121,7 @@ TreasureManager.randomTreasure = function (treasureType) {
 
         });
 
-};    // randomTreasure
+};      // randomTreasure
 
 TreasureManager.generate = function (typeArray) {
 
