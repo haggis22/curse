@@ -4,8 +4,16 @@
 
     <div class="room-description">You are {{ dungeonService.dungeon.room.prep }} {{ dungeonService.dungeon.room.name }}.</div>
 
-    <div class="exits">
+    <div class="items">
         You see:
+        <ul>
+            <li class="item" ng-repeat="item in dungeonService.dungeon.room.items" ng-click="pickUp(item)">{{ item.getName(false) }}</li>
+        </ul>
+    </div>
+
+
+    <div class="exits">
+        Exits:
         <ul>
             <li class="exit" ng-repeat="exit in dungeonService.dungeon.room.exits" ng-click="takeExit(exit)">{{ exit.name }} to {{ exit.destination }}</li>
         </ul>

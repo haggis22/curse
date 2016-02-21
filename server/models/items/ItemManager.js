@@ -16,9 +16,6 @@ var Q = require('q');
 
 var dice = require(__dirname + '/../../core/Dice');
 
-var Exit = require(__dirname + '/../../../js/maps/Exit');
-var Room = require(__dirname + '/../../../js/maps/Room');
-
 var Value = require(__dirname + '/../../../js/items/Value');
 
 var Coin = require(__dirname + '/../../../js/items/Coin');
@@ -226,13 +223,48 @@ ItemManager.findStackmates = function (itemArray, item) {
     }
 
     for (var i = 0; i < itemArray.length; i++) {
-        if (itemArray.stack == item.stack) {
+        if (itemArray[i].stack == item.stack) {
             return itemArray[i];
         }
     }
 
     return null;
 };
+
+ItemManager.addToPile = function (pile, stuff) {
+
+    if (stuff == null) {
+        // nothing to do here
+        return;
+    }
+
+
+    // whether stuff is an array or a single item, [].concat() will convert it into a single-dimension array
+    var itemArray = [].concat(stuff);
+
+    for (var i = 0; i < itemArray.length; i++) {
+
+        var item = itemArray[i];
+
+        var existingItems = ItemManager.findStackmates(pile, item);
+
+        if (existingItems) {
+
+            console.log('Increasing ' + existingItems.amount + ' ' + existingItems.plural + ' by ' + item.amount);
+            existingItems.amount += item.amount;
+
+        }
+        else {
+
+            // it's not stackable, or the pile doesn't already have a similar item, so just add it to the end
+            pile.push(item);
+
+        }
+
+    }  // foreach item in the array
+
+};
+
 
 
 module.exports = ItemManager;

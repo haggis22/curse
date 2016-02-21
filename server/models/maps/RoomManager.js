@@ -19,7 +19,8 @@ var dice = require(__dirname + '/../../core/Dice');
 var Exit = require(__dirname + '/../../../js/maps/Exit');
 var Room = require(__dirname + '/../../../js/maps/Room');
 
-var ItemFactory = require(__dirname + '/../../../js/items/ItemFactory');
+var ItemManager = require(__dirname + '/../items/ItemManager');
+var TreasureManager = require(__dirname + '/../items/TreasureManager');
 
 
 var RoomManager = function () {
@@ -34,14 +35,14 @@ RoomManager.ID_TAVERN = 'tavern';
 var rooms = 
 [
 	{ name: 'library', prep: 'in a', frequency: 1 },
-	{ name: 'guardroom', prep: 'in a', frequency: 2 },
-	{ name: 'bedroom', prep: 'in a', frequency: 2 },
-	{ name: 'cave', prep: 'in a', frequency: 2 },
-    { name: 'chapel', prep: 'in a', frequency: 1 },
-    { name: 'stone chamber', prep: 'in a', frequency: 1 },
-    { name: 'hall', prep: 'in a', frequency: 2 },
-    { name: 'room with several tapestries hanging from the walls', prep: 'in a' , frequency: 0.5},
-    { name: 'dining room', prep: 'in a' , frequency: 2}
+	{ name: 'guardroom', prep: 'in a', frequency: 2, treasure: [ 'A', 'A', 'A' ] },
+	{ name: 'bedroom', prep: 'in a', frequency: 2, treasure: [ 'A', 'A', 'A' ] },
+	{ name: 'cave', prep: 'in a', frequency: 2, treasure: [ 'A', 'A', 'A' ] },
+    { name: 'chapel', prep: 'in a', frequency: 1, treasure: [ 'A', 'A', 'A' ] },
+    { name: 'stone chamber', prep: 'in a', frequency: 1, treasure: [ 'A', 'A', 'A' ] },
+    { name: 'hall', prep: 'in a', frequency: 2, treasure: [ 'A', 'A', 'A' ] },
+    { name: 'room with several tapestries hanging from the walls', prep: 'in a' , frequency: 0.5, treasure: [ 'A', 'A', 'A' ] },
+    { name: 'dining room', prep: 'in a' , frequency: 2, treasure: [ 'A', 'A', 'A' ]}
 ];
 
 
@@ -126,7 +127,9 @@ RoomManager.rollRoom = function(campaign, oldRoomID)
 {
     logger.debug('In rollRoom for campaign ' + campaign._id + ', oldRoomID = ' + oldRoomID);
 
-    var room = new Room(dice.randomElement(rooms));
+    var roomTemplate = dice.randomElement(rooms);
+
+    var room = new Room(roomTemplate);
 
     room.campaignID = campaign._id;
 
@@ -142,8 +145,35 @@ RoomManager.rollRoom = function(campaign, oldRoomID)
     room.exits.push(createExit(oldRoomID));
 
     logger.debug('rollRoom complete!');
+    return Q.resolve(room)
 
-    return Q.resolve(room);
+        .then(function(room) {
+
+            // if necessary, generate some items for the room
+            if (roomTemplate.treasure)
+            {
+                return TreasureManager.generate(roomTemplate.treasure)
+
+                    .then(function(treasure) {
+
+                        ItemManager.addToPile(room.items, treasure);
+
+                        return room;
+
+                    });
+                
+            }
+            else
+            {
+                console.log('Room has no treasure');
+            }
+
+            return room;
+
+        });
+
+
+
 }
 
 RoomManager.create = function (campaign, oldRoomID) {

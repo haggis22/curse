@@ -211,6 +211,7 @@
     <Content Include="server\api\routes\dungeons.js" />
     <Content Include="server\api\routes\users.js" />
     <Content Include="server\models\creatures\CreatureManager.js" />
+    <Content Include="server\models\items\TreasureManager.js" />
     <Content Include="server\models\items\ItemManager.js" />
     <Content Include="server\models\maps\DungeonManager.js" />
     <Content Include="server\models\maps\RoomManager.js" />

@@ -34,19 +34,7 @@ CreatureManager.addItem = function (creature, item) {
 
     }
 
-    var existingItems = ItemManager.findStackmates(creature.pack, item);
-
-    if (existingItems) {
-
-        existingItems.amount += item.amount;
-
-    }
-    else {
-
-        // it's not stackable, or the creature doesn't already have a similar item, so just add it to the pack
-        creature.pack.push(item);
-
-    }
+    ItemManager.addToPile(creature.pack, item);
 
     return { success: true };
 
