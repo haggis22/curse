@@ -10,15 +10,26 @@
     font-size: 18px;
 }
 
+#room-panel .items
+{
+    width: 350px;
+    margin-top: 10px;
+    border: 1px solid brown;
+    background-color: burlywood;
+    padding: 10px;
+}
+
 #room-panel .exits
 {
+    width: 350px;
     margin-top: 10px;
+    border: 1px solid brown;
+    background-color: burlywood;
+    padding: 10px;
 }
 
 #room-panel .exit
 {
-    margin-top: 5px;
-    margin-left: 15px;
 }
 
 #room-panel .exit:hover
