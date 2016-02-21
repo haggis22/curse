@@ -36,4 +36,4 @@ app.use(function(err, req, res, next) {
 
 
 app.listen(config.port);
-console.log('Listening on port ' + config.port + '...');
+logger.info('Listening on port ' + config.port + '...');
