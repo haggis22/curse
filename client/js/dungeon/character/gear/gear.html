@@ -1,0 +1,18 @@
+<div class="gear">
+
+    <div class="ecumbrance">Encumbrance: {{ getTotalWeight() | number:0 }} #</div>
+        
+    <hr />
+
+    <div ng-show="pack.length > 0" class="items">
+        <div class="item" ng-repeat="item in pack">
+            {{ item.getName() | capFirst }}
+            <span class="weight" ng-show="item.weight > 0">({{ item.getWeight() | number:0 }} #)</span>
+        </div>
+    </div>
+
+    <div ng-hide="pack.length > 0" class="no-gear">
+        You are not carrying anything.
+    </div>
+
+</div>

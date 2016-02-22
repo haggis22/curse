@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="client\css\curse.css" />
+    <Content Include="client\css\gear.css" />
     <Content Include="client\curse.html" />
     <Content Include="client\favicon.ico" />
     <Content Include="client\images\aurumvorax.jpg" />
@@ -99,6 +100,10 @@
     <Content Include="client\js\dungeon\character\character-panel.css" />
     <Content Include="client\js\dungeon\character\character-panel.html" />
     <Content Include="client\js\dungeon\character\characterPanelController.js" />
+    <Content Include="client\js\dungeon\character\gear\gear.html" />
+    <Content Include="client\js\dungeon\character\gear\gear.js" />
+    <Content Include="client\js\dungeon\character\bio\bio.html" />
+    <Content Include="client\js\dungeon\character\bio\bio.js" />
     <Content Include="client\js\dungeon\room\room-panel.css" />
     <Content Include="client\js\dungeon\room\room-panel.html" />
     <Content Include="client\js\dungeon\room\roomPanelController.js" />

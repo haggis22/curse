@@ -1,51 +1,5 @@
 <div ng-controller="tavern.gearController" class="gear">
 
-    <style type="text/css">
-        
-        .gear
-        {
-        }
-
-        .gear table.datatable thead tr th:first-child
-        {
-            width: 200px;
-        }
-        
-        .gear table.datatable thead tr th:last-child
-        {
-            width: 100px;
-        }
-        
-        .gear .item
-        {
-            margin: 5px 0;
-        }
-        
-        .gear .item > .weight
-        {
-            font-size: 0.75em;
-            font-style: italic;
-        }
-        
-        .gear .no-gear
-        {
-            font-style: italic;
-            margin: 10px 0;
-        }
-        
-        .gear .ecumbrance
-        {
-            font-weight: bold;
-            margin-top: 5px;
-        }
-        
-        .gear .items
-        {
-            margin-top: 10px;
-        }
-
-    </style>
-
     <div class="ecumbrance">Encumbrance: {{ characterService.current.getEncumbrance() | number:0 }} #</div>
         
     <hr />

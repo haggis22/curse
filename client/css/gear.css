@@ -1,0 +1,46 @@
+﻿.gear
+{
+    border: 1px solid brown;
+    background: burlywood;
+}
+
+.gear table.datatable thead tr th:first-child
+{
+    width: 200px;
+}
+        
+.gear table.datatable thead tr th:last-child
+{
+    width: 100px;
+}
+ 
+.gear .items
+{
+    margin-top: 10px;
+    padding: 10px;
+}
+
+       
+.gear .item
+{
+    margin: 5px 0;
+}
+        
+.gear .item > .weight
+{
+    font-size: 0.75em;
+    font-style: italic;
+}
+        
+.gear .no-gear
+{
+    font-style: italic;
+    margin: 10px 0;
+}
+        
+.gear .ecumbrance
+{
+    font-weight: bold;
+    margin-top: 5px 10px;
+}
+        

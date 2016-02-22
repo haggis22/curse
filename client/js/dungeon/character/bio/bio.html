@@ -1,0 +1,24 @@
+<div ng-show="character">
+
+    <div class="bio">
+
+        <div class="species">
+            <span class="label">Race:</span>
+            <span class="value">{{ character.species  }}</span>
+        </div>
+
+        <div class="sex">
+            <span class="label">Sex:</span>
+            <span class="value">{{ Sex.getSex(character.sex)  }}</span>
+        </div>
+
+    </div><!-- class = bio -->
+
+    <div class="">
+        <div ng-repeat="stat in Stat.stats" class="stat">
+            <div class="label">{{ stat.name }}:</div>
+            <div class="value">{{ character.getStatValue('stats', stat.prop) }}</div>
+        </div>
+    </div>
+
+</div>

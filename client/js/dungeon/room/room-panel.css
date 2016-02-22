@@ -19,6 +19,13 @@
     padding: 10px;
 }
 
+#room-panel .items .item:hover
+{
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+
 #room-panel .exits
 {
     width: 350px;
