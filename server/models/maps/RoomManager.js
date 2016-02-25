@@ -42,7 +42,8 @@ var rooms =
     { name: 'stone chamber', prep: 'in a', frequency: 1, treasure: [ 'A', 'A', 'A' ] },
     { name: 'hall', prep: 'in a', frequency: 2, treasure: [ 'A', 'A', 'A' ] },
     { name: 'room with several tapestries hanging from the walls', prep: 'in a' , frequency: 0.5, treasure: [ 'A', 'A', 'A' ] },
-    { name: 'dining room', prep: 'in a' , frequency: 2, treasure: [ 'A', 'A', 'A' ]}
+    { name: 'dining room', prep: 'in a' , frequency: 2, treasure: [ 'A', 'A', 'A' ]},
+    { name: 'dungeon', prep: 'in a', frequency: 2, treasure: [ 'A', 'B', 'B' ]}
 ];
 
 
