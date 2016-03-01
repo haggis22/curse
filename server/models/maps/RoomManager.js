@@ -35,15 +35,15 @@ RoomManager.ID_TAVERN = 'tavern';
 var rooms = 
 [
 	{ name: 'library', prep: 'in a', frequency: 1 },
-	{ name: 'guardroom', prep: 'in a', frequency: 2, treasure: [ 'A', 'A', 'A' ] },
-	{ name: 'bedroom', prep: 'in a', frequency: 2, treasure: [ 'A', 'A', 'A' ] },
-	{ name: 'cave', prep: 'in a', frequency: 2, treasure: [ 'A', 'A', 'A' ] },
-    { name: 'chapel', prep: 'in a', frequency: 1, treasure: [ 'A', 'A', 'A' ] },
-    { name: 'stone chamber', prep: 'in a', frequency: 1, treasure: [ 'A', 'A', 'A' ] },
-    { name: 'hall', prep: 'in a', frequency: 2, treasure: [ 'A', 'A', 'A' ] },
-    { name: 'room with several tapestries hanging from the walls', prep: 'in a' , frequency: 0.5, treasure: [ 'A', 'A', 'A' ] },
-    { name: 'dining room', prep: 'in a' , frequency: 2, treasure: [ 'A', 'A', 'A' ]},
-    { name: 'dungeon', prep: 'in a', frequency: 2, treasure: [ 'A', 'B', 'B' ]},
+	{ name: 'guardroom', prep: 'in a', frequency: 2, treasure: [ 'A', 'B', 'B' ] },
+	{ name: 'bedroom', prep: 'in a', frequency: 2, treasure: [ 'A', 'B', 'B' ] },
+	{ name: 'cave', prep: 'in a', frequency: 2, treasure: [ 'A', 'B', 'B' ] },
+    { name: 'chapel', prep: 'in a', frequency: 1, treasure: [ 'A', 'B', 'B' ] },
+    { name: 'stone chamber', prep: 'in a', frequency: 1, treasure: [ 'A', 'B', 'B' ] },
+    { name: 'hall', prep: 'in a', frequency: 2, treasure: [ 'A', 'B', 'B' ] },
+    { name: 'room with several tapestries hanging from the walls', prep: 'in a' , frequency: 0.5, treasure: [ 'A', 'B', 'B' ] },
+    { name: 'dining room', prep: 'in a' , frequency: 2, treasure: [ 'A', 'B', 'B' ]},
+    { name: 'dungeon', prep: 'in a', frequency: 2, treasure: [ 'A', 'B' ]},
     { name: 'maze', prep: 'wandering in a', frequency: 1, treasure: ['B']}
 ];
 
@@ -246,7 +246,7 @@ RoomManager.update = function (room) {
                 deferred.reject(new Error(err));
             }
 
-            deferred.resolve(true);
+            deferred.resolve({ success: true });
 
         });
     }

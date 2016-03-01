@@ -5,17 +5,20 @@
     <div class="room-description">You are {{ dungeonService.dungeon.room.prep }} {{ dungeonService.dungeon.room.name }}.</div>
 
     <div class="items">
-        You see:
-        <ul>
-            <li class="item" ng-repeat="item in dungeonService.dungeon.room.items" ng-click="pickUp(item)">{{ item.getName(false) }}</li>
-        </ul>
+        <div ng-hide="dungeonService.dungeon.room.items.length > 0">You see nothing of note.</div>
+        <div ng-show="dungeonService.dungeon.room.items.length > 0">
+            You see:
+            <ul>
+                <li ng-repeat="item in dungeonService.dungeon.room.items"><span class="item" ng-click="pickUp(item)">{{ item.getName(false) }}</span></li>
+            </ul>
+        </div>
     </div>
 
 
     <div class="exits">
         Exits:
         <ul>
-            <li class="exit" ng-repeat="exit in dungeonService.dungeon.room.exits" ng-click="takeExit(exit)">{{ exit.name }} to {{ exit.destination }}</li>
+            <li ng-repeat="exit in dungeonService.dungeon.room.exits"><span class="exit" ng-click="takeExit(exit)">{{ exit.name }} to {{ exit.destination }}</span></li>
         </ul>
     </div>
 

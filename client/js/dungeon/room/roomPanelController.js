@@ -33,6 +33,10 @@
                             return $rootScope.$broadcast('refresh-dungeon');
 
                         }
+                        else
+                        {
+                            $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not take exit", error) });
+                        }
 
                     },
                     function(error) {
@@ -42,6 +46,33 @@
                     });
 
             };  // takeExit
+
+            $scope.pickUp = function(item) {
+
+                console.debug('campaignID: ' + $scope.campaignID + ', characterID: + ' + dungeonService.character._id + ', itemID: ' + item._id + ' == ' + dungeonService.character.getName(false) + ' picks up ' + item.getName(true));
+
+                dungeonService.take.take({ campaignID: $scope.campaignID, characterID: dungeonService.character._id, itemID: item._id },
+
+                    function(result) {
+
+                        if (result.success)
+                        {
+                            return $rootScope.$broadcast('refresh-dungeon');
+                        }
+                        else
+                        {
+                            $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not pick up " + item.getName(true), result.message ) });
+                        }
+
+                    },
+                    function(error) {
+
+                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not pick up " + item.getName(true), error) });
+
+                    });
+
+            };  // pickUp
+
 
         }  // outer function
 

@@ -106,8 +106,7 @@ ItemManager.lookupItem = function (item) {
     }
 
     // if the item still doesn't have an ObjectID, let's give it one now
-    item._id = new ObjectID();
-
+    newItem._id = new ObjectID();
 
     return Q.resolve(ItemFactory.createItem(newItem));
 

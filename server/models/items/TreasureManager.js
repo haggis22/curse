@@ -49,14 +49,14 @@ var types =
 {
     'A' : 
         [
-            { frequency: 60, item: null },
+            { frequency: 0, item: null },
             { frequency: 10, item: { type: 'gold-piece' }, amount: { min: 5, max: 20} },
             { frequency: 30, item: { type: 'silver-piece' }, amount: { min: 5, max: 20} },
 
         ],
     'B' :
         [
-            { frequency: 20, item: null },
+            { frequency: 0, item: null },
             { frequency: 40, item: { type: 'short-sword' } },
             { frequency: 40, item: { type: 'leather-armour' } }
         ]

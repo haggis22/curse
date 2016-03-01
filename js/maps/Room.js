@@ -57,6 +57,22 @@
 
         };
 
+        Room.prototype.removeItem = function(itemID)
+        {
+            var newItems = [];
+
+            for (var i=0; i < this.items.length; i++)
+            {
+                if (this.items[i]._id.toString() != itemID)
+                {
+                    newItems.push(this.items[i]);
+                }
+            }
+
+            this.items = newItems;
+
+        };
+
         return Room;
 
     };

@@ -86,7 +86,7 @@ CharacterManager.fetchByUser = function (user) {
 };   // fetchByUser
 
 // Returns a promise to an array of characters that match the given campaign
-CharacterManager.fetchByCampaign = function (user, campaign) {
+CharacterManager.fetchPartyByCampaign = function (user, campaign) {
 
     // we're not going to find any characters for a NULL user, so dump out now
     if (user == null || campaign == null) {

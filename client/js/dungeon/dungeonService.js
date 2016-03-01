@@ -14,6 +14,10 @@
                     take: { method: 'POST' }
                 }),
 
+                take: $resource('/api/dungeons/items/take/:campaignID/:characterID/:itemID', 
+                        { campaignID: '@campaignID', characterID: '@characterID', itemID: '@itemID' }, {
+                    take: { method: 'POST' }
+                }),
 
                 dungeon: null,
                 character: null

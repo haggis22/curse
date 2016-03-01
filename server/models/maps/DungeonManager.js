@@ -17,6 +17,7 @@ var Campaign = require(__dirname + '/../../../js/campaigns/Campaign');
 var Dungeon = require(__dirname + '/../../../js/maps/Dungeon');
 
 var CampaignManager = require(__dirname + '/../campaigns/CampaignManager');
+var CreatureManager = require(__dirname + '/../creatures/CreatureManager');
 var CharacterManager = require(__dirname + '/../creatures/CharacterManager');
 var RoomManager = require(__dirname + '/RoomManager');
 
@@ -118,7 +119,8 @@ DungeonManager.fetchByCampaign = function (user, campaignID) {
         })
         .spread(function(campaign, room) {
 
-            return Q.all([ campaign, room, CharacterManager.fetchByCampaign(user, campaign) ]);
+            return Q.all([ campaign, room, CharacterManager.fetchPartyByCampaign(user, campaign) ]);
+
         })
         .spread(function(campaign, room, party) {
 
@@ -209,6 +211,81 @@ DungeonManager.takeExit = function (user, campaignID, exitID) {
         });
 
 };
+
+
+DungeonManager.pickUp = function (user, campaignID, characterID, itemID) {
+
+    logger.debug('In pickUp, campaignID: ' + campaignID + ', characterID: ' + characterID + ', itemID: ' + itemID);
+
+    return CampaignManager.fetchByID(user, campaignID)
+
+        .then(function(campaign) {
+
+            return Q.all([ campaign, 
+                            RoomManager.fetchByID(campaign, campaign.locationID),
+                            CharacterManager.fetchByID(user, characterID)
+                         ]);
+
+        })
+        .spread(function(campaign, room, character) {
+
+            if (room == null || character == null )
+            {
+                throw new Error('Could not validate situation');
+            }
+
+            if (character.campaignID != campaignID)
+            {
+                throw new Error('Character is not in campaign');
+            }
+
+            // TODO: Make sure the characters are allowed to pick up things right now - they might be in the middle of combat
+
+            // make sure this room has this exit
+            var item = room.findItem(itemID);
+
+            if (item == null)
+            {
+                throw new Error('Room does not have the specified item');
+            }
+
+            var pickUpResult = CreatureManager.addItem(character, item);
+
+            if (!pickUpResult.success)
+            {
+                // the user failed to pick up the item, so dump out now
+                return pickUpResult;
+            }
+
+            // remove the item from the room
+            room.removeItem(item._id);
+
+            return RoomManager.update(room)
+
+                .then(function(roomUpdateResult) {
+
+                    return CharacterManager.updatePack(character);
+
+                })
+                .then(function(characterUpdateResult) {
+
+                    return { success: true };
+
+                })
+                .catch(function(err) {
+                    logger.error('Could not save the pickup: ' + err.stack);
+                    throw err;
+                });
+
+
+        })
+        .catch(function(err) {
+            logger.error('Error in pickup for campaign ' + campaignID + ', userID: ' + user._id + ', characterID: ' + characterID + ', itemID: ' + itemID + ': ' + err.stack);
+            throw err;
+        });
+
+};
+
 
 
 module.exports = DungeonManager;

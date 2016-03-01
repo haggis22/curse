@@ -119,7 +119,7 @@
             },
 
             getWeightAllowance: function () {
-                return this.str * 5;
+                return this.stats.str.value * 5;
             },
 
 

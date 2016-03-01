@@ -29,7 +29,8 @@ router.get('/campaign/:campaignID', function (req, res) {
     CampaignManager.fetchByID(req.user, req.params.campaignID)
 
         .then(function(campaign) {
-            return CharacterManager.fetchByCampaign(req.user, campaign);
+
+            return CharacterManager.fetchPartyByCampaign(req.user, campaign);
         })
         .then(function(characters) {
             return res.json(characters);
