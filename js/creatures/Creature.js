@@ -388,6 +388,23 @@
 
                 return this[mapName][key].value + this[mapName][key].adjust;
 
+            },
+
+            findItem: function(itemID) {
+
+                if (this.pack)
+                {
+                    for (var i=0; i < this.pack.length; i++)
+                    {
+                        if (this.pack[i]._id && this.pack[i]._id.toString() == itemID)
+                        {
+                            return this.pack[i];
+                        }
+                    }
+                }
+
+                return null;
+
             }
 
         }  // prototype

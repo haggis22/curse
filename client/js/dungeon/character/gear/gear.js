@@ -3,8 +3,8 @@
 (function(app) {
 
 
-    app.controller('dungeon.character.gearController', ['$scope', '$rootScope', '$state', 'errorService', 'shoppeService', 
-		function($scope, $rootScope, $state, errorService, shoppeService) {
+    app.controller('dungeon.character.gearController', ['$scope', '$rootScope', '$state', 'errorService', 'dungeonService', 
+		function($scope, $rootScope, $state, errorService, dungeonService) {
 
             $scope.getTotalWeight = function() {
 
@@ -17,6 +17,32 @@
                 return weight;
 
             };
+
+            $scope.dropItem = function(item) {
+
+                console.debug('campaignID: ' + dungeonService.campaignID + ', characterID: + ' + dungeonService.character._id + ', itemID: ' + item._id + ' == ' + dungeonService.character.getName(false) + ' drops ' + item.getName(true));
+
+                dungeonService.drop.drop({ campaignID: dungeonService.campaignID, characterID: dungeonService.character._id, itemID: item._id },
+
+                    function(result) {
+
+                        if (result.success)
+                        {
+                            return $rootScope.$broadcast('refresh-dungeon');
+                        }
+                        else
+                        {
+                            $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not drop " + item.getName(true), result.message ) });
+                        }
+
+                    },
+                    function(error) {
+
+                        $rootScope.$broadcast('raise-error', { error: errorService.parse("Could not drop " + item.getName(true), error) });
+
+                    });
+
+            };  // dropItem
 
 
         }   // end controller function

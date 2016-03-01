@@ -6,7 +6,7 @@
 
     <div ng-show="pack.length > 0" class="items">
         <div class="item" ng-repeat="item in pack">
-            {{ item.getName() | capFirst }}
+            <span class="name" ng-click="dropItem(item)">{{ item.getName() | capFirst }}</span>
             <span class="weight" ng-show="item.weight > 0">({{ item.getWeight() | number:0 }} #)</span>
         </div>
     </div>

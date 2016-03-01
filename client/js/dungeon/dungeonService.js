@@ -19,6 +19,12 @@
                     take: { method: 'POST' }
                 }),
 
+                drop: $resource('/api/dungeons/items/drop/:campaignID/:characterID/:itemID', 
+                        { campaignID: '@campaignID', characterID: '@characterID', itemID: '@itemID' }, {
+                    drop: { method: 'POST' }
+                }),
+
+                campaignID: null,
                 dungeon: null,
                 character: null
 

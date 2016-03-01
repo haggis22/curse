@@ -20,6 +20,7 @@ var CampaignManager = require(__dirname + '/../campaigns/CampaignManager');
 var CreatureManager = require(__dirname + '/../creatures/CreatureManager');
 var CharacterManager = require(__dirname + '/../creatures/CharacterManager');
 var RoomManager = require(__dirname + '/RoomManager');
+var ItemManager = require(__dirname + '/../items/ItemManager');
 
 var DungeonManager = function () {
 
@@ -286,6 +287,80 @@ DungeonManager.pickUp = function (user, campaignID, characterID, itemID) {
 
 };
 
+
+DungeonManager.drop = function (user, campaignID, characterID, itemID) {
+
+    logger.debug('In drop, campaignID: ' + campaignID + ', characterID: ' + characterID + ', itemID: ' + itemID);
+
+    return CampaignManager.fetchByID(user, campaignID)
+
+        .then(function(campaign) {
+
+            return Q.all([ campaign, 
+                            RoomManager.fetchByID(campaign, campaign.locationID),
+                            CharacterManager.fetchByID(user, characterID)
+                         ]);
+
+        })
+        .spread(function(campaign, room, character) {
+
+            if (room == null || character == null )
+            {
+                throw new Error('Could not validate situation');
+            }
+
+            if (character.campaignID != campaignID)
+            {
+                throw new Error('Character is not in campaign');
+            }
+
+            // TODO: Make sure the characters are allowed to drop things right now - they might be in the middle of combat
+
+            // make sure this room has this exit
+            var item = character.findItem(itemID);
+
+            if (item == null)
+            {
+                throw new Error('Character does not have the specified item');
+            }
+
+            var dropResult = CreatureManager.dropItem(character, itemID);
+
+            if (!dropResult.success)
+            {
+                // the user failed to drop the item, so dump out now
+                return dropResult;
+            }
+
+            // add the dropped item to the room - this might be different from the object
+            // originally requested to be dropped if the character is dropping PART of an item with amount > 1
+            ItemManager.addToPile(room.items, dropResult.item);
+
+            return RoomManager.update(room)
+
+                .then(function(roomUpdateResult) {
+
+                    return CharacterManager.updatePack(character);
+
+                })
+                .then(function(characterUpdateResult) {
+
+                    return { success: true };
+
+                })
+                .catch(function(err) {
+                    logger.error('Could not save the drop: ' + err.stack);
+                    throw err;
+                });
+
+
+        })
+        .catch(function(err) {
+            logger.error('Error in drop for campaign ' + campaignID + ', userID: ' + user._id + ', characterID: ' + characterID + ', itemID: ' + itemID + ': ' + err.stack);
+            throw err;
+        });
+
+};
 
 
 module.exports = DungeonManager;

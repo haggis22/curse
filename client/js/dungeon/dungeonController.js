@@ -18,12 +18,12 @@
 
             $scope.pullDungeon = function() {
                 
-                if ($scope.campaignID == null)
+                if (dungeonService.campaignID == null)
                 {
                     return;
                 }
 
-                dungeonService.dungeons.get({ campaignID: $scope.campaignID },
+                dungeonService.dungeons.get({ campaignID: dungeonService.campaignID },
 
                     function(response) {
 

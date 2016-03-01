@@ -64,8 +64,7 @@ CreatureManager.dropItem = function (creature, itemID, amount) {
                 return { success: false, message: creature.getName(true) + ' does not have enough ' + creature.pack[i].plural + ' to drop ' + amount };
             }
 
-            if (creature.pack[i].amount > amount)
-            {
+            if (creature.pack[i].amount > amount) {
                 // subtract the parameter amount from his total, and keep the rest in his pack
                 creature.pack[i].amount -= amount;
 
@@ -86,6 +85,10 @@ CreatureManager.dropItem = function (creature, itemID, amount) {
 
         }  // we found the item!
 
+    }
+
+    if (!droppedItem) {
+        return { success: false, message: 'Is not carrying that item' };
     }
 
     creature.pack = remainingItems;

@@ -2,7 +2,9 @@
 
 (function(app) {
 
-	app.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+	app.config([ '$stateProvider', '$urlRouterProvider', 
+    
+    function($stateProvider, $urlRouterProvider) {
 
 		// for any unmatched URL, redirect to main
 		$urlRouterProvider.otherwise("/login");
@@ -111,8 +113,8 @@
 			.state('dungeon', {
 				url: "/dungeon/:campaignID",
 				templateUrl: "js/dungeon/dungeon.html?v=" + (new Date()).getTime(),
-                controller: function($scope, $stateParams) {
-                    $scope.campaignID = $stateParams.campaignID;
+                controller: function($scope, $stateParams, dungeonService) {
+                    dungeonService.campaignID = $stateParams.campaignID;
                 }
 
 			})

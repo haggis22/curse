@@ -29,3 +29,18 @@
 {
     display: inline-block;
 }
+
+#character-panel .gear .encumbrance
+{
+    padding: 50px;
+}
+
+#character-panel .gear .items .item .weight
+{
+}
+
+#character-panel .gear .items .item .name:hover
+{
+	text-decoration: underline;
+	cursor: pointer;
+}

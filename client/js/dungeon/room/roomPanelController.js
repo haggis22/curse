@@ -17,7 +17,7 @@
                     return;
                 }
 
-                dungeonService.exit.take({ campaignID: $scope.campaignID, exitID: exit._id },
+                dungeonService.exit.take({ campaignID: dungeonService.campaignID, exitID: exit._id },
 
                     function(result) {
 
@@ -49,9 +49,9 @@
 
             $scope.pickUp = function(item) {
 
-                console.debug('campaignID: ' + $scope.campaignID + ', characterID: + ' + dungeonService.character._id + ', itemID: ' + item._id + ' == ' + dungeonService.character.getName(false) + ' picks up ' + item.getName(true));
+                console.debug('campaignID: ' + dungeonService.campaignID + ', characterID: + ' + dungeonService.character._id + ', itemID: ' + item._id + ' == ' + dungeonService.character.getName(false) + ' picks up ' + item.getName(true));
 
-                dungeonService.take.take({ campaignID: $scope.campaignID, characterID: dungeonService.character._id, itemID: item._id },
+                dungeonService.take.take({ campaignID: dungeonService.campaignID, characterID: dungeonService.character._id, itemID: item._id },
 
                     function(result) {
 
